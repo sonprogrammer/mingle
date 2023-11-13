@@ -3,16 +3,19 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "GmarketSansMedium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 .ant-layout {
   min-height: 100vh;
   background-color: #e0e0e0;
 }
-.ant-layout .ant-layout-sider, .ant-layout-header, .ant-layout-footer {
+.ant-layout .ant-layout-sider,
+.ant-layout-header,
+.ant-layout-footer {
   background-color: #404040;
 }
 .ant-layout-header {

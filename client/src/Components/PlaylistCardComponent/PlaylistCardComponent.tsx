@@ -1,18 +1,6 @@
 import React from "react";
 import { PlaylistCardProps } from "../../types/PlaylistCardProps";
 import { HeartOutlined, CommentOutlined } from "@ant-design/icons";
-import {
-  StyledCard,
-  PlaylistCardContainer,
-  ProfileImage,
-  AlbumImage,
-  ContentContainer,
-  HashtagList,
-  Hashtag,
-  ProfileNameContainer,
-  UserContainer,
-  ProfileAndAlbumContainer,
-} from "./styles";
 
 export const PlaylistCardComponent: React.FC<PlaylistCardProps> = ({
   profileIcon,
@@ -23,31 +11,37 @@ export const PlaylistCardComponent: React.FC<PlaylistCardProps> = ({
   likes,
 }) => {
   return (
-    <StyledCard>
-      <PlaylistCardContainer>
-        <ProfileAndAlbumContainer>
-          <UserContainer>
-            <ProfileImage src={profileIcon} alt="Profile" />{" "}
-            <ProfileNameContainer>{profileName}</ProfileNameContainer>
-          </UserContainer>
-          <AlbumImage src={albumCover} alt="Album Cover" />
-        </ProfileAndAlbumContainer>
-        <ContentContainer>
-          <h3>{title}</h3>
-          <HashtagList>
-            {hashtags.map((tag, index) => (
-              <Hashtag key={index}>#{tag}</Hashtag>
-            ))}
-          </HashtagList>
-          <HeartOutlined
-            style={{ color: "purple", marginRight: 4, fontSize: 30 }}
-          />{" "}
-          <CommentOutlined style={{ color: "purple", fontSize: 30 }} />
-          <div className="social-info">
-            <span style={{ fontWeight: "bolder" }}>좋아요: {likes}</span>
-          </div>
-        </ContentContainer>
-      </PlaylistCardContainer>
-    </StyledCard>
+    <div className="flex h-max bg-neutral-400 rounded-lg">
+      <div className="flex flex-col items-start p-4">
+        <div className="flex items-center mb-4">
+          <img
+            src={profileIcon}
+            alt="Profile"
+            className="w-6 h-6 rounded-full mr-2.5 object-cover"
+          />
+          <p className="text-sm font-black text-slate-950">{profileName}</p>
+        </div>
+        <img
+          src={albumCover}
+          alt="Album Cover"
+          className="w-36 h-36 rounded-lg self-start"
+        />
+      </div>
+      <div className="flex-grow p-4 -ml-4">
+        <h3 className="text-lg mt-10 text-black font-semibold">{title}</h3>
+        <ul className="list-none mt-4 mb-4">
+          {hashtags.map((tag, index) => (
+            <li key={index} className="inline mr-2 text-gray-600 font-bold">
+              #{tag}
+            </li>
+          ))}
+        </ul>
+        <HeartOutlined className="text-purple-500 mr-4 mb-1 text-3xl" />
+        <CommentOutlined className="text-purple-500 text-3xl" />
+        <div className="social-info">
+          <span className="font-bold text-black">좋아요: {likes}</span>
+        </div>
+      </div>
+    </div>
   );
 };
