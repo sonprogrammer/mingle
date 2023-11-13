@@ -1,3 +1,14 @@
+import { Layout } from "antd";
 export default function FeedPage() {
-  return <>피드페이지입니다.</>;
+  const { Header, Content, Footer, Sider } = Layout;
+  return (
+    <Layout>
+      <Sider></Sider>
+      <Layout>
+        <Header></Header>
+        <Content>content</Content>
+        <Footer></Footer>
+      </Layout>
+    </Layout>
+  );
 }
