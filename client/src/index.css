@@ -11,6 +11,9 @@
 .ant-layout .ant-layout-sider, .ant-layout-header, .ant-layout-footer {
   background-color: #404040;
 }
+.ant-layout-header {
+  height: fit-content;
+}
 body {
   min-width: 100vw;
   margin: 0;
