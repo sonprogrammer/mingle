@@ -12,8 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/antd": "^1.0.0",
-    "antd": "^5.11.1",
     "concurrently": "^8.2.2",
     "crypto": "^1.0.1",
     "dotenv": "^16.3.1",
