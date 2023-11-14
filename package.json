@@ -1,0 +1,28 @@
+{
+  "name": "melody-link",
+  "version": "1.0.0",
+  "description": "9팀 2차 프로젝트입니다.",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && yarn dev",
+    "server": "nodemon ./server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0",
+    "nodemon": "^3.0.1",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "react-router-dom": "^6.18.0"
+  }
+}

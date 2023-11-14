@@ -1,0 +1,6 @@
+node_modules
+.env
+/.idea/.gitignore
+/.idea/melody-link.iml
+/.idea/modules.xml
+/.idea/vcs.xml
