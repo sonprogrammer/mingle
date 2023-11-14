@@ -1,6 +1,29 @@
+import React from 'react';
+import tw, {styled} from "twin.macro";
+const TestP = tw.p`
+	underline
+	text-lg
+	tracking-tighter
+	text-white
+`;
+
+const TestP2 = styled.p`
+    ${tw`underline`}
+    
+    font-size: 30px;
+`;
+
+const HeaderStyled = styled.header`
+  padding: 20px;
+  background-color: #404040;
+  border: 1px dotted skyblue;
+`;
 export default function LandingPage() {
     return <>
         <h2>랜딩 페이지</h2>
+        <TestP>안녕하세요???</TestP>
+        <TestP2>나는 30PX</TestP2>
+        <HeaderStyled>나는 헤더야</HeaderStyled>
         <button type="button"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Default
         </button>
