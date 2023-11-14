@@ -1,5 +1,10 @@
+import React from "react";
+import { SearchComponent } from "../../components";
+
 export default function FeedPage() {
   return (
-    <h2>FeedPage</h2>
+    <>
+      <SearchComponent />
+    </>
   );
 }
