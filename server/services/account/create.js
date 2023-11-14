@@ -17,7 +17,7 @@ async function userCreate(jsonValue) {
   } catch (error) {
     console.log(error);
     if (error.code === 11000) {
-      return [false, { message: "id가 중복되었습니다." }];
+      return [false, { message: "E-mail이 중복되었습니다." }];
     }
   }
 }
