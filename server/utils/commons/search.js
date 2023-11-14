@@ -1,5 +1,4 @@
-const userSchema = require('../../db/schemas/userSchema');
-
+const userSchema = require("../../db/models/userModel");
 
 /**
  * 유저 정보를 조회하는 함수
@@ -13,10 +12,9 @@ async function UserSearch(keyType, keyValue) {
   // 데이터베이스에서 유저 정보를 조회하고 JSON 형태로 반환
   const data = await userSchema.find(filter).lean();
   data.map(({ ...data }) => {
-    userData.id = data._id.toString();
-    userData.email = data.email;
-    userData.name = data.name;
-    userData.id = data.id;
+    userData._id = data._id.toString();
+    userData.userEmail = data.userEmail;
+    userData.userName = data.userNickname;
   });
   return userData;
 }

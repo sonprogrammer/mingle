@@ -1,5 +1,5 @@
-const userSchema = require('../../db/schemas/userSchema');
-const HmacConvert = require('../commons/passwordConvert');
+const userSchema = require("../../db/models/userModel");
+const HmacConvert = require("../../utils/commons/passwordConvert");
 
 /**
  * 유저 생성 함수
@@ -13,15 +13,13 @@ async function userCreate(jsonValue) {
 
     // 유저 데이터를 생성하여 저장한다
     const data = await userSchema(jsonValue).save();
-    return [true,{message: "가입이 정상적으로 이루어졌습니다."}];
-
+    return [true, { message: "가입이 정상적으로 이루어졌습니다." }];
   } catch (error) {
     console.log(error);
-    if (error.code === 11000){
-      return [false,{message: "id가 중복되었습니다."}]
+    if (error.code === 11000) {
+      return [false, { message: "id가 중복되었습니다." }];
     }
-   
   }
 }
 
-module.exports = {userCreate};
+module.exports = { userCreate };

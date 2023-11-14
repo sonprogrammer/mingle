@@ -10,26 +10,25 @@ app.use(express.json());
 
 // Passport 초기화: Passport 초기화를 수행하여 사용자 인증을 설정함
 const passport = require("passport"); // Passport 모듈
-const passportConfig = require('./controllers/passport/index.js'); // Passport 설정 파일
+const passportConfig = require("./utils/passport/index.js"); // Passport 설정 파일
 app.use(passport.initialize());
 
 // Passport 설정: 사용자 로그인 및 인증 전략을 설정
 passportConfig();
 
 // MongoDB 연결: MongoDB와 연결함
-const conn = require('./db/connect.js');
+const conn = require("./db/connect.js");
 conn.MongoConnect();
 
 // dotenv 설정: 환경변수 로드를 위해 dotenv 설정을 적용
-require('dotenv').config();
+require("dotenv").config();
 
 //라우터 설정
-const accountRouter = require('./routers/account.js'); // 사용자 기능 설정
-const routeHandler = require('./controllers/errorHandler/routeHandler.js');// 에러 핸들러 설정
+const accountRouter = require("./routers/account.js"); // 사용자 기능 설정
+const routeHandler = require("./utils/errorHandler/routeHandler.js"); // 에러 핸들러 설정
 app.use(routeHandler);
 
-app.use('/account', accountRouter);
-
+app.use("/account", accountRouter);
 
 var server = app.listen(3000, function () {
   var host = server.address().address;

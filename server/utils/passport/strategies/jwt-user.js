@@ -1,10 +1,11 @@
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+require("dotenv").config();
 
 // JWT 토큰 추출 옵션 설정
 let opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken(); // Bearer 토큰에서 JWT 추출
-opts.secretOrKey = '${process.env.SHA_KEY}'; // 사용할 시크릿 키
+opts.secretOrKey = `${process.env.SHA_KEY}`; // 사용할 시크릿 키
 /**
  * JWT 전략 생성
  */
