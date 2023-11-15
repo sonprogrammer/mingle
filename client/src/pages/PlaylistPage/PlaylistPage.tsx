@@ -1,6 +1,21 @@
 import React from "react";
-import { AlbumArtComponent } from "../../components";
+import {
+  AlbumArtComponent,
+  ContentWrapper,
+  PlaybarComponent,
+  SearchComponent,
+  SideBarComponent,
+} from "../../components";
 
 export default function PlaylistPage() {
-  return <AlbumArtComponent albumArtSrc="/img/AlbumSample.jpg" />;
+  return (
+    <>
+      <SearchComponent />
+      <ContentWrapper>
+        <SideBarComponent />
+        <AlbumArtComponent albumArtSrc="/img/AlbumSample.jpg" />
+      </ContentWrapper>
+      <PlaybarComponent />
+    </>
+  );
 }
