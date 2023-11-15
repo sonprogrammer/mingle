@@ -27,14 +27,6 @@ const userSchema = new mongoose.Schema(
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "PlayLists" }],
       default: [],
     },
-    userSong: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Songs" }],
-      default: [],
-    },
-    userPlayList: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "PlayLists" }],
-      default: [],
-    },
     userPreference: {
       type: [String],
       default: [],
