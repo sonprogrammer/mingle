@@ -1,6 +1,5 @@
 node_modules
 .env
-yarn.lock
 /.idea/.gitignore
 /.idea/melody-link.iml
 /.idea/modules.xml
