@@ -15,8 +15,24 @@ async function UserSearch(keyType, keyValue) {
     userData._id = data._id.toString();
     userData.userEmail = data.userEmail;
     userData.userName = data.userNickname;
+    userData.userDescription = data.userDescription;
   });
   return userData;
 }
 
-module.exports = { UserSearch };
+// 사용자가 입력한 이메일이 DB에 존재하는지 ture/false로 반환
+async function EmailExsist(inputEmail) {
+  const findEmail = await userSchema.findOne({ userEmail: inputEmail });
+  return Boolean(findEmail);
+}
+
+// 사용자가 입력한 닉네임, 이메일이 모두 DB에 존재하는지 true/false로 반환
+async function UserExsist(inputNickname, inputEmail) {
+  const findUser = await userSchema.findOne({
+    userNickname: inputNickname,
+    userEmail: inputEmail,
+  });
+  return Boolean(findUser);
+}
+
+module.exports = { UserSearch, EmailExsist, UserExsist };
