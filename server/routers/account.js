@@ -9,6 +9,7 @@ const {
   userCreateValidation,
   userUpdateValidation,
 } = require("../middlewares/account-Validation");
+const resetPassword = require("../services/account/resetPassword");
 
 // 로그인한 유저의 정보를 리턴
 router.get(
@@ -122,5 +123,45 @@ router.post(
     }
   }
 );
+
+// 이메일 중복확인 api
+router.get("/check-email", async (req, res, next) => {
+  // 사용자가 입력한 이메일 쿼리로 받기
+  const { email } = req.query;
+
+  try {
+    // 이메일이 이미 DB에 존재하는지 확인
+    const isEmailExsist = await search.EmailExsist(email);
+
+    if (!isEmailExsist) {
+      res.status(200).json({ message: "사용 가능한 이메일입니다." });
+    } else {
+      res.status(400).json({ message: "이미 존재하는 사용자입니다." });
+    }
+  } catch (error) {
+    console.log(error);
+    next({ code: 500 });
+  }
+});
+
+// 비밀번호 찾기 api
+router.post("/reset-password", async (req, res, next) => {
+  const { userNickname, userEmail } = req.body;
+
+  try {
+    const isUserExsist = await search.UserExsist(userNickname, userEmail);
+    if (isUserExsist) {
+      await resetPassword.reset(userEmail);
+      res
+        .status(200)
+        .json({ message: `${userEmail}로 임시 비밀번호가 발급되었습니다.` });
+    } else {
+      res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+    }
+  } catch (error) {
+    console.log(error);
+    next({ code: 500, message: "비밀번호 재설정 중 오류가 발생하였습니다." });
+  }
+});
 
 module.exports = router;
