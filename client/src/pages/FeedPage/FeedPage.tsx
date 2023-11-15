@@ -1,5 +1,5 @@
 import React from "react";
-import { PlaylistCardComponent } from "../../components/PlaylistCardComponent/PlaylistCardComponent";
+import { PlaylistCardComponent } from "../../Components/PlaylistCardComponent/PlaylistCardComponent";
 
 export default function FeedPage() {
   return (

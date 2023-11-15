@@ -1,7 +1,7 @@
 import tw, { styled } from "twin.macro";
 import { HeartOutlined, CommentOutlined } from "@ant-design/icons";
 
-export const PlaylistCardContainer = tw.div`inline-flex h-max bg-neutral-400 rounded-lg`;
+export const PlaylistCardContainer = tw.div`flex h-max bg-neutral-400 rounded-lg w-1/2`;
 export const ProfileSection = tw.div`flex flex-col items-start p-4`;
 export const ProfileInfo = tw.div`flex items-center mb-4`;
 export const ProfileImage = tw.img`w-8 h-8 rounded-full mr-2.5 object-cover`;
