@@ -87,7 +87,8 @@ router.put(
   async (req, res, next) => {
     try {
       const data = await search.UserSearch("id", req.user.id);
-      const [bool, { message }] = await accountEdit.userEdit(data.id, req.body);
+      console.log(data)
+      const [bool, { message }] = await accountEdit.userEdit(data.userEmail, req.body);
 
       if (bool) {
         res.status(200).json({ message }); // Successful registration
