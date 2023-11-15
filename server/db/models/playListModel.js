@@ -8,7 +8,7 @@ const playListSchema = new mongoose.Schema(
     },
     playListTitle: { type: String, required: true },
     playListExplain: { type: String, required: true },
-    playListCategory: { type: Array },
+    // playListCategory: { type: Array },
     playListOwner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -22,7 +22,7 @@ const playListSchema = new mongoose.Schema(
             reuqired: true,
           },
           comment: { type: String, required, reuired: true },
-          // 작성 일시도 들어가야 할까?
+          date: { type: Date, default: Date.now },
         },
       ],
       default: [],
