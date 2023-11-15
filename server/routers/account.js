@@ -48,31 +48,30 @@ router.post("/", userCreateValidation, async (req, res, next) => {
   }
 });
 
+
 /**
  * 회원 탈퇴 API
  * DELETE 방식을 사용하여 회원 탈퇴 처리
  * @param {string} req.params.id - 삭제할 사용자 ID (URL의 파라미터로 전달)
  * @returns {object} - 회원 탈퇴 성공 시 200 응답, 실패 시 400 응답
  */
-router.delete(
-  "/",
-  passport.authenticate("jwt-user", { session: false }),
-  async (req, res, next) => {
-    try {
-      const data = await search.UserSearch("id", req.user.id);
-      const [bool, { message }] = await accountDelete.UserDelete(data.id);
-      if (bool) {
-        res.status(200).json({ message }); // Successful registration
+router.delete('/', passport.authenticate('jwt-user',{ session: false } ), async (req, res, next) => {
+  try {
+    const data = await search.UserSearch("userEmail",req.user.userEmail)//JWT토큰으로 유저 이메일을 받아옴
+    console.log(req.user.userEmail)
+    console.log(data);
+    const [bool,{message}] =  await accountDelete.UserDelete(data.userEmail)
+    if (bool) {
+      res.status(200).json({ message }); // Successful registration
       } else {
-        // 협의에 따라 200으로 변경 필요성 있음
-        res.status(400).json({ message }); // Registration failed
-      }
-    } catch (error) {
-      console.log(error);
-      next({ code: 500 });
+       res.status(400).json({ message }); // Registration failed
+      }   
+    } catch(error) {
+      console.log(error)
+      next({ code: 500 })
     }
-  }
-);
+  
+})
 
 /**
  * 회원 정보 수정 라우터

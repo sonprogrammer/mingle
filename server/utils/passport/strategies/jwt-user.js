@@ -5,15 +5,26 @@ require("dotenv").config();
 // JWT 토큰 추출 옵션 설정
 let opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken(); // Bearer 토큰에서 JWT 추출
-opts.secretOrKey = `${process.env.SHA_KEY}`; // 사용할 시크릿 키
+opts.secretOrKey = process.env.SHA_KEY; // 사용할 시크릿 키
+
 /**
  * JWT 전략 생성
  */
 const jwt = new JwtStrategy(opts, async (jwt_payload, done) => {
-  // 토큰 타임아웃
-  // 토큰 위변조시에는 넘어오지 않고 401 로 리턴된다.
+	try {
+		// 여기서는 토큰에서 사용자 정보 추출
+		const user = {
+			userEmail: jwt_payload.id, // 사용자 이메일 (토큰에 따라 다를 수 있음)
+		};
 
-  return done(null, { ...jwt_payload }); // Assume successful JWT verification
+		if (user) {
+			return done(null, user);
+		} else {
+			return done(null, false);
+		}
+	} catch (error) {
+		return done(error, false);
+	}
 });
 
 module.exports = jwt;
