@@ -1,0 +1,1 @@
+export { RecommendPlaylistComponent } from "./RecommendedPlaylistComponent";
