@@ -1,6 +1,10 @@
 import React from "react";
-import { SearchComponent, SideBarComponent, PlaybarComponent, PlaylistCardComponent } from "../../components";
-
+import {
+  SearchComponent,
+  SideBarComponent,
+  PlaybarComponent,
+  PlaylistCardComponent,
+} from "../../components";
 
 export default function FeedPage() {
   return (

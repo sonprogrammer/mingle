@@ -3,3 +3,4 @@ export * from "./PlaybarComponent";
 export * from "./SideBarComponent";
 export * from "./PlaylistCardComponent";
 export * from "./RecommendPlaylistComponent";
+export * from "./FeedFollowRecommendComponent";
