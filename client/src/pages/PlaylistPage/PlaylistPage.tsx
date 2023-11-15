@@ -1,3 +1,6 @@
+import React from "react";
+import { AlbumArtComponent } from "../../components";
+
 export default function PlaylistPage() {
-  return <>플레이리스트 페이지입니다.</>;
+  return <AlbumArtComponent albumArtSrc="/img/AlbumSample.jpg" />;
 }
