@@ -1,5 +1,5 @@
 import React from "react";
-import { FeedFollowRecommendProps } from "../../types/FeedFollowRecommendComponent";
+import { FeedFollowRecommendProps } from "../../types/FeedFollowRecommendProps";
 import {
   FeedFollowRecommendContainer,
   ProfileImage,
