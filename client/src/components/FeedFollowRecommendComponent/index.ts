@@ -1,1 +1,1 @@
-export { FeedFollowRecommendComponent } from "./FeedFollowRecommendComponent";
+export { default as FeedFollowRecommendComponent } from "./FeedFollowRecommendComponent";

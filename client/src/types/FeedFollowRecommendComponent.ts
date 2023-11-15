@@ -3,4 +3,5 @@ export interface FeedFollowRecommendProps {
   profilePicture: string;
   pictures: string[];
   actionText: string;
+  recommendText: string;
 }

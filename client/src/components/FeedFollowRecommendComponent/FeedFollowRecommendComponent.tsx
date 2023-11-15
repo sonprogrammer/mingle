@@ -6,12 +6,17 @@ import {
   ProfileName,
   PreviewImagesContainer,
   PreviewImage,
-  ActionButton,
+  FollowButton,
+  RecommendText,
 } from "./styles";
 
-export const FeedFollowRecommendComponent: React.FC<
-  FeedFollowRecommendProps
-> = ({ profileName, profilePicture, pictures, actionText }) => {
+export default function FeedFollowRecommendComponent({
+  profileName,
+  profilePicture,
+  pictures,
+  actionText,
+  feedRecommendText,
+}: FeedFollowRecommendProps) {
   return (
     <FeedFollowRecommendContainer>
       <ProfileImage src={profilePicture} alt={profileName} />
@@ -25,7 +30,8 @@ export const FeedFollowRecommendComponent: React.FC<
           />
         ))}
       </PreviewImagesContainer>
-      <ActionButton>{actionText}</ActionButton>
+      <RecommendText>{feedRecommendText}</RecommendText>
+      <FollowButton>{actionText}</FollowButton>
     </FeedFollowRecommendContainer>
   );
-};
+}
