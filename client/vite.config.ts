@@ -27,6 +27,7 @@ export default defineConfig({
     esbuildOptions: {
       target: "es2020",
     },
+    exclude: ['fs'],
   },
   esbuild: {
     // https://github.com/vitejs/vite/issues/8644#issuecomment-1159308803

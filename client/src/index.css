@@ -9,20 +9,11 @@
   font-weight: normal;
   font-style: normal;
 }
-.ant-layout {
-  min-height: 100vh;
-  background-color: #e0e0e0;
-}
-.ant-layout .ant-layout-sider,
-.ant-layout-header,
-.ant-layout-footer {
-  background-color: #404040;
-}
-.ant-layout-header {
-  height: fit-content;
-}
+
+html,
 body {
   min-width: 100vw;
   margin: 0;
   background-color: #404040;
+  font-family: "GmarketSansMedium", "sans-serif";
 }
