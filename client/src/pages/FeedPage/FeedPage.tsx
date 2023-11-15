@@ -1,10 +1,11 @@
 import React from "react";
-import { SearchComponent } from "../../components";
+import { SearchComponent, SideBarComponent } from "../../components";
 
 export default function FeedPage() {
   return (
     <>
       <SearchComponent />
+      <SideBarComponent />
     </>
   );
 }
