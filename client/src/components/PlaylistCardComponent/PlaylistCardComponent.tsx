@@ -1,5 +1,7 @@
 import React from "react";
 import { PlaylistCardProps } from "../../types/PlaylistCardProps";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faComment } from "@fortawesome/free-regular-svg-icons";
 import {
   PlaylistCardContainer,
   ProfileSection,
@@ -13,9 +15,8 @@ import {
   Hashtag,
   SocialInfo,
   LikesText,
-  StyledHeartOutlined,
-  StyledCommentOutlined,
 } from "./styles";
+
 export const PlaylistCardComponent: React.FC<PlaylistCardProps> = ({
   profileIcon,
   profileName,
@@ -40,8 +41,14 @@ export const PlaylistCardComponent: React.FC<PlaylistCardProps> = ({
             <Hashtag key={index}>#{tag}</Hashtag>
           ))}
         </HashtagList>
-        <StyledHeartOutlined />
-        <StyledCommentOutlined />
+        <FontAwesomeIcon
+          icon={faHeart}
+          className="text-purple-500 text-3xl mr-4"
+        />
+        <FontAwesomeIcon
+          icon={faComment}
+          className="text-purple-500 text-3xl"
+        />
         <SocialInfo>
           <LikesText>좋아요: {likes}</LikesText>
         </SocialInfo>
