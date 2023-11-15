@@ -1,9 +1,6 @@
 import React from "react";
-import {
-  PlaybarComponent,
-  SearchComponent,
-  PlaylistCardComponent,
-} from "../../components";
+import { SearchComponent, SideBarComponent, PlaybarComponent, PlaylistCardComponent } from "../../components";
+
 
 export default function FeedPage() {
   return (
@@ -18,6 +15,7 @@ export default function FeedPage() {
         likes={777}
       />
       <PlaybarComponent />
+      <SideBarComponent />
     </>
   );
 }
