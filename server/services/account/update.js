@@ -8,8 +8,8 @@ const HmacConvert = require("../../utils/commons/passwordConvert");
  * @returns {Array} - [수정 여부(boolean), 메시지 객체(object)]
  */
 // 업데이트 하면 안되는 필드는 여기에 배열로 입력
-const noUpdateKey = ["id"];
-async function userEdit(userId, jsonValue) {
+const noUpdateKey = ["userEmail"];
+async function userEdit(userEmail, jsonValue) {
   try {
     // 업데이트 하면 안되는 필드를 제거
     noUpdateKey.map((data) => {
@@ -19,10 +19,10 @@ async function userEdit(userId, jsonValue) {
     });
 
     // 비밀번호를 Hmac SHA256 방식으로 암호화한다
-    jsonValue.password = HmacConvert(jsonValue.password);
+    jsonValue.userPassword = HmacConvert(jsonValue.userPassword);
 
     // 유저 데이터를 업데이트하고 수정된 항목 수를 가져온다
-    const data = await userSchema.updateOne({ id: userId }, jsonValue);
+    const data = await userSchema.updateOne({ userEmail }, jsonValue);
 
     // 수정된 항목이 1개인 경우 수정 성공으로 간주하고 true 반환
     if (data.modifiedCount === 1) {
@@ -35,11 +35,12 @@ async function userEdit(userId, jsonValue) {
     // 에러가 발생한 경우 false 반환
     console.log(error);
     if (error.code == 11000) {
-      return [false, { message: "이미 가입된 id 입니다." }];
+      return [false, { message: "이미 가입된 Email 입니다." }];
     } else {
       return [false, { message: "알 수 없는 오류 입니다.(b)" }];
     }
   }
 }
+
 
 module.exports = { userEdit };

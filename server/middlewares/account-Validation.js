@@ -8,6 +8,7 @@ const userCreateValidation = (req, res, next) => {
 		userPassword: Joi.string(), // 비밀번호
 		userNickname: Joi.string().required(), // 닉네임
 		userPreference:Joi.array().items(Joi.string()), // 선호도
+		userDescription: Joi.string(), // 자기소개
 	});
 
 	// 요청 데이터를 정의한 스키마로 검증
@@ -27,6 +28,7 @@ const userUpdateValidation = (req, res, next) => {
 		userPassword: Joi.string(), // 비밀번호
 		userNickname: Joi.string(), // 닉네임
 		userPreference:Joi.array().items(Joi.string()), // 선호도
+		userDescription:Joi.string(), // 자기소개
 	});
 
 	// 요청 데이터를 정의한 스키마로 검증
