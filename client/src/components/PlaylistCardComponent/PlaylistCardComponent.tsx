@@ -50,7 +50,7 @@ export const PlaylistCardComponent: React.FC<PlaylistCardProps> = ({
           className="text-purple-500 text-3xl"
         />
         <SocialInfo>
-          <LikesText>좋아요: {likes}</LikesText>
+          <LikesText>좋아요: {likes}개</LikesText>
         </SocialInfo>
       </ContentSection>
     </PlaylistCardContainer>

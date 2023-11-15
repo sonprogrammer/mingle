@@ -23,7 +23,7 @@ export const RecommendPlaylistComponent: React.FC<RecommendPlaylistProps> = ({
       <ContentSection>
         <Title>{title}</Title>
         <SocialInfo>
-          <LikesText>좋아요: {likes}</LikesText>
+          <LikesText>좋아요: {likes}개</LikesText>
         </SocialInfo>
       </ContentSection>
     </PlaylistCardContainer>
