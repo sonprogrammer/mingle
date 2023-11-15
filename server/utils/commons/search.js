@@ -12,10 +12,10 @@ async function UserSearch(keyType, keyValue) {
   // 데이터베이스에서 유저 정보를 조회하고 JSON 형태로 반환
   const data = await userSchema.find(filter).lean();
   data.map(({ ...data }) => {
-    userData._id = data._id.toString();
     userData.userEmail = data.userEmail;
     userData.userName = data.userNickname;
     userData.userDescription = data.userDescription;
+    userData.userPreference = data.userPreference;
   });
   return userData;
 }
