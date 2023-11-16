@@ -13,6 +13,5 @@ export const StyledContentsItem = styled.div<StyledContentsItemProps>`
 `;
 export const StyledContentsItemLength = styled.div`
     font-weight: normal;
-    text-shadow: none;
     font-size: 1rem;
 `;
