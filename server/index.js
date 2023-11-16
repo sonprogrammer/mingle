@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 
 app.get("/api", function (req, res) {
   res.send("Melody Link API Server");
@@ -23,12 +24,18 @@ conn.MongoConnect();
 // dotenv 설정: 환경변수 로드를 위해 dotenv 설정을 적용
 require("dotenv").config();
 
+// upload 폴더 안에 있는 모든 하위 폴더에 대해 정적 파일 제공
+// 'server/upload/songImg/abc.jpg'나 'server/upload/audio/song.mp3'와 같은 URL로 해당 파일들에 접근할 수 있다.
+app.use("/server/upload", express.static(path.join(__dirname, "upload")));
+
 //라우터 설정
 const accountRouter = require("./routers/account.js"); // 사용자 기능 설정
+const songRouter = require("./routers/song.js"); // 곡 관련 요청을 받는 라우터
 const routeHandler = require("./utils/errorHandler/routeHandler.js"); // 에러 핸들러 설정
 app.use(routeHandler);
 
 app.use("/api/account", accountRouter);
+app.use("/api/song", songRouter);
 
 var server = app.listen(3000, function () {
   var host = server.address().address;
