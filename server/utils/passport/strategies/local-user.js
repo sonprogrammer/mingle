@@ -21,9 +21,10 @@ const local = new LocalStrategy(config, async (id, password, done) => {
     });
     if (data.length === 1) {
       // Access Token 생성하여 반환한다 (리프레시 토큰 생성하지 않음)
-      const accessToken = jwt.sign({ id: id }, process.env.SHA_KEY, {
+      const accessToken = jwt.sign({ id: id, userId: data[0]._id.toString() }, process.env.SHA_KEY, {
         expiresIn: "1d",
-      }); // 1일 후에 만료되는 access 토큰
+      });
+       // 1일 후에 만료되는 access 토큰
 
       const refreshToken = jwt.sign(
         {},
