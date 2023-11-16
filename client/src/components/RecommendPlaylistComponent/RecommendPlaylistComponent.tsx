@@ -10,11 +10,11 @@ import {
   SocialInfo,
 } from "./styles";
 
-export const RecommendPlaylistComponent: React.FC<RecommendPlaylistProps> = ({
+export default function RecommendPlaylistComponent({
   albumCover,
   title,
   likes,
-}) => {
+}: RecommendPlaylistProps) {
   return (
     <PlaylistCardContainer>
       <ProfileSection>
@@ -28,4 +28,4 @@ export const RecommendPlaylistComponent: React.FC<RecommendPlaylistProps> = ({
       </ContentSection>
     </PlaylistCardContainer>
   );
-};
+}

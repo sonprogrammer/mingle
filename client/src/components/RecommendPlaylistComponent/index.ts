@@ -1,1 +1,1 @@
-export { RecommendPlaylistComponent } from "./RecommendPlaylistComponent";
+export { default as RecommendPlaylistComponent } from "./RecommendPlaylistComponent";
