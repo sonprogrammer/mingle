@@ -8,27 +8,23 @@ const playListSchema = new mongoose.Schema(
     },
     playListTitle: { type: String, required: true },
     playListExplain: { type: String, required: true },
-    // playListCategory: { type: Array },
     playListOwner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    playListComment: {
-      type: [
-        {
-          author: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            reuqired: true,
-          },
-          comment: { type: String, required, reuired: true },
-          date: { type: Date, default: Date.now },
+    playListComments: [
+      {
+        author: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
         },
-      ],
-      default: [],
-    },
+        comment: { type: String, required: true },
+        date: { type: Date, default: Date.now },
+      },
+    ],
     // 이미지가 없을 시에는 기본 이미지로 대체
-    playListImg: { type: string, default: null },
+    playListImg: { type: String, default: null },
   },
   {
     versionKey: false,

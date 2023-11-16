@@ -25,10 +25,12 @@ require("dotenv").config();
 
 //라우터 설정
 const accountRouter = require("./routers/account.js"); // 사용자 기능 설정
+const playListRouter = require("./routers/playList.js"); // 플레이리스트 기능 설정
 const routeHandler = require("./utils/errorHandler/routeHandler.js"); // 에러 핸들러 설정
 app.use(routeHandler);
 
 app.use("/api/account", accountRouter);
+app.use("/api/playlist", playListRouter);
 
 var server = app.listen(3000, function () {
   var host = server.address().address;
