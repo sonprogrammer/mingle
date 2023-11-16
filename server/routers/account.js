@@ -10,6 +10,7 @@ const {
   userUpdateValidation,
 } = require("../middlewares/account-Validation");
 const resetPassword = require("../services/account/resetPassword");
+const jwt = require("jsonwebtoken");
 
 // 로그인한 유저의 정보를 리턴
 router.get(
@@ -17,8 +18,9 @@ router.get(
   passport.authenticate("jwt-user", { session: false }),
   async (req, res, next) => {
     try {
-      // 유저 정보를 이메일로 검색
-      const data = await search.UserSearch("userEmail", req.body.userEmail);
+      console.log(req.user);
+      // userEmail 사용하여 유저 정보 찾기 작업 수행
+      const data = await search.UserSearch("userEmail", req.user.userEmail);
       res.status(200).json(data);
     } catch (error) {
       console.log(error);
@@ -48,30 +50,34 @@ router.post("/", userCreateValidation, async (req, res, next) => {
   }
 });
 
-
 /**
  * 회원 탈퇴 API
  * DELETE 방식을 사용하여 회원 탈퇴 처리
  * @param {string} req.params.id - 삭제할 사용자 ID (URL의 파라미터로 전달)
  * @returns {object} - 회원 탈퇴 성공 시 200 응답, 실패 시 400 응답
  */
-router.delete('/', passport.authenticate('jwt-user',{ session: false } ), async (req, res, next) => {
-  try {
-    const data = await search.UserSearch("userEmail",req.user.userEmail)//JWT토큰으로 유저 이메일을 받아옴
-    console.log(req.user.userEmail)
-    console.log(data);
-    const [bool,{message}] =  await accountDelete.UserDelete(data.userEmail)
-    if (bool) {
-      res.status(200).json({ message }); // Successful registration
+router.delete(
+  "/",
+  passport.authenticate("jwt-user", { session: false }),
+  async (req, res, next) => {
+    try {
+      const data = await search.UserSearch("userEmail", req.user.userEmail); //JWT토큰으로 유저 이메일을 받아옴
+      console.log(req.user.userEmail);
+      console.log(data);
+      const [bool, { message }] = await accountDelete.UserDelete(
+        data.userEmail
+      );
+      if (bool) {
+        res.status(200).json({ message }); // Successful registration
       } else {
-       res.status(400).json({ message }); // Registration failed
-      }   
-    } catch(error) {
-      console.log(error)
-      next({ code: 500 })
+        res.status(400).json({ message }); // Registration failed
+      }
+    } catch (error) {
+      console.log(error);
+      next({ code: 500 });
     }
-  
-})
+  }
+);
 
 /**
  * 회원 정보 수정 라우터
@@ -87,8 +93,11 @@ router.put(
   async (req, res, next) => {
     try {
       const data = await search.UserSearch("id", req.user.id);
-      console.log(data)
-      const [bool, { message }] = await accountEdit.userEdit(data.userEmail, req.body);
+      console.log(data);
+      const [bool, { message }] = await accountEdit.userEdit(
+        data.userEmail,
+        req.body
+      );
 
       if (bool) {
         res.status(200).json({ message }); // Successful registration
