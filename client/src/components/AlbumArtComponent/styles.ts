@@ -1,7 +1,7 @@
 import tw, { styled } from "twin.macro";
 
 export const StyledAlbumWrapper = styled.div`
-    ${tw`flex w-[750px] mx-auto`}
+    ${tw`flex w-[750px]`}
 `;
 export const StyledAlbumArtImg = styled.img`
     ${tw`w-[500px] z-20`}
