@@ -10,7 +10,6 @@ const {
   userUpdateValidation,
 } = require("../middlewares/account-Validation");
 const resetPassword = require("../services/account/resetPassword");
-const jwt = require("jsonwebtoken");
 
 // 로그인한 유저의 정보를 리턴
 router.get(
@@ -18,7 +17,6 @@ router.get(
   passport.authenticate("jwt-user", { session: false }),
   async (req, res, next) => {
     try {
-      console.log(req.user);
       // userEmail 사용하여 유저 정보 찾기 작업 수행
       const data = await search.UserSearch("userEmail", req.user.userEmail);
       res.status(200).json(data);
