@@ -6,6 +6,7 @@ import {
   ChartPage,
   PlaylistPage,
   RecommendPlaylistPage,
+  Mypage,
 } from "./pages";
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             path="/recommendPlaylist"
             element={<RecommendPlaylistPage />}
           ></Route>
+          <Route path="/mypage" element={<Mypage/>}></Route>
         </Routes>
       </BrowserRouter>
     </>
