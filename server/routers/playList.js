@@ -1,9 +1,11 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const playListCreate = require("../services/playList/playCreate");
 const playListDelete = require("../services/playList/playDelete");
 const playListUpdate = require("../services/playList/playUpdate");
 const playListAddSong = require("../services/playList/playAddSong");
 const playListDeleteSong = require("../services/playList/playDelteSong");
+const togglePlayListLike = require("../services/playList/playListLike");
 const search = require("../utils/commons/search");
 const router = express.Router();
 const passport = require("passport");
@@ -57,20 +59,21 @@ router.get(
 
 //특정 플레이리스트 조회
 router.get(
-	'/:playlistId',
-	passport.authenticate('jwt-user', { session: false }),
+	"/:playlistId",
+	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
-		try{
+		try {
 			const playlistId = req.params.playlistId;
-			const playlist = await playListSchema.findById(playlistId).populate('playListSongs');
+			const playlist = await playListSchema
+				.findById(playlistId)
+				.populate("playListSongs");
 			res.status(200).json(playlist);
-		}
-		catch(error){
+		} catch (error) {
 			console.log(error);
 			next({ code: 500 });
 		}
 	}
-)
+);
 
 // DELETE: /플레이리스트-삭제/:playlistId
 router.delete(
@@ -150,12 +153,33 @@ router.delete(
 	"/:playlistId/deleteSong/:songId",
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
+		try {
+			const playlistId = req.params.playlistId;
+			const songId = req.params.songId;
+			const [success, result] =
+				await playListDeleteSong.playListDeleteSong(playlistId, songId);
+			res.json(result); // 무조건 응답을 보냅니다.
+		} catch (error) {
+			console.log(error);
+			next({ code: 500 });
+		}
+	}
+);
+
+router.post(
+	"/:playlistId/like",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
 	  try {
 		const playlistId = req.params.playlistId;
-		const songId = req.params.songId;
-		const [success, result] =
-		  await playListDeleteSong.playListDeleteSong(playlistId, songId);
-		res.json(result); // 무조건 응답을 보냅니다.
+		const userId = req.user.userId; 
+		const playlistObjectId = new mongoose.Types.ObjectId(playlistId);
+		const [success, result] = await togglePlayListLike.togglePlayListLike(playlistObjectId, userId); 
+		if (success) {
+		  res.json(result);
+		} else {
+		  res.status(500).json(result);
+		}
 	  } catch (error) {
 		console.log(error);
 		next({ code: 500 });
