@@ -72,12 +72,20 @@ app.get("/server/upload/audio/:filename", (req, res) => {
 
 //라우터 설정
 const accountRouter = require("./routers/account.js"); // 사용자 기능 설정
+<<<<<<< HEAD
 const songRouter = require("./routers/song.js"); // 곡 관련 요청을 받는 라우터
+=======
+const playListRouter = require("./routers/playList.js"); // 플레이리스트 기능 설정
+>>>>>>> 95427a427c3af771be147a6223095c805def74ce
 const routeHandler = require("./utils/errorHandler/routeHandler.js"); // 에러 핸들러 설정
 app.use(routeHandler);
 
 app.use("/api/account", accountRouter);
+<<<<<<< HEAD
 app.use("/api/song", songRouter);
+=======
+app.use("/api/playlist", playListRouter);
+>>>>>>> 95427a427c3af771be147a6223095c805def74ce
 
 var server = app.listen(3000, function () {
   var host = server.address().address;

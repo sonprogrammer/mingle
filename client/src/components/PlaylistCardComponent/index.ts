@@ -1,1 +1,1 @@
-export { PlaylistCardComponent } from "./PlaylistCardComponent";
+export { default as PlaylistCardComponent } from "./PlaylistCardComponent";
