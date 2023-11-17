@@ -17,6 +17,7 @@ async function UserSearch(keyType, keyValue) {
     userData.userName = data.userNickname;
     userData.userDescription = data.userDescription;
     userData.userPreference = data.userPreference;
+    userData.userImage = data.userImage;
   });
   return userData;
 }
