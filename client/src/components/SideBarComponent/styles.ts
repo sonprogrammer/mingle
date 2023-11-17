@@ -18,7 +18,7 @@ export const Nav = styled.nav`
   width: 16rem;
 `
 
-export const Logo = styled.span`
+export const Logo = styled.div`
   ${tw`
     text-4xl font-semibold
   `}
@@ -26,7 +26,7 @@ export const Logo = styled.span`
 
 export const DivideLine = styled.div`
   ${tw`
-    flex items-center justify-center h-20 border-b
+    flex items-center justify-center h-[201px] border-b
   `}
 `
 
