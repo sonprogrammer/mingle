@@ -1,29 +1,43 @@
-import React from "react";
-import { CommentContainer, User, UserFunction, UserNameAndImg, Comment } from "./styles";
-
+import React from 'react'
+import {
+  CommentContainer,
+  User,
+  UserFunction,
+  UserNameAndImg,
+  Comment,
+  UserImg,
+  UserName,
+  Correction,
+  Delete
+} from './styles'
 
 interface Comment {
-    userImage: string;
-    userName: string;
-    userComment: string;
-    onEdit?: () => void;
-    onDelete?: () => void;
+  userImage: string
+  userName: string
+  userComment: string
+  onEdit?: () => void
+  onDelete?: () => void
 }
 
+export default function PlaylistCommentComponent(props: Comment) {
+  const { userImage, userName, userComment, onEdit, onDelete } = props
 
-export default function PlaylistCommentComponent(props:Comment){
-    const { userImage, userName, userComment, onEdit, onDelete } = props
+  return (
+    <CommentContainer>
+      <User>
+        
+        <UserNameAndImg>
+          <UserImg src={userImage}></UserImg>
+          <UserName>{userName}</UserName>
+        </UserNameAndImg>
 
-    return (
-        <CommentContainer>
-            
-            <User>
-                <UserNameAndImg>
-                    <p>hi</p>
-                </UserNameAndImg>
-                <UserFunction></UserFunction>
-            </User>
-            <Comment></Comment>
-        </CommentContainer>
-    )
+        <UserFunction>
+          <Correction>수정</Correction>
+          <Delete>삭제</Delete>
+        </UserFunction>
+        
+      </User>
+      <Comment>{userComment}</Comment>
+    </CommentContainer>
+  )
 }
