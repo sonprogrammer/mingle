@@ -1,5 +1,4 @@
 import React from "react";
-import { RecommendPlaylistProps } from "../../types/RecommendPlaylistProps";
 import {
   PlaylistCardContainer,
   ProfileSection,
@@ -9,6 +8,13 @@ import {
   LikesText,
   SocialInfo,
 } from "./styles";
+
+interface RecommendPlaylistProps {
+  albumCover: string;
+  title: string;
+  hashtags?: string[];
+  likes: number;
+}
 
 export default function RecommendPlaylistComponent({
   albumCover,

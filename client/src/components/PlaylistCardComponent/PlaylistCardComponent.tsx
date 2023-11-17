@@ -1,5 +1,4 @@
 import React from "react";
-import { PlaylistCardProps } from "../../types/PlaylistCardProps";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faComment } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -16,6 +15,15 @@ import {
   SocialInfo,
   LikesText,
 } from "./styles";
+
+interface PlaylistCardProps {
+  profileIcon: string;
+  profileName: string;
+  albumCover: string;
+  title: string;
+  hashtags: string[];
+  likes: number;
+}
 
 export default function PlaylistCardComponent({
   profileIcon,

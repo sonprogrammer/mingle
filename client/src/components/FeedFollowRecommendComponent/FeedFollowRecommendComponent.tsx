@@ -1,5 +1,4 @@
 import React from "react";
-import { FeedFollowRecommendProps } from "../../types/FeedFollowRecommendProps";
 import {
   FeedFollowRecommendContainer,
   ProfileImage,
@@ -9,6 +8,13 @@ import {
   FollowButton,
   RecommendText,
 } from "./styles";
+interface FeedFollowRecommendProps {
+  profileName: string;
+  profilePicture: string;
+  pictures: string[];
+  actionText: string;
+  feedRecommendText: string;
+}
 
 export default function FeedFollowRecommendComponent({
   profileName,

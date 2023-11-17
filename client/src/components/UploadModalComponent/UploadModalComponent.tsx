@@ -1,6 +1,5 @@
 // UploadModalComponent.tsx
 import React, { useState } from "react";
-import { UploadModalProps } from "../../types/UploadModalProps";
 import {
   ContainerStyle,
   ButtonStyle,
@@ -16,6 +15,15 @@ import {
   // tagInputContainerStyle,
   // tagInputStyle,
 } from "./styles";
+
+interface UploadModalProps {
+  albumCover: string;
+  artistName: string;
+  songName: string;
+  genre: string;
+  tags?: string[];
+  description: string;
+}
 
 export default function UploadModalComponent({
   albumCover,

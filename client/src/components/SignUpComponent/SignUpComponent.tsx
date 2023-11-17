@@ -1,12 +1,18 @@
 // SignUpComponent.tsx
 import React from "react";
-import { SignUpProps } from "../../types/SignUpProps";
 import {
   SignUpContainerStyle,
   ServiceName,
   InputStyle,
   ButtonStyle,
 } from "./styles";
+
+interface SignUpProps {
+  userId: string;
+  userPassword: string;
+  verifyPassword: string;
+  userEmail: string;
+}
 
 export default function SignUpComponent({
   userId,
