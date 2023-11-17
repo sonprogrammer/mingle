@@ -10,8 +10,6 @@ export const UserInfo = styled.div`
     bg-[#e0e0e0]
     flex-wrap
     justify-between	
-    border-b-2
-    border-zinc-500
     `}
 `
 
@@ -22,7 +20,7 @@ ${tw`
      
 `}
 `
-
+    
 export const UserImage = styled.img`
  ${tw`
     rounded-full
@@ -32,18 +30,22 @@ export const UserImage = styled.img`
     
 export const UserDescript = styled.div`
 ${tw`
-    // flex
     flex-col
     ml-4
     gap-3
     flex
     mt-3
 `}
+    h2{
+        ${tw`
+        font-bold
+        text-2xl
+        `}
+    }
   
   input{
     ${tw`
         fixed
-    
         border
         rounded-md
     `}
@@ -102,4 +104,9 @@ ${tw`
     p{
         margin-right: 4px;
     }
+`
+export const Divider = styled.div`
+    ${tw`mx-auto h-[1px]`}
+    width: 98%;
+    border: 1px solid #ccc;
 `
