@@ -109,12 +109,11 @@ UploadModalProps) {
             onChange={handleInputChange}
           >
             <option value="">장르 선택</option>
-            <option value="Pop">Pop</option>
-            <option value="Rock">Rock</option>
-            <option value="Jazz">Jazz</option>
-            <option value="Country">Country</option>
-            <option value="Hip-Hop">Hip-Hop</option>
-            <option value="R&B">R&B</option>
+            <option value="Pop">발라드</option>
+            <option value="Rock">록</option>
+            <option value="Dance">댄스</option>
+            <option value="Classic">클래식</option>
+            <option value="Hip-Hop">힙합</option>
           </select>
         </div>
         {/* <div css={tagInputContainerStyle}>
