@@ -6,6 +6,6 @@ export * from "./RecommendPlaylistComponent";
 export * from "./AlbumArtComponent";
 export * from "./ContentWrapper";
 export * from "./FeedFollowRecommendComponent";
-
+export * from "./UserInfoComponent"
 export * from "./PlaylistContentsComponent";
 
