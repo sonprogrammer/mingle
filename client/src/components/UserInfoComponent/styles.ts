@@ -10,6 +10,7 @@ export const UserInfo = styled.div`
     bg-[#e0e0e0]
     flex-wrap
     justify-between	
+    
     `}
 `
 
@@ -25,6 +26,7 @@ export const UserImage = styled.img`
  ${tw`
     rounded-full
     w-20
+    mt-1
  `}
 `
     
@@ -56,6 +58,7 @@ ${tw`
 export const UserSubInfo = styled.div`
   ${tw`
     flex
+    ml-6
   `}
 `
 
@@ -63,8 +66,9 @@ export const UserStatus = styled.div`
 ${tw`
     p-4
     flex
-    // ml-auto
+    ml-auto
     mt-10
+    
     `}
     `
 
@@ -106,7 +110,7 @@ ${tw`
     }
 `
 export const Divider = styled.div`
-    ${tw`mx-auto h-[1px]`}
-    width: 98%;
+    ${tw`ml-[70px] h-[1px]`}
+    width: 90%;
     border: 1px solid #ccc;
 `

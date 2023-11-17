@@ -35,9 +35,9 @@ export default function UserInfoComponent(props: UserProfileHeaderProps) {
     <>
       <UserInfo>
         <UserSubInfo>
-          <UserImageContainer>
+          {/* <UserImageContainer> */}
             <UserImage src={userImage} alt={'User'} />
-          </UserImageContainer>
+          {/* </UserImageContainer> */}
           <UserDescript>
             <h2>{userName}</h2>
             <EditableText initialText={userDescription} maxLength={20} />
