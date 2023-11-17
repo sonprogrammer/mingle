@@ -11,4 +11,5 @@ export * from "./PlaylistDescriptionComponent"
 export * from "./FeedFollowRecommendComponent";
 export * from "./UserInfoComponent"
 export * from "./PlaylistContentsComponent";
-
+export * from "./ChartComponent";
+export * from "./ChartItemComponent";

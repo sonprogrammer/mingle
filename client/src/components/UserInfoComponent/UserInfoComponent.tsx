@@ -9,6 +9,7 @@ import {
   Following,
   UserImageContainer,
   UserSubInfo,
+  Divider,
 } from './styles'
 
 interface UserProfileHeaderProps {
@@ -20,21 +21,23 @@ interface UserProfileHeaderProps {
   followingCount: number
 }
 
-const UserInfoComponent: React.FC<UserProfileHeaderProps> = ({
-  userImage,
-  userName,
-  userDescription,
-  postsCount,
-  followersCount,
-  followingCount,
-}) => {
+export default function UserInfoComponent(props: UserProfileHeaderProps) {
+  const {
+    userImage,
+    userName,
+    userDescription,
+    postsCount,
+    followersCount,
+    followingCount,
+  } = props
+
   return (
     <>
       <UserInfo>
         <UserSubInfo>
-          <UserImageContainer>
+          {/* <UserImageContainer> */}
             <UserImage src={userImage} alt={'User'} />
-          </UserImageContainer>
+          {/* </UserImageContainer> */}
           <UserDescript>
             <h2>{userName}</h2>
             <EditableText initialText={userDescription} maxLength={20} />
@@ -55,28 +58,24 @@ const UserInfoComponent: React.FC<UserProfileHeaderProps> = ({
           </Following>
         </UserStatus>
       </UserInfo>
+      <Divider />
     </>
   )
 }
-
-export default UserInfoComponent
 
 interface EditableTextProps {
   initialText: string
   maxLength: number
 }
 
-const EditableText: React.FC<EditableTextProps> = ({
-  initialText,
-  maxLength,
-}) => {
+export function EditableText(props: EditableTextProps) {
+  const { initialText, maxLength } = props
   const [isEditing, setIsEditing] = useState(false)
   const [text, setText] = useState(initialText)
   // const inputRef = useRef<HTMLInputElement>(null)
 
   const handleTextClick = () => {
     setIsEditing(true)
-    
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
