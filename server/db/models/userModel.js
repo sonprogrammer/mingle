@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema(
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "PlayLists" }],
       default: [],
     },
+    userImage: { 
+      type: String, 
+      default: ""
+    },
     userPreference: {
       type: [String],
       default: [],

@@ -10,5 +10,7 @@ export * from "./PlaylistDescriptionComponent"
 export * from "./PlaylistCommentComponent"
 export * from "./FeedFollowRecommendComponent";
 export * from "./UserInfoComponent"
-export * from "./PlaylistContentsComponent";
 
+export * from "./PlaylistContentsComponent";
+export * from "./ChartComponent";
+export * from "./ChartItemComponent";
