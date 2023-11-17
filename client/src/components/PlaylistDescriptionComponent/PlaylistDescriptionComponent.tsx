@@ -1,13 +1,12 @@
 import React from "react";
-import { PlayDescriptBox, PlaylistTitle, PlaylistDescript,DivideLine } from "./styles";
+import { PlayDescriptBox, PlaylistTitle, PlaylistDescript } from "./styles";
 
 
-export default function PlaylistDescriptionComponent({name, description}){
-
-interface Description {
+interface PlayDescript{
     name: string;
     description: string;
 }
+export default function PlaylistDescriptionComponent({name, description}:PlayDescript){
 
 
     return(
