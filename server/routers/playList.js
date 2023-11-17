@@ -1,7 +1,9 @@
 const express = require("express");
 const playListCreate = require("../services/playList/playCreate");
 const playListDelete = require("../services/playList/playDelete");
-const playListUpdate = require("../services/playList/playUpdate");  
+const playListUpdate = require("../services/playList/playUpdate");
+const playListAddSong = require("../services/playList/playAddSong");
+const playListDeleteSong = require("../services/playList/playDelteSong");
 const search = require("../utils/commons/search");
 const router = express.Router();
 const passport = require("passport");
@@ -53,6 +55,23 @@ router.get(
 	}
 );
 
+//특정 플레이리스트 조회
+router.get(
+	'/:playlistId',
+	passport.authenticate('jwt-user', { session: false }),
+	async (req, res, next) => {
+		try{
+			const playlistId = req.params.playlistId;
+			const playlist = await playListSchema.findById(playlistId).populate('playListSongs');
+			res.status(200).json(playlist);
+		}
+		catch(error){
+			console.log(error);
+			next({ code: 500 });
+		}
+	}
+)
+
 // DELETE: /플레이리스트-삭제/:playlistId
 router.delete(
 	"/:playlistId",
@@ -101,5 +120,48 @@ router.put(
 		}
 	}
 );
+
+// 플레이리스트에 음악 추가
+
+router.post(
+	"/:playlistId/addSong/:songId",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const playlistId = req.params.playlistId;
+			const songId = req.params.songId;
+			const [success, result] = await playListAddSong.playListAddSong(
+				playlistId,
+				songId
+			);
+			if (success) {
+				res.json(result);
+			} else {
+				res.status(500).json(result);
+			}
+		} catch (error) {
+			console.log(error);
+			next({ code: 500 });
+		}
+	}
+);
+
+router.delete(
+	"/:playlistId/deleteSong/:songId",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+	  try {
+		const playlistId = req.params.playlistId;
+		const songId = req.params.songId;
+		const [success, result] =
+		  await playListDeleteSong.playListDeleteSong(playlistId, songId);
+		res.json(result); // 무조건 응답을 보냅니다.
+	  } catch (error) {
+		console.log(error);
+		next({ code: 500 });
+	  }
+	}
+  );
+  
 
 module.exports = router;
