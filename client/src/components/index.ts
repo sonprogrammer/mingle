@@ -6,8 +6,10 @@ export * from "./RecommendPlaylistComponent";
 export * from "./AlbumArtComponent";
 export * from "./ContentWrapper";
 export * from "./UploadModalComponent";
-
 export * from "./FeedFollowRecommendComponent";
 export * from "./UserInfoComponent"
 export * from "./PlaylistContentsComponent";
 
+export * from "./PlaylistContentsComponent";
+export * from "./ChartComponent";
+export * from "./ChartItemComponent";
