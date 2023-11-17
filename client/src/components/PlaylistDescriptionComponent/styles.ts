@@ -11,7 +11,7 @@ export const PlayDescriptBox = styled.div`
 export const PlaylistTitle = styled.div`
     ${tw`
         text-4xl
-        font-semibold
+        font-bold
     `}
 `
 export const PlaylistDescript = styled.div`
