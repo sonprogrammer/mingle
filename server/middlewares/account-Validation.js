@@ -9,11 +9,12 @@ const userCreateValidation = (req, res, next) => {
 		userNickname: Joi.string().required(), // 닉네임
 		userPreference:Joi.array().items(Joi.string()), // 선호도
 		userDescription: Joi.string(), // 자기소개
+		userImage: Joi.string(), // 이미지
 	});
-
+	
 	// 요청 데이터를 정의한 스키마로 검증
 	const { error } = schema.validate(req.body);
-
+	
 	// 유효성 검사 에러가 있을 경우 400 Bad Request 응답
 	if (error) {
 		return res.status(400).json({ message: error.details[0].message });
@@ -29,6 +30,7 @@ const userUpdateValidation = (req, res, next) => {
 		userNickname: Joi.string(), // 닉네임
 		userPreference:Joi.array().items(Joi.string()), // 선호도
 		userDescription:Joi.string(), // 자기소개
+		userImage: Joi.string(), // 이미지
 	});
 
 	// 요청 데이터를 정의한 스키마로 검증
