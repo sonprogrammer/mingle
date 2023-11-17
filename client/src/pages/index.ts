@@ -1,4 +1,5 @@
 export * from "./LandingPage";
+export * from "./SignUpPage";
 export * from "./FeedPage";
 export * from "./ChartPage";
 export * from "./PlaylistPage";
