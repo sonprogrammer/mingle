@@ -55,6 +55,23 @@ router.get(
 	}
 );
 
+//특정 플레이리스트 조회
+router.get(
+	'/:playlistId',
+	passport.authenticate('jwt-user', { session: false }),
+	async (req, res, next) => {
+		try{
+			const playlistId = req.params.playlistId;
+			const playlist = await playListSchema.findById(playlistId).populate('playListSongs');
+			res.status(200).json(playlist);
+		}
+		catch(error){
+			console.log(error);
+			next({ code: 500 });
+		}
+	}
+)
+
 // DELETE: /플레이리스트-삭제/:playlistId
 router.delete(
 	"/:playlistId",
