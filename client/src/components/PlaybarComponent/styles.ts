@@ -1,7 +1,7 @@
 import tw, { styled } from "twin.macro";
 
 export const Container = styled.div`
-  ${tw`mt-6 mx-auto flex items-center gap-[10px]`}
+  ${tw`mt-10 mx-auto flex items-center gap-[10px]`}
   padding: 0 650px;
 `;
 

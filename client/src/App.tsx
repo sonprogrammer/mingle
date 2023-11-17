@@ -8,6 +8,7 @@ import {
   PlaylistPage,
   RecommendPlaylistPage,
   UploadModalTestPage,
+  Mypage,
 } from "./pages";
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             element={<RecommendPlaylistPage />}
           ></Route>
           <Route path="/upload" element={<UploadModalTestPage />}></Route>
+          <Route path="/mypage" element={<Mypage/>}></Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -6,6 +6,7 @@ import {
   PlaylistContentsComponent,
   SearchComponent,
   SideBarComponent,
+  PlaylistDescriptionComponent
 } from "../../components";
 import { Content, Divider } from "./styles";
 
@@ -48,6 +49,10 @@ export default function PlaylistPage() {
         </Content>
         <Divider />
       </ContentWrapper>
+      <ContentWrapper>
+        <PlaylistDescriptionComponent name={'기분좋을때 듣는 노래'} description={'들으면 즐거워요 오늘도 행복한 하루 보내셨으면 좋겠습니다~~'}/>
+        <Divider />
+        </ContentWrapper>
       <PlaybarComponent />
     </>
   );

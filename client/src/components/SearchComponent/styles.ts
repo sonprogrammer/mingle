@@ -1,7 +1,7 @@
 import tw, { styled } from "twin.macro";
 
 export const StyledSearchWrapper = styled.div`
-  ${tw`flex w-1/4 mx-auto mb-8 relative my-4`}
+  ${tw`flex w-1/4 mx-auto relative my-6`}
 `;
 
 export const StyledSearchInput = styled.input`
