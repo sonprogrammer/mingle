@@ -2,7 +2,7 @@ import tw, {styled} from "twin.macro";
 
 export const PlayDescriptBox = styled.div`
     ${tw`
-        pt-16
+        pt-24
         ml-10
         pb-16
 
