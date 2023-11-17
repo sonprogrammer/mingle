@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     likeSong: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Songs" }],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Song" }],
       default: [],
     },
     likePlayList: {

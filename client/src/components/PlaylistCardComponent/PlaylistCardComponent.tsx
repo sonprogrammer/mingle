@@ -17,14 +17,14 @@ import {
   LikesText,
 } from "./styles";
 
-export const PlaylistCardComponent: React.FC<PlaylistCardProps> = ({
+export default function PlaylistCardComponent({
   profileIcon,
   profileName,
   albumCover,
   title,
   hashtags,
   likes,
-}) => {
+}: PlaylistCardProps) {
   return (
     <PlaylistCardContainer>
       <ProfileSection>
@@ -55,4 +55,4 @@ export const PlaylistCardComponent: React.FC<PlaylistCardProps> = ({
       </ContentSection>
     </PlaylistCardContainer>
   );
-};
+}
