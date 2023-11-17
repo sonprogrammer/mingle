@@ -10,7 +10,6 @@ const {
   userUpdateValidation,
 } = require("../middlewares/account-Validation");
 const resetPassword = require("../services/account/resetPassword");
-const jwt = require("jsonwebtoken");
 
 // 로그인한 유저의 정보를 리턴
 router.get(
