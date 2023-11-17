@@ -1,65 +1,89 @@
 // SignUpComponent.tsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
-  SignUpContainerStyle,
-  ServiceName,
-  InputStyle,
-  ButtonStyle,
+  StyleSignUpContainer,
+  StyleServiceName,
+  StyleInput,
+  StyleButton,
+  StyleText,
+  StyleWarningText,
 } from "./styles";
 
 interface SignUpProps {
-  userId: string;
-  userPassword: string;
-  verifyPassword: string;
-  userEmail: string;
+  initialUserId: string;
+  initialUserPassword: string;
+  initialVerifyPassword: string;
+  initialUserEmail: string;
 }
 
 export default function SignUpComponent({
-  userId,
-  userPassword,
-  verifyPassword,
-  userEmail,
+  initialUserId,
+  initialUserPassword,
+  initialVerifyPassword,
+  initialUserEmail,
 }: SignUpProps) {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     //제출 로직
   };
+  const [userId, setUserId] = useState(initialUserId);
+  const [userPassword, setUserPassword] = useState(initialUserPassword);
+  const [verifyPassword, setVerifyPassword] = useState(initialVerifyPassword);
+  const [userEmail, setUserEmail] = useState(initialUserEmail);
+  const [passwordError, setPasswordError] = useState(false);
 
+  useEffect(() => {
+    // 비밀번호와 비밀번호 확인이 다를 때 오류 상태 설정
+    if (userPassword !== verifyPassword && verifyPassword) {
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }
+  }, [userPassword, verifyPassword]);
   return (
-    <SignUpContainerStyle onSubmit={handleSubmit}>
-      <ServiceName>
-        <img src="/client/public/img/MingleLogo.png" alt="Mingle Logo" />
+    <StyleSignUpContainer onSubmit={handleSubmit}>
+      <StyleServiceName>
+        <img src="/img/Logo.png" alt="Mingle Logo" />
         <p>MINGLE</p>
-      </ServiceName>
-      <p>아이디</p>
-      <InputStyle
+      </StyleServiceName>
+      <StyleText>아이디</StyleText>
+      <StyleInput
         type="text"
         placeholder="아이디를 입력하세요."
         value={userId}
-        onChange={() => {}}
+        onChange={(e) => setUserId(e.target.value)}
+        pattern="[A-Za-z가-힣\s]+"
+        required
       />
-      <p>비밀번호</p>
-      <InputStyle
-        type="text"
+      <StyleText>비밀번호</StyleText>
+      <StyleInput
+        type="password"
         placeholder="비밀번호를 입력하세요."
         value={userPassword}
-        onChange={() => {}}
+        onChange={(e) => setUserPassword(e.target.value)}
+        minLength={8}
+        required
       />
-      <p>비밀번호 재확인</p>
-      <InputStyle
-        type="text"
+      <StyleText>비밀번호 재확인</StyleText>
+      <StyleInput
+        type="password"
         placeholder="비밀번호를 재입력하세요."
         value={verifyPassword}
-        onChange={() => {}}
+        onChange={(e) => setVerifyPassword(e.target.value)}
+        required
       />
-      <p>이메일</p>
-      <InputStyle
-        type="text"
+      {passwordError && (
+        <StyleWarningText>비밀번호가 일치하지 않습니다.</StyleWarningText>
+      )}
+      <StyleText>이메일</StyleText>
+      <StyleInput
+        type="email"
         placeholder="이메일을 입력하세요."
         value={userEmail}
-        onChange={() => {}}
+        onChange={(e) => setUserEmail(e.target.value)}
+        required
       />
-      <ButtonStyle type="submit">Sign Up</ButtonStyle>
-    </SignUpContainerStyle>
+      <StyleButton type="submit">가입하기</StyleButton>
+    </StyleSignUpContainer>
   );
 }

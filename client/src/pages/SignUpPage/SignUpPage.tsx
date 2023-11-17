@@ -5,10 +5,10 @@ export default function SignUpPage() {
   return (
     <>
       <SignUpComponent
-        userId={""}
-        userPassword={""}
-        verifyPassword={""}
-        userEmail={""}
+        initialUserId={""}
+        initialUserPassword={""}
+        initialVerifyPassword={""}
+        initialUserEmail={""}
       />
     </>
   );
