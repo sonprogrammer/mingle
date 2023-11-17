@@ -7,6 +7,7 @@ import {
   StyleButton,
   StyleText,
   StyleWarningText,
+  StylePasswordToggleIcon,
 } from "./styles";
 
 interface SignUpProps {
@@ -31,9 +32,11 @@ export default function SignUpComponent({
   const [verifyPassword, setVerifyPassword] = useState(initialVerifyPassword);
   const [userEmail, setUserEmail] = useState(initialUserEmail);
   const [passwordError, setPasswordError] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   useEffect(() => {
-    // 비밀번호와 비밀번호 확인이 다를 때 오류 상태 설정
     if (userPassword !== verifyPassword && verifyPassword) {
       setPasswordError(true);
     } else {
@@ -48,6 +51,7 @@ export default function SignUpComponent({
       </StyleServiceName>
       <StyleText>아이디</StyleText>
       <StyleInput
+        id="userId"
         type="text"
         placeholder="아이디를 입력하세요."
         value={userId}
@@ -55,28 +59,45 @@ export default function SignUpComponent({
         pattern="[A-Za-z가-힣\s]+"
         required
       />
-      <StyleText>비밀번호</StyleText>
-      <StyleInput
-        type="password"
-        placeholder="비밀번호를 입력하세요."
-        value={userPassword}
-        onChange={(e) => setUserPassword(e.target.value)}
-        minLength={8}
-        required
-      />
-      <StyleText>비밀번호 재확인</StyleText>
-      <StyleInput
-        type="password"
-        placeholder="비밀번호를 재입력하세요."
-        value={verifyPassword}
-        onChange={(e) => setVerifyPassword(e.target.value)}
-        required
-      />
+      <div style={{ position: "relative", width: "100%" }}>
+        <StyleText>비밀번호</StyleText>
+        <StyleInput
+          id="userPassword"
+          type={showPassword ? "text" : "password"}
+          placeholder="비밀번호를 입력하세요."
+          value={userPassword}
+          onChange={(e) => setUserPassword(e.target.value)}
+          required
+        />
+        <StylePasswordToggleIcon
+          src="/img/view-password.png"
+          alt="비밀번호 보기"
+          onClick={togglePasswordVisibility}
+        />
+      </div>
+      <div style={{ position: "relative", width: "100%" }}>
+        <StyleText>비밀번호 재확인</StyleText>
+        <StyleInput
+          id="verifyPassword"
+          type={showPassword ? "text" : "password"}
+          placeholder="비밀번호를 재입력하세요."
+          value={verifyPassword}
+          onChange={(e) => setVerifyPassword(e.target.value)}
+          required
+        />
+        <StylePasswordToggleIcon
+          src="/img/view-password.png"
+          alt="비밀번호 보기"
+          onClick={togglePasswordVisibility}
+        />
+      </div>
+
       {passwordError && (
         <StyleWarningText>비밀번호가 일치하지 않습니다.</StyleWarningText>
       )}
       <StyleText>이메일</StyleText>
       <StyleInput
+        id="userEmail"
         type="email"
         placeholder="이메일을 입력하세요."
         value={userEmail}

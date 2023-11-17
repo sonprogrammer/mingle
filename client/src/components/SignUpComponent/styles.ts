@@ -15,12 +15,15 @@ export const StyleServiceName = styled.div`
 `;
 
 export const StyleInput = styled.input`
-  ${tw`w-full p-2 mb-4 text-lg border rounded-md border-gray-300 focus:border-blue-500 focus:outline-none`}
+  ${tw`w-full p-2 mb-4 text-lg border rounded-md border-gray-300 focus:border-purple-600 focus:outline-none`}
   background-color: #F2F2F2;
-  background-image: url("/client/public/img/view-password.png");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  />
+`;
+export const StylePasswordToggleIcon = styled.img`
+  ${tw`absolute inset-y-0 top-10 right-0 pr-3 flex items-center justify-center`}
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
 `;
 
 export const StyleButton = styled.button`
