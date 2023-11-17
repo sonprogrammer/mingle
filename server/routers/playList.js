@@ -1,8 +1,9 @@
 const express = require("express");
 const playListCreate = require("../services/playList/playCreate");
 const playListDelete = require("../services/playList/playDelete");
-const playListUpdate = require("../services/playList/playUpdate");  
+const playListUpdate = require("../services/playList/playUpdate");
 const playListAddSong = require("../services/playList/playAddSong");
+const playListDeleteSong = require("../services/playList/playDelteSong");
 const search = require("../utils/commons/search");
 const router = express.Router();
 const passport = require("passport");
@@ -106,19 +107,39 @@ router.put(
 // 플레이리스트에 음악 추가
 
 router.post(
-	'/:playlistId/addSong/:songId',
-	passport.authenticate('jwt-user', { session: false }),  
+	"/:playlistId/addSong/:songId",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const playlistId = req.params.playlistId;
+			const songId = req.params.songId;
+			const [success, result] = await playListAddSong.playListAddSong(
+				playlistId,
+				songId
+			);
+			if (success) {
+				res.json(result);
+			} else {
+				res.status(500).json(result);
+			}
+		} catch (error) {
+			console.log(error);
+			next({ code: 500 });
+		}
+	}
+);
+
+router.delete(
+	"/:playlistId/deleteSong/:songId",
+	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
 	  try {
 		const playlistId = req.params.playlistId;
 		const songId = req.params.songId;
-		const [success, result] = await playListAddSong.playListAddSong(playlistId, songId);
-		if (success) {
-		  res.json(result);
-		} else {
-		  res.status(500).json(result);
-		}
-	  } catch (error) { // Add the error parameter here
+		const [success, result] =
+		  await playListDeleteSong.playListDeleteSong(playlistId, songId);
+		res.json(result); // 무조건 응답을 보냅니다.
+	  } catch (error) {
 		console.log(error);
 		next({ code: 500 });
 	  }
