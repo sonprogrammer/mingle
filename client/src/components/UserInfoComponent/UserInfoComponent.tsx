@@ -37,7 +37,7 @@ const UserInfoComponent: React.FC<UserProfileHeaderProps> = ({
           </UserImageContainer>
           <UserDescript>
             <h2>{userName}</h2>
-            <EditableText initialText={userDescription} maxLength={15} />
+            <EditableText initialText={userDescription} maxLength={20} />
           </UserDescript>
         </UserSubInfo>
         <UserStatus>

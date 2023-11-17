@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   LandingPage,
@@ -6,6 +6,7 @@ import {
   ChartPage,
   PlaylistPage,
   RecommendPlaylistPage,
+  UploadModalTestPage,
   Mypage,
 } from "./pages";
 function App() {
@@ -21,6 +22,7 @@ function App() {
             path="/recommendPlaylist"
             element={<RecommendPlaylistPage />}
           ></Route>
+          <Route path="/upload" element={<UploadModalTestPage />}></Route>
           <Route path="/mypage" element={<Mypage/>}></Route>
         </Routes>
       </BrowserRouter>

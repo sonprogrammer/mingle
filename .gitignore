@@ -4,3 +4,4 @@ node_modules
 /.idea/melody-link.iml
 /.idea/modules.xml
 /.idea/vcs.xml
+server/upload

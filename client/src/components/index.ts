@@ -5,6 +5,9 @@ export * from "./PlaylistCardComponent";
 export * from "./RecommendPlaylistComponent";
 export * from "./AlbumArtComponent";
 export * from "./ContentWrapper";
-export * from "./FeedFollowRecommendComponent";
+export * from "./UploadModalComponent";
 
+export * from "./FeedFollowRecommendComponent";
+export * from "./UserInfoComponent"
 export * from "./PlaylistContentsComponent";
+
