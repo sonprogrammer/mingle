@@ -8,5 +8,6 @@ export * from "./ContentWrapper";
 export * from "./UploadModalComponent";
 
 export * from "./FeedFollowRecommendComponent";
-
+export * from "./UserInfoComponent"
 export * from "./PlaylistContentsComponent";
+
