@@ -5,7 +5,9 @@ const User = require("../../db/models/userModel");
 async function getSongsOrderby(queryValue) {
   // 좋아요 많은 순
   if (queryValue === "top") {
-    const topSongs = await Song.find({}).sort({ songLiked: -1 }).limit(100);
+    const topSongs = await Song.find({})
+      .sort({ songLikedCount: -1 })
+      .limit(100);
     return topSongs;
   } else if (queryValue === "recent") {
     // 현재 날짜와 현재 날짜로부터 30일 전의 날짜 계산

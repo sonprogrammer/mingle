@@ -96,12 +96,14 @@ async function toggleLike(songId, userId) {
 
   if (!findSong.songLiked.includes(userId)) {
     findSong.songLiked.push(userId);
+    findSong.songLikedCount += 1;
     likeUpdatedSong = await findSong.save();
     findUser.likeSong.push(songId);
     await findUser.save();
     message = "곡 좋아요에 성공하였습니다.";
   } else {
     findSong.songLiked.splice(findSong.songLiked.indexOf(userId), 1);
+    findSong.songLikedCount -= 1;
     likeUpdatedSong = await findSong.save();
     findUser.likeSong.splice(findUser.likeSong.indexOf(songId), 1);
     await findUser.save();
