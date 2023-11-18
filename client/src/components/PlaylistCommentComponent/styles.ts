@@ -23,7 +23,7 @@ export const StyledUserNameAndImg = styled.div`
     ${tw`
         flex
         w-full
-        pl-4
+        pl-5
         mt-3
     `}
 `
@@ -45,6 +45,7 @@ export const StyledCommentAndFunction = styled.div`
         flex
         justify-between
         px-4
+        pl-8
         pt-5
         text-xl
     `}
