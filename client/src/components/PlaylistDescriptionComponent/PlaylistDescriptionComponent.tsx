@@ -1,5 +1,5 @@
 import React from "react";
-import { PlayDescriptBox, PlaylistTitle, PlaylistDescript } from "./styles";
+import { StyledDescriptBox, StyledTitle, StyledDescript } from "./styles";
 
 
 interface PlayDescript{
@@ -8,13 +8,12 @@ interface PlayDescript{
 }
 export default function PlaylistDescriptionComponent({name, description}:PlayDescript){
 
-
     return(
         <>
-        <PlayDescriptBox>
-            <PlaylistTitle>{name}</PlaylistTitle>
-            <PlaylistDescript>{description}</PlaylistDescript>
-        </PlayDescriptBox>
+        <StyledDescriptBox>
+            <StyledTitle>{name}</StyledTitle>
+            <StyledDescript>{description}</StyledDescript>
+        </StyledDescriptBox>
         </>
     )
 }
