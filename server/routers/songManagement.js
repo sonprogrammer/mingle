@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const songService = require("../services/song/songService");
+const songService = require("../services/song/songManagementService");
 // 곡 관련 multer storage 가져오기
 const songUpload = require("../middlewares/songMulter");
 
@@ -33,11 +33,13 @@ router.post(
         audio,
         songImage,
       });
+      // res 보낼 때 return을 적어주지 않으면 나중에 응답이 여러개가 보내져 오류날 수 있다.
       return res.status(201).json({ newSong });
     } catch (error) {
+      console.log(error);
       return res
         .status(500)
-        .json({ message: "곡 업로드 중 에러가 발생했습니다." });
+        .json({ message: "곡 업로드 중 에러가 발생했습니다." + error });
     }
   }
 );
@@ -123,55 +125,34 @@ router.delete(
     } catch (error) {
       return res
         .status(500)
-        .json({ message: "곡 삭제 중 에러가 발생하였습니다." });
+        .json({ message: "곡 삭제 중 에러가 발생하였습니다." + error });
     }
   }
 );
 
-// 곡 좋아요 누르기 api
+// 곡 좋아요 토글하기 api
 router.post(
-  "/:songId/like",
+  "/:songId/like-toggle",
   passport.authenticate("jwt-user", { session: false }),
   async (req, res) => {
     try {
       const { songId } = req.params;
       const { userId } = req.user;
-      const pushLikeResult = await songService.pushLike(songId, userId);
+      const { likeUpdatedSong, message } = await songService.toggleLike(
+        songId,
+        userId
+      );
 
-      if (pushLikeResult === "conflict")
-        return res.status(409).json({ message: "이미 좋아요한 곡입니다." });
+      if (!likeUpdatedSong)
+        return res
+          .status(404)
+          .json({ message: "해당 곡은 존재하지 않습니다." });
 
-      return res.status(200).json({ message: "곡 좋아요에 성공하였습니다." });
+      return res.status(200).json({ likeUpdatedSong, message });
     } catch (error) {
       return res
         .status(500)
         .json({ message: "곡 좋아요에 실패하였습니다." + error });
-    }
-  }
-);
-
-// 곡 좋아요 취소 api
-router.post(
-  "/:songId/unlike",
-  passport.authenticate("jwt-user", { session: false }),
-  async (req, res) => {
-    try {
-      const { songId } = req.params;
-      const { userId } = req.user;
-      const pushLikeResult = await songService.cancelLike(songId, userId);
-
-      if (pushLikeResult === "conflict")
-        return res
-          .status(409)
-          .json({ message: "이미 좋아요가 되어 있지 않은 곡입니다." });
-
-      return res
-        .status(200)
-        .json({ message: "곡 좋아요 취소에 성공하였습니다." });
-    } catch (error) {
-      return res
-        .status(500)
-        .json({ message: "곡 좋아요 취소에 실패하였습니다." + error });
     }
   }
 );
