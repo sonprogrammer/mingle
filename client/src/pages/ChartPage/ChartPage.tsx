@@ -71,6 +71,20 @@ export default function ChartPage() {
               length: "03:21",
               isLiked: true,
             },
+            {
+              title: "Steal The Show",
+              img: "/img/AlbumSample.jpg",
+              artist: "Lauv",
+              length: "03:28",
+              isLiked: false,
+            },
+            {
+              title: "Kill Bill",
+              img: "/img/AlbumSample.jpg",
+              artist: "SZA",
+              length: "03:50",
+              isLiked: false,
+            },
           ]}
           title={"차트"}
         />
