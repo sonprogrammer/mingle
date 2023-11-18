@@ -1,43 +1,49 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {
-  CommentContainer,
-  User,
-  UserFunction,
-  UserNameAndImg,
-  Comment,
-  UserImg,
-  UserName,
-  Correction,
-  Delete
+  StyledCommentContainer,
+  // StyledUser,
+  StyledUserFunction,
+  StyledUserNameAndImg,
+  StyledComment,
+  StyledUserImg,
+  StyledUserName,
+  StyledCorrection,
+  StyledCommentAndFunction,
+  StyledDelete,
 } from './styles'
 
 interface Comment {
   userImage: string
   userName: string
   userComment: string
-  onEdit?: () => void
-  onDelete?: () => void
+  currentUser: string
 }
 
-export default function PlaylistCommentComponent(props: Comment) {
-  const { userImage, userName, userComment, onEdit, onDelete } = props
-
+export default function PlaylistCommentComponent({
+  userImage,
+  userName,
+  userComment,
+  currentUser
+}: Comment) {
+  
   return (
-    <CommentContainer>
-      <User>
-        
-        <UserNameAndImg>
-          <UserImg src={userImage}></UserImg>
-          <UserName>{userName}</UserName>
-        </UserNameAndImg>
+    <StyledCommentContainer>
+      <p>댓글</p>
+      <StyledUserNameAndImg>
+        <StyledUserImg src={userImage}></StyledUserImg>
+        <StyledUserName>{userName}</StyledUserName>
+      </StyledUserNameAndImg>
 
-        <UserFunction>
-          <Correction>수정</Correction>
-          <Delete>삭제</Delete>
-        </UserFunction>
-        
-      </User>
-      <Comment>{userComment}</Comment>
-    </CommentContainer>
+      <StyledCommentAndFunction>
+        <StyledComment>{userComment}</StyledComment>
+        {userName === currentUser && (
+        <StyledUserFunction>
+          <StyledCorrection>수정</StyledCorrection>
+          <span>|</span>
+          <StyledDelete>삭제</StyledDelete>
+        </StyledUserFunction>
+        ) }
+      </StyledCommentAndFunction>
+    </StyledCommentContainer>
   )
 }

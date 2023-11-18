@@ -1,50 +1,75 @@
 import tw,{styled} from "twin.macro";
 
-export const CommentContainer = styled.div`
+export const StyledCommentContainer = styled.div`
     ${tw`
         w-full
-        flex
+        flex-col
+        mt-10
     `}
+    p{
+        font-size: 24px;
+        margin-left: 20px;
+        margin-botton: 10px;
+        font-weight: bold;
+    }
 `
-export const User = styled.div`
+export const StyledUser = styled.div`
     ${tw`
         flex
     `}
 `
 
-export const UserNameAndImg = styled.div`
+export const StyledUserNameAndImg = styled.div`
     ${tw`
+        flex
+        w-full
+        pl-4
+        mt-3
+    `}
+`
+export const StyledUserName = styled.div`
+    ${tw`
+        text-2xl
+        font-bold
+        mt-6
+        pl-4
+    `}
+`
+export const StyledUserImg = styled.img`
+    ${tw`
+        w-20
+    `}
+`
+export const StyledCommentAndFunction = styled.div`
+    ${tw`
+        flex
+        justify-between
+        px-4
+        pt-5
+        text-xl
+    `}
+`
+
+export const StyledUserFunction = styled.div`
+    ${tw`
+        flex
 
     `}
 `
-export const UserName = styled.div`
+export const StyledDelete = styled.div`
     ${tw`
-
+        cursor-pointer 
+        pl-2
     `}
 `
-export const UserImg = styled.img`
+export const StyledCorrection = styled.div`
     ${tw`
-
-    `}
-`
-
-export const UserFunction = styled.div`
-    ${tw`
-
-    `}
-`
-export const Delete = styled.div`
-    ${tw`
-
-    `}
-`
-export const Correction = styled.div`
-    ${tw`
-
+        cursor-pointer
+        pr-2
     `}
 `
 
-export const Comment = styled.div`
+export const StyledComment = styled.div`
     ${tw`
 
     `}
