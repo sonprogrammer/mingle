@@ -7,9 +7,11 @@ export * from "./AlbumArtComponent";
 export * from "./ContentWrapper";
 export * from "./UploadModalComponent";
 export * from "./PlaylistDescriptionComponent"
-
 export * from "./FeedFollowRecommendComponent";
 export * from "./UserInfoComponent"
 export * from "./PlaylistContentsComponent";
 export * from "./ChartComponent";
 export * from "./ChartItemComponent";
+export * from "./InputComponent";
+export * from "./LongButtonComponent";
+export * from "./AuthComponent";
