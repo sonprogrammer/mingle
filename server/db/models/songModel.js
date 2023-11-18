@@ -26,8 +26,13 @@ const songSchema = new mongoose.Schema(
     songCategory: { type: String, required: true },
     // 곡의 템포
     songTempo: { type: String, required: true },
+    // 곡에 달린 좋아요 (유저 참조)
+    songLiked: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+      default: [],
+    },
     // 곡에 달린 좋아요 수
-    songLiked: { type: Number, default: 0, required: true },
+    songLikedCount: { type: Number, default: 0 },
   },
   {
     versionKey: false,
