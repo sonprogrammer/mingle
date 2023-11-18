@@ -32,7 +32,9 @@ async function uploadSong({ userId, songInfo, audio, songImage }) {
 
 // songId로 해당하는 곡 찾기
 async function getSongInfo(songId) {
-  const findSong = await Song.findById(songId).populate("songUploader");
+  const findSong = await Song.findById(songId)
+    .populate("songUploader")
+    .populate("songLiked");
 
   return findSong;
 }
