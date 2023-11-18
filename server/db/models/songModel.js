@@ -31,6 +31,8 @@ const songSchema = new mongoose.Schema(
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
       default: [],
     },
+    // 곡에 달린 좋아요 수
+    songLikedCount: { type: Number, default: 0 },
   },
   {
     versionKey: false,
