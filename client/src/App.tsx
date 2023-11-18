@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
-  LandingPage,
+  LoginPage,
   FeedPage,
   ChartPage,
   PlaylistPage,
@@ -16,7 +16,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LayoutPage />}>
-            <Route path="/" element={<LandingPage />}></Route>
+            <Route path="/" element={<LoginPage />}></Route>
             <Route path="/feed" element={<FeedPage />}></Route>
             <Route path="/chart" element={<ChartPage />}></Route>
             <Route path="/playlist" element={<PlaylistPage />}></Route>
