@@ -7,7 +7,6 @@ import {
   PostCount,
   Follower,
   Following,
-  UserImageContainer,
   UserSubInfo,
   Divider,
 } from './styles'

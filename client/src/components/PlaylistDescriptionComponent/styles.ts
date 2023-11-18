@@ -2,7 +2,7 @@ import tw, {styled} from "twin.macro";
 
 export const PlayDescriptBox = styled.div`
     ${tw`
-        pt-16
+        pt-24
         ml-10
         pb-16
 
@@ -11,7 +11,7 @@ export const PlayDescriptBox = styled.div`
 export const PlaylistTitle = styled.div`
     ${tw`
         text-4xl
-        font-semibold
+        font-bold
     `}
 `
 export const PlaylistDescript = styled.div`

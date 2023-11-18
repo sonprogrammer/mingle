@@ -1,6 +1,6 @@
 const Song = require("../../db/models/songModel");
 const User = require("../../db/models/userModel");
-const mongoose = require("mongoose");
+const path = require("path");
 
 async function uploadSong({ userId, songInfo, audio, songImage }) {
   // 클라이언트로부터 body로 받아야 할 곡의 정보 (음원, 이미지 제외)
@@ -11,16 +11,20 @@ async function uploadSong({ userId, songInfo, audio, songImage }) {
   const createSong = await Song.create({
     songName,
     songDescription,
-    songArtist: null,
     songUploader: userId,
     songDuration,
     songCategory,
     songTempo,
     songImageName: songImage[0].filename,
-    songImageLocation: songImage[0].path,
+    songImageLocation: path.join(
+      __dirname,
+      `../../upload/songImg/${songImage[0].filename}`
+    ),
     audioName: audio[0].filename,
-    audioLocation: audio[0].path,
-    songLiked: 0,
+    audioLocation: path.join(
+      __dirname,
+      `../../upload/audio/${audio[0].filename}`
+    ),
   });
 
   return createSong;
@@ -50,9 +54,15 @@ async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
       songCategory,
       songTempo,
       songImageName: songImage[0].filename,
-      songImageLocation: songImage[0].path,
+      songImageLocation: path.join(
+        __dirname,
+        `../../upload/songImg/${songImage[0].filename}`
+      ),
       audioName: audio[0].filename,
-      audioLocation: audio[0].path,
+      audioLocation: path.join(
+        __dirname,
+        `../../upload/audio/${audio[0].filename}`
+      ),
     },
     // 업데이트된 문서를 반환하는 옵션
     { new: true }
@@ -71,37 +81,34 @@ async function deleteSong(songId, userId) {
 }
 
 // 곡 좋아요 누르기 DB에 반영
-async function pushLike(songId, userId) {
-  const currentUser = await User.findById(userId);
-  if (currentUser.likeSong.includes(songId)) return "conflict";
+async function toggleLike(songId, userId) {
+  // 1. songId에 해당하는 유저를 찾아서 그 document의 songLiked 필드에 현재 로그인한 user의 objectId가 있는지를 확인
+  // 2. 만약 존재한다면 좋아요를 취소해야 하므로 해당 song의 songLiked 필드에 있는 userId를 삭제하기 + user의 likeSong에서도 songId 삭제하기
+  // 3. 만약 존재하지 않는다면 좋아요를 눌러야 하므로 해당 song의 songLiked 필드에 userId를 추가하기 + user의 likeSong에서도 songId 추가하기
+  const findSong = await Song.findById(songId);
 
-  // User document에서 좋아요한 음악 목록에 해당 songId 추가
-  await User.findByIdAndUpdate(userId, {
-    $push: { likeSong: songId },
-  });
+  if (!findSong) return { likeUpdatedSong: null, message: "not-found" };
 
-  // Song document에서 좋아요 수 1 증가
-  await Song.findByIdAndUpdate(
-    songId,
-    { $inc: { songLiked: 1 } } // $inc 연산자를 사용하여 likeCount 필드를 1 증가
-  );
-}
+  const findUser = await User.findById(userId);
 
-// 곡 좋아요 취소 DB에 반영
-async function cancelLike(songId, userId) {
-  const currentUser = await User.findById(userId);
-  if (!currentUser.likeSong.includes(songId)) return "conflict";
+  let likeUpdatedSong = null;
+  let message = "";
 
-  // User document에서 좋아요한 음악 목록에 해당 songId 삭제
-  await User.findByIdAndUpdate(userId, {
-    $pull: { likeSong: songId },
-  });
+  if (!findSong.songLiked.includes(userId)) {
+    findSong.songLiked.push(userId);
+    likeUpdatedSong = await findSong.save();
+    findUser.likeSong.push(songId);
+    await findUser.save();
+    message = "곡 좋아요에 성공하였습니다.";
+  } else {
+    findSong.songLiked.splice(findSong.songLiked.indexOf(userId), 1);
+    likeUpdatedSong = await findSong.save();
+    findUser.likeSong.splice(findUser.likeSong.indexOf(songId), 1);
+    await findUser.save();
+    message = "곡 좋아요 취소에 성공하였습니다.";
+  }
 
-  // Song document에서 좋아요 수 1 감소
-  await Song.findByIdAndUpdate(
-    songId,
-    { $inc: { songLiked: -1 } } // $inc 연산자를 사용하여 likeCount 필드를 1 증가
-  );
+  return { likeUpdatedSong, message };
 }
 
 module.exports = {
@@ -109,6 +116,5 @@ module.exports = {
   getSongInfo,
   modifySongInfo,
   deleteSong,
-  pushLike,
-  cancelLike,
+  toggleLike,
 };
