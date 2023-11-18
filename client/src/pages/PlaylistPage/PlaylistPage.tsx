@@ -7,6 +7,7 @@ import {
   SearchComponent,
   SideBarComponent,
   PlaylistDescriptionComponent,
+  PlaylistCommentComponent,
 } from "../../components";
 import { Content, Divider } from "./styles";
 
@@ -54,6 +55,8 @@ export default function PlaylistPage() {
             "들으면 즐거워요 오늘도 행복한 하루 보내셨으면 좋겠습니다~~"
           }
         />
+        <Divider />
+        <PlaylistCommentComponent userImage={"./img/User-Icon.png"} userName={"떼깔룩"} userComment={"덕분에 오늘 하루가 즐거워졌습니다!"} currentUser={"떼깔룩"}/>
       </ContentWrapper>
       <PlaybarComponent />
     </>
