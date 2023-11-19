@@ -48,7 +48,9 @@ router.get(
       const userLikedSongs = await songService.getUserLikedSongs(userId);
       res.status(200).json(userLikedSongs);
     } catch (error) {
-      next({ code: 500, message: "비밀번호 재설정 중 오류가 발생하였습니다." });
+      res
+        .status(500)
+        .json({ message: "곡을 가져오는 중 오류가 발생하였습니다." });
     }
   }
 );
