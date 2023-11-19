@@ -18,7 +18,7 @@ router.post(
     { name: "songDescription" },
     { name: "songDuration" },
     { name: "songCategory" },
-    { name: "songTempo" },
+    { name: "songMood" },
   ]),
   async (req, res) => {
     try {
@@ -72,7 +72,7 @@ router.put(
     { name: "songDescription" },
     { name: "songDuration" },
     { name: "songCategory" },
-    { name: "songTempo" },
+    { name: "songMood" },
   ]),
   async (req, res) => {
     try {
@@ -89,6 +89,11 @@ router.put(
         songImage,
       });
 
+      if (modifiedSong === "not-found")
+        return res
+          .status(404)
+          .json({ message: "해당 곡은 존재하지 않습니다." });
+
       if (modifiedSong === "forbidden")
         return res.status(403).json({
           message: "회원님이 업로드하지 않은 곡은 수정이 불가능합니다.",
@@ -96,6 +101,7 @@ router.put(
 
       return res.status(200).json({ modifiedSong });
     } catch (error) {
+      console.log(error);
       return res
         .status(500)
         .json({ message: "곡 수정 중 에러가 발생하였습니다." + error });
@@ -115,6 +121,11 @@ router.delete(
 
       // 곡 삭제
       const deleteSong = await songService.deleteSong(songId, userId);
+
+      if (deleteSong === "not-found")
+        return res
+          .status(404)
+          .json({ message: "해당 곡은 존재하지 않습니다." });
 
       if (deleteSong === "forbidden")
         return res.status(403).json({
