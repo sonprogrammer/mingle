@@ -87,7 +87,7 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
     if (dropdownContent === '마이페이지') {
       navigate('/mypage');
     } else if (dropdownContent === '회원정보 수정') {
-      navigate('#');
+      navigate('/edit');
     } else if (dropdownContent === '로그아웃') {
       navigate('/')
     }
