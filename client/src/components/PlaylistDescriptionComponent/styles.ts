@@ -39,6 +39,7 @@ export const StyledFollow = styled.div`
   ${tw`
   flex items-center	justify-center rounded-full w-24 px-2 cursor-pointer
   ml-10 h-12 mt-4 
+  font-semibold
   `}
   background-color: #ffffff;
   color: #7f7f7f;
@@ -72,27 +73,33 @@ export const StyledHeart = styled.div`
 export const StyledTitle = styled.div`
   ${tw`
       flex
-  text-4xl
+  text-2xl
   font-bold
   bg-[#cdcdcdcd]
   p-6
   rounded-2xl
   whitespace-nowrap
+  h-80
     `}
-    svg{
-      ${tw`
-        w-4
-        ml-auto
-      `}
-    }
 `
 
-export const StyledOverTitle = styled.div`
-  whitespace: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  // maxheight: '3em';
-  // lineheight: '1.5rem';
+export const StyledButton = styled.div`
+    ${tw`
+      cursor-pointer
+      ml-2
+      text-[#9b59b6]
+    `}
+`
+
+export const StyledOverTitle = styled.div<{isExpand: boolean}>`
+  ${tw`
+    whitespace-nowrap
+    overflow-hidden
+    overflow-ellipsis
+    flex-grow
+  `}
+  ${({ isExpand}) => isExpand && tw` whitespace-normal`}
+  line-height:2rem;
 `
 
 export const StyledDescript = styled.div`
