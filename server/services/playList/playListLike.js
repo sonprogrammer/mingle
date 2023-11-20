@@ -9,7 +9,6 @@ const userSchema = require("../../db/models/userModel");
  */
 async function togglePlayListLike(playlistId, userId) {
 	try {
-        
 		const playlist = await playListSchema.findById(playlistId);
 		if (!playlist) {
 			return [false, { message: "플레이리스트를 찾을 수 없습니다." }];
@@ -25,7 +24,6 @@ async function togglePlayListLike(playlistId, userId) {
 		await playlist.save();
 
 		const user = await userSchema.findById(userId);
-console.log(user);
 		if (!user) {
 			return [false, { message: "유저를 찾을 수 없습니다." }];
 		}
@@ -45,4 +43,25 @@ console.log(user);
 	}
 }
 
-module.exports = { togglePlayListLike };
+
+async function handlePlaylistLike(req, res, next) {
+	try {
+	  const playlistId = req.params.playlistId;
+	  const userId = req.user.userId;
+	  const playlistObjectId = new mongoose.Types.ObjectId(playlistId);
+	  const [success, result] = await togglePlayListLike(
+		playlistObjectId,
+		userId
+	  );
+	  
+	  if (success) {
+		res.json(result);
+	  } else {
+		res.status(500).json(result);
+	  }
+	} catch (error) {
+	  console.log(error);
+	  next({ code: 500 });
+	}
+  }
+module.exports = { togglePlayListLike ,handlePlaylistLike};

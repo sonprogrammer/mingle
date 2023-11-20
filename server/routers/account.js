@@ -21,7 +21,6 @@ router.get(
       const data = await search.UserSearch("userEmail", req.user.userEmail);
       res.status(200).json(data);
     } catch (error) {
-      console.log(error);
       next({ code: 500 });
     }
   }
@@ -43,7 +42,6 @@ router.post("/", userCreateValidation, async (req, res, next) => {
       res.status(400).json(message);
     }
   } catch (error) {
-    console.log(error);
     next({ code: 500 });
   }
 });
@@ -60,8 +58,6 @@ router.delete(
   async (req, res, next) => {
     try {
       const data = await search.UserSearch("userEmail", req.user.userEmail); //JWT토큰으로 유저 이메일을 받아옴
-      console.log(req.user.userEmail);
-      console.log(data);
       const [bool, { message }] = await accountDelete.UserDelete(
         data.userEmail
       );
@@ -71,7 +67,6 @@ router.delete(
         res.status(400).json({ message }); // Registration failed
       }
     } catch (error) {
-      console.log(error);
       next({ code: 500 });
     }
   }
@@ -103,7 +98,6 @@ router.put(
         res.status(400).json({ message }); // Registration failed
       }
     } catch (error) {
-      console.log(error);
       next({ code: 500 });
     }
   }
@@ -125,7 +119,6 @@ router.post(
       res.status(200).json(req.user); // 로그인 성공 시 사용자 ID와 함께 응답
       console.log("로그인 성공!");
     } catch (error) {
-      console.log(error);
       next({ code: 500 });
     }
   }
@@ -138,15 +131,14 @@ router.get("/check-email", async (req, res, next) => {
 
   try {
     // 이메일이 이미 DB에 존재하는지 확인
-    const isEmailExsist = await search.EmailExsist(email);
+    const isEmailExist = await search.EmailExist(email);
 
-    if (!isEmailExsist) {
+    if (!isEmailExist) {
       res.status(200).json({ message: "사용 가능한 이메일입니다." });
     } else {
       res.status(400).json({ message: "이미 존재하는 사용자입니다." });
     }
   } catch (error) {
-    console.log(error);
     next({ code: 500 });
   }
 });
@@ -156,8 +148,8 @@ router.post("/reset-password", async (req, res, next) => {
   const { userNickname, userEmail } = req.body;
 
   try {
-    const isUserExsist = await search.UserExsist(userNickname, userEmail);
-    if (isUserExsist) {
+    const isUserExist = await search.UserExist(userNickname, userEmail);
+    if (isUserExist) {
       await resetPassword.reset(userEmail);
       res
         .status(200)
@@ -166,7 +158,6 @@ router.post("/reset-password", async (req, res, next) => {
       res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
     }
   } catch (error) {
-    console.log(error);
     next({ code: 500, message: "비밀번호 재설정 중 오류가 발생하였습니다." });
   }
 });

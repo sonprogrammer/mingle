@@ -169,23 +169,7 @@ router.delete(
 router.post(
 	"/:playlistId/like",
 	passport.authenticate("jwt-user", { session: false }),
-	async (req, res, next) => {
-	  try {
-		const playlistId = req.params.playlistId;
-		const userId = req.user.userId; 
-		const playlistObjectId = new mongoose.Types.ObjectId(playlistId);
-		const [success, result] = await togglePlayListLike.togglePlayListLike(playlistObjectId, userId); 
-		if (success) {
-		  res.json(result);
-		} else {
-		  res.status(500).json(result);
-		}
-	  } catch (error) {
-		console.log(error);
-		next({ code: 500 });
-	  }
-	}
-  );
-  
+	togglePlayListLike.handlePlaylistLike
+);
 
 module.exports = router;
