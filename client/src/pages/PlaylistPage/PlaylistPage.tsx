@@ -45,7 +45,7 @@ export default function PlaylistPage() {
       <PlaylistDescriptionComponent
         title={"기분좋을때 듣는 노래 여러분도 함께 즐겨요. 행복하세요~~dsafdsafdsafdsafdsafdsafasdfdsafdasfdsafdsafdsa apple fsda apple fsad apple fsdaf apple sdafsdafasdfsadfdsafasdfads"}
         description={
-          "들으면 즐거워요 오늘도 행복한 하루 보내셨으면 좋겠습니다~~"
+          "들으면 즐거워요 오늘도 행복한 하루 보냈으면  좋겠습니다~~"
         }
         userImg={"/img/User-Icon.png"}
         userName={"떼껄룩"}
