@@ -100,13 +100,3 @@ export const StyledOverTitle = styled.div<{isExpand: boolean}>`
   line-height:2rem;
   overflow-wrap: break-word
 `
-
-export const StyledDescript = styled.div`
-  ${tw`
-        text-2xl
-        mt-8
-        bg-[#cdcdcdcd]
-        p-6
-        rounded-2xl
-    `}
-`

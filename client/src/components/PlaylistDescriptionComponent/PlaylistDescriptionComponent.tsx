@@ -17,7 +17,6 @@ import {
 } from './styles'
 
 interface PlayDescript {
-  title: string
   description: string
 
 }
@@ -30,7 +29,6 @@ interface User {
 
 interface PlayDescriptAndUser extends User, PlayDescript {}
 export default function PlaylistDescriptionComponent({
-  title,
   description,
   userImg,
   userName,
@@ -48,7 +46,7 @@ export default function PlaylistDescriptionComponent({
     setIsExpand(!isExpand)
   }
 
-  const OverTitle = isExpand ? title : title.slice(0, 20) + '...';
+  const OverDescription = isExpand ? description : description.slice(0, 20) + '...';
   return (
     <>
       <StyledDescriptBox>
@@ -86,8 +84,8 @@ export default function PlaylistDescriptionComponent({
         </StyledTop>
 
         <StyledTitle>
-        <StyledOverTitle isExpand={isExpand}>{OverTitle}</StyledOverTitle>
-        {title.length > 20  && (
+        <StyledOverTitle isExpand={isExpand}>{OverDescription}</StyledOverTitle>
+        {description.length > 20  && (
           <>
           <br />
           <StyledButton onClick={handleExpandClick}>{isExpand ? '접기' : '더보기'}</StyledButton>
@@ -95,8 +93,6 @@ export default function PlaylistDescriptionComponent({
         )}
       </StyledTitle>
 
-    
-        <StyledDescript>{description}</StyledDescript>
       </StyledDescriptBox>
     </>
   )
