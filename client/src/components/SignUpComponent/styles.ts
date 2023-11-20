@@ -67,4 +67,5 @@ export const StyledChoiceButton = styled.button`
 export const StyledSelectedGenre = styled.div`
   ${tw`w-full p-2 mb-4 text-lg border rounded-md border-gray-300 focus:border-purple-600 focus:outline-none`}
   background-color: #F2F2F2;
+  font-size: 14px;
 `;
