@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   ContainerStyle,
   GenreButtonStyle,
@@ -7,7 +7,7 @@ import {
   GridStyle,
   ButtonStyle,
   ButtonContainerStyle,
-} from "./styles";
+} from './styles';
 
 interface GenreModalProps {
   isOpen: boolean;
@@ -15,11 +15,11 @@ interface GenreModalProps {
 }
 
 const genres = [
-  { id: 1, name: "발라드", image: "../../../public/img/Ballad.png" },
-  { id: 2, name: "록", image: "../../../public/img/Rock.png" },
-  { id: 3, name: "댄스", image: "../../../public/img/Dance.png" },
-  { id: 4, name: "클래식", image: "../../../public/img/Classic.png" },
-  { id: 5, name: "힙합", image: "../../../public/img/Hip-Hop.png" },
+  { id: 1, name: '발라드', image: '../../../public/img/Ballad.png' },
+  { id: 2, name: '록', image: '../../../public/img/Rock.png' },
+  { id: 3, name: '댄스', image: '../../../public/img/Dance.png' },
+  { id: 4, name: '클래식', image: '../../../public/img/Classic.png' },
+  { id: 5, name: '힙합', image: '../../../public/img/Hip-Hop.png' },
 ];
 
 export default function RecommendGenreComponent({
@@ -50,7 +50,7 @@ export default function RecommendGenreComponent({
               key={genre.id}
               onClick={() => handleGenreClick(genre.name)}
               className={
-                selectedGenres.includes(genre.name) ? "bg-blue-200" : ""
+                selectedGenres.includes(genre.name) ? 'bg-purple-200' : ''
               }
             >
               <img src={genre.image} alt={genre.name} />
