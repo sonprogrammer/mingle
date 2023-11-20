@@ -1,5 +1,6 @@
 const playListSchema = require("../../db/models/playListModel");
-
+const fs = require("fs");
+const path = require("path");
 /**
  * 플레이리스트 정보를 수정하는 함수
  * @param {string} playlistId - 수정할 플레이리스트의 ID (objectId)
@@ -9,6 +10,12 @@ const playListSchema = require("../../db/models/playListModel");
 async function playListUpdate(playlistId, jsonValue) {
   try {
     // 주어진 ID에 해당하는 정보를 수정한다
+    if (jsonValue.playListImg) {
+      const decodedImage = Buffer.from(jsonValue.playListImg, 'base64');
+      const imagePath = path.join(__dirname, `../../upload/playListCover/${jsonValue.playListTitle}.png`);
+      fs.writeFileSync(imagePath, decodedImage);
+      jsonValue.userImage = imagePath;
+    }
     const data = await playListSchema.findOneAndUpdate(
         { _id: playlistId },
         jsonValue

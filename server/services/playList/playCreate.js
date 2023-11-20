@@ -1,4 +1,6 @@
 const playListSchema = require("../../db/models/playListModel");
+const fs = require("fs"); 
+const path = require("path");
 
 /**
  * 플레이리스트 생성 함수
@@ -10,7 +12,12 @@ async function playListCreate(jsonValue, userId) {
   try {
     // 플레이리스트 데이터에 userId 추가
     jsonValue.playListOwner = userId.toString();
-
+    if (jsonValue.playListImg) {
+      const decodedImage = Buffer.from(jsonValue.playListImg, 'base64');
+      const imagePath = path.join(__dirname, `../../upload/playListCover/${jsonValue.playListTitle}.png`);
+      fs.writeFileSync(imagePath, decodedImage);
+      jsonValue.userImage = imagePath;
+    }
     // 플레이리스트 데이터를 생성하여 저장한다
     const data = await playListSchema(jsonValue).save();
 
