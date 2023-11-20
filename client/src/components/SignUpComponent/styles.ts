@@ -7,6 +7,13 @@ export const StyleSignUpContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #e0e0e0;
+  overflow-y: auto;
+  max-height: 100vh;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 export const StyleServiceName = styled.div`
@@ -55,4 +62,10 @@ export const StyledTextButton = styled.div`
 
 export const StyledChoiceButton = styled.button`
   ${tw`py-1 px-2  text-gray-500 rounded-full hover:bg-gray-300`}
+`;
+
+export const StyledSelectedGenre = styled.div`
+  ${tw`w-full p-2 mb-4 text-lg border rounded-md border-gray-300 focus:border-purple-600 focus:outline-none`}
+  background-color: #F2F2F2;
+  font-size: 14px;
 `;

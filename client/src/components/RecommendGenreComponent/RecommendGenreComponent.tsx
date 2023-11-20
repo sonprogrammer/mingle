@@ -12,6 +12,7 @@ import {
 interface GenreModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSelect: (genre: string) => void;
 }
 
 const genres = [
@@ -25,6 +26,7 @@ const genres = [
 export default function RecommendGenreComponent({
   isOpen,
   onClose,
+  onSelect,
 }: GenreModalProps) {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
@@ -48,11 +50,11 @@ export default function RecommendGenreComponent({
   }, [isOpen, onClose, modalRef]);
   const handleGenreClick = (genre: string) => {
     setSelectedGenres((prev: string[]) => {
-      if (prev.includes(genre)) {
-        return prev.filter((g: string) => g !== genre);
-      } else {
-        return [...prev, genre];
-      }
+      const newGenres = prev.includes(genre)
+        ? prev.filter((g: string) => g !== genre)
+        : [...prev, genre];
+      onSelect(newGenres.join(', ')); // 여러 장르를 선택할 경우 고려
+      return newGenres;
     });
   };
 
