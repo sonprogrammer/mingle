@@ -19,6 +19,7 @@ async function UserSearch(keyType, keyValue) {
     userData.userDescription = data.userDescription;
     userData.userPreference = data.userPreference;
     userData.userImage = data.userImage;
+    userData.userLikePlayList = data.likePlayList;
   });
   return userData;
 }

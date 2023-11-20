@@ -10,6 +10,7 @@ const search = require("../utils/commons/search");
 const router = express.Router();
 const passport = require("passport");
 const playListSchema = require("../db/models/playListModel");
+const createError = require("http-errors");
 
 // playlist 생성
 router.post(
@@ -150,8 +151,10 @@ router.delete(
 		try {
 			const playlistId = req.params.playlistId;
 			const songId = req.params.songId;
-			const [success, result] =
-				await playListDeleteSong.playListDeleteSong(playlistId, songId);
+			const [success, result] = await playListDeleteSong.playListDeleteSong(
+				playlistId,
+				songId
+			);
 			res.json(result); // 무조건 응답을 보냅니다.
 		} catch (error) {
 			next(createError(500));

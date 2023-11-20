@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   LoginPage,
   FeedPage,
@@ -9,13 +9,17 @@ import {
   UploadModalTestPage,
   Mypage,
   LayoutPage,
+  SignUpPage,
   MyPlaylistPage,
-} from './pages';
+  EditProfilePage,
+} from "./pages";
+
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/signup" element={<SignUpPage />}></Route>
           <Route path="/" element={<LayoutPage />}>
             <Route path="/" element={<FeedPage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
@@ -27,6 +31,7 @@ function App() {
               element={<RecommendPlaylistPage />}
             ></Route>
             <Route path="/mypage" element={<Mypage />}></Route>
+            <Route path="/edit" element={<EditProfilePage />}></Route>
           </Route>
           <Route path="/upload" element={<UploadModalTestPage />}></Route>
         </Routes>

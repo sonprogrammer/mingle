@@ -1,21 +1,16 @@
 import React from "react";
-import { PlaylistCardProps } from "../../types/PlaylistCardProps";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faComment } from "@fortawesome/free-regular-svg-icons";
-import {
-  PlaylistCardContainer,
-  ProfileSection,
-  ProfileInfo,
-  ProfileImage,
-  ProfileName,
-  AlbumImage,
-  ContentSection,
-  Title,
-  HashtagList,
-  Hashtag,
-  SocialInfo,
-  LikesText,
-} from "./styles";
+import * as Styled from "./styles";
+
+interface PlaylistCardProps {
+  profileIcon: string;
+  profileName: string;
+  albumCover: string;
+  title: string;
+  hashtags: string[];
+  likes: number;
+}
 
 export default function PlaylistCardComponent({
   profileIcon,
@@ -26,21 +21,21 @@ export default function PlaylistCardComponent({
   likes,
 }: PlaylistCardProps) {
   return (
-    <PlaylistCardContainer>
-      <ProfileSection>
-        <ProfileInfo>
-          <ProfileImage src={profileIcon} alt="Profile" />
-          <ProfileName>{profileName}</ProfileName>
-        </ProfileInfo>
-        <AlbumImage src={albumCover} alt="Album Cover" />
-      </ProfileSection>
-      <ContentSection>
-        <Title>{title}</Title>
-        <HashtagList>
+    <Styled.PlaylistCardContainer>
+      <Styled.ProfileSection>
+        <Styled.ProfileInfo>
+          <Styled.ProfileImage src={profileIcon} alt="Profile" />
+          <Styled.ProfileName>{profileName}</Styled.ProfileName>
+        </Styled.ProfileInfo>
+        <Styled.AlbumImage src={albumCover} alt="Album Cover" />
+      </Styled.ProfileSection>
+      <Styled.ContentSection>
+        <Styled.Title>{title}</Styled.Title>
+        <Styled.HashtagList>
           {hashtags.map((tag, index) => (
-            <Hashtag key={index}>#{tag}</Hashtag>
+            <Styled.Hashtag key={index}>#{tag}</Styled.Hashtag>
           ))}
-        </HashtagList>
+        </Styled.HashtagList>
         <FontAwesomeIcon
           icon={faHeart}
           className="text-purple-500 text-3xl mr-4"
@@ -49,10 +44,10 @@ export default function PlaylistCardComponent({
           icon={faComment}
           className="text-purple-500 text-3xl"
         />
-        <SocialInfo>
-          <LikesText>좋아요: {likes}개</LikesText>
-        </SocialInfo>
-      </ContentSection>
-    </PlaylistCardContainer>
+        <Styled.SocialInfo>
+          <Styled.LikesText>좋아요: {likes}개</Styled.LikesText>
+        </Styled.SocialInfo>
+      </Styled.ContentSection>
+    </Styled.PlaylistCardContainer>
   );
 }

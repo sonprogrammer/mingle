@@ -43,10 +43,13 @@ export default function PlaylistPage() {
       </Content>
       <Divider />
       <PlaylistDescriptionComponent
-        name={"기분좋을때 듣는 노래"}
+        title={"기분좋을때 듣는 노래fdsafdsafadsfdasfasddㄹㅇㄹㅇㄴㅁㄹㅇㅁㄴfsafadsㄹㅇㄴㄹㅇㄴㅁㄹㅇㄴㅁㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇ"}
         description={
           "들으면 즐거워요 오늘도 행복한 하루 보내셨으면 좋겠습니다~~"
         }
+        userImg={"/img/User-Icon.png"}
+        userName={"떼껄룩"}
+        liked={777}
       />
       <Divider />
       <PlaylistCommentComponent

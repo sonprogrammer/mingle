@@ -5,6 +5,7 @@ const accountDelete = require("../services/account/delete");
 const accountEdit = require("../services/account/update");
 const search = require("../utils/commons/search");
 const passport = require("passport");
+const PlayList = require("../db/models/playListModel");
 const router = express.Router();
 const {
   userCreateValidation,
@@ -132,6 +133,19 @@ router.post("/reset-password", async (req, res, next) => {
       .json({ message: `${userEmail}로 임시 비밀번호가 발급되었습니다.` });
   } catch (error) {
     next(error);
+  }
+});
+
+router.get("/my-like-playlist", async (req, res, next) => {
+  try {
+    const userId = req.user;
+    const user = await search.UserSearch("UserId", userId);
+    console.log(user);
+    const playlists = await PlayList.find({ _id: user.userLikePlayList });
+    res.status(200).json(playlists);
+  } catch (error) {
+    console.error(error);
+    next(createError(500));
   }
 });
 
