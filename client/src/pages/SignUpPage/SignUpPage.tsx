@@ -1,11 +1,10 @@
 import React from "react";
-import { SignUpComponent } from "../../components";
+import { SignUpComponent } from "../../components/SignUpComponent";
 
 export default function SignUpPage() {
   return (
     <>
       <SignUpComponent
-        initialUserId={""}
         initialUserPassword={""}
         initialVerifyPassword={""}
         initialUserEmail={""}

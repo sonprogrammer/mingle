@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  PlaylistCardContainer,
-  ProfileSection,
-  AlbumImage,
-  ContentSection,
-  Title,
-  LikesText,
-  SocialInfo,
-} from "./styles";
+import * as Styled from "./styles";
 
 interface RecommendPlaylistProps {
   albumCover: string;
@@ -22,16 +14,16 @@ export default function RecommendPlaylistComponent({
   likes,
 }: RecommendPlaylistProps) {
   return (
-    <PlaylistCardContainer>
-      <ProfileSection>
-        <AlbumImage src={albumCover} alt="Album Cover" />
-      </ProfileSection>
-      <ContentSection>
-        <Title>{title}</Title>
-        <SocialInfo>
-          <LikesText>좋아요: {likes}개</LikesText>
-        </SocialInfo>
-      </ContentSection>
-    </PlaylistCardContainer>
+    <Styled.PlaylistCardContainer>
+      <Styled.ProfileSection>
+        <Styled.AlbumImage src={albumCover} alt="Album Cover" />
+      </Styled.ProfileSection>
+      <Styled.ContentSection>
+        <Styled.Title>{title}</Styled.Title>
+        <Styled.SocialInfo>
+          <Styled.LikesText>좋아요: {likes}개</Styled.LikesText>
+        </Styled.SocialInfo>
+      </Styled.ContentSection>
+    </Styled.PlaylistCardContainer>
   );
 }

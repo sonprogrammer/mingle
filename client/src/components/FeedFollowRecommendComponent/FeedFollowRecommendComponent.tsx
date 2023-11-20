@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  FeedFollowRecommendContainer,
-  ProfileImage,
-  ProfileName,
-  PreviewImagesContainer,
-  PreviewImage,
-  FollowButton,
-  RecommendText,
-} from "./styles";
+import * as Styled from "./styles";
 interface FeedFollowRecommendProps {
   profileName: string;
   profilePicture: string;
@@ -24,20 +16,20 @@ export default function FeedFollowRecommendComponent({
   feedRecommendText,
 }: FeedFollowRecommendProps) {
   return (
-    <FeedFollowRecommendContainer>
-      <ProfileImage src={profilePicture} alt={profileName} />
-      <ProfileName>{profileName}</ProfileName>
-      <PreviewImagesContainer>
+    <Styled.FeedFollowRecommendContainer>
+      <Styled.ProfileImage src={profilePicture} alt={profileName} />
+      <Styled.ProfileName>{profileName}</Styled.ProfileName>
+      <Styled.PreviewImagesContainer>
         {pictures.map((picture, index) => (
-          <PreviewImage
+          <Styled.PreviewImage
             key={index}
             src={picture}
             alt={`Preview ${index + 1}`}
           />
         ))}
-      </PreviewImagesContainer>
-      <RecommendText>{feedRecommendText}</RecommendText>
-      <FollowButton>{actionText}</FollowButton>
-    </FeedFollowRecommendContainer>
+      </Styled.PreviewImagesContainer>
+      <Styled.RecommendText>{feedRecommendText}</Styled.RecommendText>
+      <Styled.FollowButton>{actionText}</Styled.FollowButton>
+    </Styled.FeedFollowRecommendContainer>
   );
 }

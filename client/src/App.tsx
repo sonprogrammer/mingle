@@ -9,12 +9,14 @@ import {
   UploadModalTestPage,
   Mypage,
   LayoutPage,
+  SignUpPage,
 } from "./pages";
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/signup" element={<SignUpPage />}></Route>
           <Route path="/" element={<LayoutPage />}>
             <Route path="/" element={<LoginPage />}></Route>
             <Route path="/feed" element={<FeedPage />}></Route>

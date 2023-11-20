@@ -1,20 +1,6 @@
 // UploadModalComponent.tsx
 import React, { useState } from "react";
-import {
-  ContainerStyle,
-  ButtonStyle,
-  InputStyle,
-  FileInputContainerStyle,
-  FileInputButtonStyle,
-  FileListStyle,
-  CoverUploadStyle,
-  FormSectionStyle,
-  FormInputContainerStyle,
-  FormLabelStyle,
-  SelectStyle,
-  // tagInputContainerStyle,
-  // tagInputStyle,
-} from "./styles";
+import * as Styled from "./styles";
 
 interface UploadModalProps {
   albumCover: string;
@@ -57,32 +43,31 @@ UploadModalProps) {
   };
 
   return (
-    <div css={ContainerStyle}>
-      <div css={FileInputContainerStyle}>
+    <Styled.ContainerStyle>
+      <Styled.FileInputContainerStyle>
         <p>Drag your songs here</p>
         <p>or</p>
-        <button css={FileInputButtonStyle}>SELECT FILES</button>
-      </div>
+        <Styled.FileInputButtonStyle>SELECT FILES</Styled.FileInputButtonStyle>
+      </Styled.FileInputContainerStyle>
 
-      <div css={FileListStyle}>
+      <Styled.FileListStyle>
         <p>Paris.mp3</p>
-      </div>
+      </Styled.FileListStyle>
 
-      <div css={CoverUploadStyle}>
+      <Styled.CoverUploadStyle>
         {albumCover ? (
           <img src={albumCover} alt="Album Cover" />
         ) : (
           <button>COVER UPLOAD</button>
         )}
-      </div>
+      </Styled.CoverUploadStyle>
 
-      <form onSubmit={handleSubmit} css={FormSectionStyle}>
-        <div css={FormInputContainerStyle}>
-          <label htmlFor="name" css={FormLabelStyle}>
+      <Styled.FormSectionStyle onSubmit={handleSubmit}>
+        <Styled.FormInputContainerStyle>
+          <Styled.FormLabelStyle htmlFor="name">
             음악 이름
-          </label>
-          <input
-            css={InputStyle}
+          </Styled.FormLabelStyle>
+          <Styled.InputStyle
             type="text"
             id="name"
             name="name"
@@ -90,13 +75,12 @@ UploadModalProps) {
             onChange={handleInputChange}
             placeholder="음악 이름을 적어주세요."
           />
-        </div>
-        <div css={FormInputContainerStyle}>
-          <label htmlFor="description" css={FormLabelStyle}>
+        </Styled.FormInputContainerStyle>
+        <Styled.FormInputContainerStyle>
+          <Styled.FormLabelStyle htmlFor="description">
             곡 소개
-          </label>
-          <input
-            css={InputStyle}
+          </Styled.FormLabelStyle>
+          <Styled.InputStyle
             type="text"
             id="description"
             name="description"
@@ -104,13 +88,12 @@ UploadModalProps) {
             onChange={handleInputChange}
             placeholder="소개를 적어주세요."
           />
-        </div>
-        <div css={FormInputContainerStyle}>
-          <label htmlFor="genre" css={FormLabelStyle}>
+        </Styled.FormInputContainerStyle>
+        <Styled.FormInputContainerStyle>
+          <Styled.FormLabelStyle htmlFor="genre">
             장르 선택
-          </label>
-          <select
-            css={SelectStyle}
+          </Styled.FormLabelStyle>
+          <Styled.SelectStyle
             id="genre"
             name="genre"
             value={song.genre}
@@ -122,8 +105,8 @@ UploadModalProps) {
             <option value="Dance">댄스</option>
             <option value="Classic">클래식</option>
             <option value="Hip-Hop">힙합</option>
-          </select>
-        </div>
+          </Styled.SelectStyle>
+        </Styled.FormInputContainerStyle>
         {/* <div css={tagInputContainerStyle}>
           <label htmlFor="tags" css={formLabelStyle}>
             Add tags
@@ -142,10 +125,8 @@ UploadModalProps) {
         </div> */}
         {/* 태그 기능을 일단 빼놓기는 했는데 나중에 완성하고 필요하면 주석 풀어서
         쓸 것 */}
-        <button css={ButtonStyle} type="submit">
-          등록하기
-        </button>
-      </form>
-    </div>
+        <Styled.ButtonStyle>등록하기</Styled.ButtonStyle>
+      </Styled.FormSectionStyle>
+    </Styled.ContainerStyle>
   );
 }

@@ -1,16 +1,18 @@
 import tw, { styled } from "twin.macro";
 
 export const StyleSignUpContainer = styled.div`
-  ${tw`flex flex-col items-center w-1/3 ml-auto mr-auto justify-center p-8 bg-white rounded`}
+  ${tw`flex flex-col items-center justify-center w-1/3 p-8 rounded`}
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #e0e0e0;
 `;
 
 export const StyleServiceName = styled.div`
-  ${tw`mb-4 text-center flex`}
+  ${tw`mb-4 text-center flex `}
   img {
-    ${tw`h-12 w-auto`}
-  }
-  p {
-    ${tw`text-2xl font-bold text-gray-800 self-center`}
+    ${tw`h-36 w-auto`}
   }
 `;
 
@@ -32,8 +34,25 @@ export const StyleButton = styled.button`
 
 export const StyleText = styled.p`
   ${tw`flex self-start`}
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 `;
 
 export const StyleWarningText = styled.p`
   ${tw`flex self-start text-red-500 font-bold -mt-4`};
+`;
+
+export const StyledTextWrapper = styled.div`
+  ${tw`flex gap-[10px] items-center`}
+  align-self:flex-start;
+`;
+
+export const StyledTextButton = styled.div`
+  ${tw`font-bold cursor-pointer`}
+  color: #9b59b6;
+`;
+
+export const StyledChoiceButton = styled.button`
+  ${tw`py-1 px-2  text-gray-500 rounded-full hover:bg-gray-300`}
 `;
