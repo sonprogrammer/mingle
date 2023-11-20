@@ -7,8 +7,7 @@ app.get("/api", function (req, res) {
 });
 
 // JSON 파싱 설정: 요청의 본문을 JSON 형식으로 파싱하여 사용할 수 있도록 함
-app.use(express.json());
-
+app.use(express.json({ limit: "50mb", extended: true, parameterLimit: 500000 }))
 // Passport 초기화: Passport 초기화를 수행하여 사용자 인증을 설정함
 const passport = require("passport"); // Passport 모듈
 const passportConfig = require("./utils/passport/index.js"); // Passport 설정 파일
