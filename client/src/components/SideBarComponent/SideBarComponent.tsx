@@ -1,94 +1,148 @@
-import React, { useState } from "react";
-// import { Heart, Chart, Mypage, Fire, User, Home, Recent, Dropdown } from './styles';
+import React, { useState } from 'react'
 import {
-  Nav,
-  Logo,
-  DivideLine,
-  ButtonsContainer,
-  ButtonWrapper,
-  Button,
-  DropdownButton,
-  //   ButtonIcon,
-  Dropeddown,
-  DropeddownContents,
-
-  //   Userlogo,
-} from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+  StyledNav,
+  StyledLogo,
+  StyledDivideLine,
+  StyledButtonsContainer,
+  StyledButtonWrapper,
+  StyledButton,
+  StyledDropeddown,
+  StyledDropeddownContents,
+  StyledLogoutModal
+} from './styles'
+import LogoutModal from './LogoutModal'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faHouse,
   faFire,
-  faDatabase,
   faChartSimple,
   faHeadphones,
   faHeart,
-  faEllipsis,
   faUser,
-} from "@fortawesome/free-solid-svg-icons";
+  faRightFromBracket,
+  faPen
+} from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom'
 
-export default function SideBarComponent() {
-  const [isDropdown, setIsDropdown] = useState(false);
+interface Item {
+  content: string
+  icon: React.ReactNode
+  dropdownItems?: Dropmenu[]
+}
 
-  // const Dropdownbtn = () => {
-  //   setIsDropdown(!isDropdown)
-  // }
+interface Dropmenu {
+  content: string
+  icon: React.ReactNode
+}
+interface UserIconProps {
+  userIcon: string;
+}
 
-  interface Item {
-    content: string;
-    icon: React.ReactNode;
-    dropdownItems?: string[];
+const data: Dropmenu[] = [
+  { content: '마이페이지', icon: <FontAwesomeIcon icon={faUser} /> },
+  { content: '회원정보 수정', icon: <FontAwesomeIcon icon={faPen} /> },
+  { content: '로그아웃', icon: <FontAwesomeIcon icon={faRightFromBracket} /> },
+]
+
+const items: Item[] = [
+  {
+    content: '내 정보',
+    icon: <FontAwesomeIcon icon={faUser} />,
+    dropdownItems: data,
+  },
+  { content: '피드', icon: <FontAwesomeIcon icon={faHouse} /> },
+  { content: '추천 플레이리스트', icon: <FontAwesomeIcon icon={faFire} /> },
+  { content: '차트', icon: <FontAwesomeIcon icon={faChartSimple} /> },
+  { content: '최신음악', icon: <FontAwesomeIcon icon={faHeadphones} /> },
+  { content: '좋아요한 음악', icon: <FontAwesomeIcon icon={faHeart} /> },
+]
+
+export default function SideBarComponent({ userIcon }: UserIconProps) {
+  const [accordion, setAccordion] = useState<string | null>(null)
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
+
+  const navigate = useNavigate()
+
+  const toggleAccordion = (itemContent: string) => {
+    setAccordion((prev) => (prev === itemContent ? null : itemContent))
   }
 
-  const data = ["로그아웃", "회원정보 수정"];
+  const handleDropClick = (buttonContent: string) => {
+    toggleAccordion(buttonContent)
+    if(buttonContent === '피드'){
+      navigate('/')
+    }else if(buttonContent === '내 정보'){
+      navigate('#')
+    }else if(buttonContent === '추천 플레이리스트'){
+      navigate('/recommendPlaylist')
+    }else if(buttonContent === '차트'){
+      navigate('/chart')
+    }else if(buttonContent === '최신음악'){
+      navigate('/chart')
+    }else if(buttonContent === '좋아요한 음악'){
+      navigate('/chart')
+    }
+  }
 
-  const items: Item[] = [
-    {
-      content: "내 정보",
-      icon: <FontAwesomeIcon icon={faUser} />, //logo는 아직  안넣어놈
-      stop: "son",
-    },
-    { content: "Feed", icon: <FontAwesomeIcon icon={faHouse} /> },
-    { content: "마이페이지", icon: <FontAwesomeIcon icon={faDatabase} /> },
-    { content: "추천 플레이리스트", icon: <FontAwesomeIcon icon={faFire} /> },
-    { content: "차트", icon: <FontAwesomeIcon icon={faChartSimple} /> },
-    { content: "최신음악", icon: <FontAwesomeIcon icon={faHeadphones} /> },
-    { content: "좋아요한 음악", icon: <FontAwesomeIcon icon={faHeart} /> },
-  ];
+  const handleDropdownItemClick = (dropdownContent: string) => {
+    if (dropdownContent === '마이페이지') {
+      navigate('/mypage');
+    } else if (dropdownContent === '회원정보 수정') {
+      navigate('/edit');
+    } else if (dropdownContent === '로그아웃') {
+      setShowLogoutModal(true)
+    }
+  };
+
+  const handleConfirmLogout = () =>{
+    navigate('/login')
+    setShowLogoutModal(false)
+  }
+  
+  const handleCancelLogout = () => {
+    setShowLogoutModal(false);
+  };
+
 
   return (
-    <Nav>
-      <DivideLine>
-        <Logo>
-          <img src="/img/Logo-Sidebar.png" />
-        </Logo>
-      </DivideLine>
+    <StyledNav>
+      <StyledDivideLine>
+        <StyledLogo>
+          <img src='/img/Logo-Sidebar.png' alt='Logo' />
+        </StyledLogo>
+      </StyledDivideLine>
 
-      <ButtonsContainer>
+      <StyledButtonsContainer>
         {items.map((item) => (
-          // <div key={idx} className=''>
-          <ButtonWrapper>
-            <Button onClick={() => console.log("메뉴 아이템 : ", item.content)}>
-              <span>{item.icon}</span>
+          <StyledButtonWrapper key={item.content}>
+            <StyledButton onClick={() => handleDropClick(item.content)}>
+              <span>{item.content === '내 정보' ? <img src={userIcon} /> : item.icon}</span>
               <span>{item.content}</span>
-              {item.stop && (
-                <DropdownButton onClick={() => setIsDropdown((prev) => !prev)}>
-                  <FontAwesomeIcon icon={faEllipsis} />
-                </DropdownButton>
-              )}
-              {isDropdown && item.stop && (
-                <Dropeddown>
-                  {data.map((item, i) => (
-                    <DropeddownContents key={i}>
-                      <h4>{item}</h4>
-                    </DropeddownContents>
-                  ))}
-                </Dropeddown>
-              )}
-            </Button>
-          </ButtonWrapper>
-          // </div>
+            </StyledButton>
+            {accordion === item.content && item.dropdownItems && (
+              <StyledDropeddown>
+                {item.dropdownItems.map((item, i) => (
+                  <StyledDropeddownContents
+                    key={i}
+                    content={item.content}
+                    onClick={() => handleDropdownItemClick(item.content)}>
+                    <span>{item.icon}</span>
+                    <span>{item.content}</span>
+                  </StyledDropeddownContents>
+                ))}
+              </StyledDropeddown>
+            )}
+          </StyledButtonWrapper>
         ))}
-      </ButtonsContainer>
-    </Nav>
-  );
+      </StyledButtonsContainer>
+      <StyledLogoutModal>
+        {showLogoutModal && (
+          <LogoutModal
+            onConfirm={handleConfirmLogout}
+            onCancel={handleCancelLogout}
+          />
+        )}
+      </StyledLogoutModal>
+    </StyledNav>
+  )
 }
