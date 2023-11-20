@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import * as Styled from "./styles";
-import LongButtonComponent from "../LongButtonComponent/LongButtonComponent";
-
+import * as Styled from './styles';
+import LongButtonComponent from '../LongButtonComponent/LongButtonComponent';
+import { InputComponent } from '../InputComponent';
 interface SignUpProps {
   initialUserPassword: string;
   initialVerifyPassword: string;
@@ -38,24 +38,22 @@ export default function SignUpComponent({
       <Styled.StyleServiceName>
         <img src="/img/Logo.png" alt="Mingle Logo" />
       </Styled.StyleServiceName>
-      <Styled.StyleText>이메일</Styled.StyleText>
-      <Styled.StyleInput
-        id="userEmail"
-        type="email"
-        placeholder="이메일을 입력하세요."
-        value={userEmail}
-        onChange={(e) => setUserEmail(e.target.value)}
-        required
-      />
-      <div style={{ position: "relative", width: "100%" }}>
-        <Styled.StyleText>비밀번호</Styled.StyleText>
-        <Styled.StyleInput
-          id="userPassword"
-          type={showPassword ? "text" : "password"}
+      <div style={{ position: 'relative', width: '100%' }}>
+        <InputComponent
+          type="email"
+          label="이메일"
+          placeholder="이메일을 입력하세요."
+          value={userEmail}
+          onChange={(e) => setUserEmail(e.target.value)}
+        />
+      </div>
+      <div style={{ position: 'relative', width: '100%' }}>
+        <InputComponent
+          type={showPassword ? 'text' : 'password'}
+          label="비밀번호"
           placeholder="비밀번호를 입력하세요."
           value={userPassword}
           onChange={(e) => setUserPassword(e.target.value)}
-          required
         />
         <Styled.StylePasswordToggleIcon
           src="/img/view-password.png"
@@ -63,15 +61,13 @@ export default function SignUpComponent({
           onClick={togglePasswordVisibility}
         />
       </div>
-      <div style={{ position: "relative", width: "100%" }}>
-        <Styled.StyleText>비밀번호 재확인</Styled.StyleText>
-        <Styled.StyleInput
-          id="verifyPassword"
-          type={showPassword ? "text" : "password"}
+      <div style={{ position: 'relative', width: '100%' }}>
+        <InputComponent
+          type={showPassword ? 'text' : 'password'}
+          label="비밀번호 재확인"
           placeholder="비밀번호를 재입력하세요."
           value={verifyPassword}
           onChange={(e) => setVerifyPassword(e.target.value)}
-          required
         />
         <Styled.StylePasswordToggleIcon
           src="/img/view-password.png"
