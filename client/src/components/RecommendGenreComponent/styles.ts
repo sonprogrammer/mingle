@@ -5,7 +5,7 @@ export const ModalStyle = styled.div`
 `;
 
 export const ContainerStyle = styled.div`
-  ${tw`relative top-20 mx-auto p-5 border w-11/12 shadow-lg rounded-md bg-white`}
+  ${tw`relative top-20 mx-auto p-5 border w-[30vw] shadow-lg rounded-md bg-white`}
 `;
 
 export const GenreButtonStyle = styled.button`
