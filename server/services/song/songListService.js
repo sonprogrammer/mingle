@@ -7,7 +7,8 @@ async function getSongsOrderby(queryValue) {
   if (queryValue === "top") {
     const topSongs = await Song.find({})
       .sort({ songLikedCount: -1 })
-      .limit(100);
+      .limit(100)
+      .populate("songUploader");
     return topSongs;
   } else if (queryValue === "recent") {
     // 현재 날짜와 현재 날짜로부터 30일 전의 날짜 계산
@@ -21,7 +22,8 @@ async function getSongsOrderby(queryValue) {
       },
     })
       .sort({ createdAt: -1 })
-      .limit(10);
+      .limit(10)
+      .populate("songUploader");
     return recentSongs;
   } else {
     return null;
@@ -30,7 +32,9 @@ async function getSongsOrderby(queryValue) {
 
 // query로 category가 입력된 경우
 async function getSongsByCategory(queryValue) {
-  const categorySongs = await Song.find({ songCategory: queryValue });
+  const categorySongs = await Song.find({ songCategory: queryValue }).populate(
+    "songUploader"
+  );
   return categorySongs;
 }
 

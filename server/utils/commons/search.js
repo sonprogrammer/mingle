@@ -23,13 +23,13 @@ async function UserSearch(keyType, keyValue) {
 }
 
 // 사용자가 입력한 이메일이 DB에 존재하는지 ture/false로 반환
-async function EmailExsist(inputEmail) {
+async function EmailExist(inputEmail) {
   const findEmail = await userSchema.findOne({ userEmail: inputEmail });
   return Boolean(findEmail);
 }
 
 // 사용자가 입력한 닉네임, 이메일이 모두 DB에 존재하는지 true/false로 반환
-async function UserExsist(inputNickname, inputEmail) {
+async function UserExist(inputNickname, inputEmail) {
   const findUser = await userSchema.findOne({
     userNickname: inputNickname,
     userEmail: inputEmail,
@@ -37,4 +37,4 @@ async function UserExsist(inputNickname, inputEmail) {
   return Boolean(findUser);
 }
 
-module.exports = { UserSearch, EmailExsist, UserExsist };
+module.exports = { UserSearch, EmailExist, UserExist };
