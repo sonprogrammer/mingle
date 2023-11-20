@@ -45,7 +45,8 @@ export const StyledFollow = styled.div`
   color: #7f7f7f;
   gap: 4px;
   &:hover {
-      opacity: 90%;
+      background-color: #9b59b6;
+      color: white;
   
 `
 export const StyledHeart = styled.div`
@@ -72,34 +73,32 @@ export const StyledHeart = styled.div`
 
 export const StyledTitle = styled.div`
   ${tw`
-      flex
   text-2xl
   font-bold
   bg-[#cdcdcdcd]
   p-6
   rounded-2xl
   whitespace-nowrap
-  h-80
+
     `}
 `
 
 export const StyledButton = styled.div`
     ${tw`
       cursor-pointer
-      ml-2
+      font-black
+      ml-1
       text-[#9b59b6]
     `}
 `
 
 export const StyledOverTitle = styled.div<{isExpand: boolean}>`
   ${tw`
-    whitespace-nowrap
     overflow-hidden
-    overflow-ellipsis
-    flex-grow
   `}
-  ${({ isExpand}) => isExpand && tw` whitespace-normal`}
+  ${({ isExpand}) => isExpand ?  tw` whitespace-normal` :  tw `whitespace-nowrap`}
   line-height:2rem;
+  overflow-wrap: break-word
 `
 
 export const StyledDescript = styled.div`

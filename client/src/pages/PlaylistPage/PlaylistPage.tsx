@@ -43,7 +43,7 @@ export default function PlaylistPage() {
       </Content>
       <Divider />
       <PlaylistDescriptionComponent
-        title={"기분좋을때 듣는 노래fdsafdsafadsfdasfasddㄹㅇㄹㅇㄴㅁㄹㅇㅁㄴfsafadsㄹㅇㄴㄹㅇㄴㅁㄹㅇㄴㅁㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇ"}
+        title={"기분좋을때 듣는 노래 여러분도 함께 즐겨요. 행복하세요~~dsafdsafdsafdsafdsafdsafasdfdsafdasfdsafdsafdsa apple fsda apple fsad apple fsdaf apple sdafsdafasdfsadfdsafasdfads"}
         description={
           "들으면 즐거워요 오늘도 행복한 하루 보내셨으면 좋겠습니다~~"
         }

@@ -48,6 +48,8 @@ export default function PlaylistDescriptionComponent({
   const handleExpandClick = () => {
     setIsExpand(!isExpand)
   }
+
+  const OverTitle = isExpand ? title : title.slice(0, 20) + '...';
   return (
     <>
       <StyledDescriptBox>
@@ -85,7 +87,7 @@ export default function PlaylistDescriptionComponent({
         </StyledTop>
 
         <StyledTitle>
-        <StyledOverTitle isExpand={isExpand}>{title}</StyledOverTitle>
+        <StyledOverTitle isExpand={isExpand}>{OverTitle}</StyledOverTitle>
         {title.length > 20  && (
           <>
           <br />
