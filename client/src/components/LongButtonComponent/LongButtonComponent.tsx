@@ -2,7 +2,7 @@ import { StyledButton } from "./styles";
 
 interface LongButtonComponentProps {
   text: string;
-  onClick: () => void;
+  onClick: (event: React.FormEvent) => void;
 }
 export default function LongButtonComponent({
   text,

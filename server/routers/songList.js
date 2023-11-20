@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const songService = require("../services/song/songListService");
+const createError = require("http-errors");
 
 // 좋아요 높은 순, 최신 순, 장르별, 검색어로 곡들 가져오는 api
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     // orderby=top(좋아요 높은 순), orderby=recent(최신 순)로 query parameter가 들어왔을 경우
     if (req.query.orderby) {
@@ -24,17 +25,14 @@ router.get("/", async (req, res) => {
       const searchedSongs = await songService.getSongsBySearch(search, type);
       return res.status(200).json(searchedSongs);
     }
-    // 유효하지 않은 쿼리 파라미터를 입력한 경우
-    else {
-      return res
-        .status(400)
-        .json({ message: "유효한 쿼리 파라미터를 입력해 주세요." });
-    }
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .json({ message: "곡을 가져오는 중 오류가 발생하였습니다." });
+    return next(
+      createError(
+        error.status || 500,
+        error.message || "곡을 가져오는 중 에러가 발생하였습니다."
+      )
+    );
   }
 });
 
@@ -46,9 +44,9 @@ router.get(
     try {
       const { userId } = req.user;
       const userLikedSongs = await songService.getUserLikedSongs(userId);
-      res.status(200).json(userLikedSongs);
+      return res.status(200).json(userLikedSongs);
     } catch (error) {
-      next({ code: 500, message: "비밀번호 재설정 중 오류가 발생하였습니다." });
+      return createError(500, "곡을 가져오는 중 에러가 발생하였습니다.");
     }
   }
 );

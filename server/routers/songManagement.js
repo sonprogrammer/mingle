@@ -4,6 +4,7 @@ const passport = require("passport");
 const songService = require("../services/song/songManagementService");
 // 곡 관련 multer storage 가져오기
 const songUpload = require("../middlewares/songMulter");
+const createError = require("http-errors");
 
 // 곡 업로드 api
 router.post(
@@ -18,9 +19,9 @@ router.post(
     { name: "songDescription" },
     { name: "songDuration" },
     { name: "songCategory" },
-    { name: "songTempo" },
+    { name: "songMood" },
   ]),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       // 곡을 업로드하는 유저를 DB에 등록하기 위해 userId 받기
       const { userId } = req.user;
@@ -33,29 +34,26 @@ router.post(
         audio,
         songImage,
       });
-      // res 보낼 때 return을 적어주지 않으면 나중에 응답이 여러개가 보내져 오류날 수 있다.
       return res.status(201).json({ newSong });
     } catch (error) {
-      console.log(error);
-      return res
-        .status(500)
-        .json({ message: "곡 업로드 중 에러가 발생했습니다." + error });
+      next(createError(500));
     }
   }
 );
 
 // 특정 곡 정보 가져오기 api
-router.get("/:songId", async (req, res) => {
+router.get("/:songId", async (req, res, next) => {
   try {
     const { songId } = req.params;
     const song = await songService.getSongInfo(songId);
-    if (!song)
-      return res.status(404).json({ message: "해당 곡은 존재하지 않습니다." });
-    return res.status(200).json(song);
+    return res.status(201).json(song);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "곡을 가져오는 중에 에러가 발생했습니다." });
+    return next(
+      createError(
+        error.status || 500,
+        error.message || "곡을 가져오는 중 오류가 발생하였습니다."
+      )
+    );
   }
 });
 
@@ -72,9 +70,9 @@ router.put(
     { name: "songDescription" },
     { name: "songDuration" },
     { name: "songCategory" },
-    { name: "songTempo" },
+    { name: "songMood" },
   ]),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const { userId } = req.user;
       const { songId } = req.params;
@@ -88,17 +86,14 @@ router.put(
         audio,
         songImage,
       });
-
-      if (modifiedSong === "forbidden")
-        return res.status(403).json({
-          message: "회원님이 업로드하지 않은 곡은 수정이 불가능합니다.",
-        });
-
       return res.status(200).json({ modifiedSong });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ message: "곡 수정 중 에러가 발생하였습니다." + error });
+      return next(
+        createError(
+          error.status || 500,
+          error.message || "곡을 가져오는 중 오류가 발생하였습니다."
+        )
+      );
     }
   }
 );
@@ -108,24 +103,21 @@ router.delete(
   "/:songId",
   // 유저 검증을 먼저 수행
   passport.authenticate("jwt-user", { session: false }),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const { songId } = req.params;
       const { userId } = req.user;
 
       // 곡 삭제
-      const deleteSong = await songService.deleteSong(songId, userId);
-
-      if (deleteSong === "forbidden")
-        return res.status(403).json({
-          message: "회원님이 업로드하지 않은 곡은 삭제가 불가능합니다.",
-        });
-
+      await songService.deleteSong(songId, userId);
       return res.status(200).json({ message: "곡 삭제에 성공하였습니다." });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ message: "곡 삭제 중 에러가 발생하였습니다." + error });
+      return next(
+        createError(
+          error.status || 500,
+          error.message || "곡을 가져오는 중 오류가 발생하였습니다."
+        )
+      );
     }
   }
 );
@@ -134,7 +126,7 @@ router.delete(
 router.post(
   "/:songId/like-toggle",
   passport.authenticate("jwt-user", { session: false }),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const { songId } = req.params;
       const { userId } = req.user;
@@ -142,17 +134,14 @@ router.post(
         songId,
         userId
       );
-
-      if (!likeUpdatedSong)
-        return res
-          .status(404)
-          .json({ message: "해당 곡은 존재하지 않습니다." });
-
       return res.status(200).json({ likeUpdatedSong, message });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ message: "곡 좋아요에 실패하였습니다." + error });
+      return next(
+        createError(
+          error.status || 500,
+          error.message || "곡 좋아요 토글중 에러가 발생하였습니다."
+        )
+      );
     }
   }
 );
