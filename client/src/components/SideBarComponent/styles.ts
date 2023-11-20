@@ -10,6 +10,7 @@ export const StyledNav = styled.nav`
     text-white
     h-full
     border-r-indigo-500
+    z-40
   `}
 
 `;
@@ -117,47 +118,30 @@ export const StyledLogoutModal = styled.div`
     justify-center
     items-center
   `}
+
+
 `
 export const StyledLogoutModalContainer = styled.div`
     ${tw`
     fixed top-0 left-0 w-full h-full flex justify-center 
     items-center bg-black bg-opacity-50
+    z-40
+
     `};
+
     `
 
     export const StyledLogoutModalContent = styled.div`
   ${tw`
-  bg-[#bebebe] p-8 rounded shadow-md`
+  bg-[#bebebe] p-8 rounded shadow-md
+  `
 }
   p{
     color: black;
   }
+  z-index: 1000;
   
 `
-// export const StyledButtons = styled.div`
-//   ${tw`
-//     flex
-//     text-black
-//     justify-center
-//     mt-2
-//   `}
-//   button{
-//     &:first-child{
-//       margin-right: 1rem;
-//       color: red;
-//       hover{
-//         background-color: red;
-//         color: white;
-//       }
-//     }
-//     &:hover{
-//       background-color: #9b59b6
-//       border-radius:30px;
-//       transfrom: scale(1.5)
-//     }
-//   }
-// `
-// styles.ts
 
 export const StyledButtons = styled.div`
   ${tw`
@@ -166,7 +150,7 @@ export const StyledButtons = styled.div`
     mt-2
     
   `}
-  
+
   button {
     ${tw`
       px-4
