@@ -21,7 +21,7 @@ export const StyleInput = styled.input`
   background-color: #F2F2F2;
 `;
 export const StylePasswordToggleIcon = styled.img`
-  ${tw`absolute inset-y-0 top-10 right-0 pr-3 flex items-center justify-center`}
+  ${tw`absolute inset-y-0 top-11 right-0 pr-3 flex items-center justify-center`}
   background: transparent;
   border: none;
   outline: none;
