@@ -8,7 +8,9 @@ import {
   StyledButton,
   StyledDropeddown,
   StyledDropeddownContents,
+  StyledLogoutModal
 } from './styles'
+import LogoutModal from './LogoutModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faHouse,
@@ -57,6 +59,7 @@ const items: Item[] = [
 
 export default function SideBarComponent({ userIcon }: UserIconProps) {
   const [accordion, setAccordion] = useState<string | null>(null)
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   const navigate = useNavigate()
 
@@ -66,7 +69,6 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
 
   const handleDropClick = (buttonContent: string) => {
     toggleAccordion(buttonContent)
-    console.log(`button clicked : ${buttonContent}`)
     if(buttonContent === '피드'){
       navigate('/')
     }else if(buttonContent === '내 정보'){
@@ -83,14 +85,22 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
   }
 
   const handleDropdownItemClick = (dropdownContent: string) => {
-    console.log(`dropdown item clicked: ${dropdownContent}`);
     if (dropdownContent === '마이페이지') {
       navigate('/mypage');
     } else if (dropdownContent === '회원정보 수정') {
       navigate('/edit');
     } else if (dropdownContent === '로그아웃') {
-      navigate('/')
+      setShowLogoutModal(true)
     }
+  };
+
+  const handleConfirmLogout = () =>{
+    navigate('/login')
+    setShowLogoutModal(false)
+  }
+  
+  const handleCancelLogout = () => {
+    setShowLogoutModal(false);
   };
 
 
@@ -125,6 +135,14 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
           </StyledButtonWrapper>
         ))}
       </StyledButtonsContainer>
+      <StyledLogoutModal>
+        {showLogoutModal && (
+          <LogoutModal
+            onConfirm={handleConfirmLogout}
+            onCancel={handleCancelLogout}
+          />
+        )}
+      </StyledLogoutModal>
     </StyledNav>
   )
 }

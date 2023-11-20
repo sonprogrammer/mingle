@@ -4,13 +4,12 @@ export const StyledNav = styled.nav`
   ${tw`
     fixed
     left-0
-    top-0
+    top-[50px]
     bg-[#404040]
     box-border
     text-white
     h-full
     border-r-indigo-500
-    
   `}
 
 `;
@@ -108,5 +107,103 @@ export const StyledDropeddownContents = styled.div`
   width: 16rem;
   span{
     
+  }
+`;
+
+export const StyledLogoutModal = styled.div`
+  ${tw`
+    
+    flex
+    justify-center
+    items-center
+  `}
+`
+export const StyledLogoutModalContainer = styled.div`
+    ${tw`
+    fixed top-0 left-0 w-full h-full flex justify-center 
+    items-center bg-black bg-opacity-50
+    `};
+    `
+
+    export const StyledLogoutModalContent = styled.div`
+  ${tw`
+  bg-[#bebebe] p-8 rounded shadow-md`
+}
+  p{
+    color: black;
+  }
+  
+`
+// export const StyledButtons = styled.div`
+//   ${tw`
+//     flex
+//     text-black
+//     justify-center
+//     mt-2
+//   `}
+//   button{
+//     &:first-child{
+//       margin-right: 1rem;
+//       color: red;
+//       hover{
+//         background-color: red;
+//         color: white;
+//       }
+//     }
+//     &:hover{
+//       background-color: #9b59b6
+//       border-radius:30px;
+//       transfrom: scale(1.5)
+//     }
+//   }
+// `
+// styles.ts
+
+export const StyledButtons = styled.div`
+  ${tw`
+    flex
+    justify-center
+    mt-2
+    
+  `}
+  
+  button {
+    ${tw`
+      px-4
+      py-2
+      transition-all
+      duration-300
+      rounded-md
+      font-semibold
+    `}
+
+    &:first-child {
+      ${tw`
+        mr-4
+        text-red-500
+
+      `}
+    }
+
+    &:hover {
+      ${tw`
+        transform
+        scale-105
+      `}
+    }
+
+    &:first-child:hover {
+      ${tw`
+        bg-red-500
+        text-white
+      `}
+    }
+
+    &:last-child:hover {
+      ${tw`
+        bg-black
+        text-white
+      `}
+    }
   }
 `;
