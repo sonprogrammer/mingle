@@ -5,6 +5,7 @@ function routeHandler(err, req, res, next) {
   if (err.message === undefined) {
     res.status(err.status).json({ message: errMessageResouces[err.code] });
   } else {
+    console.log(err);
     res.status(err.status).json({ message: err.message });
   }
 }

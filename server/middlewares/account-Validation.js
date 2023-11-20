@@ -8,8 +8,9 @@ const userCreateValidation = (req, res, next) => {
 		userPreference: Joi.array().items(Joi.string()), 
 		userDescription: Joi.string(), 
 		userImage: Joi.string(), 
+		userFollow: Joi.array().items(Joi.string()),
 	});
-
+	
 	const { error } = schema.validate(req.body);
 	if (error) {
 		return res.status(400).json({ message: error.details[0].message });
@@ -24,6 +25,7 @@ const userUpdateValidation = (req, res, next) => {
 		userPreference: Joi.array().items(Joi.string()), 
 		userDescription: Joi.string(), 
 		userImage: Joi.string(), 
+		userFollow: Joi.array().items(Joi.string()),
 	});
 
 	const { error } = schema.validate(req.body);
