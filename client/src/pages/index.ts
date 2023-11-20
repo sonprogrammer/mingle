@@ -7,3 +7,4 @@ export * from "./UploadModalTestPage";
 export * from "./LayoutPage";
 export * from "./LoginPage";
 export * from "./EditProfilePage"
+export * from "./MyPlaylistPage";
