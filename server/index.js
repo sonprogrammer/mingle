@@ -84,7 +84,6 @@ app.use("/api/songs", songListRouter);
 app.use("/api/playlist", playListRouter);
 
 app.use(routeHandler);
-
 var server = app.listen(3000, function () {
   var host = server.address().address;
   var port = server.address().port;

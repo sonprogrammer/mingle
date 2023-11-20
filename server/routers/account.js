@@ -5,6 +5,8 @@ const accountDelete = require("../services/account/delete");
 const accountEdit = require("../services/account/update");
 const search = require("../utils/commons/search");
 const passport = require("passport");
+const createFollow = require("../services/account/follow/createFollow");
+const viewFollow = require("../services/account/follow/viewFollow");
 const PlayList = require("../db/models/playListModel");
 const router = express.Router();
 const {
@@ -137,16 +139,54 @@ router.post("/reset-password", async (req, res, next) => {
 });
 
 router.get("/my-like-playlist", async (req, res, next) => {
-  try {
-    const userId = req.user;
-    const user = await search.UserSearch("UserId", userId);
-    console.log(user);
-    const playlists = await PlayList.find({ _id: user.userLikePlayList });
-    res.status(200).json(playlists);
-  } catch (error) {
-    console.error(error);
-    next(createError(500));
-  }
+	try {
+		const userId = req.user;
+		const user = await search.UserSearch("UserId", userId);
+		console.log(user);
+		const playlists = await PlayList.find({ _id: user.userLikePlayList });
+		res.status(200).json(playlists);
+	} catch (error) {
+		console.error(error);
+		next(createError(500));
+	}
+});
+
+router.get("/follow", 
+passport.authenticate("jwt-user", { session: false }),
+async (req, res, next) => {
+	try {
+		const userId = req.user.userId;
+    const data = await viewFollow.viewFollow(userId);
+		res.status(200).json(data);
+	} catch (error) {
+		next(error);
+	}
+});
+
+router.post(
+	"/follow/:followUserId",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const userId = req.user.userId;
+			const followUserId = req.params.followUserId;
+			await createFollow.userFollow(userId, followUserId);
+			res.status(200).json({ message: "팔로우 성공" });
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+
+router.delete("/follow/:followUserId", async (req, res, next) => {
+	try {
+		const userId = req.user;
+		const user = await search.UserSearch("UserId", userId);
+		const followings = await user.find({ _id: user.userFollow });
+		res.status(200).json(followings);
+	} catch (error) {
+		next(error);
+	}
 });
 
 module.exports = router;

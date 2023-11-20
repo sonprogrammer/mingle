@@ -1,9 +1,15 @@
 import React from "react";
+import { EditComponent } from "../../components/EditComponent";
+import { StyledEditWrapper } from "./styles";
 
-export default function EditProfilePage(){
-    return(
-        <>
-            <h2>회원정보수정 페이지 입니다.</h2>
-        </>
-    )
+export default function EditProfilePage() {
+  const profile = {
+      email: 'mingle@mingle.com',
+      nickname: 'mingle',
+  }
+  return (
+    <StyledEditWrapper>
+      <EditComponent profile={profile} />
+    </StyledEditWrapper>
+  );
 }
