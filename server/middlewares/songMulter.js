@@ -9,9 +9,11 @@ const imageFileFilter = (req, file, cb) => {
   if (allowedExtensions.includes(ext)) {
     return cb(null, true);
   } else {
-    const error = new Error("이미지는 .jpg, .png 파일만 업로드 가능합니다.");
-    error.status = 400;
-    return cb(error);
+    const error = createError(
+      400,
+      "이미지는 .jpg, .png 파일만 업로드 가능합니다."
+    );
+    cb(error);
   }
 };
 
@@ -22,9 +24,11 @@ const audioFileFilter = (req, file, cb) => {
   if (allowedExtensions.includes(ext)) {
     return cb(null, true);
   } else {
-    const error = new Error("음원은 .mp3, .wav 파일만 업로드 가능합니다.");
-    error.status = 400;
-    return cb(error);
+    const error = createError(
+      400,
+      "음원은 .mp3, .wav 파일만 업로드 가능합니다."
+    );
+    cb(error);
   }
 };
 

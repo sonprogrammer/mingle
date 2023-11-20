@@ -114,14 +114,10 @@ router.post(
 router.get("/check-email", async (req, res, next) => {
   const { email } = req.query;
   try {
-    const isEmailExist = await search.EmailExist(email);
-    const statusCode = isEmailExist ? 400 : 200;
-    const message = isEmailExist
-      ? "이미 존재하는 사용자입니다."
-      : "사용 가능한 이메일입니다.";
-    res.status(statusCode).json({ message });
+    await search.EmailExist(email);
+    res.status(200).json({ message: "사용 가능한 이메일입니다." });
   } catch (error) {
-    next(createError(500));
+    next(error);
   }
 });
 
@@ -129,21 +125,13 @@ router.get("/check-email", async (req, res, next) => {
 router.post("/reset-password", async (req, res, next) => {
   const { userNickname, userEmail } = req.body;
   try {
-    const isUserExist = await search.UserExist(userNickname, userEmail);
-    if (isUserExist) {
-      await resetPassword.reset(userEmail);
-      res
-        .status(200)
-        .json({ message: `${userEmail}로 임시 비밀번호가 발급되었습니다.` });
-    } else {
-      //유빈님 예시 입니다.
-      //기존 코드
-      //res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
-      //수정 코드
-      next(createError(404, "사용자를 찾을 수 없습니다."));
-    }
+    await search.UserExist(userNickname, userEmail);
+    await resetPassword.reset(userEmail);
+    res
+      .status(200)
+      .json({ message: `${userEmail}로 임시 비밀번호가 발급되었습니다.` });
   } catch (error) {
-    next(createError(500, "비밀번호 재설정 중 오류가 발생하였습니다."));
+    next(error);
   }
 });
 
