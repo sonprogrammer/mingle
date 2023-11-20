@@ -1,1 +1,1 @@
-export {default as EditProfilePage} from './EditPropfilePage';
+export { default as EditProfilePage } from './EditPropfilePage';
