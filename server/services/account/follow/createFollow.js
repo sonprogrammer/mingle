@@ -12,23 +12,26 @@ async function userFollow(user, followUser) {
 		const searchUser = await User.findById(user);
 
 		if (!searchUser) {
-         throw   createError(403), { message: "유저를 찾을 수 없습니다." };
+			throw createError(400, { message: "유저를 찾을 수 없습니다." });
 		}
-        if (searchUser.userFollow.includes(followUser)) {
-            throw createError(403), { message: "이미 팔로우한 유저입니다." };
-          }
+
+		if (searchUser.userFollow.includes(followUser)) {
+			throw createError(400, { message: "이미 팔로우한 유저입니다." });
+		}
+
 		searchUser.userFollow.push(followUser);
 		await searchUser.save();
+
 		const followerUser = await User.findById(followUser);
 
 		if (!followerUser) {
-			console.error("유저를 찾을 수 없습니다.");
-			return;
+			throw createError(400, { message: "유저를 찾을 수 없습니다." });
 		}
-		followerUser.userFollow.push(user);
+
+		followerUser.userFollower.push(user);
 		await followerUser.save();
 	} catch (error) {
-        throw error;
+		throw error;
 	}
 }
 

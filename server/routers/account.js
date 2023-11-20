@@ -5,8 +5,8 @@ const accountDelete = require("../services/account/delete");
 const accountEdit = require("../services/account/update");
 const search = require("../utils/commons/search");
 const passport = require("passport");
-const User = require("../db/models/userModel");
 const createFollow = require("../services/account/follow/createFollow");
+const viewFollow = require("../services/account/follow/viewFollow");
 const PlayList = require("../db/models/playListModel");
 const router = express.Router();
 const {
@@ -151,12 +151,13 @@ router.get("/my-like-playlist", async (req, res, next) => {
 	}
 });
 
-router.get("/follow", async (req, res, next) => {
+router.get("/follow", 
+passport.authenticate("jwt-user", { session: false }),
+async (req, res, next) => {
 	try {
-		const userId = req.user;
-		const user = await search.UserSearch("UserId", userId);
-		console.log(user);
-		res.status(200).json(user.userFollow);
+		const userId = req.user.userId;
+    const data = await viewFollow.viewFollow(userId);
+		res.status(200).json(data);
 	} catch (error) {
 		next(error);
 	}
