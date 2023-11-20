@@ -17,7 +17,7 @@ import {
   faHeadphones,
   faHeart,
   faUser,
-  faGear,
+  faRightFromBracket,
   faPen
 } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
@@ -39,7 +39,7 @@ interface UserIconProps {
 const data: Dropmenu[] = [
   { content: '마이페이지', icon: <FontAwesomeIcon icon={faUser} /> },
   { content: '회원정보 수정', icon: <FontAwesomeIcon icon={faPen} /> },
-  { content: '로그아웃', icon: <FontAwesomeIcon icon={faGear} /> },
+  { content: '로그아웃', icon: <FontAwesomeIcon icon={faRightFromBracket} /> },
 ]
 
 const items: Item[] = [
@@ -76,9 +76,9 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
     }else if(buttonContent === '차트'){
       navigate('/chart')
     }else if(buttonContent === '최신음악'){
-      navigate('#')
+      navigate('/chart')
     }else if(buttonContent === '좋아요한 음악'){
-      navigate('#')
+      navigate('/chart')
     }
   }
 
@@ -89,7 +89,7 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
     } else if (dropdownContent === '회원정보 수정') {
       navigate('#');
     } else if (dropdownContent === '로그아웃') {
-      navigate('#')
+      navigate('/')
     }
   };
 
