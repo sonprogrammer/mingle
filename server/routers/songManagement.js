@@ -4,7 +4,6 @@ const passport = require("passport");
 const songService = require("../services/song/songManagementService");
 // 곡 관련 multer storage 가져오기
 const songUpload = require("../middlewares/songMulter");
-const createError = require("http-errors");
 
 // 곡 업로드 api
 router.post(
@@ -36,7 +35,7 @@ router.post(
       });
       return res.status(201).json({ newSong });
     } catch (error) {
-      next(createError(500));
+      next(error);
     }
   }
 );
@@ -48,12 +47,7 @@ router.get("/:songId", async (req, res, next) => {
     const song = await songService.getSongInfo(songId);
     return res.status(201).json(song);
   } catch (error) {
-    return next(
-      createError(
-        error.status || 500,
-        error.message || "곡을 가져오는 중 오류가 발생하였습니다."
-      )
-    );
+    next(error);
   }
 });
 
@@ -88,12 +82,7 @@ router.put(
       });
       return res.status(200).json({ modifiedSong });
     } catch (error) {
-      return next(
-        createError(
-          error.status || 500,
-          error.message || "곡을 가져오는 중 오류가 발생하였습니다."
-        )
-      );
+      next(error);
     }
   }
 );
@@ -112,12 +101,7 @@ router.delete(
       await songService.deleteSong(songId, userId);
       return res.status(200).json({ message: "곡 삭제에 성공하였습니다." });
     } catch (error) {
-      return next(
-        createError(
-          error.status || 500,
-          error.message || "곡을 가져오는 중 오류가 발생하였습니다."
-        )
-      );
+      next(error);
     }
   }
 );
@@ -136,12 +120,7 @@ router.post(
       );
       return res.status(200).json({ likeUpdatedSong, message });
     } catch (error) {
-      return next(
-        createError(
-          error.status || 500,
-          error.message || "곡 좋아요 토글중 에러가 발생하였습니다."
-        )
-      );
+      next(error);
     }
   }
 );

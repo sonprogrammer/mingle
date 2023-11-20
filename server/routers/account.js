@@ -5,11 +5,13 @@ const accountDelete = require("../services/account/delete");
 const accountEdit = require("../services/account/update");
 const search = require("../utils/commons/search");
 const passport = require("passport");
+const createFollow = require("../services/account/follow/createFollow");
+const viewFollow = require("../services/account/follow/viewFollow");
 const PlayList = require("../db/models/playListModel");
 const router = express.Router();
 const {
-	userCreateValidation,
-	userUpdateValidation,
+  userCreateValidation,
+  userUpdateValidation,
 } = require("../middlewares/account-Validation");
 const resetPassword = require("../services/account/resetPassword");
 const routeHandler = require("../utils/errorHandler/routeHandler");
@@ -18,16 +20,16 @@ router.use(routeHandler);
 
 // 로그인한 유저의 정보를 리턴
 router.get(
-	"/",
-	passport.authenticate("jwt-user", { session: false }),
-	async (req, res, next) => {
-		try {
-			const data = await search.UserSearch("userEmail", req.user.userEmail);
-			res.status(200).json(data);
-		} catch (error) {
-			next(createError(500));
-		}
-	}
+  "/",
+  passport.authenticate("jwt-user", { session: false }),
+  async (req, res, next) => {
+    try {
+      const data = await search.UserSearch("userEmail", req.user.userEmail);
+      res.status(200).json(data);
+    } catch (error) {
+      next(createError(500));
+    }
+  }
 );
 
 /**
@@ -37,13 +39,13 @@ router.get(
  * @returns {object} - 회원 가입 성공 시 200 응답, 실패 시 400 응답
  */
 router.post("/", userCreateValidation, async (req, res, next) => {
-	try {
-		const [bool, message] = await accountCreate.userCreate(req.body);
-		const statusCode = bool ? 200 : 400;
-		res.status(statusCode).json(message);
-	} catch (error) {
-		next(createError(500));
-	}
+  try {
+    const [bool, message] = await accountCreate.userCreate(req.body);
+    const statusCode = bool ? 200 : 400;
+    res.status(statusCode).json(message);
+  } catch (error) {
+    next(createError(500));
+  }
 });
 
 /**
@@ -53,20 +55,20 @@ router.post("/", userCreateValidation, async (req, res, next) => {
  * @returns {object} - 회원 탈퇴 성공 시 200 응답, 실패 시 400 응답
  */
 router.delete(
-	"/",
-	passport.authenticate("jwt-user", { session: false }),
-	async (req, res, next) => {
-		try {
-			const data = await search.UserSearch("userEmail", req.user.userEmail);
-			const [bool, { message }] = await accountDelete.UserDelete(
-				data.userEmail
-			);
-			const statusCode = bool ? 200 : 400;
-			res.status(statusCode).json({ message });
-		} catch (error) {
-			next(createError(500));
-		}
-	}
+  "/",
+  passport.authenticate("jwt-user", { session: false }),
+  async (req, res, next) => {
+    try {
+      const data = await search.UserSearch("userEmail", req.user.userEmail);
+      const [bool, { message }] = await accountDelete.UserDelete(
+        data.userEmail
+      );
+      const statusCode = bool ? 200 : 400;
+      res.status(statusCode).json({ message });
+    } catch (error) {
+      next(createError(500));
+    }
+  }
 );
 
 /**
@@ -77,22 +79,22 @@ router.delete(
  * @returns {object} - 수정이 성공하면 200 응답, 실패하면 400 응답
  */
 router.put(
-	"/",
-	passport.authenticate("jwt-user", { session: false }),
-	userUpdateValidation,
-	async (req, res, next) => {
-		try {
-			const data = await search.UserSearch("id", req.user.id);
-			const [bool, { message }] = await accountEdit.userEdit(
-				data.userEmail,
-				req.body
-			);
-			const statusCode = bool ? 200 : 400;
-			res.status(statusCode).json({ message });
-		} catch (error) {
-			next(createError(500));
-		}
-	}
+  "/",
+  passport.authenticate("jwt-user", { session: false }),
+  userUpdateValidation,
+  async (req, res, next) => {
+    try {
+      const data = await search.UserSearch("id", req.user.id);
+      const [bool, { message }] = await accountEdit.userEdit(
+        data.userEmail,
+        req.body
+      );
+      const statusCode = bool ? 200 : 400;
+      res.status(statusCode).json({ message });
+    } catch (error) {
+      next(createError(500));
+    }
+  }
 );
 
 /**
@@ -103,59 +105,88 @@ router.put(
  * @returns {object} - 로그인 성공 시 200 응답과 액세스 토큰, 실패 시 401 응답
  */
 router.post(
-	"/login",
-	passport.authenticate("local-user", { session: false }),
-	(req, res) => {
-		res.status(200).json(req.user);
-		console.log("로그인 성공!");
-	}
+  "/login",
+  passport.authenticate("local-user", { session: false }),
+  (req, res) => {
+    res.status(200).json(req.user);
+    console.log("로그인 성공!");
+  }
 );
 
 // 이메일 중복확인 api
 router.get("/check-email", async (req, res, next) => {
-	const { email } = req.query;
-	try {
-		const isEmailExist = await search.EmailExist(email);
-		const statusCode = isEmailExist ? 400 : 200;
-		const message = isEmailExist
-			? "이미 존재하는 사용자입니다."
-			: "사용 가능한 이메일입니다.";
-		res.status(statusCode).json({ message });
-	} catch (error) {
-		next(createError(500));
-	}
+  const { email } = req.query;
+  try {
+    await search.EmailExist(email);
+    res.status(200).json({ message: "사용 가능한 이메일입니다." });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // 비밀번호 찾기 api
 router.post("/reset-password", async (req, res, next) => {
-	const { userNickname, userEmail } = req.body;
-	try {
-		const isUserExist = await search.UserExist(userNickname, userEmail);
-		if (isUserExist) {
-			await resetPassword.reset(userEmail);
-			res
-				.status(200)
-				.json({ message: `${userEmail}로 임시 비밀번호가 발급되었습니다.` });
-		} else {
-			next(createError(404, "사용자를 찾을 수 없습니다."));
-		}
-	} catch (error) {
-		next(createError(500, "비밀번호 재설정 중 오류가 발생하였습니다."));
-	}
-});
-
-router.get("/my-like-playlist", async (req, res, next) => {
+  const { userNickname, userEmail } = req.body;
   try {
-    const userId = req.user;
-    const user = await search.UserSearch("UserId", userId);
-    console.log(user);
-    const playlists = await PlayList.find({ _id: user.userLikePlayList });
-    res.status(200).json(playlists);
+    await search.UserExist(userNickname, userEmail);
+    await resetPassword.reset(userEmail);
+    res
+      .status(200)
+      .json({ message: `${userEmail}로 임시 비밀번호가 발급되었습니다.` });
   } catch (error) {
-    console.error(error);
-    next(createError(500));
+    next(error);
   }
 });
 
+router.get("/my-like-playlist", async (req, res, next) => {
+	try {
+		const userId = req.user;
+		const user = await search.UserSearch("UserId", userId);
+		console.log(user);
+		const playlists = await PlayList.find({ _id: user.userLikePlayList });
+		res.status(200).json(playlists);
+	} catch (error) {
+		console.error(error);
+		next(createError(500));
+	}
+});
+
+router.get("/follow", 
+passport.authenticate("jwt-user", { session: false }),
+async (req, res, next) => {
+	try {
+		const userId = req.user.userId;
+    const data = await viewFollow.viewFollow(userId);
+		res.status(200).json(data);
+	} catch (error) {
+		next(error);
+	}
+});
+
+router.post(
+	"/follow/:followUserId",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const userId = req.user.userId;
+			const followUserId = req.params.followUserId;
+			await createFollow.userFollow(userId, followUserId);
+			res.status(200).json({ message: "팔로우 성공" });
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+
+router.delete("/follow/:followUserId", async (req, res, next) => {
+	try {
+		const userId = req.user;
+		const user = await search.UserSearch("UserId", userId);
+		const followings = await user.find({ _id: user.userFollow });
+		res.status(200).json(followings);
+	} catch (error) {
+		next(error);
+	}
+});
 
 module.exports = router;

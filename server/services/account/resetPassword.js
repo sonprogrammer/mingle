@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const User = require("../../db/models/userModel");
+const createError = require("http-errors");
 const HmacConvert = require("../../utils/commons/passwordConvert");
 const crypto = require("crypto");
 require("dotenv").config();
@@ -38,7 +39,7 @@ async function reset(userEmail) {
     };
 
     // DB 업데이트 프로미스 (암호화된 비밀번호로 업데이트)
-    const dbUpdatePromise = User.findOneAndUpdate(
+    const dbUpdatePromise = await User.findOneAndUpdate(
       { userEmail },
       { userPassword: HmacConvert(temporaryPassword) }
     );
@@ -57,8 +58,7 @@ async function reset(userEmail) {
     // 메일 보내기와 DB 업데이트를 병렬로 처리 (둘 중 하나라도 실패하면 전체 작업이 실패하도록 Promise.all을 사용!)
     await Promise.all([dbUpdatePromise, mailPromise]);
   } catch (error) {
-    console.log(error);
-    throw error;
+    throw createError(500);
   }
 }
 
