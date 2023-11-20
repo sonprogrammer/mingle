@@ -4,6 +4,7 @@ import { LongButtonComponent } from '../LongButtonComponent';
 import { RecommendGenreComponent } from '../RecommendGenreComponent';
 import {
   StyledChoiceButton,
+  StyledSelectedGenre,
   StylePasswordToggleIcon,
 } from '../SignUpComponent/styles';
 import { StyledPasswordWrapper } from './styles';
@@ -19,12 +20,18 @@ export default function EditComponent({ profile }: EditComponentProps) {
   const openGenreModal = () => setIsGenreModalOpen(true);
   const closeGenreModal = () => setIsGenreModalOpen(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedGenre, setSelectedGenre] = useState('');
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+  const handleGenreSelect = (genre: string) => {
+    setSelectedGenre(genre);
   };
   const handleClick = () => {
     // 변경 제출 함수 구현 예정
   };
+
   return (
     <>
       <label className="block mb-2 text-lg font-bold text-gray-900">
@@ -56,13 +63,22 @@ export default function EditComponent({ profile }: EditComponentProps) {
         />
       </StyledPasswordWrapper>
       <InputComponent label="닉네임" type="text" value={profile.nickname} />
-      <label className="mb-2 text-lg font-bold text-gray-900">음악 취향</label>
-      <StyledChoiceButton onClick={openGenreModal}>
-        고르러 가기
-      </StyledChoiceButton>
+      <div className="flex mb-2">
+        <label className="block text-lg font-bold text-gray-900">
+          음악 취향
+        </label>
+        <StyledChoiceButton onClick={openGenreModal}>
+          고르러 가기
+        </StyledChoiceButton>
+      </div>
+      {selectedGenre && (
+        <StyledSelectedGenre>{selectedGenre}</StyledSelectedGenre>
+      )}
+
       <RecommendGenreComponent
         isOpen={isGenreModalOpen}
         onClose={closeGenreModal}
+        onSelect={handleGenreSelect}
       />
       <LongButtonComponent text={'변경하기'} onClick={handleClick} />
     </>

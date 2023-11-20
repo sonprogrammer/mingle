@@ -12,6 +12,8 @@ import {
   SignUpPage,
   MyPlaylistPage,
   EditProfilePage,
+  LikedSongPage,
+  NewSongPage,
 } from './pages';
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
           <Route path="/" element={<LayoutPage />}>
             <Route path="/" element={<FeedPage />}></Route>
             <Route path="/chart" element={<ChartPage />}></Route>
+            <Route path="/newsong" element={<NewSongPage />}></Route>
+            <Route path="/likedsong" element={<LikedSongPage />}></Route>
             <Route path="/playlist" element={<PlaylistPage />}></Route>
             <Route path="/myplaylist" element={<MyPlaylistPage />}></Route>
             <Route
