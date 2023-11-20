@@ -9,12 +9,14 @@ interface SignUpProps {
   initialUserPassword: string;
   initialVerifyPassword: string;
   initialUserEmail: string;
+  initialUserNickname: string;
 }
 
 export default function SignUpComponent({
   initialUserPassword,
   initialVerifyPassword,
   initialUserEmail,
+  initialUserNickname,
 }: SignUpProps) {
   const handleClick = (event: React.FormEvent) => {
     event.preventDefault();
@@ -27,6 +29,7 @@ export default function SignUpComponent({
   const [userPassword, setUserPassword] = useState(initialUserPassword);
   const [verifyPassword, setVerifyPassword] = useState(initialVerifyPassword);
   const [userEmail, setUserEmail] = useState(initialUserEmail);
+  const [userNickname, setUserNickname] = useState(initialUserNickname);
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState('');
@@ -83,6 +86,15 @@ export default function SignUpComponent({
           src="/img/view-password.png"
           alt="비밀번호 보기"
           onClick={togglePasswordVisibility}
+        />
+      </div>
+      <div style={{ position: 'relative', width: '100%' }}>
+        <InputComponent
+          type="text"
+          label="닉네임"
+          placeholder="닉네임을 입력하세요."
+          value={userNickname}
+          onChange={(e) => setUserNickname(e.target.value)}
         />
       </div>
       {passwordError && (

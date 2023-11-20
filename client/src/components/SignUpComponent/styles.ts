@@ -7,6 +7,13 @@ export const StyleSignUpContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #e0e0e0;
+  overflow-y: auto;
+  max-height: 100vh;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 export const StyleServiceName = styled.div`
