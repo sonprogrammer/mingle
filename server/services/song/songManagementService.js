@@ -1,6 +1,7 @@
 const Song = require("../../db/models/songModel");
 const User = require("../../db/models/userModel");
 const path = require("path");
+const createError = require("http-errors");
 
 async function uploadSong({ userId, songInfo, audio, songImage }) {
   // 클라이언트로부터 body로 받아야 할 곡의 정보 (음원, 이미지 제외)
@@ -36,6 +37,12 @@ async function getSongInfo(songId) {
     .populate("songUploader")
     .populate("songLiked");
 
+  if (!findSong) {
+    const error = new Error("해당 곡은 존재하지 않습니다.");
+    error.status = 404;
+    throw error;
+  }
+
   return findSong;
 }
 
@@ -43,9 +50,19 @@ async function getSongInfo(songId) {
 async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
   const findSong = await Song.findById(songId);
 
-  if (!findSong) return "not-found";
+  if (!findSong) {
+    const error = new Error("해당 곡은 존재하지 않습니다.");
+    error.status = 404;
+    throw error;
+  }
 
-  if (findSong.songUploader.toString() !== userId) return "forbidden";
+  if (findSong.songUploader.toString() !== userId) {
+    const error = new Error(
+      "회원님이 업로드하지 않은 곡은 수정이 불가능합니다."
+    );
+    error.status = 403;
+    throw error;
+  }
 
   const { songName, songDescription, songDuration, songCategory, songMood } =
     songInfo;
@@ -79,9 +96,19 @@ async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
 // 곡을 DB에서 삭제
 async function deleteSong(songId, userId) {
   const findSong = await Song.findById(songId);
-  if (!findSong) return "not-found";
+  if (!findSong) {
+    const error = new Error("해당 곡은 존재하지 않습니다.");
+    error.status = 404;
+    throw error;
+  }
 
-  if (findSong.songUploader.toString() !== userId) return "forbidden";
+  if (findSong.songUploader.toString() !== userId) {
+    const error = new Error(
+      "회원님이 업로드하지 않은 곡은 수정이 불가능합니다."
+    );
+    error.status = 403;
+    throw error;
+  }
 
   const deleteSong = await Song.findByIdAndDelete(songId);
   return deleteSong;
@@ -94,7 +121,11 @@ async function toggleLike(songId, userId) {
   // 3. 만약 존재하지 않는다면 좋아요를 눌러야 하므로 해당 song의 songLiked 필드에 userId를 추가하기 + user의 likeSong에서도 songId 추가하기
   const findSong = await Song.findById(songId).populate("songUploader");
 
-  if (!findSong) return { likeUpdatedSong: null, message: "not-found" };
+  if (!findSong) {
+    const error = new Error("해당 곡은 존재하지 않습니다.");
+    error.status = 404;
+    throw error;
+  }
 
   const findUser = await User.findById(userId);
 
