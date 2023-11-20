@@ -5,6 +5,7 @@ export const StyledCommentContainer = styled.div`
         w-full
         flex-col
         mt-10
+        ml-10
     `}
     p{
         font-size: 24px;
@@ -54,7 +55,7 @@ export const StyledCommentAndFunction = styled.div`
 export const StyledUserFunction = styled.div`
     ${tw`
         flex
-
+        mr-16
     `}
 `
 export const StyledDelete = styled.div`
@@ -72,6 +73,6 @@ export const StyledCorrection = styled.div`
 
 export const StyledComment = styled.div`
     ${tw`
-
+        pb-10
     `}
 `
