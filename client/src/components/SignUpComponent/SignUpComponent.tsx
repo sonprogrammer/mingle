@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import * as Styled from './styles';
 import LongButtonComponent from '../LongButtonComponent/LongButtonComponent';
 import { InputComponent } from '../InputComponent';
 import { RecommendGenreComponent } from '../RecommendGenreComponent';
+
 interface SignUpProps {
   initialUserPassword: string;
   initialVerifyPassword: string;
@@ -27,8 +29,12 @@ export default function SignUpComponent({
   const [userEmail, setUserEmail] = useState(initialUserEmail);
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedGenre, setSelectedGenre] = useState('');
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+  const handleGenreSelect = (genre: string) => {
+    setSelectedGenre(genre);
   };
   useEffect(() => {
     if (userPassword !== verifyPassword && verifyPassword) {
@@ -79,26 +85,35 @@ export default function SignUpComponent({
           onClick={togglePasswordVisibility}
         />
       </div>
+      {passwordError && (
+        <Styled.StyleWarningText>
+          비밀번호가 일치하지 않습니다.
+        </Styled.StyleWarningText>
+      )}
       <Styled.StyledTextWrapper>
         <span>나의 음악 취향은?(선택사항)</span>
         <Styled.StyledChoiceButton onClick={openGenreModal}>
           고르러 가기
         </Styled.StyledChoiceButton>
       </Styled.StyledTextWrapper>
-      {passwordError && (
-        <Styled.StyleWarningText>
-          비밀번호가 일치하지 않습니다.
-        </Styled.StyleWarningText>
-      )}
-
+      <div style={{ position: 'relative', width: '100%' }}>
+        {selectedGenre && (
+          <Styled.StyledSelectedGenre>
+            {selectedGenre}
+          </Styled.StyledSelectedGenre>
+        )}
+      </div>
       <LongButtonComponent text="가입하기" onClick={handleClick} />
       <Styled.StyledTextWrapper>
         <span>회원이신가요?</span>
-        <Styled.StyledTextButton>로그인</Styled.StyledTextButton>
+        <Link to="/login">
+          <Styled.StyledTextButton>로그인</Styled.StyledTextButton>
+        </Link>
       </Styled.StyledTextWrapper>
       <RecommendGenreComponent
         isOpen={isGenreModalOpen}
         onClose={closeGenreModal}
+        onSelect={handleGenreSelect}
       />
     </Styled.StyleSignUpContainer>
   );

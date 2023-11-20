@@ -56,3 +56,8 @@ export const StyledTextButton = styled.div`
 export const StyledChoiceButton = styled.button`
   ${tw`py-1 px-2  text-gray-500 rounded-full hover:bg-gray-300`}
 `;
+
+export const StyledSelectedGenre = styled.div`
+  ${tw`w-full p-2 mb-4 text-lg border rounded-md border-gray-300 focus:border-purple-600 focus:outline-none`}
+  background-color: #F2F2F2;
+`;
