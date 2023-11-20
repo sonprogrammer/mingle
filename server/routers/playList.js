@@ -29,8 +29,7 @@ router.post(
 				res.status(500).json(result);
 			}
 		} catch (error) {
-			console.log(error);
-			next({ code: 500 });
+			next(createError(500));
 		}
 	}
 );
@@ -51,8 +50,7 @@ router.get(
 			// 결과에 따라 응답을 처리
 			res.status(200).json(playlists);
 		} catch (error) {
-			console.log(error);
-			next({ code: 500 });
+			next(createError(500));
 		}
 	}
 );
@@ -69,8 +67,7 @@ router.get(
 				.populate("playListSongs");
 			res.status(200).json(playlist);
 		} catch (error) {
-			console.log(error);
-			next({ code: 500 });
+			next(createError(500));
 		}
 	}
 );
@@ -96,8 +93,7 @@ router.delete(
 				res.status(500).json(result);
 			}
 		} catch (error) {
-			console.log(error);
-			next({ code: 500 });
+			next(createError(500));
 		}
 	}
 );
@@ -115,11 +111,10 @@ router.put(
 			if (success) {
 				res.json(result);
 			} else {
-				res.status(500).json(result);
+				next(createError(500), result);
 			}
 		} catch {
-			console.log(error);
-			next({ code: 500 });
+			next(createError(500));
 		}
 	}
 );
@@ -143,8 +138,7 @@ router.post(
 				res.status(500).json(result);
 			}
 		} catch (error) {
-			console.log(error);
-			next({ code: 500 });
+			next(createError(500));
 		}
 	}
 );
@@ -160,8 +154,7 @@ router.delete(
 				await playListDeleteSong.playListDeleteSong(playlistId, songId);
 			res.json(result); // 무조건 응답을 보냅니다.
 		} catch (error) {
-			console.log(error);
-			next({ code: 500 });
+			next(createError(500));
 		}
 	}
 );
