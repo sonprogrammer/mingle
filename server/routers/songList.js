@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const songService = require("../services/song/songListService");
-const createError = require("http-errors");
 
 // 좋아요 높은 순, 최신 순, 장르별, 검색어로 곡들 가져오는 api
 router.get("/", async (req, res, next) => {
@@ -26,13 +25,7 @@ router.get("/", async (req, res, next) => {
       return res.status(200).json(searchedSongs);
     }
   } catch (error) {
-    console.log(error);
-    return next(
-      createError(
-        error.status || 500,
-        error.message || "곡을 가져오는 중 에러가 발생하였습니다."
-      )
-    );
+    next(error);
   }
 });
 
@@ -46,7 +39,22 @@ router.get(
       const userLikedSongs = await songService.getUserLikedSongs(userId);
       return res.status(200).json(userLikedSongs);
     } catch (error) {
-      return createError(500, "곡을 가져오는 중 에러가 발생하였습니다.");
+      next(error);
+    }
+  }
+);
+
+// 유저가 업로드한 곡들 가져오기
+router.get(
+  "/user-uploaded",
+  passport.authenticate("jwt-user", { session: false }),
+  async (req, res, next) => {
+    try {
+      const userId = req.user.userId;
+      const userUploadedSongs = await songService.getUserUploadedSongs(userId);
+      res.status(200).json(userUploadedSongs);
+    } catch (error) {
+      next(error);
     }
   }
 );

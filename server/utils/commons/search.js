@@ -1,4 +1,5 @@
 const userSchema = require("../../db/models/userModel");
+const createError = require("http-errors");
 
 /**
  * 유저 정보를 조회하는 함수
@@ -26,7 +27,7 @@ async function UserSearch(keyType, keyValue) {
 // 사용자가 입력한 이메일이 DB에 존재하는지 ture/false로 반환
 async function EmailExist(inputEmail) {
   const findEmail = await userSchema.findOne({ userEmail: inputEmail });
-  return Boolean(findEmail);
+  if (findEmail) throw createError(400, "이미 존재하는 사용자입니다.");
 }
 
 // 사용자가 입력한 닉네임, 이메일이 모두 DB에 존재하는지 true/false로 반환
@@ -35,7 +36,7 @@ async function UserExist(inputNickname, inputEmail) {
     userNickname: inputNickname,
     userEmail: inputEmail,
   });
-  return Boolean(findUser);
+  if (!findUser) throw createError(404, "사용자를 찾을 수 없습니다.");
 }
 
 module.exports = { UserSearch, EmailExist, UserExist };

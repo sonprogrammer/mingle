@@ -67,9 +67,15 @@ async function getUserLikedSongs(userId) {
   return userLikedSongs.likeSong;
 }
 
+async function getUserUploadedSongs(userId) {
+  const userUploadedSongs = await Song.find({ songUploader: userId });
+  return userUploadedSongs;
+}
+
 module.exports = {
   getSongsOrderby,
   getSongsByCategory,
   getSongsBySearch,
   getUserLikedSongs,
+  getUserUploadedSongs,
 };
