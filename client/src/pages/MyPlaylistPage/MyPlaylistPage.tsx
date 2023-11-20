@@ -2,6 +2,9 @@ import React from 'react';
 import { AlbumArtComponent, PlaylistContentsComponent } from '../../components';
 import { useSpring, animated } from 'react-spring';
 import { Content, Divider } from '../PlaylistPage/styles';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import { StyledIcon } from './styles';
 
 export default function MyPlaylistPage() {
   const duration = 200;
@@ -12,9 +15,14 @@ export default function MyPlaylistPage() {
     from: { opacity: 0, transform: `translateY(${translateY}px)` },
     config: { duration: duration },
   });
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(-1);
+  };
   return (
     <>
       <animated.div style={transition}>
+        <StyledIcon icon={faXmark} onClick={handleClick} />
         <Content>
           <AlbumArtComponent albumArtSrc="/img/AlbumSample.jpg" />
           <PlaylistContentsComponent
