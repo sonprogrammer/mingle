@@ -10,7 +10,7 @@ export const PlayComponent = styled.div`
 `;
 
 export const SongInfo = styled.div`
-  ${tw`pb-1 font-bold`}
+  ${tw`pb-2 font-bold`}
   font-size: 16px;
 `;
 
