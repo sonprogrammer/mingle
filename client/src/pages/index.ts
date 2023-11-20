@@ -6,4 +6,5 @@ export * from "./RecommendPlaylistPage";
 export * from "./UploadModalTestPage";
 export * from "./LayoutPage";
 export * from "./LoginPage";
+export * from "./MyPlaylistPage";
 export * from "./SignUpPage";
