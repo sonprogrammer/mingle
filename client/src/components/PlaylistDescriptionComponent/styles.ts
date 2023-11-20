@@ -73,7 +73,7 @@ export const StyledHeart = styled.div`
 
 export const StyledTitle = styled.div`
   ${tw`
-  text-2xl
+  text-[1.25rem]
   font-bold
   bg-[#cdcdcdcd]
   p-6

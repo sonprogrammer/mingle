@@ -6,7 +6,6 @@ import {
   StyledDescriptBox,
   StyledTitle,
   StyledOverTitle,
-  StyledDescript,
   StyledTop,
   StyledUserInfo,
   StyledHeart,
