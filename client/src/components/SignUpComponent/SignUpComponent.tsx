@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-
 import * as Styled from './styles';
 import LongButtonComponent from '../LongButtonComponent/LongButtonComponent';
 import { InputComponent } from '../InputComponent';
+import { RecommendGenreComponent } from '../RecommendGenreComponent';
 interface SignUpProps {
   initialUserPassword: string;
   initialVerifyPassword: string;
@@ -18,6 +18,10 @@ export default function SignUpComponent({
     event.preventDefault();
     //제출 로직
   };
+  const [isGenreModalOpen, setIsGenreModalOpen] = useState(false);
+
+  const openGenreModal = () => setIsGenreModalOpen(true);
+  const closeGenreModal = () => setIsGenreModalOpen(false);
   const [userPassword, setUserPassword] = useState(initialUserPassword);
   const [verifyPassword, setVerifyPassword] = useState(initialVerifyPassword);
   const [userEmail, setUserEmail] = useState(initialUserEmail);
@@ -77,7 +81,9 @@ export default function SignUpComponent({
       </div>
       <Styled.StyledTextWrapper>
         <span>나의 음악 취향은?(선택사항)</span>
-        <Styled.StyledChoiceButton>고르러 가기</Styled.StyledChoiceButton>
+        <Styled.StyledChoiceButton onClick={openGenreModal}>
+          고르러 가기
+        </Styled.StyledChoiceButton>
       </Styled.StyledTextWrapper>
       {passwordError && (
         <Styled.StyleWarningText>
@@ -90,6 +96,10 @@ export default function SignUpComponent({
         <span>회원이신가요?</span>
         <Styled.StyledTextButton>로그인</Styled.StyledTextButton>
       </Styled.StyledTextWrapper>
+      <RecommendGenreComponent
+        isOpen={isGenreModalOpen}
+        onClose={closeGenreModal}
+      />
     </Styled.StyleSignUpContainer>
   );
 }
