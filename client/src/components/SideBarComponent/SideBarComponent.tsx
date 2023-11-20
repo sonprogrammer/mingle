@@ -68,7 +68,7 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
     toggleAccordion(buttonContent)
     console.log(`button clicked : ${buttonContent}`)
     if(buttonContent === '피드'){
-      navigate('/feed')
+      navigate('/')
     }else if(buttonContent === '내 정보'){
       navigate('#')
     }else if(buttonContent === '추천 플레이리스트'){
