@@ -163,6 +163,19 @@ async (req, res, next) => {
 	}
 });
 
+router.get("/follower",
+passport.authenticate("jwt-user", { session: false }),
+async(req, res, next) => {  
+  try{
+    const userId = req.user.userId;
+    const data = await viewFollow.viewFollower(userId);
+    res.status(200).json(data);
+  } catch(error){
+    next(error);
+  } 
+}
+)
+
 router.post(
 	"/follow/:followUserId",
 	passport.authenticate("jwt-user", { session: false }),
@@ -178,12 +191,14 @@ router.post(
 	}
 );
 
-router.delete("/follow/:followUserId", async (req, res, next) => {
+router.delete("/follow/:followUserId", 
+passport.authenticate("jwt-user", { session: false }),
+async (req, res, next) => {
 	try {
-		const userId = req.user;
-		const user = await search.UserSearch("UserId", userId);
-		const followings = await user.find({ _id: user.userFollow });
-		res.status(200).json(followings);
+		const userId = req.user.userId;
+    const followUserId = req.params.followUserId;
+    await createFollow.userUnFollow(userId, followUserId);
+		res.status(200).json({message:'팔로우 취소 성공'});
 	} catch (error) {
 		next(error);
 	}
