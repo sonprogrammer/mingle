@@ -7,6 +7,7 @@ const playListAddSong = require("../services/playList/playAddSong");
 const playListDeleteSong = require("../services/playList/playDelteSong");
 const togglePlayListLike = require("../services/playList/playListLike");
 const playListWeather = require("../services/playList/playListWeather");
+const playComment = require("../services/playList/playComment.js");
 const search = require("../utils/commons/search");
 const router = express.Router();
 const passport = require("passport");
@@ -181,5 +182,64 @@ router.get("/weather/:weatherId", async (req, res, next) => {
     next(error);
   }
 });
+router.get(
+	'/playlistComment/:playlistId',
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const playlistId = req.params.playlistId;
+			const data = await playComment.playCommentRead(playlistId);
+			res.status(200).json(data);
+		} catch (error) {
+			next(error);
+		}
+	}
+)
+ router.post(
+	'/playlistComment/:playlistId',
+	passport.authenticate("jwt-user", { session: false }),	
+	async (req, res, next) => {
+		try {
+
+			const userId = req.user.userId;
+			const playlistId = req.params.playlistId;
+			const data  = req.body;
+			const comment = await playComment.playCommentCreate(userId,playlistId, data);
+			res.status(200).json(comment);
+		} catch (error) {
+			next(error);
+		}
+	}
+ )
+ router.put(
+	'/playlistComment/:commentId',
+	passport.authenticate("jwt-user", { session: false }),
+	async(req, res, next) => {
+		try{
+			const userId = req.user.userId;
+			const commentId = req.params.commentId;
+			const data = req.body;
+			const comment = await playComment.playCommentUpdate(userId,commentId,data);
+			res.status(200).json(comment);
+		} catch(error){
+			next(error);
+		}
+	}
+ )
+ router.delete(
+	'/playlistComment/:playlistId/:commentId',
+	passport.authenticate("jwt-user", { session: false }),
+	async(req,res,next) => {
+		try{
+			const playlistId = req.params.playlistId;
+			const userId = req.user.userId;
+			const commentId = req.params.commentId;
+			const data = await playComment.playCommentDelete(userId,playlistId,commentId);
+			res.status(200).json(data);
+		} catch(error){
+			next(error);
+		}
+	}
+ )
 
 module.exports = router;
