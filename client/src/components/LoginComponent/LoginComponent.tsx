@@ -12,6 +12,7 @@ import {
   Divider,
 } from './styles';
 import { LongButtonComponent } from '../LongButtonComponent';
+import { usePostLogin } from '../../hooks';
 interface LoginProps {
   initialUserEmail: string;
   initialUserPassword: string;
@@ -38,8 +39,12 @@ export default function LoginComponent({
       setEmailError('');
     }
   };
+  const { mutate } = usePostLogin({
+    userEmail: userEmail,
+    userPassword: userPassword,
+  });
   const handleClick = () => {
-    //로그인 로직 구현
+    mutate();
   };
 
   return (

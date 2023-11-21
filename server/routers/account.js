@@ -156,18 +156,19 @@ router.post("/reset-password", async (req, res, next) => {
   }
 });
 
-
-router.get("/my-like-playlist", 
-passport.authenticate("jwt-user", { session: false }),
-async (req, res, next) => {
-	try {
-    const userId = req.user.userId;
-    const data = await playListLike.searchUserLike(userId);
-		res.status(200).json(data);
-	} catch (error) {
-    next(error);  
-	}
-});
+router.get(
+  "/my-like-playlist",
+  passport.authenticate("jwt-user", { session: false }),
+  async (req, res, next) => {
+    try {
+      const userId = req.user.userId;
+      const data = await playListLike.searchUserLike(userId);
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.get(
   "/follow",
