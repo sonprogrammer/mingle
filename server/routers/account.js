@@ -8,6 +8,7 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const createFollow = require("../services/account/follow/createFollow");
 const viewFollow = require("../services/account/follow/viewFollow");
+const playListLike = require("../services/playList/playListLike");
 const PlayList = require("../db/models/playListModel");
 const verifyRefreshToken = require("../utils/passport/strategies/verfyRefresh");
 const router = express.Router();
@@ -155,6 +156,7 @@ router.post("/reset-password", async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
 router.get("/my-like-playlist", async (req, res, next) => {
   try {
     const userId = req.user;
@@ -166,6 +168,18 @@ router.get("/my-like-playlist", async (req, res, next) => {
     console.error(error);
     next(createError(500));
   }
+=======
+router.get("/my-like-playlist", 
+passport.authenticate("jwt-user", { session: false }),
+async (req, res, next) => {
+	try {
+    const userId = req.user.userId;
+    const data = await playListLike.searchUserLike(userId);
+		res.status(200).json(data);
+	} catch (error) {
+    next(error);  
+	}
+>>>>>>> 142344bc94513f79df3382a2edbbeb3f4a301b56
 });
 
 router.get(
