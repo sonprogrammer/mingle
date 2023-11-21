@@ -23,7 +23,7 @@ export default function WeatherPlaylistRecommendationComponent({
   return (
     <>
       <StyledContainer>
-        <StyledGenreName>{Genre}음악 추천 플리</StyledGenreName>
+        <StyledGenreName>{Genre}음악 추천 플레이리스트</StyledGenreName>
         <StyledPlaylist>
           {playlists.map((playlist, idx) => (
             <RecommendPlaylistComponent
