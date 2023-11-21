@@ -33,7 +33,7 @@ router.post(
         audio,
         songImage,
       });
-      return res.status(201).json({ newSong });
+      return res.status(201).json(newSong[0]);
     } catch (error) {
       next(error);
     }
@@ -49,7 +49,7 @@ router.get(
       const { userId } = req.user;
       const { songId } = req.params;
       const song = await songService.getSongInfo(userId, songId);
-      return res.status(201).json(song);
+      return res.status(201).json(song[0]);
     } catch (error) {
       next(error);
     }
@@ -85,7 +85,7 @@ router.put(
         audio,
         songImage,
       });
-      return res.status(200).json({ modifiedSong });
+      return res.status(200).json(modifiedSong[0]);
     } catch (error) {
       next(error);
     }

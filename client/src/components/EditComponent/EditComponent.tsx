@@ -20,18 +20,17 @@ export default function EditComponent({ profile }: EditComponentProps) {
   const openGenreModal = () => setIsGenreModalOpen(true);
   const closeGenreModal = () => setIsGenreModalOpen(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedGenre, setSelectedGenre] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState<string[]>([]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const handleGenreSelect = (genre: string) => {
+  const handleGenreSelect = (genre: string[]) => {
     setSelectedGenre(genre);
   };
   const handleClick = () => {
     // 변경 제출 함수 구현 예정
   };
-
   return (
     <>
       <label className="block mb-2 text-lg font-bold text-gray-900">
@@ -71,10 +70,16 @@ export default function EditComponent({ profile }: EditComponentProps) {
           고르러 가기
         </StyledChoiceButton>
       </div>
-      {selectedGenre && (
-        <StyledSelectedGenre>{selectedGenre}</StyledSelectedGenre>
-      )}
 
+      {selectedGenre.length > 0 && (
+        <div style={{ position: 'relative', width: '100%' }}>
+          <StyledSelectedGenre>
+            {selectedGenre.map((item) => {
+              return <>{`${item}, `}</>;
+            })}
+          </StyledSelectedGenre>
+        </div>
+      )}
       <RecommendGenreComponent
         isOpen={isGenreModalOpen}
         onClose={closeGenreModal}
