@@ -12,7 +12,7 @@ import {
 interface GenreModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (genre: string) => void;
+  onSelect: (genre: string[]) => void;
 }
 
 const genres = [
@@ -53,7 +53,7 @@ export default function RecommendGenreComponent({
       const newGenres = prev.includes(genre)
         ? prev.filter((g: string) => g !== genre)
         : [...prev, genre];
-      onSelect(newGenres.join(', ')); // 여러 장르를 선택할 경우 고려
+      onSelect(newGenres); // 여러 장르를 선택할 경우 고려
       return newGenres;
     });
   };
