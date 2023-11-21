@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import * as Styled from './styles';
+import {
+  StylePasswordToggleIcon,
+  StyleServiceName,
+  StyleSignUpContainer,
+  StyleWarningText,
+  StyledChoiceButton,
+  StyledSelectedGenre,
+  StyledTextButton,
+  StyledTextWrapper,
+} from './styles';
 import LongButtonComponent from '../LongButtonComponent/LongButtonComponent';
 import { InputComponent } from '../InputComponent';
 import { RecommendGenreComponent } from '../RecommendGenreComponent';
@@ -30,6 +39,22 @@ export default function SignUpComponent({
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState<string[]>([]);
+  const [emailError, setEmailError] = useState('');
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
+    setUserEmail(email);
+    if (!validateEmail(email) && email) {
+      setEmailError('올바른 이메일 형식이 아닙니다.');
+    } else {
+      setEmailError('');
+    }
+  };
 
   const { mutate } = usePostRegister({
     userEmail: userEmail,
@@ -56,19 +81,22 @@ export default function SignUpComponent({
     }
   }, [userPassword, verifyPassword]);
   return (
-    <Styled.StyleSignUpContainer>
-      <Styled.StyleServiceName>
-        <img src="/img/Logo.png" alt="Mingle Logo" />
-      </Styled.StyleServiceName>
+    <StyleSignUpContainer>
+      <StyleServiceName>
+        <Link to="/">
+          <img src="/img/Logo.png" alt="Mingle Logo" />
+        </Link>
+      </StyleServiceName>
       <div style={{ position: 'relative', width: '100%' }}>
         <InputComponent
           type="email"
           label="이메일"
           placeholder="이메일을 입력하세요."
           value={userEmail}
-          onChange={(e) => setUserEmail(e.target.value)}
+          onChange={handleEmailChange}
         />
       </div>
+      {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
       <div style={{ position: 'relative', width: '100%' }}>
         <InputComponent
           type={showPassword ? 'text' : 'password'}
@@ -77,7 +105,7 @@ export default function SignUpComponent({
           value={userPassword}
           onChange={(e) => setUserPassword(e.target.value)}
         />
-        <Styled.StylePasswordToggleIcon
+        <StylePasswordToggleIcon
           src="/img/view-password.png"
           alt="비밀번호 보기"
           onClick={togglePasswordVisibility}
@@ -91,7 +119,7 @@ export default function SignUpComponent({
           value={verifyPassword}
           onChange={(e) => setVerifyPassword(e.target.value)}
         />
-        <Styled.StylePasswordToggleIcon
+        <StylePasswordToggleIcon
           src="/img/view-password.png"
           alt="비밀번호 보기"
           onClick={togglePasswordVisibility}
@@ -107,39 +135,37 @@ export default function SignUpComponent({
         />
       </div>
       {passwordError && (
-        <Styled.StyleWarningText>
-          비밀번호가 일치하지 않습니다.
-        </Styled.StyleWarningText>
+        <StyleWarningText>비밀번호가 일치하지 않습니다.</StyleWarningText>
       )}
-      <Styled.StyledTextWrapper>
+      <StyledTextWrapper>
         <span>나의 음악 취향은?(선택사항)</span>
-        <Styled.StyledChoiceButton onClick={openGenreModal}>
+        <StyledChoiceButton onClick={openGenreModal}>
           고르러 가기
-        </Styled.StyledChoiceButton>
-      </Styled.StyledTextWrapper>
+        </StyledChoiceButton>
+      </StyledTextWrapper>
 
       {selectedGenre.length > 0 && (
         <div style={{ position: 'relative', width: '100%' }}>
-          <Styled.StyledSelectedGenre>
+          <StyledSelectedGenre>
             {selectedGenre.map((item) => {
               return <>{`${item}, `}</>;
             })}
-          </Styled.StyledSelectedGenre>
+          </StyledSelectedGenre>
         </div>
       )}
 
       <LongButtonComponent text="가입하기" onClick={handleClick} />
-      <Styled.StyledTextWrapper>
+      <StyledTextWrapper>
         <span>회원이신가요?</span>
         <Link to="/login">
-          <Styled.StyledTextButton>로그인</Styled.StyledTextButton>
+          <StyledTextButton>로그인</StyledTextButton>
         </Link>
-      </Styled.StyledTextWrapper>
+      </StyledTextWrapper>
       <RecommendGenreComponent
         isOpen={isGenreModalOpen}
         onClose={closeGenreModal}
         onSelect={handleGenreSelect}
       />
-    </Styled.StyleSignUpContainer>
+    </StyleSignUpContainer>
   );
 }

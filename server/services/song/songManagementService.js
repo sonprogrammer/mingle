@@ -1,8 +1,8 @@
 const Song = require("../../db/models/songModel");
-const User = require("../../db/models/userModel");
+const SongLiked = require("../../db/models/songLikedModel");
 const path = require("path");
 const createError = require("http-errors");
-const mongoose = require("mongoose");
+const isUserLikedSong = require("../../utils/commons/isUserLikedSong");
 
 async function uploadSong({ userId, songInfo, audio, songImage }) {
   // 클라이언트로부터 body로 받아야 할 곡의 정보 (음원, 이미지 제외)
@@ -17,32 +17,29 @@ async function uploadSong({ userId, songInfo, audio, songImage }) {
     songDuration,
     songCategory,
     songMood,
-    songImageName: songImage[0].filename,
     songImageLocation: path.join(
       __dirname,
       `../../upload/songImg/${songImage[0].filename}`
     ),
-    audioName: audio[0].filename,
     audioLocation: path.join(
       __dirname,
       `../../upload/audio/${audio[0].filename}`
     ),
   });
 
-  return createSong.populate("songUploader");
+  const createdSong = await createSong.populate("songUploader");
+  return isUserLikedSong.verifyInSong(userId, [createdSong]);
 }
 
 // songId로 해당하는 곡 찾기
-async function getSongInfo(songId) {
-  const findSong = await Song.findById(songId)
-    .populate("songUploader")
-    .populate("songLiked");
+async function getSongInfo(userId, songId) {
+  const findSong = await Song.findById(songId).populate("songUploader");
 
   if (!findSong) {
     throw createError(404, "해당 곡은 존재하지 않습니다.");
   }
 
-  return findSong;
+  return isUserLikedSong.verifyInSong(userId, [findSong]);
 }
 
 // songId에 해당하는 곡 수정하기
@@ -68,12 +65,11 @@ async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
       songDuration,
       songCategory,
       songMood,
-      songImageName: songImage[0].filename,
       songImageLocation: path.join(
         __dirname,
         `../../upload/songImg/${songImage[0].filename}`
       ),
-      audioName: audio[0].filename,
+
       audioLocation: path.join(
         __dirname,
         `../../upload/audio/${audio[0].filename}`
@@ -83,7 +79,8 @@ async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
     { new: true }
   );
 
-  return modifySong.populate("songUploader");
+  const modifiedSong = await modifySong.populate("songUploader");
+  return isUserLikedSong.verifyInSong(userId, [modifiedSong]);
 }
 
 // 곡을 DB에서 삭제
@@ -101,54 +98,22 @@ async function deleteSong(songId, userId) {
   return deleteSong;
 }
 
-// 곡 좋아요 누르기 DB에 반영
-async function toggleLike(songId, userId) {
-  let session;
-  try {
-    // 트랜잭션 시작
-    session = await mongoose.startSession();
-    session.startTransaction();
+// 곡 좋아요 누르기
+async function pushLike(songId, userId) {
+  const findIsSongLiked = await SongLiked.findOne({ songId, userId });
+  if (findIsSongLiked)
+    throw createError(404, "해당 곡을 찾을 수 없거나 이미 좋아요된 곡입니다.");
+  await SongLiked.create({ songId, userId });
+}
 
-    const findSong = await Song.findById(songId).populate("songUploader");
-
-    if (!findSong) {
-      throw createError(404, "해당 곡은 존재하지 않습니다.");
-    }
-
-    const findUser = await User.findById(userId);
-
-    let likeUpdatedSong = null;
-    let message = "";
-
-    if (!findSong.songLiked.includes(userId)) {
-      findSong.songLiked.push(userId);
-      findSong.songLikedCount += 1;
-      likeUpdatedSong = await findSong.save({ session });
-      findUser.likeSong.push(songId);
-      await findUser.save({ session });
-      message = "곡 좋아요에 성공하였습니다.";
-    } else {
-      findSong.songLiked.splice(findSong.songLiked.indexOf(userId), 1);
-      findSong.songLikedCount -= 1;
-      likeUpdatedSong = await findSong.save({ session });
-      findUser.likeSong.splice(findUser.likeSong.indexOf(songId), 1);
-      await findUser.save({ session });
-      message = "곡 좋아요 취소에 성공하였습니다.";
-    }
-
-    // 트랜잭션 커밋
-    await session.commitTransaction();
-    session.endSession();
-
-    return { likeUpdatedSong, message };
-  } catch (error) {
-    // 에러 발생시 롤백
-    if (session) {
-      await session.abortTransaction();
-      session.endSession();
-    }
-    throw error;
-  }
+// 곡 좋아요 취소하기
+async function cancelLike(songId, userId) {
+  const cancelLike = await SongLiked.findOneAndDelete({ songId, userId });
+  if (!cancelLike)
+    throw createError(
+      404,
+      "해당 곡을 찾을 수 없거나 이미 좋아요 취소된 곡입니다."
+    );
 }
 
 module.exports = {
@@ -156,5 +121,6 @@ module.exports = {
   getSongInfo,
   modifySongInfo,
   deleteSong,
-  toggleLike,
+  pushLike,
+  cancelLike,
 };
