@@ -204,4 +204,20 @@ async (req, res, next) => {
 	}
 });
 
+// 유저 설명 수정 api
+router.put(
+  "/description",
+  passport.authenticate("jwt-user", { session: false }),
+  async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+      const { userDescription } = req.body;
+      await accountEdit.userDescriptionEdit(userId, userDescription);
+      res.status(200).json({ message: "유저 설명 수정에 성공하였습니다." });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 module.exports = router;
