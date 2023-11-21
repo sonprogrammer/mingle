@@ -17,5 +17,5 @@ export * from './InputComponent';
 export * from './LongButtonComponent';
 export * from './LoginComponent';
 export * from './RecommendGenreComponent';
-
+export * from './FindePasswordComponent';
 export * from './SignUpComponent';
