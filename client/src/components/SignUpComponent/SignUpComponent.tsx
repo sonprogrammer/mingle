@@ -4,6 +4,7 @@ import * as Styled from './styles';
 import LongButtonComponent from '../LongButtonComponent/LongButtonComponent';
 import { InputComponent } from '../InputComponent';
 import { RecommendGenreComponent } from '../RecommendGenreComponent';
+import { usePostRegister } from '../../hooks';
 
 interface SignUpProps {
   initialUserPassword: string;
@@ -18,10 +19,6 @@ export default function SignUpComponent({
   initialUserEmail,
   initialUserNickname,
 }: SignUpProps) {
-  const handleClick = (event: React.FormEvent) => {
-    event.preventDefault();
-    //제출 로직
-  };
   const [isGenreModalOpen, setIsGenreModalOpen] = useState(false);
 
   const openGenreModal = () => setIsGenreModalOpen(true);
@@ -32,11 +29,23 @@ export default function SignUpComponent({
   const [userNickname, setUserNickname] = useState(initialUserNickname);
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedGenre, setSelectedGenre] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState<string[]>([]);
+
+  const { mutate } = usePostRegister({
+    userEmail: userEmail,
+    userPassword: verifyPassword,
+    userNickname: userNickname,
+    userPreference: selectedGenre,
+  });
+  const handleClick = (event: React.FormEvent) => {
+    event.preventDefault();
+    mutate();
+  };
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const handleGenreSelect = (genre: string) => {
+  const handleGenreSelect = (genre: string[]) => {
     setSelectedGenre(genre);
   };
   useEffect(() => {
@@ -108,13 +117,17 @@ export default function SignUpComponent({
           고르러 가기
         </Styled.StyledChoiceButton>
       </Styled.StyledTextWrapper>
-      <div style={{ position: 'relative', width: '100%' }}>
-        {selectedGenre && (
+
+      {selectedGenre.length > 0 && (
+        <div style={{ position: 'relative', width: '100%' }}>
           <Styled.StyledSelectedGenre>
-            {selectedGenre}
+            {selectedGenre.map((item) => {
+              return <>{`${item}, `}</>;
+            })}
           </Styled.StyledSelectedGenre>
-        )}
-      </div>
+        </div>
+      )}
+
       <LongButtonComponent text="가입하기" onClick={handleClick} />
       <Styled.StyledTextWrapper>
         <span>회원이신가요?</span>
