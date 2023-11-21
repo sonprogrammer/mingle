@@ -9,3 +9,5 @@ export * from "./LoginPage";
 export * from "./EditProfilePage";
 export * from "./MyPlaylistPage";
 export * from "./SignUpPage";
+export * from "./NewSongPage";
+export * from "./LikedSongPage";

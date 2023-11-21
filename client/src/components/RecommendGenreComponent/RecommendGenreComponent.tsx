@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ContainerStyle,
   GenreButtonStyle,
@@ -7,24 +7,26 @@ import {
   GridStyle,
   ButtonStyle,
   ButtonContainerStyle,
-} from "./styles";
+} from './styles';
 
 interface GenreModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSelect: (genre: string) => void;
 }
 
 const genres = [
-  { id: 1, name: "발라드", image: "../../../public/img/Ballad.png" },
-  { id: 2, name: "록", image: "../../../public/img/Rock.png" },
-  { id: 3, name: "댄스", image: "../../../public/img/Dance.png" },
-  { id: 4, name: "클래식", image: "../../../public/img/Classic.png" },
-  { id: 5, name: "힙합", image: "../../../public/img/Hip-Hop.png" },
+  { id: 1, name: '발라드', image: '../../../public/img/Ballad.png' },
+  { id: 2, name: '록', image: '../../../public/img/Rock.png' },
+  { id: 3, name: '댄스', image: '../../../public/img/Dance.png' },
+  { id: 4, name: '클래식', image: '../../../public/img/Classic.png' },
+  { id: 5, name: '힙합', image: '../../../public/img/Hip-Hop.png' },
 ];
 
 export default function RecommendGenreComponent({
   isOpen,
   onClose,
+  onSelect,
 }: GenreModalProps) {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
@@ -40,19 +42,19 @@ export default function RecommendGenreComponent({
       }
     }
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen, onClose, modalRef]);
   const handleGenreClick = (genre: string) => {
     setSelectedGenres((prev: string[]) => {
-      if (prev.includes(genre)) {
-        return prev.filter((g: string) => g !== genre);
-      } else {
-        return [...prev, genre];
-      }
+      const newGenres = prev.includes(genre)
+        ? prev.filter((g: string) => g !== genre)
+        : [...prev, genre];
+      onSelect(newGenres.join(', ')); // 여러 장르를 선택할 경우 고려
+      return newGenres;
     });
   };
 
@@ -71,7 +73,7 @@ export default function RecommendGenreComponent({
               key={genre.id}
               onClick={() => handleGenreClick(genre.name)}
               className={
-                selectedGenres.includes(genre.name) ? "bg-purple-200" : ""
+                selectedGenres.includes(genre.name) ? 'bg-purple-200' : ''
               }
             >
               <img src={genre.image} alt={genre.name} />

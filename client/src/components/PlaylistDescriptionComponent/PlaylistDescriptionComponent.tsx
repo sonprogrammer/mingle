@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as like } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons'
 import {
   StyledDescriptBox,
   StyledTitle,
   StyledOverTitle,
-  StyledDescript,
   StyledTop,
   StyledUserInfo,
   StyledHeart,
@@ -18,7 +16,6 @@ import {
 } from './styles'
 
 interface PlayDescript {
-  title: string
   description: string
 
 }
@@ -31,7 +28,6 @@ interface User {
 
 interface PlayDescriptAndUser extends User, PlayDescript {}
 export default function PlaylistDescriptionComponent({
-  title,
   description,
   userImg,
   userName,
@@ -48,6 +44,8 @@ export default function PlaylistDescriptionComponent({
   const handleExpandClick = () => {
     setIsExpand(!isExpand)
   }
+
+  const OverDescription = isExpand ? description : description.slice(0, 20) + '...';
   return (
     <>
       <StyledDescriptBox>
@@ -85,8 +83,8 @@ export default function PlaylistDescriptionComponent({
         </StyledTop>
 
         <StyledTitle>
-        <StyledOverTitle isExpand={isExpand}>{title}</StyledOverTitle>
-        {title.length > 20  && (
+        <StyledOverTitle isExpand={isExpand}>{OverDescription}</StyledOverTitle>
+        {description.length > 20  && (
           <>
           <br />
           <StyledButton onClick={handleExpandClick}>{isExpand ? '접기' : '더보기'}</StyledButton>
@@ -94,8 +92,6 @@ export default function PlaylistDescriptionComponent({
         )}
       </StyledTitle>
 
-    
-        <StyledDescript>{description}</StyledDescript>
       </StyledDescriptBox>
     </>
   )
