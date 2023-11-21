@@ -19,5 +19,6 @@ export * from './LoginComponent';
 export * from './RecommendGenreComponent';
 export * from './WeatherPlaylistRecommedationComponent'
 export * from './GenrePlaylistRecommendationComponent'
+export * from './MyPagePlaylists'
 
 export * from './SignUpComponent';
