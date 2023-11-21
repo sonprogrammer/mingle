@@ -19,3 +19,4 @@ export * from './LoginComponent';
 export * from './RecommendGenreComponent';
 export * from './FindePasswordComponent';
 export * from './SignUpComponent';
+export * from './CompleteSignUpComponent';

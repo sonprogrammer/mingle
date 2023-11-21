@@ -15,6 +15,7 @@ import {
   LikedSongPage,
   NewSongPage,
   FindPasswordPage,
+  CompleteSignUpPage,
 } from './pages';
 
 function App() {
@@ -24,6 +25,10 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUpPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
+          <Route
+            path="/completesignup"
+            element={<CompleteSignUpPage />}
+          ></Route>
           <Route path="findpassword" element={<FindPasswordPage />}></Route>
           <Route path="/" element={<LayoutPage />}>
             <Route path="/" element={<FeedPage />}></Route>
