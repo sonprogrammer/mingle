@@ -41,15 +41,20 @@ router.post(
 );
 
 // 특정 곡 정보 가져오기 api
-router.get("/:songId", async (req, res, next) => {
-  try {
-    const { songId } = req.params;
-    const song = await songService.getSongInfo(songId);
-    return res.status(201).json(song);
-  } catch (error) {
-    next(error);
+router.get(
+  "/:songId",
+  passport.authenticate("jwt-user", { session: false }),
+  async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+      const { songId } = req.params;
+      const song = await songService.getSongInfo(userId, songId);
+      return res.status(201).json(song);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // 곡 수정 api
 router.put(
@@ -106,23 +111,55 @@ router.delete(
   }
 );
 
-// 곡 좋아요 토글하기 api
+// 곡 좋아요 누르기 api
 router.post(
-  "/:songId/like-toggle",
+  "/:songId/like-push",
   passport.authenticate("jwt-user", { session: false }),
   async (req, res, next) => {
     try {
       const { songId } = req.params;
       const { userId } = req.user;
-      const { likeUpdatedSong, message } = await songService.toggleLike(
-        songId,
-        userId
-      );
-      return res.status(200).json({ likeUpdatedSong, message });
+      await songService.pushLike(songId, userId);
+      res.status(200).json({ message: "곡 좋아요에 성공하였습니다." });
     } catch (error) {
       next(error);
     }
   }
 );
+
+// 곡 좋아요 취소하기 api
+router.delete(
+  "/:songId/like-cancel",
+  passport.authenticate("jwt-user", { session: false }),
+  async (req, res, next) => {
+    try {
+      const { songId } = req.params;
+      const { userId } = req.user;
+      await songService.cancelLike(songId, userId);
+      res.status(200).json({ message: "곡 좋아요 취소에 성공하였습니다." });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// 곡 좋아요 토글하기 api
+// router.post(
+//   "/:songId/like-toggle",
+//   passport.authenticate("jwt-user", { session: false }),
+//   async (req, res, next) => {
+//     try {
+//       const { songId } = req.params;
+//       const { userId } = req.user;
+//       const { likeUpdatedSong, message } = await songService.toggleLike(
+//         songId,
+//         userId
+//       );
+//       return res.status(200).json({ likeUpdatedSong, message });
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// );
 
 module.exports = router;
