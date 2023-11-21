@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useMutation } from 'react-query';
 import { Auth, Token } from '../types';
 import { useSetRecoilState } from 'recoil';
-import { setRefreshToken, tokenState } from '../utils';
+import { setRefreshToken, loginState } from '../utils';
 import { useNavigate } from 'react-router-dom';
 
 const postLogin = async (auth: Auth): Promise<Token> => { 
@@ -12,12 +12,21 @@ const postLogin = async (auth: Auth): Promise<Token> => {
 	return response.data;
 };
 export function usePostLogin(auth: Auth) {
-    const setToken = useSetRecoilState(tokenState);
+    const setLogin = useSetRecoilState(loginState);
     const navigate = useNavigate();
+    const today = new Date();
     return useMutation(() => postLogin(auth), {
         onSuccess: (response) => {
-        setToken(response.accessToken);
-        setRefreshToken(response.refreshToken);
-        navigate('/');
-    }});
+            setLogin({
+                isLogin: true,
+                accessToken: response.accessToken,
+                expireTime: today.setDate(today.getDate() + 1),
+            });
+            setRefreshToken(response.refreshToken);
+            navigate('/');
+        },
+        onError: (e) => {
+            console.log(e);
+        }
+});
 }
