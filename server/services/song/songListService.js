@@ -1,15 +1,29 @@
 const Song = require("../../db/models/songModel");
-const User = require("../../db/models/userModel");
+const SongLiked = require("../../db/models/songLikedModel");
+const isUserLikedSong = require("../../utils/commons/isUserLikedSong");
 
 // query로 orderby가 입력된 경우
-async function getSongsOrderby(queryValue) {
+async function getSongsOrderby(queryValue, userId) {
   // 좋아요 많은 순
   if (queryValue === "top") {
-    const topSongs = await Song.find({})
-      .sort({ songLikedCount: -1 })
-      .limit(100)
-      .populate("songUploader");
-    return topSongs;
+    const topSongs = await SongLiked.aggregate([
+      {
+        $group: {
+          _id: "$songId",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { count: -1 },
+      },
+    ]).limit(100);
+    // songId들을 추출
+    const songIds = topSongs.map((result) => result._id);
+    const topSongsInfo = await Song.find({ _id: { $in: songIds } }).populate(
+      "songUploader"
+    );
+
+    return isUserLikedSong.verifyInSong(userId, topSongsInfo);
   } else if (queryValue === "recent") {
     // 현재 날짜와 현재 날짜로부터 30일 전의 날짜 계산
     const thirtyDaysAgo = new Date();
@@ -24,22 +38,22 @@ async function getSongsOrderby(queryValue) {
       .sort({ createdAt: -1 })
       .limit(10)
       .populate("songUploader");
-    return recentSongs;
+    return isUserLikedSong.verifyInSong(userId, recentSongs);
   } else {
     return null;
   }
 }
 
 // query로 category가 입력된 경우
-async function getSongsByCategory(queryValue) {
+async function getSongsByCategory(queryValue, userId) {
   const categorySongs = await Song.find({ songCategory: queryValue }).populate(
     "songUploader"
   );
-  return categorySongs;
+  return isUserLikedSong.verifyInSong(userId, categorySongs);
 }
 
 // query로 search가 입력된 경우
-async function getSongsBySearch(searchWord, searchType) {
+async function getSongsBySearch(searchWord, searchType, userId) {
   let searchedSongs = null;
 
   if (searchType === "song-name") {
@@ -59,17 +73,27 @@ async function getSongsBySearch(searchWord, searchType) {
       );
     });
   }
-  return searchedSongs;
+
+  return isUserLikedSong.verifyInSong(userId, searchedSongs);
 }
 
+// 유저가 좋아요한 곡 정보 가져오기
 async function getUserLikedSongs(userId) {
-  const userLikedSongs = await User.findById(userId).populate("likeSong");
-  return userLikedSongs.likeSong;
+  const userLikedSongs = await SongLiked.find({ userId }).populate({
+    path: "songId",
+    populate: { path: "songUploader" },
+  });
+
+  return isUserLikedSong.verifyInSongLiked(userId, userLikedSongs);
 }
 
+// 유저가 업로드한 곡 정보 가져오기
 async function getUserUploadedSongs(userId) {
-  const userUploadedSongs = await Song.find({ songUploader: userId });
-  return userUploadedSongs;
+  const userUploadedSongs = await Song.find({ songUploader: userId }).populate(
+    "songUploader"
+  );
+  console.log(userUploadedSongs);
+  return isUserLikedSong.verifyInSong(userId, userUploadedSongs);
 }
 
 module.exports = {
