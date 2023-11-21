@@ -4,30 +4,43 @@ const passport = require("passport");
 const songService = require("../services/song/songListService");
 
 // 좋아요 높은 순, 최신 순, 장르별, 검색어로 곡들 가져오는 api
-router.get("/", async (req, res, next) => {
-  try {
-    // orderby=top(좋아요 높은 순), orderby=recent(최신 순)로 query parameter가 들어왔을 경우
-    if (req.query.orderby) {
-      const { orderby } = req.query;
-      const orderbySongs = await songService.getSongsOrderby(orderby);
-      return res.status(200).json(orderbySongs);
+router.get(
+  "/",
+  passport.authenticate("jwt-user", { session: false }),
+  async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+
+      // orderby=top(좋아요 높은 순), orderby=recent(최신 순)로 query parameter가 들어왔을 경우
+      if (req.query.orderby) {
+        const { orderby } = req.query;
+        const orderbySongs = await songService.getSongsOrderby(orderby, userId);
+        return res.status(200).json(orderbySongs);
+      }
+      // category=카테고리(장르별)로 query parameter가 들어왔을 경우
+      else if (req.query.category) {
+        const { category } = req.query;
+        const categorySongs = await songService.getSongsByCategory(
+          category,
+          userId
+        );
+        return res.status(200).json(categorySongs);
+      }
+      // search=곡명 검색어 로 query parameter가 들어왔을 경우
+      else if (req.query.search && req.query.type) {
+        const { search, type } = req.query;
+        const searchedSongs = await songService.getSongsBySearch(
+          search,
+          type,
+          userId
+        );
+        return res.status(200).json(searchedSongs);
+      }
+    } catch (error) {
+      next(error);
     }
-    // category=카테고리(장르별)로 query parameter가 들어왔을 경우
-    else if (req.query.category) {
-      const { category } = req.query;
-      const categorySongs = await songService.getSongsByCategory(category);
-      return res.status(200).json(categorySongs);
-    }
-    // search=곡명 검색어 로 query parameter가 들어왔을 경우
-    else if (req.query.search && req.query.type) {
-      const { search, type } = req.query;
-      const searchedSongs = await songService.getSongsBySearch(search, type);
-      return res.status(200).json(searchedSongs);
-    }
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 // 유저가 좋아요한 곡들 가져오기
 router.get(

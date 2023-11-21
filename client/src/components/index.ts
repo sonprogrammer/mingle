@@ -21,4 +21,5 @@ export * from './WeatherPlaylistRecommedationComponent'
 export * from './GenrePlaylistRecommendationComponent'
 export * from './MyPagePlaylists'
 
+export * from './FindePasswordComponent';
 export * from './SignUpComponent';

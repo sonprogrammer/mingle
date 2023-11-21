@@ -27,7 +27,7 @@ const local = new LocalStrategy(config, async (id, password, done) => {
        // 1일 후에 만료되는 access 토큰
 
       const refreshToken = jwt.sign(
-        {},
+        {id: id, userId: data[0]._id.toString() },
         process.env.SHA_KEY,
         { expiresIn: "14d" } // 14일 후에 만료되는 refresh 토큰
       );
