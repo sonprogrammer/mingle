@@ -8,6 +8,7 @@ const playListDeleteSong = require("../services/playList/playDelteSong");
 const togglePlayListLike = require("../services/playList/playListLike");
 const playListWeather = require("../services/playList/playListWeather");
 const playComment = require("../services/playList/playComment.js");
+const playSearch = require("../services/playList/playSearch");
 const search = require("../utils/commons/search");
 const router = express.Router();
 const passport = require("passport");
@@ -32,7 +33,7 @@ router.post(
 				res.status(500).json(result);
 			}
 		} catch (error) {
-			next(createError(500));
+			next(error);
 		}
 	}
 );
@@ -53,7 +54,7 @@ router.get(
 			// 결과에 따라 응답을 처리
 			res.status(200).json(playlists);
 		} catch (error) {
-			next(createError(500));
+			next(error);
 		}
 	}
 );
@@ -70,11 +71,10 @@ router.get(
 				.populate("playListSongs");
 			res.status(200).json(playlist);
 		} catch (error) {
-			next(createError(500));
+			next(error);
 		}
 	}
 );
-
 // DELETE: /플레이리스트-삭제/:playlistId
 router.delete(
 	"/:playlistId",
@@ -96,7 +96,7 @@ router.delete(
 				res.status(500).json(result);
 			}
 		} catch (error) {
-			next(createError(500));
+			next(error);
 		}
 	}
 );
@@ -117,7 +117,7 @@ router.put(
 				next(createError(500), result);
 			}
 		} catch {
-			next(createError(500));
+			next(error);
 		}
 	}
 );
@@ -141,7 +141,7 @@ router.post(
 				res.status(500).json(result);
 			}
 		} catch (error) {
-			next(createError(500));
+			next(error);
 		}
 	}
 );
@@ -159,7 +159,7 @@ router.delete(
 			);
 			res.json(result); // 무조건 응답을 보냅니다.
 		} catch (error) {
-			next(createError(500));
+			next(error)
 		}
 	}
 );
@@ -254,20 +254,18 @@ router.delete(
 	}
 );
 
-// 플레이리스트 검색
+//플레이리스트 검색
 router.get(
-	"/search",
+	"/playlistsearch/search",
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
-		try {
+		try{
 			const query = req.query.q;
-			const page = parseInt(req.query.page)  ||1;
-			const pageSize = parseInt(req.query.pageSize) || 10;
-
-			const results = await YourModel.find({fileidName:{ $regex : new RegExp(query,'i')}})
-			.skip((page-1)*pageSize).limit(pageSize);
-			res.status(200).json(results);
-		} catch (error) {
+			const page  = req.query.page ||1;
+			const pageSize= req.query.pageSize || 10;
+			const data = await playSearch.playSearch(query,page,pageSize);
+			res.status(200).json(data);
+		} catch(error){
 			next(error);
 		}
 	}
