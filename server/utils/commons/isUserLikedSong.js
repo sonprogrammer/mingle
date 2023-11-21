@@ -9,7 +9,7 @@ async function verifyInSongLiked(userId, filteredSongs) {
         userId: userId,
         songId: songInfo._id,
       });
-      return { songInfo, isCurrentUserLiked: Boolean(isUserLiked) };
+      return { song: songInfo, isCurrentUserLiked: Boolean(isUserLiked) };
     })
   );
 
