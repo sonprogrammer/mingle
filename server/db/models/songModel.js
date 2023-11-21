@@ -14,12 +14,8 @@ const songSchema = new mongoose.Schema(
     },
     // 곡의 길이
     songDuration: { type: Number, required: true },
-    // 곡 이미지 파일 이름
-    songImageName: { type: String },
     // 곡 이미지 경로
     songImageLocation: { type: String },
-    // 곡 재생 파일 이름
-    audioName: { type: String, required: true },
     // 곡 재생 경로
     audioLocation: { type: String, required: true },
     // 곡 카테고리
