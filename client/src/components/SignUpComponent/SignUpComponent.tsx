@@ -151,8 +151,8 @@ export default function SignUpComponent({
       {selectedGenre.length > 0 && (
         <div style={{ position: 'relative', width: '100%' }}>
           <StyledSelectedGenre>
-            {selectedGenre.map((item) => {
-              return <>{`${item}, `}</>;
+            {selectedGenre.map((item, index) => {
+              return <span key={index}>{`${item}, `}</span>;
             })}
           </StyledSelectedGenre>
         </div>

@@ -31,7 +31,11 @@ export default function RecommendGenreComponent({
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
   const modalRef = useRef<HTMLDivElement>(null);
-
+  useEffect(() => {
+    if (selectedGenres.length > 0) {
+      onSelect(selectedGenres);
+    }
+  }, [selectedGenres, onSelect]);
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -53,7 +57,6 @@ export default function RecommendGenreComponent({
       const newGenres = prev.includes(genre)
         ? prev.filter((g: string) => g !== genre)
         : [...prev, genre];
-      onSelect(newGenres); // 여러 장르를 선택할 경우 고려
       return newGenres;
     });
   };

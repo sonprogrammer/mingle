@@ -1,6 +1,6 @@
 const playListSchema = require("../../db/models/playListModel");
 const userSchema = require("../../db/models/userModel");
-
+const mongoose = require("mongoose");	
 /**
  * 플레이리스트 좋아요 추가/삭제 함수
  * @param {string} playlistId - 좋아요를 추가/삭제할 플레이리스트의 ObjectId
@@ -63,5 +63,20 @@ async function handlePlaylistLike(req, res, next) {
 	  console.log(error);
 	  next({ code: 500 });
 	}
-  }
-module.exports = { togglePlayListLike ,handlePlaylistLike};
+  };
+
+async function searchUserLike(userId){
+	try{
+		const user = await userSchema.findById(userId);
+		if(!user){
+			throw createError(404, "유저를 찾을 수 없습니다.");
+		}
+		const userLikePlayList =  user.likePlayList;
+		const playlist = await playListSchema.find({_id:{$in:userLikePlayList}});
+		return playlist;
+	} catch(error){
+		throw error;
+	}	
+}
+
+module.exports = { togglePlayListLike ,handlePlaylistLike,searchUserLike};
