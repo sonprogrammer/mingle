@@ -15,7 +15,7 @@ export * from './ChartComponent';
 export * from './ChartItemComponent';
 export * from './InputComponent';
 export * from './LongButtonComponent';
-export * from './AuthComponent';
+export * from './LoginComponent';
 export * from './RecommendGenreComponent';
 export * from './WeatherPlaylistRecommedationComponent'
 

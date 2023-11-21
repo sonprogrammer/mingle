@@ -22,9 +22,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<SignUpPage />}></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/" element={<LayoutPage />}>
             <Route path="/" element={<FeedPage />}></Route>
-            <Route path="/login" element={<LoginPage />}></Route>
             <Route path="/chart" element={<ChartPage />}></Route>
             <Route path="/newsong" element={<NewSongPage />}></Route>
             <Route path="/likedsong" element={<LikedSongPage />}></Route>
