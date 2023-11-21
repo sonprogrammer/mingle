@@ -22,7 +22,7 @@ import {
   faRightFromBracket,
   faPen,
 } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 interface Item {
   content: string;
@@ -107,7 +107,9 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
     <StyledNav>
       <StyledDivideLine>
         <StyledLogo>
-          <img src="/img/Logo-Sidebar.png" alt="Logo" />
+          <Link to="/">
+            <img src="/img/Logo-Sidebar.png" alt="Logo" />
+          </Link>
         </StyledLogo>
       </StyledDivideLine>
 
