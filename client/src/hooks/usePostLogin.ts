@@ -11,6 +11,7 @@ const postLogin = async (auth: Auth): Promise<Token> => {
 	);
 	return response.data;
 };
+
 export function usePostLogin(auth: Auth) {
     const setLogin = useSetRecoilState(loginState);
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ export function usePostLogin(auth: Auth) {
             setLogin({
                 isLogin: true,
                 accessToken: response.accessToken,
-                expireTime: today.setDate(today.getDate() + 1),
+                expireTime: today.getDate() + 1,
             });
             setRefreshToken(response.refreshToken);
             navigate('/');

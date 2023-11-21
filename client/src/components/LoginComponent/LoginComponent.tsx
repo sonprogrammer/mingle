@@ -1,12 +1,44 @@
 import React, { useState } from 'react';
 import { InputComponent } from '../InputComponent';
-import * as Styled from './styles';
+import { Link } from 'react-router-dom';
+import {
+  StyledLoginWrapper,
+  StyledHelpWrapper,
+  StyledLabel,
+  StyledCheckbox,
+  StyledCheckboxChildren,
+  StyledTextWrapper,
+  StyledTextButton,
+  Divider,
+} from './styles';
 import { LongButtonComponent } from '../LongButtonComponent';
 import { usePostLogin } from '../../hooks';
+interface LoginProps {
+  initialUserEmail: string;
+  initialUserPassword: string;
+}
+export default function LoginComponent({
+  initialUserEmail,
+  initialUserPassword,
+}: LoginProps) {
+  const [emailError, setEmailError] = useState('');
+  const [userEmail, setUserEmail] = useState(initialUserEmail);
+  const [userPassword, setUserPassword] = useState(initialUserPassword);
 
-export default function LoginComponent() {
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
+    setUserEmail(email);
+    if (!validateEmail(email) && email) {
+      setEmailError('올바른 이메일 형식이 아닙니다.');
+    } else {
+      setEmailError('');
+    }
+  };
   const { mutate } = usePostLogin({
     userEmail: userEmail,
     userPassword: userPassword,
@@ -14,46 +46,52 @@ export default function LoginComponent() {
   const handleClick = () => {
     mutate();
   };
+
   return (
     <>
-      <Styled.StyledLoginWrapper>
+      <StyledLoginWrapper>
         <div style={{ position: 'relative', width: '100%' }}>
-          <img src="/img/Logo.png" className="mx-auto" />
+          <Link to="/">
+            <img src="/img/Logo.png" className="mx-auto" />
+          </Link>
           <InputComponent
             label="이메일"
             type="email"
             placeholder="이메일을 입력하세요."
-            onChange={(e) => {
-              setUserEmail(e.target.value);
-            }}
+            value={userEmail}
+            onChange={handleEmailChange}
           />
+          {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
           <InputComponent
             label="비밀번호"
             type="password"
             placeholder="비밀번호를 입력하세요."
-            onChange={(e) => {
-              setUserPassword(e.target.value);
-            }}
+            value={userPassword}
+            onChange={(e) => setUserPassword(e.target.value)}
           />
         </div>
-        <Styled.StyledHelpWrapper>
-          <Styled.StyledLabel>
-            <Styled.StyledCheckbox className="peer" type="checkbox" />
-            <Styled.StyledCheckboxChildren className="peer" />
+        <StyledHelpWrapper>
+          <StyledLabel>
+            <StyledCheckbox className="peer" type="checkbox" />
+            <StyledCheckboxChildren className="peer" />
             <span>아이디 저장</span>
-          </Styled.StyledLabel>
-          <Styled.StyledTextWrapper>
-            <Styled.StyledTextButton>아이디 찾기</Styled.StyledTextButton>
-            <Styled.Divider />
-            <Styled.StyledTextButton>비밀번호 찾기</Styled.StyledTextButton>
-          </Styled.StyledTextWrapper>
-        </Styled.StyledHelpWrapper>
+          </StyledLabel>
+          <StyledTextWrapper>
+            <StyledTextButton>아이디 찾기</StyledTextButton>
+            <Divider />
+            <Link to="/findpassword">
+              <StyledTextButton>비밀번호 찾기</StyledTextButton>
+            </Link>
+          </StyledTextWrapper>
+        </StyledHelpWrapper>
         <LongButtonComponent text="로그인" onClick={handleClick} />
-        <Styled.StyledTextWrapper>
+        <StyledTextWrapper>
           <span>회원이 아니신가요?</span>
-          <Styled.StyledTextButton>회원가입</Styled.StyledTextButton>
-        </Styled.StyledTextWrapper>
-      </Styled.StyledLoginWrapper>
+          <Link to="/signup">
+            <StyledTextButton>회원가입</StyledTextButton>
+          </Link>
+        </StyledTextWrapper>
+      </StyledLoginWrapper>
     </>
   );
 }

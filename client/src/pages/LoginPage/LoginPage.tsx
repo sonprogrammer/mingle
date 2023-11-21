@@ -3,7 +3,7 @@ import { LoginComponent } from '../../components';
 export default function LoginPage() {
   return (
     <>
-      <LoginComponent />
+      <LoginComponent initialUserEmail="" initialUserPassword="" />
     </>
   );
 }
