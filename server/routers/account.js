@@ -5,9 +5,11 @@ const accountDelete = require("../services/account/delete");
 const accountEdit = require("../services/account/update");
 const search = require("../utils/commons/search");
 const passport = require("passport");
+const jwt = require('jsonwebtoken');
 const createFollow = require("../services/account/follow/createFollow");
 const viewFollow = require("../services/account/follow/viewFollow");
 const PlayList = require("../db/models/playListModel");
+const verifyRefreshToken = require("../utils/passport/strategies/verfyRefresh");
 const router = express.Router();
 const {
   userCreateValidation,
@@ -112,6 +114,18 @@ router.post(
     console.log("로그인 성공!");
   }
 );
+
+
+router.post('/refresh', verifyRefreshToken, (req, res) => {
+  try {
+    const accessToken = jwt.sign({ id: req.user.id, userId: req.user.userId }, process.env.SHA_KEY, {
+      expiresIn: '1d',
+    });
+    res.status(200).json({ accessToken: accessToken });
+  } catch (error) {
+    next(error)
+  }
+});
 
 // 이메일 중복확인 api
 router.get("/check-email", async (req, res, next) => {
