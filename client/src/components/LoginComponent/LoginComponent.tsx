@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { InputComponent } from '../InputComponent';
 import * as Styled from './styles';
 import { LongButtonComponent } from '../LongButtonComponent';
-const handleClick = () => {
-  //로그인 로직 구현
-};
+import { usePostLogin } from '../../hooks';
+
 export default function LoginComponent() {
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const { mutate } = usePostLogin({
+    userEmail: userEmail,
+    userPassword: userPassword,
+  });
+  const handleClick = () => {
+    mutate();
+  };
   return (
     <>
       <Styled.StyledLoginWrapper>
@@ -15,11 +23,17 @@ export default function LoginComponent() {
             label="이메일"
             type="email"
             placeholder="이메일을 입력하세요."
+            onChange={(e) => {
+              setUserEmail(e.target.value);
+            }}
           />
           <InputComponent
             label="비밀번호"
             type="password"
             placeholder="비밀번호를 입력하세요."
+            onChange={(e) => {
+              setUserPassword(e.target.value);
+            }}
           />
         </div>
         <Styled.StyledHelpWrapper>
