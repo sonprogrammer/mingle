@@ -156,19 +156,7 @@ router.post("/reset-password", async (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
-router.get("/my-like-playlist", async (req, res, next) => {
-  try {
-    const userId = req.user;
-    const user = await search.UserSearch("UserId", userId);
-    console.log(user);
-    const playlists = await PlayList.find({ _id: user.userLikePlayList });
-    res.status(200).json(playlists);
-  } catch (error) {
-    console.error(error);
-    next(createError(500));
-  }
-=======
+
 router.get("/my-like-playlist", 
 passport.authenticate("jwt-user", { session: false }),
 async (req, res, next) => {
@@ -179,7 +167,6 @@ async (req, res, next) => {
 	} catch (error) {
     next(error);  
 	}
->>>>>>> 142344bc94513f79df3382a2edbbeb3f4a301b56
 });
 
 router.get(
