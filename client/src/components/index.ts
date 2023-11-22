@@ -17,8 +17,9 @@ export * from './InputComponent';
 export * from './LongButtonComponent';
 export * from './LoginComponent';
 export * from './RecommendGenreComponent';
-export * from './WeatherPlaylistRecommedationComponent';
-export * from './GenrePlaylistRecommendationComponent';
+export * from './WeatherPlaylistRecommedationComponent'
+export * from './GenrePlaylistRecommendationComponent'
+export * from './MyPagePlaylists'
 export * from './CompletePasswordRecoveryComponent';
 export * from './FindePasswordComponent';
 export * from './SignUpComponent';
