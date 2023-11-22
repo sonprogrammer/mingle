@@ -35,8 +35,19 @@ const local = new LocalStrategy(config, async (id, password, done) => {
         process.env.SHA_KEY,
         { expiresIn: "14d" } // 14일 후에 만료되는 refresh 토큰
       );
+
+      const accessExpiredDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
+      const refreshExpiredDate = new Date(
+        Date.now() + 14 * 24 * 60 * 60 * 1000
+      );
+
       // 성공적으로 찾았으므로 done 함수 호출하여 반환한다
-      done(null, { accessToken: accessToken, refreshToken: refreshToken });
+      done(null, {
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        accessExpiredDate,
+        refreshExpiredDate,
+      });
     } else if (data.length === 0) {
       // 사용자가 없거나 비밀번호가 틀린 경우
       done(null, false, { message: "아이디이나 비밀번호가 틀렸습니다." });
