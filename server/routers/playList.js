@@ -75,20 +75,10 @@ router.delete(
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
 		try {
-			const userId = req.user.objectId;
+			const userId = req.user.userId;
 			const playlistId = req.params.playlistId;
-
-			// playListDelete 함수를 사용하여 플레이리스트 삭제
-			const [success, result] = await playListDelete.playListDelete(
-				userId,
-				playlistId
-			);
-
-			if (success) {
-				res.json(result);
-			} else {
-				res.status(500).json(result);
-			}
+			const data = await playListDelete.playListDelete(userId, playlistId);
+			res.status(200).json(data);
 		} catch (error) {
 			next(error);
 		}
@@ -126,7 +116,11 @@ router.post(
 			const userId = req.user.userId;
 			const playlistId = req.params.playlistId;
 			const songId = req.params.songId;
-			const data = await playListAddSong.playListAddSong(playlistId, songId, userId);
+			const data = await playListAddSong.playListAddSong(
+				playlistId,
+				songId,
+				userId
+			);
 			res.status(200).json(data);
 		} catch (error) {
 			next(error);
