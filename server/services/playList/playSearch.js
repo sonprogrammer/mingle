@@ -22,9 +22,13 @@ const playSearch = async (query, page, pageSize, userId) => {
           userId: userId,
           playListId: playlist._id,
         });
+        const likeCount = await playListLikeSchema.countDocuments({
+          playListId: playlist._id,
+        });
         return {
           ...playlist._doc,
           likedByUser: like ? true : false, 
+          likeCount,
         };
       })
     );
