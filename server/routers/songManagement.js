@@ -143,23 +143,4 @@ router.delete(
   }
 );
 
-// 곡 좋아요 토글하기 api
-// router.post(
-//   "/:songId/like-toggle",
-//   passport.authenticate("jwt-user", { session: false }),
-//   async (req, res, next) => {
-//     try {
-//       const { songId } = req.params;
-//       const { userId } = req.user;
-//       const { likeUpdatedSong, message } = await songService.toggleLike(
-//         songId,
-//         userId
-//       );
-//       return res.status(200).json({ likeUpdatedSong, message });
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
-
 module.exports = router;

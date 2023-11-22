@@ -102,7 +102,7 @@ async function deleteSong(songId, userId) {
       );
     }
 
-    const deleteLike = await SongLiked.deleteMany({ songId }, { session });
+    await SongLiked.deleteMany({ songId }, { session });
     const deleteSong = await Song.findByIdAndDelete(songId, { session });
     await session.commitTransaction();
     return deleteSong;
