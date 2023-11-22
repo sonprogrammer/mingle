@@ -1,20 +1,20 @@
-import tw, { styled } from "twin.macro";
+import tw, { styled } from 'twin.macro';
 
 export const StyledTitleWrapper = styled.div`
-    ${tw`flex justify-between`}
+  ${tw`flex justify-between`}
 `;
 export const StyledChartTitle = styled.div`
-    ${tw`text-xl font-bold`}
+  ${tw`text-xl ml-14 font-bold self-center`}
 `;
 export const StyledChartAddButton = styled.div`
-    ${tw`flex items-center rounded-full w-[90px] px-2 text-center cursor-pointer`}
-    background-color: #9b59b6;
-    color: #fff;
-    gap: 4px;
-    &:hover {
-        opacity: 90%;
-    }
+  ${tw`flex items-center rounded-full w-[90px] px-2 text-center cursor-pointer`}
+  background-color: #9b59b6;
+  color: #fff;
+  gap: 4px;
+  &:hover {
+    opacity: 90%;
+  }
 `;
 export const StyledChartWrapper = styled.div`
-    padding: 30px;
+  padding: 30px;
 `;

@@ -1,82 +1,50 @@
-import React from "react";
-import { ChartComponent } from "../../components";
+import React, { useEffect, useState } from 'react';
+import { ChartComponent } from '../../components';
+import { fetchSongsByLikes } from '../../utils';
+interface SongData {
+  song: {
+    songName: string;
+    songImageName: string;
+    songArtist: string | null;
+    songDuration: number;
+  };
+  isCurrentUserLiked: boolean;
+}
+interface ChartItem {
+  title: string;
+  img: string;
+  artist: string;
+  length: string;
+  isLiked: boolean;
+}
 
 export default function ChartPage() {
-  return (
-    <ChartComponent
-      items={[
-        {
-          title: "Lost Boy",
-          img: "/img/AlbumSample.jpg",
-          artist: "Troye Sivan",
-          length: "03:20",
-          isLiked: true,
-        },
-        {
-          title: "Dangerously",
-          img: "/img/AlbumSample.jpg",
-          artist: "Charlie Puth",
-          length: "03:48",
-          isLiked: false,
-        },
-        {
-          title: "Eyes Closed",
-          img: "/img/AlbumSample.jpg",
-          artist: "Ed Sherren",
-          length: "03:21",
-          isLiked: true,
-        },
-        {
-          title: "Steal The Show",
-          img: "/img/AlbumSample.jpg",
-          artist: "Lauv",
-          length: "03:28",
-          isLiked: false,
-        },
-        {
-          title: "Kill Bill",
-          img: "/img/AlbumSample.jpg",
-          artist: "SZA",
-          length: "03:50",
-          isLiked: false,
-        },
-        {
-          title: "Lost Boy",
-          img: "/img/AlbumSample.jpg",
-          artist: "Troye Sivan",
-          length: "03:20",
-          isLiked: true,
-        },
-        {
-          title: "Dangerously",
-          img: "/img/AlbumSample.jpg",
-          artist: "Charlie Puth",
-          length: "03:48",
-          isLiked: false,
-        },
-        {
-          title: "Eyes Closed",
-          img: "/img/AlbumSample.jpg",
-          artist: "Ed Sherren",
-          length: "03:21",
-          isLiked: true,
-        },
-        {
-          title: "Steal The Show",
-          img: "/img/AlbumSample.jpg",
-          artist: "Lauv",
-          length: "03:28",
-          isLiked: false,
-        },
-        {
-          title: "Kill Bill",
-          img: "/img/AlbumSample.jpg",
-          artist: "SZA",
-          length: "03:50",
-          isLiked: false,
-        },
-      ]}
-      title={"차트"}
-    />
-  );
+  const [songs, setSongs] = useState<ChartItem[]>([]);
+
+  useEffect(() => {
+    fetchSongsByLikes()
+      .then((data: SongData[]) => {
+        if (data) {
+          const formattedSongs = data.map((item: SongData) => ({
+            title: item.song.songName,
+            img: `http://localhost:5173/upload/songImg/1700467037093.jpg`,
+            artist: item.song.songArtist || 'Unknown Artist',
+            length: formatDuration(item.song.songDuration),
+            isLiked: item.isCurrentUserLiked,
+          }));
+          setSongs(formattedSongs);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching songs by likes:', error);
+      });
+  }, []);
+
+  const formatDuration = (duration: number): string => {
+    const minutes = Math.floor(duration / 60000);
+    const seconds = ((duration % 60000) / 1000).toFixed(0);
+    return `${minutes}:${seconds.padStart(2, '0')}`;
+  };
+
+  return <ChartComponent items={songs} title="차트" />;
 }
