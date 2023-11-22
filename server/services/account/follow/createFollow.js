@@ -47,8 +47,14 @@ async function userUnFollow(user, followUser) {
         if(!searchUser.userFollow.includes(followUser)){
             throw createError(400,{message:"팔로우하지 않은 유저입니다."});
         }   
+        const followerUser = await User.findById(followUser);
+        if(!followerUser){
+            throw createError(400,{message:"유저를 찾을 수 없습니다."});
+        }
         searchUser.userFollow.pull(followUser);
+        followerUser.userFollower.pull(user);
         await searchUser.save();
+        await followerUser.save();
     }catch(error){
         throw error;        
 
