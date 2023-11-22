@@ -5,8 +5,6 @@ const createError = require("http-errors");
 
 // query로 orderby가 입력된 경우
 async function getSongsOrderby(queryValue, userId, page, pageSize) {
-  const skip = (page - 1) * pageSize;
-
   // 좋아요 많은 순
   if (queryValue === "top") {
     const topSongs = await SongLiked.aggregate([
