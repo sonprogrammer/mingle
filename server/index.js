@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const cors = require("cors");
+
+app.use(cors());
 
 app.get("/api", function (req, res) {
   res.send("Melody Link API Server");
