@@ -22,3 +22,4 @@ export * from './GenrePlaylistRecommendationComponent'
 
 export * from './FindePasswordComponent';
 export * from './SignUpComponent';
+export * from './CompleteSignUpComponent';
