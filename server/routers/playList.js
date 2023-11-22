@@ -163,7 +163,7 @@ router.delete(
 		}
 	}
 );
-
+// 플레이리스트 좋아요
 router.post(
 	"/:playlistId/like",
 	passport.authenticate("jwt-user", { session: false }),
@@ -173,8 +173,23 @@ router.post(
 			const playlistId = req.params.playlistId;
 			// 현재 로그인한 사용자의 ObjectId
 			const userId = req.user.userId;
-			const data =  playListLike.addLike(playlistId, userId);
-			res.status(200).json(data);
+			const data = await playListLike.addLike(playlistId, userId);
+			res.status(200).json({ message: "좋아요가 업데이트되었습니다" });
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+// 플레이리스트 좋아요 취소
+router.delete(
+	"/:playlistId/like",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const playlistId = req.params.playlistId;
+			const userId = req.user.userId;	
+			const data = await playListLike.deleteLike(playlistId, userId);
+			res.status(200).json({ message: "좋아요가 삭제되었습니다." });
 		} catch (error) {
 			next(error);
 		}

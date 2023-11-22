@@ -1,115 +1,92 @@
 const playListSchema = require("../../db/models/playListModel");
 const userSchema = require("../../db/models/userModel");
-const mongoose = require("mongoose");	
+const mongoose = require("mongoose");
 const createError = require("http-errors");
-const playListLIkeSchema= require("../../db/models/playListLike");
-/**
- * 플레이리스트 좋아요 추가/삭제 함수
- * @param {string} playlistId - 좋아요를 추가/삭제할 플레이리스트의 ObjectId
- * @param {string} userId - 좋아요를 누른/취소한 유저의 ObjectId
- * @returns {Array} - [성공 여부(boolean), 메시지 객체(object)]
- */
+const playListLIkeSchema = require("../../db/models/playListLike");
 
 // 플레이리스트 좋아요 추가 함수
 
-const addLike = async (playListId,userId) => {
-	try{
+const addLike = async (playListId, userId) => {
+	try {
 		const playList = await playListSchema.findById(playListId);
-		if(!playList){
+		if (!playList) {
 			throw createError(404, "플레이리스트를 찾을 수 없습니다.");
 		}
 		const user = await userSchema.findById(userId);
-		if(!user){
+		if (!user) {
 			throw createError(404, "유저를 찾을 수 없습니다.");
 		}
-		const like = await playListLIkeSchema.findOne({playListId:playListId,userId:userId});
-		if(like){
+		const like = await playListLIkeSchema.findOne({
+			playListId: playListId,
+			userId: userId,
+		});
+		if (like) {
 			throw createError(400, "이미 좋아요를 누른 플레이리스트입니다.");
 		}
 		const newLike = {
-			userId:userId,
-			playListId:playListId,
+			userId: userId,
+			playListId: playListId,
 		};
-		const likeData = await playListLIkeSchema(newLike).save();
-		return likeData;
-	}catch(error){
+		await playListLIkeSchema(newLike).save();
+		return newLike;
+	} catch (error) {
 		throw error;
 	}
 };
 
+//플레이리스트 좋아요 삭제 함수
 
-
-
-async function togglePlayListLike(playlistId, userId) {
+const deleteLike = async (playListId, userId) => {
 	try {
-		const playlist = await playListSchema.findById(playlistId);
-		if (!playlist) {
-			return [false, { message: "플레이리스트를 찾을 수 없습니다." }];
+		const playList = await playListSchema.findById(playListId);
+		if (!playList) {
+			throw createError(404, "플레이리스트를 찾을 수 없습니다.");
 		}
-
-		const index = playlist.playListLiked.indexOf(userId);
-		if (index > -1) {
-			playlist.playListLiked.splice(index, 1);
-		} else {
-			playlist.playListLiked.push(userId);
-		}
-
-		await playlist.save();
-
 		const user = await userSchema.findById(userId);
 		if (!user) {
-			return [false, { message: "유저를 찾을 수 없습니다." }];
-		}
-
-		if (index > -1) {
-			user.likePlayList.splice(user.likePlayList.indexOf(playlistId), 1);
-		} else {
-			user.likePlayList.push(playlistId);
-		}
-
-		await user.save();
-
-		return [true, { message: "좋아요가 업데이트되었습니다" }];
-	} catch (error) {
-		console.log(error);
-		return [false, { message: "좋아요 업데이트에 실패했습니다." }];
-	}
-}
-
-
-async function handlePlaylistLike(req, res, next) {
-	try {
-	  const playlistId = req.params.playlistId;
-	  const userId = req.user.userId;
-	  const playlistObjectId = new mongoose.Types.ObjectId(playlistId);
-	  const [success, result] = await togglePlayListLike(
-		playlistObjectId,
-		userId
-	  );
-	  
-	  if (success) {
-		res.json(result);
-	  } else {
-		res.status(500).json(result);
-	  }
-	} catch (error) {
-	  console.log(error);
-	  next({ code: 500 });
-	}
-  };
-
-async function searchUserLike(userId){
-	try{
-		const user = await userSchema.findById(userId);
-		if(!user){
 			throw createError(404, "유저를 찾을 수 없습니다.");
 		}
-		const userLikePlayList =  user.likePlayList;
-		const playlist = await playListSchema.find({_id:{$in:userLikePlayList}});
-		return playlist;
-	} catch(error){
+		const like = await playListLIkeSchema.findOne({
+			playListId: playListId,
+			userId: userId,
+		});
+		if (!like) {
+			throw createError(400, "좋아요를 누르지 않은 플레이리스트입니다.");
+		}
+
+		await playListLIkeSchema.deleteOne({
+			playListId: playListId,
+			userId: userId,
+		});
+		return { playListId: playListId, userId: userId };
+	} catch (error) {
 		throw error;
-	}	
+	}
+};
+
+//유저가 좋아요를 누른 플레이리스트를 찾는 함수
+async function searchUserLike(userId) {
+	try {
+		const user = await userSchema.findById(userId);
+		if (!user) {
+			throw createError(404, "유저를 찾을 수 없습니다.");
+		}
+		const like = await playListLIkeSchema.find({ userId: userId });
+		if (!like) {
+			throw createError(400, "좋아요를 누른 플레이리스트가 없습니다.");
+		}
+		const playListId = like.map((like) => like.playListId);
+		const playList = await playListSchema.find({
+			_id: { $in: playListId },
+		});
+		return playList;
+	} catch (error) {
+		throw error;
+	}
 }
 
-module.exports = { togglePlayListLike ,handlePlaylistLike,searchUserLike,addLike};
+module.exports = {
+	searchUserLike,
+	addLike,
+	deleteLike,
+};
