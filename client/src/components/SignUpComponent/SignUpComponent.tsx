@@ -89,6 +89,7 @@ export default function SignUpComponent({
       </StyleServiceName>
       <div style={{ position: 'relative', width: '100%' }}>
         <InputComponent
+          id="user-email"
           type="email"
           label="이메일"
           placeholder="이메일을 입력하세요."
@@ -99,6 +100,7 @@ export default function SignUpComponent({
       {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
       <div style={{ position: 'relative', width: '100%' }}>
         <InputComponent
+          id="user-password"
           type={showPassword ? 'text' : 'password'}
           label="비밀번호"
           placeholder="비밀번호를 입력하세요."
@@ -113,6 +115,7 @@ export default function SignUpComponent({
       </div>
       <div style={{ position: 'relative', width: '100%' }}>
         <InputComponent
+          id="verify-password"
           type={showPassword ? 'text' : 'password'}
           label="비밀번호 재확인"
           placeholder="비밀번호를 재입력하세요."
@@ -127,6 +130,7 @@ export default function SignUpComponent({
       </div>
       <div style={{ position: 'relative', width: '100%' }}>
         <InputComponent
+          id="user-nickname"
           type="text"
           label="닉네임"
           placeholder="닉네임을 입력하세요."
@@ -147,8 +151,8 @@ export default function SignUpComponent({
       {selectedGenre.length > 0 && (
         <div style={{ position: 'relative', width: '100%' }}>
           <StyledSelectedGenre>
-            {selectedGenre.map((item) => {
-              return <>{`${item}, `}</>;
+            {selectedGenre.map((item, index) => {
+              return <span key={index}>{`${item}, `}</span>;
             })}
           </StyledSelectedGenre>
         </div>

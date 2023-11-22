@@ -20,7 +20,7 @@ async function getWeatherPlayList(weatherCode) {
     case weatherCode >= 700 && weatherCode < 800:
       mood = ["편안한"];
       break;
-    case weatherCode === 800:
+    case weatherCode == 800:
       mood = ["신나는", "행복한"];
       break;
     case weatherCode >= 800 && weatherCode < 900:
@@ -32,11 +32,11 @@ async function getWeatherPlayList(weatherCode) {
 
   const playlists = await playListSchema.find({}).populate("playListSongs");
   const filteredPlaylists = [];
-  outerLoop: for (let i = 0; i < playlists.length; i++) {
+  for (let i = 0; i < playlists.length; i++) {
     for (let j = 0; j < playlists[i].playListSongs.length; j++) {
       if (mood.includes(playlists[i].playListSongs[j].songMood)) {
         filteredPlaylists.push(playlists[i]);
-        break outerLoop;
+        break;
       }
     }
     if (filteredPlaylists.length === 10) {
@@ -44,6 +44,7 @@ async function getWeatherPlayList(weatherCode) {
     }
   }
 
+  console.log(filteredPlaylists.length);
   return filteredPlaylists;
 }
 
