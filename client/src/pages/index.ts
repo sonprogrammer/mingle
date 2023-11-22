@@ -12,3 +12,5 @@ export * from './SignUpPage';
 export * from './NewSongPage';
 export * from './LikedSongPage';
 export * from './FindPasswordPage';
+export * from './CompleteSignUpPage';
+export * from './CompletePasswordRecoveryPage';

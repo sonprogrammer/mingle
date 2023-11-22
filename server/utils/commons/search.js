@@ -27,6 +27,11 @@ async function UserSearch(keyType, keyValue) {
 
 // 사용자가 입력한 이메일이 DB에 존재하는지 ture/false로 반환
 async function EmailExist(inputEmail) {
+  let regex = new RegExp(
+    "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+  );
+  if (!regex.test(inputEmail))
+    throw createError(400, "올바른 이메일 형식이 아닙니다.");
   const findEmail = await userSchema.findOne({ userEmail: inputEmail });
   if (findEmail) throw createError(400, "이미 존재하는 사용자입니다.");
 }

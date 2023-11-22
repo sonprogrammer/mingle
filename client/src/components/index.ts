@@ -20,6 +20,7 @@ export * from './RecommendGenreComponent';
 export * from './WeatherPlaylistRecommedationComponent'
 export * from './GenrePlaylistRecommendationComponent'
 export * from './MyPagePlaylists'
-
+export * from './CompletePasswordRecoveryComponent';
 export * from './FindePasswordComponent';
 export * from './SignUpComponent';
+export * from './CompleteSignUpComponent';
