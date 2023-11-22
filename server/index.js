@@ -27,6 +27,15 @@ require("dotenv").config();
 
 // /server/upload/songImg 폴더 안에 있는 모든 하위 폴더에 대해 정적 파일 제공
 // 'server/upload/songImg/abc.jpg'나 'server/upload/audio/song.mp3'와 같은 URL로 해당 파일들에 접근할 수 있다.
+
+app.use(
+  "/server/upload/profile",
+  express.static(path.join(__dirname, "upload", "profile"))
+);
+app.use(
+  "/server/upload/playListCover",
+  express.static(path.join(__dirname, "upload", "playListCover"))
+);
 app.use(
   "/server/upload/songImg",
   express.static(path.join(__dirname, "upload", "songImg"))
