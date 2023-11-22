@@ -5,7 +5,7 @@ const playListDelete = require("../services/playList/playDelete");
 const playListUpdate = require("../services/playList/playUpdate");
 const playListAddSong = require("../services/playList/playAddSong");
 const playListDeleteSong = require("../services/playList/playDelteSong");
-const togglePlayListLike = require("../services/playList/playListLike");
+const playListLike = require("../services/playList/playListLike");
 const playListWeather = require("../services/playList/playListWeather");
 const playComment = require("../services/playList/playComment.js");
 const playSearch = require("../services/playList/playSearch");
@@ -159,7 +159,7 @@ router.delete(
 			);
 			res.json(result); // 무조건 응답을 보냅니다.
 		} catch (error) {
-			next(error)
+			next(error);
 		}
 	}
 );
@@ -167,7 +167,18 @@ router.delete(
 router.post(
 	"/:playlistId/like",
 	passport.authenticate("jwt-user", { session: false }),
-	togglePlayListLike.handlePlaylistLike
+	async (req, res, next) => {
+		try {
+			// 플레이리스트의 ObjectId
+			const playlistId = req.params.playlistId;
+			// 현재 로그인한 사용자의 ObjectId
+			const userId = req.user.userId;
+			const data =  playListLike.addLike(playlistId, userId);
+			res.status(200).json(data);
+		} catch (error) {
+			next(error);
+		}
+	}
 );
 
 // 날씨에 맞는 플레이리스트 가져오기
@@ -259,13 +270,13 @@ router.get(
 	"/playlistsearch/search",
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
-		try{
+		try {
 			const query = req.query.q;
-			const page  = req.query.page ||1;
-			const pageSize= req.query.pageSize || 10;
-			const data = await playSearch.playSearch(query,page,pageSize);
+			const page = req.query.page || 1;
+			const pageSize = req.query.pageSize || 10;
+			const data = await playSearch.playSearch(query, page, pageSize);
 			res.status(200).json(data);
-		} catch(error){
+		} catch (error) {
 			next(error);
 		}
 	}

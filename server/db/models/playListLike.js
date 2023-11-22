@@ -8,9 +8,9 @@ const songLikedSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-    songId: {
+    playListId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Song",
+      ref: "Playlist",
       required: true,
       index: true,
     },
