@@ -3,7 +3,10 @@ import { useMutation } from 'react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { loginState } from '../utils';
 
-const postRefreshToken = async (refreshToken: string): Promise<{accessToken: string}> => { 
+const postRefreshToken = async (refreshToken: string): Promise<{
+    accessToken: string,
+    accessExpiredDate: Date,
+}> => { 
 	const response = await axios.post(
 		'/api/account/refresh', {
             refreshToken: refreshToken
@@ -14,13 +17,12 @@ const postRefreshToken = async (refreshToken: string): Promise<{accessToken: str
 export function usePostRefreshToken(refreshToken: string) {
     const setLogin = useSetRecoilState(loginState);
     const login = useRecoilValue(loginState);
-    const today = new Date();
     return useMutation(() => postRefreshToken(refreshToken), {
         onSuccess: (response) => {
         setLogin({
             isLogin: login.isLogin,
             accessToken: response.accessToken,
-            expireTime: today.getDate() + 1,
+            accessExpiredDate: response.accessExpiredDate,
         })
     }});
 }

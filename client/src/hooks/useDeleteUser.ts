@@ -13,8 +13,8 @@ const deleteUser = async (axiosInstance: AxiosInstance): Promise<Token> => {
 };
 
 export function useDeleteUser() {
-    const accessToken = useRecoilValue<{accessToken: string, expireTime: number}>(loginState);
-    const axiosInstance = useAxios(accessToken.accessToken, accessToken.expireTime);
+    const accessToken = useRecoilValue<{accessToken: string, accessExpiredDate: Date}>(loginState);
+    const axiosInstance = useAxios(accessToken.accessToken, accessToken.accessExpiredDate);
     const setLogin = useSetRecoilState(loginState);
     const navigate = useNavigate();
     return useMutation(() => deleteUser(axiosInstance), {
@@ -22,9 +22,9 @@ export function useDeleteUser() {
             setLogin({
                 isLogin: false,
                 accessToken: '',
-                expireTime: 0,
+                accessExpiredDate: new Date(),
             });
-            setRefreshToken('');
+            setRefreshToken('', new Date());
             alert("회원 탈퇴가 완료되었습니다.");
             navigate('/login');
         },

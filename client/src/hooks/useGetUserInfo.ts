@@ -11,7 +11,7 @@ const getUserInfo = async (axiosInstance: AxiosInstance): Promise<UserInfo> => {
 	return response.data;
 };
 export function useGetUserInfo() {
-    const accessToken = useRecoilValue<{accessToken: string, expireTime: number}>(loginState);
-    const axiosInstance = useAxios(accessToken.accessToken, accessToken.expireTime);
+    const accessToken = useRecoilValue<{accessToken: string, accessExpiredDate: Date}>(loginState);
+    const axiosInstance = useAxios(accessToken.accessToken, accessToken.accessExpiredDate);
 	return useQuery(["get-user-info"], () => getUserInfo(axiosInstance));
 }
