@@ -4,8 +4,8 @@ import { useRecoilValue } from 'recoil';
 import { loginState } from './utils';
 
 export default function PrivateRoute() {
-  const { isLogin } = useRecoilValue(loginState);
-  if (isLogin) {
+  const { accessToken } = useRecoilValue(loginState);
+  if (accessToken !== '') {
     return <Outlet />;
   }
   return <Navigate replace to="/login" />;
