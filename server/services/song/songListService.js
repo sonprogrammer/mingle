@@ -5,8 +5,6 @@ const createError = require("http-errors");
 
 // query로 orderby가 입력된 경우
 async function getSongsOrderby(queryValue, userId, page, pageSize) {
-  const skip = (page - 1) * pageSize;
-
   // 좋아요 많은 순
   if (queryValue === "top") {
     const topSongs = await SongLiked.aggregate([
@@ -81,7 +79,6 @@ async function getSongsBySearch(
       .limit(pageSize);
   } else if (searchType === "artist-name") {
     const songs = await Song.find({}).populate("songUploader");
-    console.log(songs);
     searchedSongs = songs.filter((song) => {
       return (
         (song.songUploader &&

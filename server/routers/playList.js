@@ -5,10 +5,11 @@ const playListDelete = require("../services/playList/playDelete");
 const playListUpdate = require("../services/playList/playUpdate");
 const playListAddSong = require("../services/playList/playAddSong");
 const playListDeleteSong = require("../services/playList/playDelteSong");
-const togglePlayListLike = require("../services/playList/playListLike");
+const playListLike = require("../services/playList/playListLike");
 const playListWeather = require("../services/playList/playListWeather");
 const playComment = require("../services/playList/playComment.js");
 const playSearch = require("../services/playList/playSearch");
+const playListGet  = require("../services/playList/playListGet");
 const search = require("../utils/commons/search");
 const router = express.Router();
 const passport = require("passport");
@@ -44,15 +45,9 @@ router.get(
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
 		try {
-			// 현재 로그인한 사용자의 ObjectId 추출
 			const userId = req.user.userId;
-			// playListOwner 필드를 사용하여 해당 사용자가 생성한 플레이리스트를 찾기
-			const playlists = await playListSchema.find({
-				playListOwner: userId,
-			});
-
-			// 결과에 따라 응답을 처리
-			res.status(200).json(playlists);
+			const data = await playListGet.playListGetAll(userId);
+			res.status(200).json(data);
 		} catch (error) {
 			next(error);
 		}
@@ -65,11 +60,10 @@ router.get(
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
 		try {
+			const userId = req.user.userId;
 			const playlistId = req.params.playlistId;
-			const playlist = await playListSchema
-				.findById(playlistId)
-				.populate("playListSongs");
-			res.status(200).json(playlist);
+			const data = await playListGet.playListGetOne(userId, playlistId);
+			res.status(200).json(data);
 		} catch (error) {
 			next(error);
 		}
@@ -159,15 +153,41 @@ router.delete(
 			);
 			res.json(result); // 무조건 응답을 보냅니다.
 		} catch (error) {
-			next(error)
+			next(error);
 		}
 	}
 );
-
+// 플레이리스트 좋아요
 router.post(
 	"/:playlistId/like",
 	passport.authenticate("jwt-user", { session: false }),
-	togglePlayListLike.handlePlaylistLike
+	async (req, res, next) => {
+		try {
+			// 플레이리스트의 ObjectId
+			const playlistId = req.params.playlistId;
+			// 현재 로그인한 사용자의 ObjectId
+			const userId = req.user.userId;
+			const data = await playListLike.addLike(playlistId, userId);
+			res.status(200).json({ message: "좋아요가 업데이트되었습니다" });
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+// 플레이리스트 좋아요 취소
+router.delete(
+	"/:playlistId/like",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const playlistId = req.params.playlistId;
+			const userId = req.user.userId;	
+			const data = await playListLike.deleteLike(playlistId, userId);
+			res.status(200).json({ message: "좋아요가 삭제되었습니다." });
+		} catch (error) {
+			next(error);
+		}
+	}
 );
 
 // 날씨에 맞는 플레이리스트 가져오기
@@ -259,13 +279,14 @@ router.get(
 	"/playlistsearch/search",
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
-		try{
+		try {
+			const userId = req.user.userId;
 			const query = req.query.q;
-			const page  = req.query.page ||1;
-			const pageSize= req.query.pageSize || 10;
-			const data = await playSearch.playSearch(query,page,pageSize);
+			const page = req.query.page || 1;
+			const pageSize = req.query.pageSize || 10;
+			const data = await playSearch.playSearch(query, page, pageSize,userId);
 			res.status(200).json(data);
-		} catch(error){
+		} catch (error) {
 			next(error);
 		}
 	}
