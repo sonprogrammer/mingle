@@ -101,7 +101,7 @@ export default function SignUpComponent({
           value={userEmail}
           onChange={handleEmailChange}
         />
-        {!isEmailExist && (<p style={{color: 'red', textAlign: 'center'}}>{errorMessage}</p>)}
+        {isEmailExist ? (<p style={{color: 'red', textAlign: 'center'}}>{errorMessage}</p>) : (<p style={{color: 'black', textAlign: 'center'}}>{errorMessage}</p>)}
       </div>
 
 

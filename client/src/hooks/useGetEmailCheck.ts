@@ -15,22 +15,18 @@ export function useGetEmailCheck(email: string): emailCheck {
         );
         console.log('Response:', response.data.message);
 
+        setErrorMessage(response.data.message);
         setImailExist(false);
-        setErrorMessage('')
 
-        if (
-          response.data &&
-          response.data.message === '이미 존재하는 사용자입니다.'
-        ) {
-          setImailExist(true);
-          setErrorMessage(response.data.message);
-        }
+        // if (response.data) {
+        //   setImailExist(true);
+        //   setErrorMessage(response.data.message);
+        // }
       } catch (error) {
         if (error.response) {
           console.error('Response error:', error);
-          setErrorMessage(
-            error.response.data.message || '서버 오류가 발생했습니다.',
-          );
+          setErrorMessage(error.response.data.message);
+          setImailExist(true);
         } else {
           setErrorMessage('서버 오류가 발생했습니다.');
         }
