@@ -79,7 +79,6 @@ async function getSongsBySearch(
       .limit(pageSize);
   } else if (searchType === "artist-name") {
     const songs = await Song.find({}).populate("songUploader");
-    console.log(songs);
     searchedSongs = songs.filter((song) => {
       return (
         (song.songUploader &&

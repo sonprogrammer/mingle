@@ -4,7 +4,6 @@ async function verifyInSongLiked(userId, filteredSongs) {
   const songs = await Promise.all(
     filteredSongs.map(async (song) => {
       const songInfo = song.songId;
-      console.log(songInfo);
       const isUserLiked = await SongLiked.findOne({
         userId: userId,
         songId: songInfo._id,

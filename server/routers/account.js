@@ -62,9 +62,11 @@ router.delete(
   passport.authenticate("jwt-user", { session: false }),
   async (req, res, next) => {
     try {
+      const { userId } = req.user;
       const data = await search.UserSearch("userEmail", req.user.userEmail);
       const [bool, { message }] = await accountDelete.UserDelete(
-        data.userEmail
+        data.userEmail,
+        userId
       );
       const statusCode = bool ? 200 : 400;
       res.status(statusCode).json({ message });
