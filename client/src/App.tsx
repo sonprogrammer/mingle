@@ -17,6 +17,7 @@ import {
   NewSongPage,
   FindPasswordPage,
   CompleteSignUpPage,
+  CompletePasswordRecoveryPage,
 } from './pages';
 import PrivateRoute from './PrivateRoute';
 
@@ -34,6 +35,11 @@ function App() {
             ></Route>
             <Route path="/findpassword" element={<FindPasswordPage />}></Route>
             <Route element={<PrivateRoute />}>
+              <Route
+                path="/completerecoverypw"
+                element={<CompletePasswordRecoveryPage />}
+              ></Route>
+
               <Route element={<LayoutPage />}>
                 <Route path="/" element={<FeedPage />}></Route>
                 <Route path="/chart" element={<ChartPage />}></Route>
