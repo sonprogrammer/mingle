@@ -25,10 +25,6 @@ const playListSchema = new mongoose.Schema(
 		],
 		// 이미지가 없을 시에는 기본 이미지로 대체
 		playListImg: { type: String, default: null },
-		playListLiked: {
-			type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-			default: [],
-		},
 	},
 	{
 		versionKey: false,
