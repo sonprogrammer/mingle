@@ -25,18 +25,18 @@ function isTokenExpired() {
   const expiryTime = getTokenExpiry();
   return !expiryTime || expiryTime <= Date.now();
 }
-
+//토큰 만료시간을 추출해 내는 함수임
 function getTokenExpiry() {
-  const token = getCookieToken(); // 현재 access token을 가져옵니다.
+  const token = getCookieToken();
 
   if (!token) {
     return null;
   }
 
   try {
-    const payload = token.split('.')[1]; // JWT의 두 번째 부분(payload)을 추출합니다.
-    const decoded = JSON.parse(atob(payload)); // Base64 디코딩을 수행합니다.
-    return decoded.exp ? decoded.exp * 1000 : null; // exp 값이 있다면 밀리초로 변환하여 반환합니다.
+    const payload = token.split('.')[1]; // JWT의 payload를 추출하고
+    const decoded = JSON.parse(atob(payload)); // Base64 디코딩을 수행한다음
+    return decoded.exp ? decoded.exp * 1000 : null; // exp 값이 있으면 밀리초로 변환하여 반환함
   } catch (e) {
     console.error('Error decoding token:', e);
     return null;
@@ -45,8 +45,9 @@ function getTokenExpiry() {
 
 export async function fetchSongsByLikes() {
   try {
-    let accessToken = getCookieToken(); // 기존 access token을 가져옵니다.
+    let accessToken = getCookieToken();
 
+    //여기서 accessToken이 만료된 경우 재발급을 함
     if (isTokenExpired()) {
       const tokenData = await refreshToken();
       accessToken = tokenData.accessToken;
@@ -73,11 +74,3 @@ export async function fetchSongsByLikes() {
     return null;
   }
 }
-
-fetchSongsByLikes().then((songs) => {
-  if (songs) {
-    console.log('좋아요 순으로 곡을 가져왔습니다.', songs);
-  } else {
-    console.log('곡을 가져오는 중 오류가 발생했습니다.');
-  }
-});

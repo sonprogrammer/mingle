@@ -36,7 +36,7 @@ export default function ChartPage() {
         }
       })
       .catch((error) => {
-        console.error('Error fetching songs by likes:', error);
+        console.error('Error:', error);
       });
   }, []);
 
