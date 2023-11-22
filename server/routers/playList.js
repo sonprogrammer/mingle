@@ -9,7 +9,7 @@ const playListLike = require("../services/playList/playListLike");
 const playListWeather = require("../services/playList/playListWeather");
 const playComment = require("../services/playList/playComment.js");
 const playSearch = require("../services/playList/playSearch");
-const playListGet  = require("../services/playList/playListGet");
+const playListGet = require("../services/playList/playListGet");
 const search = require("../utils/commons/search");
 const router = express.Router();
 const passport = require("passport");
@@ -123,17 +123,11 @@ router.post(
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
 		try {
+			const userId = req.user.userId;
 			const playlistId = req.params.playlistId;
 			const songId = req.params.songId;
-			const [success, result] = await playListAddSong.playListAddSong(
-				playlistId,
-				songId
-			);
-			if (success) {
-				res.json(result);
-			} else {
-				res.status(500).json(result);
-			}
+			const data = await playListAddSong.playListAddSong(playlistId, songId, userId);
+			res.status(200).json(data);
 		} catch (error) {
 			next(error);
 		}
@@ -181,7 +175,7 @@ router.delete(
 	async (req, res, next) => {
 		try {
 			const playlistId = req.params.playlistId;
-			const userId = req.user.userId;	
+			const userId = req.user.userId;
 			const data = await playListLike.deleteLike(playlistId, userId);
 			res.status(200).json({ message: "좋아요가 삭제되었습니다." });
 		} catch (error) {
@@ -284,7 +278,7 @@ router.get(
 			const query = req.query.q;
 			const page = req.query.page || 1;
 			const pageSize = req.query.pageSize || 10;
-			const data = await playSearch.playSearch(query, page, pageSize,userId);
+			const data = await playSearch.playSearch(query, page, pageSize, userId);
 			res.status(200).json(data);
 		} catch (error) {
 			next(error);
