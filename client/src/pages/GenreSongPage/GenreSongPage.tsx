@@ -48,11 +48,13 @@ export default function GenreSongPage() {
             setGenre={setGenre}
             genres={genres}
           />
-          <PaginationComponent
-            setPageNum={setPageNum}
-            currentPage={data?.currentPage}
-            totalPages={data?.totalPages}
-          />
+          {data?.songs && data.songs.length > 0 ? (
+            <PaginationComponent
+              setPageNum={setPageNum}
+              currentPage={data?.currentPage}
+              totalPages={data?.totalPages}
+            />
+          ) : null}
         </>
       )}
     </>
