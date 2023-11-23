@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../types';
 
-async function resetPasswordMutation({
+async function postPassword({
   userEmail,
   userNickname,
 }: Pick<User, 'userEmail' | 'userNickname'>) {
@@ -18,7 +18,7 @@ export function usePostPassword() {
   const navigate = useNavigate();
 
   return useMutation<string, Error, Pick<User, 'userEmail' | 'userNickname'>>(
-    resetPasswordMutation,
+    postPassword,
     {
       onSuccess: () => {
         navigate('/completerecoverypw');
