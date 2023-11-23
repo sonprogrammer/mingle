@@ -85,7 +85,16 @@ export default function RecommendGenreComponent({
           ))}
         </GridStyle>
         <ButtonContainerStyle>
-          <ButtonStyle onClick={onClose}>완료</ButtonStyle>
+          <ButtonContainerStyle>
+            <ButtonStyle
+              onClick={() => {
+                onSelect(selectedGenres);
+                onClose();
+              }}
+            >
+              완료
+            </ButtonStyle>
+          </ButtonContainerStyle>
         </ButtonContainerStyle>
       </ContainerStyle>
     </ModalStyle>
