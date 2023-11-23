@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ChartComponent } from '../../components';
+import PaginationComponent from '../../components/PaginationComponent/PaginationComponent';
 import {
   useGetAllGenres,
   useGetSongsByGenre,
@@ -33,19 +34,26 @@ export default function GenreSongPage() {
   const memoizedMutate = useCallback(mutate, [mutate]);
   useEffect(() => {
     memoizedMutate();
-  }, [genre, memoizedMutate]);
+  }, [genre, pageNum, memoizedMutate]);
 
   return (
     <>
       {isLoading && isGenreLoading ? (
         <>로딩 중...</>
       ) : (
-        <ChartComponent
-          items={items}
-          title={'장르별 음악'}
-          setGenre={setGenre}
-          genres={genres}
-        />
+        <>
+          <ChartComponent
+            items={items}
+            title={'장르별 음악'}
+            setGenre={setGenre}
+            genres={genres}
+          />
+          <PaginationComponent
+            setPageNum={setPageNum}
+            currentPage={data?.currentPage}
+            totalPages={data?.totalPages}
+          />
+        </>
       )}
     </>
   );
