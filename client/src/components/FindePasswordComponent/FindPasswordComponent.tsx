@@ -67,7 +67,11 @@ export default function FindPasswordComponent({
             placeholder="이메일을 입력하세요."
             onChange={handleEmailChange}
           />
-          {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
+          {emailError && (
+            <p style={{ color: 'red', marginTop: -20, marginBottom: 10 }}>
+              {emailError}
+            </p>
+          )}
           <InputComponent
             id="user-nickname"
             label="닉네임"
