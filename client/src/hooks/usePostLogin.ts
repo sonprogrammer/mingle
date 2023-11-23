@@ -15,15 +15,14 @@ const postLogin = async (auth: Auth): Promise<Token> => {
 export function usePostLogin(auth: Auth) {
     const setLogin = useSetRecoilState(loginState);
     const navigate = useNavigate();
-    const today = new Date();
     return useMutation(() => postLogin(auth), {
         onSuccess: (response) => {
             setLogin({
                 isLogin: true,
                 accessToken: response.accessToken,
-                expireTime: today.getDate() + 1,
+                accessExpiredDate: response.accessExpiredDate,
             });
-            setRefreshToken(response.refreshToken);
+            setRefreshToken(response.refreshToken, response.refreshExpiredDate);
             navigate('/');
         },
         onError: (e) => {

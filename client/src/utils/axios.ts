@@ -1,23 +1,27 @@
 import Axios, { AxiosHeaders } from "axios";
 import { usePostRefreshToken } from "../hooks/usePostRefreshToken";
 import { getCookieToken } from "./cookie";
+import { useRecoilValue } from "recoil";
+import { loginState } from "./state";
 
-export const useAxios = (token: string, expiredDate: number) => {
+export const useAxios = () => {
+    const today = new Date(Date.now());
+    const { accessToken, accessExpiredDate } = useRecoilValue(loginState);
+    const refreshToken = getCookieToken();
+    const { mutate } = usePostRefreshToken(refreshToken);
+
     const axios = Axios.create({
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${accessToken}`,
         },
     });
-    const today = new Date().getDay();
-    const refreshToken = getCookieToken();
-    const { mutate } = usePostRefreshToken(refreshToken);
     axios.interceptors.request.use((config) => {
-        if(expiredDate <= today)
+        if(!accessToken && refreshToken || new Date(accessExpiredDate) <= today)
         {
             mutate();
-            (config.headers as AxiosHeaders).set('Authorization', `Bearer ${token}`);
-        }
+        } // 토큰이 유실되었을 때 또는 access Token이 만료 되었을 때 재발급 로직(refresh Token은 존재함)
+        (config.headers as AxiosHeaders).set('Authorization', `Bearer ${accessToken}`);
         return config;
     });
     axios.interceptors.response.use(

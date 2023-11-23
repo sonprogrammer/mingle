@@ -127,7 +127,11 @@ router.post("/refresh", verifyRefreshToken, (req, res) => {
         expiresIn: "1d",
       }
     );
-    res.status(200).json({ accessToken: accessToken });
+    const accessExpiredDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
+    res.status(200).json({
+      accessToken: accessToken,
+      accessExpiredDate: accessExpiredDate,
+    });
   } catch (error) {
     next(error);
   }
