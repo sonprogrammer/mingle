@@ -9,15 +9,19 @@ import {
   StyledTitleWrapper,
 } from "./styles";
 
+
+interface ChartItem {
+  title: string;
+  img: string;
+  artist: string;
+  length: string;
+  isLiked: boolean;
+}
+
+
 interface ChartComponentProps {
   title: string;
-  items: {
-    title: string;
-    img: string;
-    artist: string;
-    length: string;
-    isLiked: boolean;
-  }[];
+  items: ChartItem[];
 }
 export default function ChartComponent({ title, items }: ChartComponentProps) {
   return (
@@ -34,13 +38,13 @@ export default function ChartComponent({ title, items }: ChartComponentProps) {
           {items.map((item, idx) => {
             return (
               <ChartItemComponent
+              key={item.title + idx}
                 idx={idx + 1}
                 title={item.title}
                 img={item.img}
                 artist={item.artist}
                 length={item.length}
                 isLiked={item.isLiked}
-                key={idx}
               />
             );
           })}
