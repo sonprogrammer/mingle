@@ -40,15 +40,14 @@ export default function SignUpComponent({
   const [showPassword, setShowPassword] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState<string[]>([]);
   const [emailError, setEmailError] = useState('');
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+
+
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-
-  const { isEmailExist, errorMessage } = useGetEmailCheck(userEmail)
-
-
 
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +59,16 @@ export default function SignUpComponent({
       setEmailError('');
     }
   };
+
+
+  const { data, error,refetch } = useGetEmailCheck(userEmail);
+
+
+  const handleEmailClick = async () => {
+    setIsButtonClicked(true)
+    await refetch()
+  }
+
 
   const { mutate } = usePostRegister({
     userEmail: userEmail,
@@ -101,9 +110,23 @@ export default function SignUpComponent({
           value={userEmail}
           onChange={handleEmailChange}
         />
-        {isEmailExist ? (<p style={{color: 'red', textAlign: 'center'}}>{errorMessage}</p>) : (<p style={{color: 'black', textAlign: 'center'}}>{errorMessage}</p>)}
+        <button
+          onClick={handleEmailClick}
+          style={{
+            backgroundColor: '#9e9e9e',
+            borderRadius: '5px',
+            padding: '3px',
+            position: 'absolute',
+            top: '42px',
+            right: '10px',
+            color: 'white',
+          }}
+        >
+          중복 확인
+        </button>
+        {data && <p style={{textAlign: 'center'}}>사용 가능한 이메일입니다.</p>}
+      {error && isButtonClicked && <p style={{color:'red', textAlign:'center'}}>{error.message}</p>}
       </div>
-
 
       <div style={{ position: 'relative', width: '100%' }}>
         <InputComponent

@@ -1,39 +1,36 @@
-// import { useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import axios from 'axios';
 import { emailCheck } from '../types';
-import { useEffect, useState } from 'react';
 
-export function useGetEmailCheck(email: string): emailCheck {
-  const [isEmailExist, setImailExist] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('error');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `/api/account/check-email?email=${email}`,
-        );
-        console.log('Response:', response.data.message);
+const getEmailCheck = async (email: string): Promise<emailCheck> => {
+  try {
+    const response = await axios.get(`/api/account/check-email?email=${email}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else {
+      console.error('Error:', error);
+      throw new Error('서버 요청 중 오류가 발생했습니다.');
+    }
+  }
+};
 
-        setErrorMessage(response.data.message);
-        setImailExist(false);
-
-        // if (response.data) {
-        //   setImailExist(true);
-        //   setErrorMessage(response.data.message);
-        // }
-      } catch (error) {
-        if (error.response) {
-          console.error('Response error:', error);
-          setErrorMessage(error.response.data.message);
-          setImailExist(true);
-        } else {
-          setErrorMessage('서버 오류가 발생했습니다.');
-        }
+export function useGetEmailCheck(email: string){
+  return useQuery<emailCheck, Error>(
+    ['emailCheck', email],
+    () => getEmailCheck(email),
+    {
+      retry: false,
+      enabled: false,
+      onSuccess: (response) => {
+        console.log('Success:', response);
+      },
+      onError: (error: Error) => {
+        console.error('Error:', error);
       }
-    };
 
-    fetchData();
-  }, [email]);
-  return { isEmailExist, errorMessage };
-}
+    }
+  );
+};
