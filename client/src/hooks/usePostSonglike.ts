@@ -1,4 +1,4 @@
-import { getCookieToken } from './cookie';
+import { getCookieToken } from '../utils/cookie';
 
 async function refreshToken() {
   const refreshToken = getCookieToken();
