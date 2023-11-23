@@ -1,5 +1,6 @@
 import { getCookieToken } from '../utils/cookie';
 import { useQuery } from 'react-query';
+import axios, { AxiosError } from 'axios';
 
 async function refreshToken() {
   const refreshToken = getCookieToken();
@@ -45,28 +46,38 @@ function getTokenExpiry() {
 }
 
 export function useGetSongslike() {
-  return useQuery('songsByLikes', async () => {
-    let accessToken = getCookieToken();
+  return useQuery(
+    'songsByLikes',
+    async () => {
+      let accessToken = getCookieToken();
 
-    if (isTokenExpired()) {
-      const tokenData = await refreshToken();
-      accessToken = tokenData.accessToken;
-    }
+      if (isTokenExpired()) {
+        const tokenData = await refreshToken();
+        accessToken = tokenData.accessToken;
+      }
 
-    const response = await fetch(
-      'http://localhost:3000/api/songs?orderby=top',
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const response = await axios.get(
+        'http://localhost:3000/api/songs?orderby=top',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         },
+      );
+
+      return response.data;
+    },
+    {
+      onSuccess: (data) => {
+        console.log('Data fetched successfully:', data);
       },
-    );
-
-    if (!response.ok) {
-      throw new Error(`Error fetching songs: ${response.statusText}`);
-    }
-
-    return response.json();
-  });
+      onError: (error: unknown) => {
+        if (error instanceof AxiosError) {
+          console.error(`Error fetching songs: ${error.response?.statusText}`);
+        } else {
+          console.error('An unknown error occurred');
+        }
+      },
+    },
+  );
 }
