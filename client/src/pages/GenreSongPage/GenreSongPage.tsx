@@ -1,11 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ChartComponent } from '../../components';
-import { useGetSongsByGenre, useRefreshGetSongsByGenre } from '../../hooks';
+import {
+  useGetAllGenres,
+  useGetSongsByGenre,
+  useRefreshGetSongsByGenre,
+} from '../../hooks';
 
 export default function GenreSongPage() {
   const [genre, setGenre] = useState('발라드');
   const [pageNum, setPageNum] = useState(1);
   const { data, isLoading } = useGetSongsByGenre(genre, pageNum);
+  const { data: genres, isLoading: isGenreLoading } = useGetAllGenres();
   const { mutate } = useRefreshGetSongsByGenre(genre, pageNum);
   const items: {
     title: string;
@@ -32,13 +37,14 @@ export default function GenreSongPage() {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading && isGenreLoading ? (
         <>로딩 중...</>
       ) : (
         <ChartComponent
           items={items}
           title={'장르별 음악'}
           setGenre={setGenre}
+          genres={genres}
         />
       )}
     </>

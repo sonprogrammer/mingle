@@ -21,3 +21,6 @@ export const StyledChartAddButton = styled.div`
 export const StyledChartWrapper = styled.div`
     padding: 30px;
 `;
+export const StyledSelect = styled.select`
+    ${tw`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full`}
+`;
