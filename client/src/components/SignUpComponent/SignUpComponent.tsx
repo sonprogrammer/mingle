@@ -52,6 +52,7 @@ export default function SignUpComponent({
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
+    setIsButtonClicked(false)
     setUserEmail(email);
     if (!validateEmail(email) && email) {
       setEmailError('올바른 이메일 형식이 아닙니다.');
@@ -66,8 +67,10 @@ export default function SignUpComponent({
 
   const handleEmailClick = async () => {
     setIsButtonClicked(true)
-    await refetch()
+      await refetch();
   }
+
+
 
 
   const { mutate } = usePostRegister({
@@ -125,7 +128,8 @@ export default function SignUpComponent({
           중복 확인
         </button>
         {data && <p style={{textAlign: 'center'}}>사용 가능한 이메일입니다.</p>}
-      {error && isButtonClicked && <p style={{color:'red', textAlign:'center'}}>{error.message}</p>}
+      {isButtonClicked && error && <p style={{color:'red', textAlign:'center'}}>{error.message}</p>}
+
       </div>
 
       <div style={{ position: 'relative', width: '100%' }}>

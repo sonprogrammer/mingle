@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { emailCheck } from '../types';
+import { boolean } from 'joi';
 
 
 const getEmailCheck = async (email: string): Promise<emailCheck> => {
@@ -17,9 +18,9 @@ const getEmailCheck = async (email: string): Promise<emailCheck> => {
   }
 };
 
-export function useGetEmailCheck(email: string){
+export function useGetEmailCheck(email: string, isButtonClicked: boolean){
   return useQuery<emailCheck, Error>(
-    ['emailCheck', email],
+    ['emailCheck', email, isButtonClicked],
     () => getEmailCheck(email),
     {
       retry: false,
