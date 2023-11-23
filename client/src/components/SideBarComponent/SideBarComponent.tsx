@@ -148,6 +148,7 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
           <LogoutModal
             onConfirm={handleConfirmLogout}
             onCancel={handleCancelLogout}
+            text="로그아웃"
           />
         )}
       </StyledLogoutModal>

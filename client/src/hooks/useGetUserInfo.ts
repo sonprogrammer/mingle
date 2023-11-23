@@ -1,8 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { useQuery } from 'react-query';
-import { useRecoilValue } from 'recoil';
 import { UserInfo } from '../types';
-import { loginState, useAxios } from '../utils';
+import { useAxios } from '../utils';
 
 const getUserInfo = async (axiosInstance: AxiosInstance): Promise<UserInfo> => {
 	const response = await axiosInstance.get(		
@@ -11,7 +10,6 @@ const getUserInfo = async (axiosInstance: AxiosInstance): Promise<UserInfo> => {
 	return response.data;
 };
 export function useGetUserInfo() {
-    const accessToken = useRecoilValue<{accessToken: string, expireTime: number}>(loginState);
-    const axiosInstance = useAxios(accessToken.accessToken, accessToken.expireTime);
+    const axiosInstance = useAxios();
 	return useQuery(["get-user-info"], () => getUserInfo(axiosInstance));
 }
