@@ -45,39 +45,41 @@ function getTokenExpiry() {
   }
 }
 
-export function useGetSongslike() {
-  return useQuery(
-    'songsByLikes',
-    async () => {
-      let accessToken = getCookieToken();
+async function getSongsByLikes() {
+  let accessToken = getCookieToken();
 
-      if (isTokenExpired()) {
-        const tokenData = await refreshToken();
-        accessToken = tokenData.accessToken;
-      }
+  if (isTokenExpired()) {
+    const tokenData = await refreshToken();
+    accessToken = tokenData.accessToken;
+  }
 
-      const response = await axios.get(
-        'http://localhost:3000/api/songs?orderby=top',
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-
-      return response.data;
-    },
+  const response = await axios.get(
+    'http://localhost:3000/api/songs?orderby=top',
     {
-      onSuccess: (data) => {
-        console.log('Data fetched successfully:', data);
-      },
-      onError: (error: unknown) => {
-        if (error instanceof AxiosError) {
-          console.error(`Error fetching songs: ${error.response?.statusText}`);
-        } else {
-          console.error('An unknown error occurred');
-        }
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
       },
     },
   );
+
+  if (response.status !== 200) {
+    throw new Error(`Error fetching songs: ${response.statusText}`);
+  }
+
+  return response.data;
+}
+
+export function useGetSongslike() {
+  return useQuery('songsByLikes', getSongsByLikes, {
+    onSuccess: (data) => {
+      console.log('Data fetched successfully:', data);
+    },
+    onError: (error: unknown) => {
+      if (error instanceof AxiosError) {
+        console.error(`Error fetching songs: ${error.response?.statusText}`);
+      } else {
+        console.error('An unknown error occurred');
+      }
+    },
+  });
 }
