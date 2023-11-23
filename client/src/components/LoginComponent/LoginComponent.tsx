@@ -52,9 +52,10 @@ export default function LoginComponent({
       <StyledLoginWrapper>
         <div style={{ position: 'relative', width: '100%' }}>
           <Link to="/">
-            <img src="/img/Logo.png" className="mx-auto" />
+            <img src="public/img/Logo.png" className="mx-auto" />
           </Link>
           <InputComponent
+            id="user-email"
             label="이메일"
             type="email"
             placeholder="이메일을 입력하세요."
@@ -63,6 +64,7 @@ export default function LoginComponent({
           />
           {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
           <InputComponent
+            id="user-password"
             label="비밀번호"
             type="password"
             placeholder="비밀번호를 입력하세요."

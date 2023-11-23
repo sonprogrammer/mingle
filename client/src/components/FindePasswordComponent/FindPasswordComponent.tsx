@@ -3,6 +3,7 @@ import { StyleFormContainer } from './styles';
 import { LongButtonComponent } from '../LongButtonComponent';
 import { InputComponent } from '../InputComponent';
 import { Link } from 'react-router-dom';
+import { usePostPassword } from '../../hooks/usePostPassword';
 interface FindPasswordProps {
   initialUserEmail: string;
   initialUserNickname: string;
@@ -14,14 +15,24 @@ export default function FindPasswordComponent({
   const [userEmail, setUserEmail] = useState(initialUserEmail);
   const [userNickname, setUserNickname] = useState(initialUserNickname);
   const [emailError, setEmailError] = useState('');
+
+  const { mutate: postPassword } = usePostPassword();
+
   const handleClick = (event: React.FormEvent) => {
     event.preventDefault();
-    //제출 로직
+    if (!userEmail || !userNickname) {
+      alert('이메일과 닉네임을 모두 입력해주세요.');
+      return;
+    }
+
+    postPassword({ userEmail, userNickname });
   };
+
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
     setUserEmail(email);
@@ -40,14 +51,20 @@ export default function FindPasswordComponent({
             <img src="/img/Logo.png" className="mx-auto" />
           </Link>
           <InputComponent
+            id="user-email"
             label="이메일"
             type="email"
             value={userEmail}
             placeholder="이메일을 입력하세요."
             onChange={handleEmailChange}
           />
-          {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
+          {emailError && (
+            <p style={{ color: 'red', marginTop: -20, marginBottom: 10 }}>
+              {emailError}
+            </p>
+          )}
           <InputComponent
+            id="user-nickname"
             label="닉네임"
             type="text"
             value={userNickname}
