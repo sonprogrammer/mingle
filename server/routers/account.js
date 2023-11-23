@@ -7,6 +7,7 @@ const search = require("../utils/commons/search");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const createFollow = require("../services/account/follow/createFollow");
+const User = require("../db/models/userModel");
 const viewFollow = require("../services/account/follow/viewFollow");
 const playListLike = require("../services/playList/playListLike");
 const PlayList = require("../db/models/playListModel");
