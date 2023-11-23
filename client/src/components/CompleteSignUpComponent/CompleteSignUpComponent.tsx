@@ -19,10 +19,6 @@ export default function CompleteSignUpComponent() {
           <Link to="/login">
             <StyledButton>로그인하러 가기</StyledButton>
           </Link>
-
-          <Link to="/">
-            <StyledButton>메인으로 가기</StyledButton>
-          </Link>
         </div>
       </StyleFormContainer>
     </>
