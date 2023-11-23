@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleFormContainer } from './styles';
 import { LongButtonComponent } from '../LongButtonComponent';
 import { InputComponent } from '../InputComponent';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { usePostPassword } from '../../hooks/usePostPassword';
 interface FindPasswordProps {
   initialUserEmail: string;
@@ -15,7 +15,6 @@ export default function FindPasswordComponent({
   const [userEmail, setUserEmail] = useState(initialUserEmail);
   const [userNickname, setUserNickname] = useState(initialUserNickname);
   const [emailError, setEmailError] = useState('');
-  const navigate = useNavigate();
 
   const { mutate: postPassword } = usePostPassword();
 
@@ -26,15 +25,7 @@ export default function FindPasswordComponent({
       return;
     }
 
-    postPassword(
-      { userEmail, userNickname },
-      {
-        onSuccess: () => navigate('/completerecoverypw'),
-        onError: () => {
-          alert('이메일 또는 닉네임이 일치하지 않습니다.');
-        },
-      },
-    );
+    postPassword({ userEmail, userNickname });
   };
 
   const validateEmail = (email: string) => {
