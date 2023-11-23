@@ -15,6 +15,7 @@ export default function PaginationComponent({
   currentPage,
   totalPages,
 }: PaginationComponentProps) {
+  const pageLength = totalPages && totalPages <= 5 ? totalPages : 5;
   const generateConsecutiveNumbers = (start: number, length: number) => {
     if (totalPages && totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -22,21 +23,27 @@ export default function PaginationComponent({
     return Array.from({ length }, (_, index) => start + index);
   };
   const [pageNumbers, setPageNumbers] = useState(
-    generateConsecutiveNumbers(1, 5),
+    generateConsecutiveNumbers(1, pageLength),
   );
 
   const handleNext = (currentPage: number) => {
     setPageNum(currentPage + 1);
-    if (currentPage % 5 === 0) {
+    if (currentPage % pageLength === 0) {
       const newStart = currentPage + 1;
-      setPageNumbers(generateConsecutiveNumbers(newStart, 5));
+      if (totalPages && newStart + pageLength > totalPages) {
+        setPageNumbers(
+          generateConsecutiveNumbers(newStart, totalPages - newStart + 1),
+        );
+      } else {
+        setPageNumbers(generateConsecutiveNumbers(newStart, pageLength));
+      }
     }
   };
   const handlePrevious = (currentPage: number) => {
     setPageNum(currentPage - 1);
-    const newStart = Math.max(1, currentPage - 5);
-    if ((currentPage - 1) % 5 === 0) {
-      setPageNumbers(generateConsecutiveNumbers(newStart, 5));
+    const newStart = Math.max(1, currentPage - pageLength);
+    if ((currentPage - 1) % pageLength === 0) {
+      setPageNumbers(generateConsecutiveNumbers(newStart, pageLength));
     }
   };
   return (
@@ -44,7 +51,9 @@ export default function PaginationComponent({
       {currentPage && totalPages && (
         <ul className="flex items-center -space-x-px h-8 text-sm justify-center">
           <li>
-            <StyledPreviousButton onClick={() => handlePrevious(currentPage)}>
+            <StyledPreviousButton
+              onClick={() => currentPage > 1 && handlePrevious(currentPage)}
+            >
               <svg
                 className="w-2.5 h-2.5 rtl:rotate-180"
                 aria-hidden="true"
@@ -76,7 +85,11 @@ export default function PaginationComponent({
             );
           })}
           <li>
-            <StyledNextButton onClick={() => handleNext(currentPage)}>
+            <StyledNextButton
+              onClick={() =>
+                currentPage < totalPages && handleNext(currentPage)
+              }
+            >
               <svg
                 className="w-2.5 h-2.5 rtl:rotate-180"
                 aria-hidden="true"
