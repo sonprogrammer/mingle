@@ -18,7 +18,6 @@ router.post(
     { name: "songDescription" },
     { name: "songDuration" },
     { name: "songCategory" },
-    { name: "songMood" },
   ]),
   async (req, res, next) => {
     try {
@@ -69,7 +68,6 @@ router.put(
     { name: "songDescription" },
     { name: "songDuration" },
     { name: "songCategory" },
-    { name: "songMood" },
   ]),
   async (req, res, next) => {
     try {

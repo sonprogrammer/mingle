@@ -1,51 +1,47 @@
-const playListSchema = require("../../db/models/playListModel");
+const PlayList = require("../../db/models/playListModel");
 const createError = require("http-errors");
 
 async function getWeatherPlayList(weatherCode) {
-  // 행복한 / 슬픈 / 편안한 / 신나는 / 로맨틱한 / 격정적인
-  let mood = null;
+  let matchGenre = null;
+  // 발라드/댄스/힙합/록/클래식
   switch (true) {
+    // 천둥
     case weatherCode >= 200 && weatherCode < 300:
-      mood = ["격정적인"];
+      matchGenre = ["록", "힙합"];
       break;
+    // 이슬비가 내리다
     case weatherCode >= 300 && weatherCode < 400:
-      mood = ["편안한"];
+      matchGenre = ["클래식", "발라드"];
       break;
+    // 비
     case weatherCode >= 500 && weatherCode < 600:
-      mood = ["슬픈"];
+      matchGenre = ["클래식", "발라드"];
       break;
+    // 눈
     case weatherCode >= 600 && weatherCode < 700:
-      mood = ["로맨틱한"];
+      matchGenre = ["발라드", "댄스"];
       break;
+    // 대기 (안개, 황사 등등등)
     case weatherCode >= 700 && weatherCode < 800:
-      mood = ["편안한"];
+      matchGenre = ["힙합"];
       break;
+    // 맑은
     case weatherCode == 800:
-      mood = ["신나는", "행복한"];
+      matchGenre = ["댄스", "록"];
       break;
+    // 구름낀
     case weatherCode >= 800 && weatherCode < 900:
-      mood = ["편안한"];
+      matchGenre = ["클래식", "발라드"];
       break;
     default:
       throw createError(404, "유효한 weatherId를 입력해 주세요.");
   }
 
-  const playlists = await playListSchema.find({}).populate("playListSongs");
-  const filteredPlaylists = [];
-  for (let i = 0; i < playlists.length; i++) {
-    for (let j = 0; j < playlists[i].playListSongs.length; j++) {
-      if (mood.includes(playlists[i].playListSongs[j].songMood)) {
-        filteredPlaylists.push(playlists[i]);
-        break;
-      }
-    }
-    if (filteredPlaylists.length === 10) {
-      break;
-    }
-  }
+  const weatherPlaylists = await PlayList.find({
+    genre: { $in: matchGenre },
+  }).limit(4);
 
-  console.log(filteredPlaylists.length);
-  return filteredPlaylists;
+  return weatherPlaylists;
 }
 
 module.exports = { getWeatherPlayList };
