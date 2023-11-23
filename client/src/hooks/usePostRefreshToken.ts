@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useMutation } from 'react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { loginState } from '../utils';
 
 const postRefreshToken = async (refreshToken: string): Promise<{
@@ -16,11 +16,10 @@ const postRefreshToken = async (refreshToken: string): Promise<{
 };
 export function usePostRefreshToken(refreshToken: string) {
     const setLogin = useSetRecoilState(loginState);
-    const login = useRecoilValue(loginState);
     return useMutation(() => postRefreshToken(refreshToken), {
         onSuccess: (response) => {
         setLogin({
-            isLogin: login.isLogin,
+            isLogin: true,
             accessToken: response.accessToken,
             accessExpiredDate: response.accessExpiredDate,
         })

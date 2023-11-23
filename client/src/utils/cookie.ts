@@ -5,7 +5,7 @@ export const setRefreshToken = (refreshToken: string, refreshExpiredDate: Date) 
     return cookies.set('refresh_token', refreshToken, { 
         sameSite: 'strict', 
         path: "/", 
-        expires: refreshExpiredDate,
+        expires: new Date(refreshExpiredDate),
     });
 };
 
