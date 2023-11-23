@@ -34,8 +34,8 @@ async function reset(userEmail) {
     const mailOptions = {
       from: SEND_USER,
       to: userEmail,
-      subject: "Melody Link 임시 비밀번호 발급 이메일입니다.",
-      text: `Meody Link 임시 비밀번호는 ${temporaryPassword} 입니다. 로그인 후 회원정보 수정에서 새 비밀번호로 수정해 주세요.`,
+      subject: "Mingle 임시 비밀번호 발급 이메일입니다.",
+      text: `Mingle 임시 비밀번호는 ${temporaryPassword} 입니다. 로그인 후 회원정보 수정에서 새 비밀번호로 수정해 주세요.`,
     };
 
     // DB 업데이트 프로미스 (암호화된 비밀번호로 업데이트)
