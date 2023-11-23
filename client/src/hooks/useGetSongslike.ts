@@ -1,4 +1,5 @@
 import { getCookieToken } from '../utils/cookie';
+import { useQuery } from 'react-query';
 
 async function refreshToken() {
   const refreshToken = getCookieToken();
@@ -43,11 +44,10 @@ function getTokenExpiry() {
   }
 }
 
-export async function fetchSongsByLikes() {
-  try {
+export function useGetSongslike() {
+  return useQuery('songsByLikes', async () => {
     let accessToken = getCookieToken();
 
-    //여기서 accessToken이 만료된 경우 재발급을 함
     if (isTokenExpired()) {
       const tokenData = await refreshToken();
       accessToken = tokenData.accessToken;
@@ -67,10 +67,6 @@ export async function fetchSongsByLikes() {
       throw new Error(`Error fetching songs: ${response.statusText}`);
     }
 
-    const songs = await response.json();
-    return songs;
-  } catch (error) {
-    console.error('Error fetching songs by likes:', error);
-    return null;
-  }
+    return response.json();
+  });
 }
