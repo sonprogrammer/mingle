@@ -3,8 +3,11 @@ import tw, { styled } from "twin.macro";
 export const StyledTitleWrapper = styled.div`
     ${tw`flex justify-between`}
 `;
+export const StyledChartTitleWrapper = styled.div`
+    ${tw`w-[15%] flex`}
+`;
 export const StyledChartTitle = styled.div`
-    ${tw`text-xl font-bold`}
+    ${tw`w-full text-xl font-bold`}
 `;
 export const StyledChartAddButton = styled.div`
     ${tw`flex items-center rounded-full w-[90px] px-2 text-center cursor-pointer`}
