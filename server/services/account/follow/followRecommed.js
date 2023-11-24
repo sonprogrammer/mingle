@@ -1,5 +1,6 @@
 const User = require("../../../db/models/userModel");
 const PlayList = require("../../../db/models/playListModel");
+const mongoose = require("mongoose");
 
 async function recommend(userId) {
   const user = await User.findById(userId);
@@ -19,7 +20,7 @@ async function recommend(userId) {
     {
       $match: {
         genre: { $in: userPreference },
-        playListOwner: { $ne: userId },
+        playListOwner: { $ne: new mongoose.Types.ObjectId(userId) },
       },
     },
     { $sort: { createdAt: -1 } }, // 최근에 올라온 순서로 정렬
@@ -32,8 +33,9 @@ async function recommend(userId) {
   const promises = distinctPlaylistUploaders.map(async (playList) => {
     const recommendUser = new Object();
     const uploader = await User.findById(playList._id);
+    recommendUser.userId = uploader._id;
     recommendUser.nickname = uploader.userNickname;
-    recommendUser.img = uploader.userImage;
+    recommendUser.userImg = uploader.userImage;
     recommendUser.playListPreview = await PlayList.find({
       playListOwner: playList._id,
     })
