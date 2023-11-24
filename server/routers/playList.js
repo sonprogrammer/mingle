@@ -4,7 +4,7 @@ const playListCreate = require("../services/playList/playCreate");
 const playListDelete = require("../services/playList/playDelete");
 const playListUpdate = require("../services/playList/playUpdate");
 const playListAddSong = require("../services/playList/playAddSong");
-const playListDeleteSong = require("../services/playList/playDelteSong");
+const playListDeleteSong = require("../services/playList/playDeleteSong");
 const playListLike = require("../services/playList/playListLike");
 const playListWeather = require("../services/playList/playListWeather");
 const playComment = require("../services/playList/playComment.js");
@@ -22,17 +22,9 @@ router.post(
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
 		try {
-			const userId = req.user.userId; // passport-jwt에서 추가한 사용자 정보
-			const [success, result] = await playListCreate.playListCreate(
-				req.body,
-				userId
-			);
-
-			if (success) {
-				res.json(result);
-			} else {
-				res.status(500).json(result);
-			}
+			const userId = req.user.userId;
+			const data = await playListCreate.playListCreate(req.body, userId);
+			res.status(200).json(data);
 		} catch (error) {
 			next(error);
 		}
@@ -53,6 +45,21 @@ router.get(
 		}
 	}
 );
+// 추천 플레이리스트
+router.get(
+	'/recommend',
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const userId = req.user.userId;
+			console.log(userId);
+			const data = await playListGet.recommendPlayList(userId);
+			res.status(200).json(data);
+		} catch (error) {
+			next(error);
+		}
+	}
+)
 
 //특정 플레이리스트 조회
 router.get(
@@ -107,7 +114,6 @@ router.put(
 );
 
 // 플레이리스트에 음악 추가
-
 router.post(
 	"/:playlistId/addSong/:songId",
 	passport.authenticate("jwt-user", { session: false }),

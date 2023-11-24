@@ -25,3 +25,4 @@ export * from './FindePasswordComponent';
 export * from './SignUpComponent';
 export * from './CompleteSignUpComponent';
 export * from './UserWithdrawComponent';
+export * from "./PaginationComponent";
