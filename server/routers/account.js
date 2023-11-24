@@ -18,6 +18,7 @@ const {
   userUpdateValidation,
 } = require("../middlewares/account-Validation");
 const resetPassword = require("../services/account/resetPassword");
+const followRecommend = require("../services/account/follow/followRecommed");
 const routeHandler = require("../utils/errorHandler/routeHandler");
 
 router.use(routeHandler);
@@ -245,6 +246,21 @@ router.put(
       const { userDescription } = req.body;
       await accountEdit.userDescriptionEdit(userId, userDescription);
       res.status(200).json({ message: "유저 설명 수정에 성공하였습니다." });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// 팔로우한 유저가 없을 때 피드 페이지에서 유저 추천 기능 구현
+router.get(
+  "/user-recommend",
+  passport.authenticate("jwt-user", { session: false }),
+  async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+      const recommendUsers = await followRecommend.recommend(userId);
+      res.status(200).json(recommendUsers);
     } catch (error) {
       next(error);
     }
