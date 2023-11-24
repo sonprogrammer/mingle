@@ -9,6 +9,6 @@ export const loginState = atom<{
     default: {
         isLogin: false,
         accessToken: '',
-        accessExpiredDate: new Date(),
+        accessExpiredDate: new Date(Date.now()),
     },
 });
