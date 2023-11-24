@@ -1,4 +1,4 @@
-import tw, { styled } from "twin.macro";
+import tw, { styled } from 'twin.macro';
 
 export const ContainerStyle = styled.div`
   ${tw`bg-black text-white p-8 rounded-lg max-w-lg mx-auto`}
@@ -11,7 +11,7 @@ export const ContainerStyle = styled.div`
   scrollbar-width: none;
 `;
 export const ButtonStyle = styled.button`
-  ${tw`bg-purple-600 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded`}
+  ${tw` flex bg-purple-600 hover:bg-purple-800 ml-auto text-white font-bold py-2 px-4 rounded`}
 `;
 export const InputStyle = styled.input`
   ${tw`border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow`}

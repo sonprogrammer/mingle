@@ -20,6 +20,7 @@ import {
   CompletePasswordRecoveryPage,
 } from './pages';
 import PrivateRoute from './PrivateRoute';
+import Test from './pages/Test/Test';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <RecoilRoot>
         <BrowserRouter>
           <Routes>
+            <Route path="/test" element={<Test />}></Route>
             <Route path="/signup" element={<SignUpPage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
             <Route

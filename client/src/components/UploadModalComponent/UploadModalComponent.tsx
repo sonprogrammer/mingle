@@ -1,6 +1,6 @@
 // UploadModalComponent.tsx
-import React, { useState } from "react";
-import * as Styled from "./styles";
+import React, { useState, useEffect } from 'react';
+import * as Styled from './styles';
 
 interface UploadModalProps {
   albumCover: string;
@@ -9,6 +9,7 @@ interface UploadModalProps {
   genre: string;
   tags?: string[];
   description: string;
+  onClose: () => void;
 }
 
 export default function UploadModalComponent({
@@ -17,21 +18,32 @@ export default function UploadModalComponent({
   songName,
   genre,
   description,
-}: // tags,
-UploadModalProps) {
+  onClose,
+}: UploadModalProps) {
   const [song, setSong] = useState({
     name: songName,
     artist: artistName,
     albumCover,
     genre,
-    description: description || "",
-    // tags: tags || [],
+    description: description || '',
   });
+  const handleClickOutside = (event: MouseEvent) => {
+    const modal = document.getElementById('modal');
+    if (modal && !modal.contains(event.target as Node)) {
+      onClose();
+    }
+  };
 
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   const handleInputChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setSong({ ...song, [name]: value });
@@ -44,6 +56,9 @@ UploadModalProps) {
 
   return (
     <Styled.ContainerStyle>
+      <button style={{ display: 'flex', marginLeft: 'auto' }} onClick={onClose}>
+        X
+      </button>
       <Styled.FileInputContainerStyle>
         <p>Drag your songs here</p>
         <p>or</p>
@@ -107,24 +122,6 @@ UploadModalProps) {
             <option value="Hip-Hop">힙합</option>
           </Styled.SelectStyle>
         </Styled.FormInputContainerStyle>
-        {/* <div css={tagInputContainerStyle}>
-          <label htmlFor="tags" css={formLabelStyle}>
-            Add tags
-          </label>
-          <input
-            css={tagInputStyle}
-            type="text"
-            id="tags"
-            name="tags"
-            value={song.tags.join(", ")}
-            onChange={(e) =>
-              setSong({ ...song, tags: e.target.value.split(", ") })
-            }
-            placeholder="Tags"
-          />
-        </div> */}
-        {/* 태그 기능을 일단 빼놓기는 했는데 나중에 완성하고 필요하면 주석 풀어서
-        쓸 것 */}
         <Styled.ButtonStyle>등록하기</Styled.ButtonStyle>
       </Styled.FormSectionStyle>
     </Styled.ContainerStyle>
