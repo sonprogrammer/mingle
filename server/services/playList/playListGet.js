@@ -1,12 +1,17 @@
 const playListSchema = require("../../db/models/playListModel");
 const playListLikeSchema = require("../../db/models/playListLike");
 const userSchema = require("../../db/models/userModel");
+const songSchema = require("../../db/models/songModel");
 const createError = require("http-errors");
 const playListLike = require("../../db/models/playListLike");
 
 async function playListGetOne(userId, playListId) {
 	try {
 		const playList = await playListSchema.findById(playListId);
+		const songDetails = await Promise.all(playList.playListSongs.map(async songId => {
+			const song = await songSchema.findById(songId);
+			return song;
+		  }));
 		if (!playList) {
 			throw createError(404, "플레이리스트를 찾을 수 없습니다.");
 		}
@@ -18,9 +23,9 @@ async function playListGetOne(userId, playListId) {
 			playListId: playListId,
 		});
 		if (!like) {
-			return { ...playList._doc, like: false, likeCount };
+			return { ...playList._doc, like: false, likeCount , songDetails};
 		} else {
-			return { ...playList._doc, like: true, likeCount };
+			return { ...playList._doc, like: true, likeCount ,songDetails};
 		}
 	} catch (error) {
 		throw error;
