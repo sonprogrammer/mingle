@@ -1,82 +1,50 @@
-import React from 'react';
-import { ChartComponent } from '../../components';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ChartComponent, PaginationComponent } from '../../components';
+import { useGetSongsByLike, useRefreshGetSongsByLike } from '../../hooks';
+import { formatDuration } from '../../utils';
 
 export default function LikedSongPage() {
+  const [pageNum, setPageNum] = useState(1);
+  const { data, isLoading } = useGetSongsByLike(pageNum);
+  const { mutate } = useRefreshGetSongsByLike(pageNum);
+  const items: {
+    title: string;
+    img: string;
+    artist?: string;
+    length: string;
+    isLiked: boolean;
+  }[] = [];
+
+  data?.songs.map((item) =>
+    items.push({
+      title: item.song.songName,
+      img: '/img/AlbumSample.jpg',
+      artist: item.song.songArtist ?? 'Unknown Artist',
+      length: formatDuration(item.song.songDuration),
+      isLiked: item.isCurrentUserLiked,
+    }),
+  );
+
+  const memoizedMutate = useCallback(mutate, [mutate]);
+  useEffect(() => {
+    memoizedMutate();
+  }, [pageNum, memoizedMutate]);
   return (
-    <ChartComponent
-      items={[
-        {
-          title: 'Lost Boy',
-          img: '/img/AlbumSample.jpg',
-          artist: 'Troye Sivan',
-          length: '03:20',
-          isLiked: true,
-        },
-        {
-          title: 'Dangerously',
-          img: '/img/AlbumSample.jpg',
-          artist: 'Charlie Puth',
-          length: '03:48',
-          isLiked: true,
-        },
-        {
-          title: 'Eyes Closed',
-          img: '/img/AlbumSample.jpg',
-          artist: 'Ed Sherren',
-          length: '03:21',
-          isLiked: true,
-        },
-        {
-          title: 'Steal The Show',
-          img: '/img/AlbumSample.jpg',
-          artist: 'Lauv',
-          length: '03:28',
-          isLiked: true,
-        },
-        {
-          title: 'Kill Bill',
-          img: '/img/AlbumSample.jpg',
-          artist: 'SZA',
-          length: '03:50',
-          isLiked: true,
-        },
-        {
-          title: 'Lost Boy',
-          img: '/img/AlbumSample.jpg',
-          artist: 'Troye Sivan',
-          length: '03:20',
-          isLiked: true,
-        },
-        {
-          title: 'Dangerously',
-          img: '/img/AlbumSample.jpg',
-          artist: 'Charlie Puth',
-          length: '03:48',
-          isLiked: true,
-        },
-        {
-          title: 'Eyes Closed',
-          img: '/img/AlbumSample.jpg',
-          artist: 'Ed Sherren',
-          length: '03:21',
-          isLiked: true,
-        },
-        {
-          title: 'Steal The Show',
-          img: '/img/AlbumSample.jpg',
-          artist: 'Lauv',
-          length: '03:28',
-          isLiked: true,
-        },
-        {
-          title: 'Kill Bill',
-          img: '/img/AlbumSample.jpg',
-          artist: 'SZA',
-          length: '03:50',
-          isLiked: true,
-        },
-      ]}
-      title={'좋아요한 음악'}
-    />
+    <>
+      {isLoading ? (
+        <>로딩 중...</>
+      ) : (
+        <>
+          <ChartComponent items={items} title={'좋아요한 음악'} />
+          {data?.songs && data.songs.length > 0 ? (
+            <PaginationComponent
+              setPageNum={setPageNum}
+              currentPage={data?.currentPage}
+              totalPages={data?.totalPages}
+            />
+          ) : null}
+        </>
+      )}
+    </>
   );
 }

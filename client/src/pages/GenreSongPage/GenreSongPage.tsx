@@ -6,6 +6,7 @@ import {
   useGetSongsByGenre,
   useRefreshGetSongsByGenre,
 } from '../../hooks';
+import { formatDuration } from '../../utils';
 
 export default function GenreSongPage() {
   const [genre, setGenre] = useState('발라드');
@@ -17,7 +18,7 @@ export default function GenreSongPage() {
     title: string;
     img: string;
     artist?: string;
-    length: number;
+    length: string;
     isLiked: boolean;
   }[] = [];
 
@@ -26,7 +27,7 @@ export default function GenreSongPage() {
       title: item.song.songName,
       img: '/img/AlbumSample.jpg',
       artist: item.song.songArtist ?? 'Unknown Artist',
-      length: item.song.songDuration,
+      length: formatDuration(item.song.songDuration),
       isLiked: item.isCurrentUserLiked,
     }),
   );
