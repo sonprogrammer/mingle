@@ -26,3 +26,5 @@ export * from './SignUpComponent';
 export * from './CompleteSignUpComponent';
 export * from './UserWithdrawComponent';
 export * from './UploadButtonComponent';
+
+export * from './PaginationComponent';

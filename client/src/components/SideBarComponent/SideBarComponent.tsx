@@ -21,8 +21,11 @@ import {
   faUser,
   faRightFromBracket,
   faPen,
+  faMusic,
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, Link } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { loginState, removeCookieToken } from '../../utils';
 
 interface Item {
   content: string;
@@ -53,6 +56,7 @@ const items: Item[] = [
   { content: '피드', icon: <FontAwesomeIcon icon={faHouse} /> },
   { content: '추천 플레이리스트', icon: <FontAwesomeIcon icon={faFire} /> },
   { content: '차트', icon: <FontAwesomeIcon icon={faChartSimple} /> },
+  { content: '장르별 음악', icon: <FontAwesomeIcon icon={faMusic} /> },
   { content: '최신음악', icon: <FontAwesomeIcon icon={faHeadphones} /> },
   { content: '좋아요한 음악', icon: <FontAwesomeIcon icon={faHeart} /> },
 ];
@@ -77,6 +81,8 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
       navigate('/recommendPlaylist');
     } else if (buttonContent === '차트') {
       navigate('/chart');
+    } else if (buttonContent === '장르별 음악') {
+      navigate('/genresong');
     } else if (buttonContent === '최신음악') {
       navigate('/newsong');
     } else if (buttonContent === '좋아요한 음악') {
@@ -93,9 +99,15 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
       setShowLogoutModal(true);
     }
   };
-
+  const setLogin = useSetRecoilState(loginState);
   const handleConfirmLogout = () => {
     navigate('/login');
+    setLogin({
+      isLogin: false,
+      accessToken: '',
+      accessExpiredDate: new Date(),
+    });
+    removeCookieToken();
     setShowLogoutModal(false);
   };
 
