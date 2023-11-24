@@ -19,17 +19,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    likeSong: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Song" }],
-      default: [],
-    },
-    likePlayList: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "PlayLists" }],
-      default: [],
-    },
-    userImage: { 
-      type: String, 
-      default: ""
+    userImage: {
+      type: String,
+      default: "",
     },
     userPreference: {
       type: [String],

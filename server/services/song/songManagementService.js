@@ -7,8 +7,7 @@ const mongoose = require("mongoose");
 
 async function uploadSong({ userId, songInfo, audio, songImage }) {
   // 클라이언트로부터 body로 받아야 할 곡의 정보 (음원, 이미지 제외)
-  const { songName, songDescription, songDuration, songCategory, songMood } =
-    songInfo;
+  const { songName, songDescription, songDuration, songCategory } = songInfo;
 
   // 곡을 업로드하는 유저 object id는 song의 songUploader에 저장
   const createSong = await Song.create({
@@ -17,7 +16,6 @@ async function uploadSong({ userId, songInfo, audio, songImage }) {
     songUploader: userId,
     songDuration,
     songCategory,
-    songMood,
     songImageLocation: path.join(
       __dirname,
       `../../upload/songImg/${songImage[0].filename}`
@@ -55,8 +53,7 @@ async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
     throw createError(403, "회원님이 업로드하지 않은 곡은 수정이 불가합니다.");
   }
 
-  const { songName, songDescription, songDuration, songCategory, songMood } =
-    songInfo;
+  const { songName, songDescription, songDuration, songCategory } = songInfo;
 
   const modifySong = await Song.findByIdAndUpdate(
     songId,
@@ -65,7 +62,6 @@ async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
       songDescription,
       songDuration,
       songCategory,
-      songMood,
       songImageLocation: path.join(
         __dirname,
         `../../upload/songImg/${songImage[0].filename}`
