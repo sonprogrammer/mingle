@@ -4,7 +4,6 @@ import { Songs } from '../types';
 import { useAxios } from '../utils';
 
 const getSongsByGenre = async (axiosInstance: AxiosInstance, genre: string | undefined, pageNum: number): Promise<Songs> => {
-	console.log(genre);
 	const response: Songs | PromiseLike<Songs> = await axiosInstance.get(		
         `/api/songs?category=${genre}&page=${pageNum}&pageSize=8`
 	);

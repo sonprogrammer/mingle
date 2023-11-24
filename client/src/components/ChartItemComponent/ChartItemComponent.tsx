@@ -9,7 +9,7 @@ interface ChartItemComponentProps {
   title: string;
   img: string;
   artist?: string;
-  length: number;
+  length: string;
   isLiked: boolean;
 }
 export default function ChartItemComponent({
