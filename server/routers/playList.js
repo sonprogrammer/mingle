@@ -4,7 +4,7 @@ const playListCreate = require("../services/playList/playCreate");
 const playListDelete = require("../services/playList/playDelete");
 const playListUpdate = require("../services/playList/playUpdate");
 const playListAddSong = require("../services/playList/playAddSong");
-const playListDeleteSong = require("../services/playList/playDelteSong");
+const playListDeleteSong = require("../services/playList/playDeleteSong");
 const playListLike = require("../services/playList/playListLike");
 const playListWeather = require("../services/playList/playListWeather");
 const playComment = require("../services/playList/playComment.js");
@@ -22,17 +22,81 @@ router.post(
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
 		try {
-			const userId = req.user.userId; // passport-jwt에서 추가한 사용자 정보
-			const [success, result] = await playListCreate.playListCreate(
-				req.body,
-				userId
-			);
+			const userId = req.user.userId;
+			const data = await playListCreate.playListCreate(req.body, userId);
+			res.status(200).json(data);
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+// 플레이리스트에 대한 댓글
+router.get(
+	"/playlistComment/:playlistId",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const playlistId = req.params.playlistId;
+			const data = await playComment.playCommentRead(playlistId);
+			res.status(200).json(data);
+		} catch (error) {
+			next(error);
+		}
+	}
+);
 
-			if (success) {
-				res.json(result);
-			} else {
-				res.status(500).json(result);
-			}
+router.post(
+	"/playlistComment/:playlistId",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const userId = req.user.userId;
+			const playlistId = req.params.playlistId;
+			const data = req.body;
+			const comment = await playComment.playCommentCreate(
+				userId,
+				playlistId,
+				data
+			);
+			res.status(200).json(comment);
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+router.put(
+	"/playlistComment/:commentId",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const userId = req.user.userId;
+			const commentId = req.params.commentId;
+			const data = req.body;
+			const comment = await playComment.playCommentUpdate(
+				userId,
+				commentId,
+				data
+			);
+			res.status(200).json(comment);
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+router.delete(
+	"/playlistComment/:playlistId/:commentId",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const playlistId = req.params.playlistId;
+			const userId = req.user.userId;
+			const commentId = req.params.commentId;
+			const data = await playComment.playCommentDelete(
+				userId,
+				playlistId,
+				commentId
+			);
+			res.status(200).json(data);
 		} catch (error) {
 			next(error);
 		}
@@ -69,6 +133,22 @@ router.get(
 		}
 	}
 );
+// 추천 플레이리스트
+router.get(
+	'/recommend',
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const userId = req.user.userId;
+			console.log(userId);
+			const data = await playListGet.recommendPlayList(userId);
+			res.status(200).json(data);
+		} catch (error) {
+			next(error);
+		}
+	}
+)
+
 // DELETE: /플레이리스트-삭제/:playlistId
 router.delete(
 	"/:playlistId",
@@ -107,15 +187,14 @@ router.put(
 );
 
 // 플레이리스트에 음악 추가
-
 router.post(
-	"/:playlistId/addSong/:songId",
+	"/:playlistId/addSong",
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
 		try {
 			const userId = req.user.userId;
 			const playlistId = req.params.playlistId;
-			const songId = req.params.songId;
+			const songId = req.body.songId;
 			const data = await playListAddSong.playListAddSong(
 				playlistId,
 				songId,
@@ -190,77 +269,6 @@ router.get("/weather/:weatherId", async (req, res, next) => {
 		next(error);
 	}
 });
-// 플레이리스트에 대한 댓글
-router.get(
-	"/playlistComment/:playlistId",
-	passport.authenticate("jwt-user", { session: false }),
-	async (req, res, next) => {
-		try {
-			const playlistId = req.params.playlistId;
-			const data = await playComment.playCommentRead(playlistId);
-			res.status(200).json(data);
-		} catch (error) {
-			next(error);
-		}
-	}
-);
-router.post(
-	"/playlistComment/:playlistId",
-	passport.authenticate("jwt-user", { session: false }),
-	async (req, res, next) => {
-		try {
-			const userId = req.user.userId;
-			const playlistId = req.params.playlistId;
-			const data = req.body;
-			const comment = await playComment.playCommentCreate(
-				userId,
-				playlistId,
-				data
-			);
-			res.status(200).json(comment);
-		} catch (error) {
-			next(error);
-		}
-	}
-);
-router.put(
-	"/playlistComment/:commentId",
-	passport.authenticate("jwt-user", { session: false }),
-	async (req, res, next) => {
-		try {
-			const userId = req.user.userId;
-			const commentId = req.params.commentId;
-			const data = req.body;
-			const comment = await playComment.playCommentUpdate(
-				userId,
-				commentId,
-				data
-			);
-			res.status(200).json(comment);
-		} catch (error) {
-			next(error);
-		}
-	}
-);
-router.delete(
-	"/playlistComment/:playlistId/:commentId",
-	passport.authenticate("jwt-user", { session: false }),
-	async (req, res, next) => {
-		try {
-			const playlistId = req.params.playlistId;
-			const userId = req.user.userId;
-			const commentId = req.params.commentId;
-			const data = await playComment.playCommentDelete(
-				userId,
-				playlistId,
-				commentId
-			);
-			res.status(200).json(data);
-		} catch (error) {
-			next(error);
-		}
-	}
-);
 
 //플레이리스트 검색
 router.get(

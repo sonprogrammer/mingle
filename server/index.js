@@ -88,12 +88,14 @@ const accountRouter = require("./routers/account.js"); // 사용자 기능 설�
 const songManagementRouter = require("./routers/songManagement.js"); // 개별 곡 관련 요청을 받는 라우터
 const songListRouter = require("./routers/songList.js"); // 조건별로 여러 곡 리스트들을 보내주는 라우터
 const playListRouter = require("./routers/playList.js"); // 플레이리스트 기능 설정
+const genreRouter = require("./routers/genre.js"); // 장르 관련 라우터
 const routeHandler = require("./utils/errorHandler/routeHandler.js"); // 에러 핸들러 설정
 
 app.use("/api/account", accountRouter);
 app.use("/api/song", songManagementRouter);
 app.use("/api/songs", songListRouter);
 app.use("/api/playlist", playListRouter);
+app.use("/api/genre", genreRouter);
 
 app.use(routeHandler);
 var server = app.listen(3000, function () {

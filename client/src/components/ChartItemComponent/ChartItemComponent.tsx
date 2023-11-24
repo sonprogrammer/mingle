@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { faHeart as like } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as noLike } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChartItemImg, StyledTr } from "./styles";
+import React, { useState } from 'react';
+import { faHeart as like } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ChartItemImg, StyledTr } from './styles';
 
 interface ChartItemComponentProps {
   idx: number;
   title: string;
   img: string;
-  artist: string;
+  artist?: string;
   length: string;
   isLiked: boolean;
 }
@@ -37,9 +37,9 @@ export default function ChartItemComponent({
       <td className="w-1/4 px-6 py-4">{length}</td>
       <td className="w-1/4 px-6 py-4">
         {isLiked ? (
-          <FontAwesomeIcon icon={like} color={"#9b59b6"} cursor="pointer" />
+          <FontAwesomeIcon icon={like} color={'#9b59b6'} cursor="pointer" />
         ) : (
-          <FontAwesomeIcon icon={noLike} color={"#9b59b6"} cursor="pointer" />
+          <FontAwesomeIcon icon={noLike} color={'#9b59b6'} cursor="pointer" />
         )}
       </td>
     </StyledTr>
