@@ -24,6 +24,8 @@ import {
   faMusic,
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, Link } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { loginState, setRefreshToken } from '../../utils';
 
 interface Item {
   content: string;
@@ -97,9 +99,15 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
       setShowLogoutModal(true);
     }
   };
-
+  const setLogin = useSetRecoilState(loginState);
   const handleConfirmLogout = () => {
     navigate('/login');
+    setLogin({
+      isLogin: false,
+      accessToken: '',
+      accessExpiredDate: new Date(),
+    });
+    setRefreshToken('', new Date());
     setShowLogoutModal(false);
   };
 
