@@ -25,7 +25,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { loginState, setRefreshToken } from '../../utils';
+import { loginState, removeCookieToken } from '../../utils';
 
 interface Item {
   content: string;
@@ -107,7 +107,7 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
       accessToken: '',
       accessExpiredDate: new Date(),
     });
-    setRefreshToken('', new Date());
+    removeCookieToken();
     setShowLogoutModal(false);
   };
 
