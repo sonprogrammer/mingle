@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ChartComponent, PaginationComponent } from '../../components';
-import { useGetSongsByLike, useRefreshGetSongsByLike } from '../../hooks';
+import { useGetSongsByLike } from '../../hooks';
 import { formatDuration } from '../../utils';
 
 export default function LikedSongPage() {
   const [pageNum, setPageNum] = useState(1);
   const { data, isLoading } = useGetSongsByLike(pageNum);
-  const { mutate } = useRefreshGetSongsByLike(pageNum);
   const items: {
     title: string;
     img: string;
@@ -25,10 +24,6 @@ export default function LikedSongPage() {
     }),
   );
 
-  const memoizedMutate = useCallback(mutate, [mutate]);
-  useEffect(() => {
-    memoizedMutate();
-  }, [pageNum, memoizedMutate]);
   return (
     <>
       {isLoading ? (
