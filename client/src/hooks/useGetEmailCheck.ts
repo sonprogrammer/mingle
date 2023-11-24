@@ -1,7 +1,6 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { emailCheck } from '../types';
-import { boolean } from 'joi';
 
 
 const getEmailCheck = async (email: string): Promise<emailCheck> => {

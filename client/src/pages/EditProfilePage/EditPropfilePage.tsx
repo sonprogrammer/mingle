@@ -5,14 +5,16 @@ import { useGetUserInfo } from '../../hooks';
 import { StyledEditWrapper } from './styles';
 
 export default function EditProfilePage() {
-  const profile = {
-    email: 'mingle@mingle.com',
-    nickname: 'mingle',
-  };
+  
   const { data, isLoading } = useGetUserInfo();
+
+  if(isLoading) {
+    <h1>loading...</h1>
+  }
+
   return (
     <StyledEditWrapper>
-      <EditComponent profile={profile} />
+      <EditComponent profile={data} />
       <UserWithdrawComponent />
     </StyledEditWrapper>
   );

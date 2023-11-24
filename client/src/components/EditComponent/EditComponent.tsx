@@ -11,16 +11,26 @@ import { StyledPasswordWrapper } from './styles';
 
 interface EditComponentProps {
   profile: {
-    email: string;
-    nickname: string;
+    userEmail: string;
+    userName: string;
   };
 }
+
+
+
+
 export default function EditComponent({ profile }: EditComponentProps) {
   const [isGenreModalOpen, setIsGenreModalOpen] = useState(false);
   const openGenreModal = () => setIsGenreModalOpen(true);
   const closeGenreModal = () => setIsGenreModalOpen(false);
   const [showPassword, setShowPassword] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState<string[]>([]);
+
+
+if(!profile){
+  return <p>no profile</p>
+}
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -36,7 +46,7 @@ export default function EditComponent({ profile }: EditComponentProps) {
       <label className="block mb-2 text-lg font-bold text-gray-900">
         이메일
       </label>
-      <div className="mb-6">{profile.email}</div>
+      <div className="mb-6">{profile.userEmail}</div>
       <StyledPasswordWrapper>
         <InputComponent
           label="비밀번호"
@@ -61,7 +71,7 @@ export default function EditComponent({ profile }: EditComponentProps) {
           onClick={togglePasswordVisibility}
         />
       </StyledPasswordWrapper>
-      <InputComponent label="닉네임" type="text" value={profile.nickname} />
+      <InputComponent label="닉네임" type="text" value={profile.userName} />
       <div className="flex mb-2">
         <label className="block text-lg font-bold text-gray-900">
           음악 취향
