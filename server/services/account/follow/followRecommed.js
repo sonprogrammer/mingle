@@ -16,10 +16,17 @@ async function recommend(userId) {
 
   // 1. 최근에 올라온 플레이리스트 순으로 살피며 그 플레이리스트의 장르가 유저의 취향 배열에 존재하는지 본다. + 업로더 겹치면 X + 5개 가져오기
   const distinctPlaylistUploaders = await PlayList.aggregate([
-    { $match: { genre: { $in: userPreference } } },
+    {
+      $match: {
+        genre: { $in: userPreference },
+        playListOwner: { $ne: userId },
+      },
+    },
+    { $sort: { createdAt: -1 } }, // 최근에 올라온 순서로 정렬
     { $group: { _id: "$playListOwner" } },
     { $limit: 5 },
   ]);
+
   // 2. 존재하면 그 플레이리스트의 업로더 id를 추출하여 그 업로더에 대한 정보(업로더의 프로필 사진, 닉네임)와, 그 업로더가 올린
   // 플레이리스트를 최근순으로 3개 가져온다.
   const promises = distinctPlaylistUploaders.map(async (playList) => {
@@ -30,6 +37,7 @@ async function recommend(userId) {
     recommendUser.playListPreview = await PlayList.find({
       playListOwner: playList._id,
     })
+      .select("playListImg")
       .sort({ createdAt: -1 })
       .limit(3);
     return recommendUser;
