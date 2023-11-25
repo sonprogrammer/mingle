@@ -4,7 +4,7 @@ const isUserLikedSong = require("../../utils/commons/isUserLikedSong");
 const createError = require("http-errors");
 
 // query로 orderby가 입력된 경우
-async function getSongsOrderby(queryValue, userId, page, pageSize) {
+async function getSongsOrderby(queryValue, userId) {
   // 좋아요 많은 순
   if (queryValue === "top") {
     const topSongs = await SongLiked.aggregate([

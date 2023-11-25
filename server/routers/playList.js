@@ -16,6 +16,50 @@ const passport = require("passport");
 const playListSchema = require("../db/models/playListModel");
 const createError = require("http-errors");
 
+// playlist 조회
+router.get(
+	"/",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const userId = req.user.userId;
+			const data = await playListGet.playListGetAll(userId);
+			res.status(200).json(data);
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+// 추천 플레이리스트
+router.get(
+	'/recommend',
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const userId = req.user.userId;
+			const data = await playListGet.recommendPlayList(userId);
+			res.status(200).json(data);
+		} catch (error) {
+			next(error);
+		}
+	}
+)
+//특정 플레이리스트 조회
+router.get(
+	"/:playlistId",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const userId = req.user.userId;
+			const playlistId = req.params.playlistId;
+			const data = await playListGet.playListGetOne(userId, playlistId);
+			res.status(200).json(data);
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+
 // playlist 생성
 router.post(
 	"/",
@@ -103,51 +147,6 @@ router.delete(
 	}
 );
 
-// playlist 조회
-router.get(
-	"/",
-	passport.authenticate("jwt-user", { session: false }),
-	async (req, res, next) => {
-		try {
-			const userId = req.user.userId;
-			const data = await playListGet.playListGetAll(userId);
-			res.status(200).json(data);
-		} catch (error) {
-			next(error);
-		}
-	}
-);
-
-//특정 플레이리스트 조회
-router.get(
-	"/:playlistId",
-	passport.authenticate("jwt-user", { session: false }),
-	async (req, res, next) => {
-		try {
-			const userId = req.user.userId;
-			const playlistId = req.params.playlistId;
-			const data = await playListGet.playListGetOne(userId, playlistId);
-			res.status(200).json(data);
-		} catch (error) {
-			next(error);
-		}
-	}
-);
-// 추천 플레이리스트
-router.get(
-	'/recommend',
-	passport.authenticate("jwt-user", { session: false }),
-	async (req, res, next) => {
-		try {
-			const userId = req.user.userId;
-			console.log(userId);
-			const data = await playListGet.recommendPlayList(userId);
-			res.status(200).json(data);
-		} catch (error) {
-			next(error);
-		}
-	}
-)
 
 // DELETE: /플레이리스트-삭제/:playlistId
 router.delete(

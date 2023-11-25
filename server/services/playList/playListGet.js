@@ -63,40 +63,41 @@ async function playListGetAll(userId) {
 }
 async function recommendPlayList(userId) {
 	try {
-		const userPreference = await userSchema.findById(userId);
-
-		if (userPreference.userPreference.length === 0) {
-			const randomPlayLists = await playListSchema.aggregate([
-				{ $sample: { size: 8 } },
-			]);
-			return ["random", randomPlayLists];
-		} else if (userPreference.userPreference.length === 1) {
-			const genrePlayLists = await playListSchema.aggregate([
-				{ $match: { genre: userPreference.userPreference[0] } },
-				{ $sample: { size: 4 } },
-			]);
-			const randomPlayLists = await playListSchema.aggregate([
-				{ $sample: { size: 4 } },
-			]);
-			return [
-				[userPreference.userPreference[0], ...genrePlayLists],
-				["random", ...randomPlayLists],
-			];
-		} else {
-			const selectedSongs = [];
-			for (const genre of userPreference.userPreference.slice(0, 5)) {
-				const genrePlayLists = await playListSchema.aggregate([
-					{ $match: { genre } },
-					{ $sample: { size: 4 } },
-				]);
-				selectedSongs.push(...genrePlayLists);
-			}
-			return selectedSongs;
+	  const userPreference = await userSchema.findById(userId);
+  
+	  if (userPreference.userPreference.length === 0) {
+		const randomPlayLists = await playListSchema.aggregate([
+		  { $sample: { size: 8 } },
+		]);
+		return ["random", randomPlayLists];
+	  } else if (userPreference.userPreference.length === 1) {
+		const genrePlayLists = await playListSchema.aggregate([
+		  { $match: { genre: userPreference.userPreference[0] } },
+		  { $sample: { size: 4 } },
+		]);
+		const randomPlayLists = await playListSchema.aggregate([
+		  { $sample: { size: 4 } },
+		]);
+		return [
+		  [userPreference.userPreference[0], ...genrePlayLists],
+		  ["random", ...randomPlayLists],
+		];
+	  } else {
+		const selectedSongs = [];
+		for (const genre of userPreference.userPreference.slice(0, 5)) {
+		  const genrePlayLists = await playListSchema.aggregate([
+			{ $match: { genre } },
+			{ $sample: { size: 4 } },
+		  ]);
+		  selectedSongs.push([genre,...genrePlayLists]);
 		}
+		return selectedSongs; // 문자열과 배열을 반환
+	  }
 	} catch (error) {
-		throw error;
+	  throw error;
 	}
-}
+  }
+  
 
 module.exports = { playListGetOne, playListGetAll, recommendPlayList };
 
