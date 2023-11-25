@@ -34,6 +34,10 @@ export default function MyPagePlaylists({
   const handleButtonClick = () => {
     setIsModalOpen(true);
   };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   const handleTabClick = (tab: string) => {
     setSelecTab(tab);
   };
@@ -95,11 +99,11 @@ export default function MyPagePlaylists({
                   text="업로드"
                   onClick={handleButtonClick}
                 />
-                {isModalOpen && <UploadModalComponent />}
               </>
             ))}
         </PlaylistConetent>
       </PlaylistContainer>
+      {isModalOpen && <UploadModalComponent onClose={handleCloseModal} />}
     </>
   );
 }

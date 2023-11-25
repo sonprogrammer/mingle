@@ -1,83 +1,131 @@
-// UploadModalComponent.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useMutation } from 'react-query';
+import { getCookieToken } from '../../utils';
 import * as Styled from './styles';
 
-interface UploadModalProps {
-  albumCover: string;
-  artistName: string;
-  songName: string;
-  genre: string;
-  tags?: string[];
-  description: string;
+interface UploadModalComponentProps {
   onClose: () => void;
 }
-
 export default function UploadModalComponent({
-  albumCover,
-  artistName,
-  songName,
-  genre,
-  description,
   onClose,
-}: UploadModalProps) {
-  const [song, setSong] = useState({
-    name: songName,
-    artist: artistName,
-    albumCover,
-    genre,
-    description: description || '',
-  });
-  const handleClickOutside = (event: MouseEvent) => {
-    const modal = document.getElementById('modal');
-    if (modal && !modal.contains(event.target as Node)) {
+}: UploadModalComponentProps) {
+  const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const handleOutsideClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
       onClose();
     }
   };
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  const [song, setSong] = useState({
+    name: '',
+    artist: '',
+    albumCover: '',
+    genre: '',
+    description: '', // 곡 시간을 넣으니 데이터에러가 발생 추후 물어보고 수정예정
+  });
+  const token = getCookieToken();
+
+  const handleAudioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setAudioFile(event.target.files[0]);
+    }
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setImageFile(event.target.files[0]);
+    }
+  };
+
   const handleInputChange = (
-    e:
+    event:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = event.target;
     setSong({ ...song, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    //곡 등록 로직 //
+  const uploadSong = async (formData: FormData) => {
+    const response = await axios.post('/api/song', formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  };
+
+  const mutation = useMutation(uploadSong, {
+    onSuccess: (data) => {
+      console.log('성공:', data);
+    },
+    onError: (error) => {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.error(
+          'Error:',
+          error.response ? error.response.data : error.message,
+        );
+      } else {
+        console.error('Error:', error);
+      }
+    },
+  });
+
+  const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
+    event.preventDefault();
+    if (audioFile && imageFile) {
+      const formData = new FormData();
+      formData.append('audio', audioFile);
+      formData.append('songImage', imageFile);
+      formData.append('songName', song.name);
+      formData.append('songDescription', song.description);
+      formData.append('songDuration', '240'); //곡 시간 하드코딩 해놓은 상태 추후 수정
+      formData.append('songCategory', song.genre);
+
+      mutation.mutate(formData);
+    }
   };
 
   return (
-    <Styled.ContainerStyle>
-      <button style={{ display: 'flex', marginLeft: 'auto' }} onClick={onClose}>
+    <Styled.ContainerStyle onClick={handleOutsideClick}>
+      <button
+        style={{ display: 'flex', marginLeft: 'auto', marginBottom: '10px' }}
+        onClick={onClose}
+      >
         X
       </button>
-      <Styled.FileInputContainerStyle>
-        <p>Drag your songs here</p>
-        <p>or</p>
-        <Styled.FileInputButtonStyle>SELECT FILES</Styled.FileInputButtonStyle>
-      </Styled.FileInputContainerStyle>
+      <Styled.FormSectionStyle as="form" onSubmit={handleSubmit}>
+        <Styled.FileInputContainerStyle>
+          <Styled.FileInputButtonStyle as="label">
+            {audioFile ? `${audioFile.name}` : 'SELECT AUDIO FILE'}
+            <input
+              type="file"
+              hidden
+              onChange={handleAudioChange}
+              accept="audio/*"
+            />
+          </Styled.FileInputButtonStyle>
+        </Styled.FileInputContainerStyle>
 
-      <Styled.FileListStyle>
-        <p>Paris.mp3</p>
-      </Styled.FileListStyle>
+        <Styled.CoverUploadStyle>
+          <Styled.LabelStyle>
+            {imageFile ? (
+              <img src={URL.createObjectURL(imageFile)} alt="Album Cover" />
+            ) : (
+              'SELECT IMAGE FILE'
+            )}
+            <input
+              type="file"
+              hidden
+              onChange={handleImageChange}
+              accept="image/*"
+            />
+          </Styled.LabelStyle>
+        </Styled.CoverUploadStyle>
 
-      <Styled.CoverUploadStyle>
-        {albumCover ? (
-          <img src={albumCover} alt="Album Cover" />
-        ) : (
-          <button>COVER UPLOAD</button>
-        )}
-      </Styled.CoverUploadStyle>
-
-      <Styled.FormSectionStyle onSubmit={handleSubmit}>
         <Styled.FormInputContainerStyle>
           <Styled.FormLabelStyle htmlFor="name">
             음악 이름
@@ -91,6 +139,7 @@ export default function UploadModalComponent({
             placeholder="음악 이름을 적어주세요."
           />
         </Styled.FormInputContainerStyle>
+
         <Styled.FormInputContainerStyle>
           <Styled.FormLabelStyle htmlFor="description">
             곡 소개
@@ -104,6 +153,7 @@ export default function UploadModalComponent({
             placeholder="소개를 적어주세요."
           />
         </Styled.FormInputContainerStyle>
+
         <Styled.FormInputContainerStyle>
           <Styled.FormLabelStyle htmlFor="genre">
             장르 선택
@@ -115,14 +165,15 @@ export default function UploadModalComponent({
             onChange={handleInputChange}
           >
             <option value="">장르 선택</option>
-            <option value="Pop">발라드</option>
-            <option value="Rock">록</option>
-            <option value="Dance">댄스</option>
-            <option value="Classic">클래식</option>
-            <option value="Hip-Hop">힙합</option>
+            <option value="발라드">발라드</option>
+            <option value="록">록</option>
+            <option value="댄스">댄스</option>
+            <option value="클래식">클래식</option>
+            <option value="힙합">힙합</option>
           </Styled.SelectStyle>
         </Styled.FormInputContainerStyle>
-        <Styled.ButtonStyle>등록하기</Styled.ButtonStyle>
+
+        <Styled.ButtonStyle type="submit">등록하기</Styled.ButtonStyle>
       </Styled.FormSectionStyle>
     </Styled.ContainerStyle>
   );
