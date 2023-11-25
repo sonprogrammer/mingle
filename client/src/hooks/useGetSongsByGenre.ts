@@ -1,10 +1,9 @@
 import { AxiosInstance } from 'axios';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { Songs } from '../types';
 import { useAxios } from '../utils';
 
 const getSongsByGenre = async (axiosInstance: AxiosInstance, genre: string | undefined, pageNum: number): Promise<Songs> => {
-	console.log(genre);
 	const response: Songs | PromiseLike<Songs> = await axiosInstance.get(		
         `/api/songs?category=${genre}&page=${pageNum}&pageSize=8`
 	);
@@ -12,19 +11,9 @@ const getSongsByGenre = async (axiosInstance: AxiosInstance, genre: string | und
 };
 export function useGetSongsByGenre(genre: string | undefined, pageNum: number) {
     const axiosInstance = useAxios();
-	return useQuery(["get-songs-by-genre"], () => getSongsByGenre(axiosInstance, genre, pageNum),
+	return useQuery(["get-songs-by-genre", genre, pageNum], ({ queryKey }) => getSongsByGenre(axiosInstance, queryKey[1] as string, queryKey[2] as number),
 	{
 		refetchOnWindowFocus: false,
     	retry: 1,
 	});
 }
-export function useRefreshGetSongsByGenre(genre: string | undefined, pageNum: number) {
-	const axiosInstance = useAxios();
-	const queryClient = useQueryClient();
-	return useMutation(
-	  async () => {
-		const data: Songs = await getSongsByGenre(axiosInstance, genre, pageNum);
-		queryClient.setQueryData("get-songs-by-genre", data);
-	  }
-	);
-  }

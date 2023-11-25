@@ -1,23 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ChartComponent } from '../../components';
 import PaginationComponent from '../../components/PaginationComponent/PaginationComponent';
-import {
-  useGetAllGenres,
-  useGetSongsByGenre,
-  useRefreshGetSongsByGenre,
-} from '../../hooks';
+import { useGetAllGenres, useGetSongsByGenre } from '../../hooks';
+import { formatDuration } from '../../utils';
 
 export default function GenreSongPage() {
   const [genre, setGenre] = useState('발라드');
   const [pageNum, setPageNum] = useState(1);
   const { data, isLoading } = useGetSongsByGenre(genre, pageNum);
   const { data: genres, isLoading: isGenreLoading } = useGetAllGenres();
-  const { mutate } = useRefreshGetSongsByGenre(genre, pageNum);
   const items: {
     title: string;
     img: string;
     artist?: string;
-    length: number;
+    length: string;
     isLiked: boolean;
   }[] = [];
 
@@ -26,15 +22,10 @@ export default function GenreSongPage() {
       title: item.song.songName,
       img: '/img/AlbumSample.jpg',
       artist: item.song.songArtist ?? 'Unknown Artist',
-      length: item.song.songDuration,
+      length: formatDuration(item.song.songDuration),
       isLiked: item.isCurrentUserLiked,
     }),
   );
-
-  const memoizedMutate = useCallback(mutate, [mutate]);
-  useEffect(() => {
-    memoizedMutate();
-  }, [genre, pageNum, memoizedMutate]);
 
   return (
     <>
