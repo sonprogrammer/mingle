@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useMutation } from 'react-query';
 import { getCookieToken } from '../../utils';
 import * as Styled from './styles';
+import { usePostUploadSongs } from '../../hooks/usePostUploadSongs';
 
 interface UploadModalComponentProps {
   onClose: () => void;
@@ -26,7 +25,23 @@ export default function UploadModalComponent({
     description: '', // 곡 시간을 넣으니 데이터에러가 발생 추후 물어보고 수정예정
   });
   const token = getCookieToken();
+  const { mutate: uploadMutate } = usePostUploadSongs(token);
 
+  const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
+    event.preventDefault();
+    if (audioFile && imageFile) {
+      const songData = {
+        audio: audioFile,
+        image: imageFile,
+        name: song.name,
+        description: song.description,
+        duration: '6000', // 곡 시간쪽을 일단은 하드코딩 해놓은 상태 추후 수정예정
+        genre: song.genre,
+      };
+
+      uploadMutate(songData);
+    }
+  };
   const handleAudioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setAudioFile(event.target.files[0]);
@@ -46,47 +61,6 @@ export default function UploadModalComponent({
   ) => {
     const { name, value } = event.target;
     setSong({ ...song, [name]: value });
-  };
-
-  const uploadSong = async (formData: FormData) => {
-    const response = await axios.post('/api/song', formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  };
-
-  const mutation = useMutation(uploadSong, {
-    onSuccess: (data) => {
-      console.log('성공:', data);
-    },
-    onError: (error) => {
-      console.log(error);
-      if (axios.isAxiosError(error)) {
-        console.error(
-          'Error:',
-          error.response ? error.response.data : error.message,
-        );
-      } else {
-        console.error('Error:', error);
-      }
-    },
-  });
-
-  const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
-    event.preventDefault();
-    if (audioFile && imageFile) {
-      const formData = new FormData();
-      formData.append('audio', audioFile);
-      formData.append('songImage', imageFile);
-      formData.append('songName', song.name);
-      formData.append('songDescription', song.description);
-      formData.append('songDuration', '240'); //곡 시간 하드코딩 해놓은 상태 추후 수정
-      formData.append('songCategory', song.genre);
-
-      mutation.mutate(formData);
-    }
   };
 
   return (
