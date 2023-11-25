@@ -4,11 +4,25 @@ const path = require("path");
 const createError = require("http-errors");
 const isUserLikedSong = require("../../utils/commons/isUserLikedSong");
 const mongoose = require("mongoose");
-const { create } = require("../../db/models/userModel");
+const fs = require("fs");
 
 async function uploadSong({ userId, songInfo, audio, songImage }) {
   // 클라이언트로부터 body로 받아야 할 곡의 정보 (음원, 이미지 제외)
   const { songName, songDescription, songDuration, songCategory } = songInfo;
+
+  const imgLocation = path.join(
+    __dirname,
+    `../../upload/songImg/${songImage[0].filename}`
+  );
+  const imageFile = fs.readFileSync(imgLocation);
+  fs.writeFileSync(imgLocation, imageFile);
+
+  const audioLocation = path.join(
+    __dirname,
+    `../../upload/audio/${audio[0].filename}`
+  );
+  const audioFile = fs.readFileSync(audioLocation);
+  fs.writeFileSync(audioLocation, audioFile);
 
   // 곡을 업로드하는 유저 object id는 song의 songUploader에 저장
   const createSong = await Song.create({
@@ -17,14 +31,8 @@ async function uploadSong({ userId, songInfo, audio, songImage }) {
     songUploader: userId,
     songDuration,
     songCategory,
-    songImageLocation: path.join(
-      __dirname,
-      `../../upload/songImg/${songImage[0].filename}`
-    ),
-    audioLocation: path.join(
-      __dirname,
-      `../../upload/audio/${audio[0].filename}`
-    ),
+    songImageLocation: imgLocation,
+    audioLocation: audioLocation,
   });
 
   const createdSong = await createSong.populate("songUploader");
@@ -56,6 +64,20 @@ async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
 
   const { songName, songDescription, songDuration, songCategory } = songInfo;
 
+  const imgLocation = path.join(
+    __dirname,
+    `../../upload/songImg/${songImage[0].filename}`
+  );
+  const imageFile = fs.readFileSync(imgLocation);
+  fs.writeFileSync(imgLocation, imageFile);
+
+  const audioLocation = path.join(
+    __dirname,
+    `../../upload/audio/${audio[0].filename}`
+  );
+  const audioFile = fs.readFileSync(audioLocation);
+  fs.writeFileSync(audioLocation, audioFile);
+
   const modifySong = await Song.findByIdAndUpdate(
     songId,
     {
@@ -63,15 +85,9 @@ async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
       songDescription,
       songDuration,
       songCategory,
-      songImageLocation: path.join(
-        __dirname,
-        `../../upload/songImg/${songImage[0].filename}`
-      ),
+      songImageLocation: imgLocation,
 
-      audioLocation: path.join(
-        __dirname,
-        `../../upload/audio/${audio[0].filename}`
-      ),
+      audioLocation: audioLocation,
     },
     // 업데이트된 문서를 반환하는 옵션
     { new: true }
