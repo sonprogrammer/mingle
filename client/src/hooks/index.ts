@@ -6,3 +6,4 @@ export * from "./useGetSongsByGenre";
 export * from "./useGetAllGenres";
 export * from "./useGetSongsByLike";
 export * from "./useGetSongsBySearch";
+export * from "./usePutUserDescription"

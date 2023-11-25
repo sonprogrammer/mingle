@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import {
   StyledUserInfo,
   StyledUserImage,
@@ -9,17 +9,18 @@ import {
   StyledFollowing,
   StyledUserSubInfo,
   StyledDivider,
-} from './styles'
-import { EditableText } from './EditableTextProps'
-
+} from './styles';
+import { EditableText } from './EditableTextProps';
+import { UserInfo } from '../../types';
 
 interface UserProfileHeaderProps {
-  userImage: string
-  userName: string
-  userDescription: string
-  postsCount: number
-  followersCount: number
-  followingCount: number
+  userImage: string;
+  userName: string;
+  postsCount: number;
+  followersCount: number;
+  followingCount: number;
+  onUpdate: (updatedInfo: Partial<UserInfo>) => void;
+  userDescription: string;
 }
 
 export default function UserInfoComponent({
@@ -29,7 +30,13 @@ export default function UserInfoComponent({
   postsCount,
   followersCount,
   followingCount,
+  onUpdate,
 }: UserProfileHeaderProps) {
+  const [statusMessage, setStatusMessage] = useState(userDescription);
+
+  const handleStatusUpdate = () => {
+    onUpdate({ userDescription: statusMessage });
+  };
   return (
     <>
       <StyledUserInfo>
@@ -39,7 +46,12 @@ export default function UserInfoComponent({
           {/* </UserImageContainer> */}
           <StyledUserDescript>
             <h2>{userName}</h2>
-            <EditableText initialText={userDescription} maxLength={20} />
+            <EditableText
+              value={statusMessage}
+              onChange={(e) => setStatusMessage(e.target.value)}
+              onSave={handleStatusUpdate}
+              maxLength={20}
+            />
           </StyledUserDescript>
         </StyledUserSubInfo>
         <StyledUserStatus>
@@ -59,5 +71,5 @@ export default function UserInfoComponent({
       </StyledUserInfo>
       <StyledDivider />
     </>
-  )
+  );
 }
