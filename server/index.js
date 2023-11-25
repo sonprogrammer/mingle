@@ -6,7 +6,7 @@ const cors = require("cors");
 app.use(cors());
 
 app.get("/api", function (req, res) {
-  res.send("Melody Link API Server");
+  res.send("Mingle API Server");
 });
 
 // JSON 파싱 설정: 요청의 본문을 JSON 형식으로 파싱하여 사용할 수 있도록 함
