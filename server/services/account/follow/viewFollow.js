@@ -27,9 +27,12 @@ async function viewFollower(user){
 	try {
 		const searchUser = await User.findById(user);
 		if(!searchUser) {
-			throw createError(400, {message: "유저를 찾을 수 없습니다."});
+			throw createError(400, "유저를 찾을 수 없습니다.");
 		}	
 		const data = await User.find({_id: searchUser.userFollower}).lean();
+		if(Object.keys(data).length === 0) {
+			throw createError(400,  "팔로워를 찾을 수 없습니다.");
+		}
 		return data;
 	} catch (error) {
 		throw error;	

@@ -30,9 +30,13 @@ router.get(
 	async (req, res, next) => {
 		try {
 			const data = await search.UserSearch("userEmail", req.user.userEmail);
+      console.log(data);
+      if (Object.keys(data).length === 0){
+        throw createError(404, "유저 정보를 찾을 수 없습니다.");
+      }
 			res.status(200).json(data);
 		} catch (error) {
-			next(createError(500));
+      next(error);
 		}
 	}
 );
