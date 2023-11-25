@@ -23,8 +23,6 @@ async function userEdit(userId, jsonValue) {
 		console.log(userId);
 		const userData = await userSchema.findById(userId).lean();
 
-		console.log(userData);
-
 		// 이미지가 jsonValue에 있는 경우에만 처리
 		if (jsonValue.userImage) {
 			const decodedImage = Buffer.from(jsonValue.userImage, "base64");
@@ -42,7 +40,6 @@ async function userEdit(userId, jsonValue) {
 
 		// 유저 데이터를 업데이트하고 수정된 항목 수를 가져온다
 		const data = await userSchema.updateOne({ _id: userId }, jsonValue);
-
 
 		// 수정된 항목이 1개인 경우 수정 성공으로 간주하고 true 반환
 		if (data.modifiedCount !== 0) {

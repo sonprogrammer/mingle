@@ -30,13 +30,13 @@ router.get(
 	async (req, res, next) => {
 		try {
 			const data = await search.UserSearch("userEmail", req.user.userEmail);
-      console.log(data);
-      if (Object.keys(data).length === 0){
-        throw createError(404, "유저 정보를 찾을 수 없습니다.");
-      }
+			console.log(data);
+			if (Object.keys(data).length === 0) {
+				throw createError(404, "유저 정보를 찾을 수 없습니다.");
+			}
 			res.status(200).json(data);
 		} catch (error) {
-      next(error);
+			next(error);
 		}
 	}
 );
@@ -94,8 +94,7 @@ router.put(
 	userUpdateValidation,
 	async (req, res, next) => {
 		try {
-      const  userId  = req.user.userId;
-      console.log(userId)
+			const userId = req.user.userId;
 			const result = await accountEdit.userEdit(userId, req.body);
 			res.status(200).json(result);
 		} catch (error) {
@@ -254,17 +253,17 @@ router.put(
 
 // 팔로우한 유저가 없을 때 피드 페이지에서 유저 추천 기능 구현
 router.get(
-  "/user-recommend",
-  passport.authenticate("jwt-user", { session: false }),
-  async (req, res, next) => {
-    try {
-      const { userId } = req.user;
-      const recommendUsers = await followRecommend.recommend(userId);
-      res.status(200).json(recommendUsers);
-    } catch (error) {
-      next(error);
-    }
-  }
+	"/user-recommend",
+	passport.authenticate("jwt-user", { session: false }),
+	async (req, res, next) => {
+		try {
+			const { userId } = req.user;
+			const recommendUsers = await followRecommend.recommend(userId);
+			res.status(200).json(recommendUsers);
+		} catch (error) {
+			next(error);
+		}
+	}
 );
 
 module.exports = router;
