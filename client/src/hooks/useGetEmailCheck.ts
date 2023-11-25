@@ -20,7 +20,7 @@ const getEmailCheck = async (email: string): Promise<emailCheck> => {
 export function useGetEmailCheck(email: string){
   return useQuery<emailCheck, Error>(
     ['emailCheck', email],
-    () => getEmailCheck(email),
+    ({ queryKey }) => getEmailCheck(queryKey[1] as string),
     {
       retry: false,
       enabled: false,
