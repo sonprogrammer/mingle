@@ -1,6 +1,8 @@
 export interface UserInfo {
     userEmail: string;
-    userName: string;
-    userPreference?: string[];
+    userPassword: string;
+    userNickname: string;
+    userPreference: string[];
+    userDescription: string;
   }
   

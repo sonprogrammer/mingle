@@ -8,38 +8,43 @@ import {
   StylePasswordToggleIcon,
 } from '../SignUpComponent/styles';
 import { StyledPasswordWrapper } from './styles';
+import { UserInfo } from '../../types';
 
 interface EditComponentProps {
-  profile: {
-    userEmail: string;
-    userName: string;
-  };
+  profile: UserInfo;
+  onUpdate: (updatedInfo: Partial<UserInfo>) => void;
 }
 
-
-
-
-export default function EditComponent({ profile }: EditComponentProps) {
+export default function EditComponent({
+  profile,
+  onUpdate,
+}: EditComponentProps) {
   const [isGenreModalOpen, setIsGenreModalOpen] = useState(false);
   const openGenreModal = () => setIsGenreModalOpen(true);
   const closeGenreModal = () => setIsGenreModalOpen(false);
   const [showPassword, setShowPassword] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState<string[]>([]);
+  const [userPassword, setUserPassword] = useState(profile.userPassword || '');
+  const [userName, setUserName] = useState(profile.userNickname);
+  const [userPreference, setUserPreference] = useState(profile.userPreference);
 
-
-if(!profile){
-  return <p>no profile</p>
-}
-
+  if (!profile) {
+    return <p>no profile</p>;
+  }
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const handleGenreSelect = (genre: string[]) => {
-    setSelectedGenre(genre);
+  const handleGenreSelect = (selectedGenre: string[]) => {
+    setSelectedGenre(selectedGenre);
   };
   const handleClick = () => {
-    // 변경 제출 함수 구현 예정
+    const updatedInfo: Partial<UserInfo> = {
+      userPassword: userPassword, // 상태 값 사용
+      userName: userName,
+      userPreference: userPreference,
+    };
+    onUpdate(updatedInfo);
   };
   return (
     <>
@@ -52,6 +57,8 @@ if(!profile){
           label="비밀번호"
           type={showPassword ? 'text' : 'password'}
           placeholder="비밀번호를 입력하세요"
+          value={userPassword}
+          onChange={(e) => setUserPassword(e.target.value)}
         />
         <StylePasswordToggleIcon
           src="/img/view-password.png"
@@ -71,7 +78,12 @@ if(!profile){
           onClick={togglePasswordVisibility}
         />
       </StyledPasswordWrapper>
-      <InputComponent label="닉네임" type="text" value={profile.userName} />
+      <InputComponent
+        label="닉네임"
+        type="text"
+        onChange={(e) => setUserName(e.target.value)}
+        value={userName}
+      />
       <div className="flex mb-2">
         <label className="block text-lg font-bold text-gray-900">
           음악 취향
