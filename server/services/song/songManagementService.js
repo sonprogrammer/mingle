@@ -4,6 +4,7 @@ const path = require("path");
 const createError = require("http-errors");
 const isUserLikedSong = require("../../utils/commons/isUserLikedSong");
 const mongoose = require("mongoose");
+const { create } = require("../../db/models/userModel");
 
 async function uploadSong({ userId, songInfo, audio, songImage }) {
   // 클라이언트로부터 body로 받아야 할 곡의 정보 (음원, 이미지 제외)
@@ -112,20 +113,19 @@ async function deleteSong(songId, userId) {
 
 // 곡 좋아요 누르기
 async function pushLike(songId, userId) {
+  const findSong = await Song.findById(songId);
+  if (!findSong) throw createError("해당 곡은 존재하지 않습니다.");
   const findIsSongLiked = await SongLiked.findOne({ songId, userId });
-  if (findIsSongLiked)
-    throw createError(404, "해당 곡을 찾을 수 없거나 이미 좋아요된 곡입니다.");
+  if (findIsSongLiked) throw createError(404, "이미 좋아요된 곡입니다.");
   await SongLiked.create({ songId, userId });
 }
 
 // 곡 좋아요 취소하기
 async function cancelLike(songId, userId) {
+  const findSong = await Song.findById(songId);
+  if (!findSong) throw createError("해당 곡은 존재하지 않습니다.");
   const cancelLike = await SongLiked.findOneAndDelete({ songId, userId });
-  if (!cancelLike)
-    throw createError(
-      404,
-      "해당 곡을 찾을 수 없거나 이미 좋아요 취소된 곡입니다."
-    );
+  if (!cancelLike) throw createError(404, "이미 좋아요 취소된 곡입니다.");
 }
 
 module.exports = {
