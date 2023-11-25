@@ -17,7 +17,6 @@ export default function SearchComponent() {
   const handleNavigate = () => {
     navigate('/search', { state: { type: type, keyword: keyword } });
   };
-  console.log(keyword, type);
   return (
     <div>
       <StyledSearchWrapper>
