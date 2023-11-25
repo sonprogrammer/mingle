@@ -15,7 +15,7 @@ async function UserSearch(keyType, keyValue) {
   data.map(({ ...data }) => {
     userData.userId = data._id;
     userData.userEmail = data.userEmail;
-    userData.userName = data.userNickname;
+    userData.userNickname = data.userNickname;
     userData.userDescription = data.userDescription;
     userData.userPreference = data.userPreference;
     userData.userImage = data.userImage;
