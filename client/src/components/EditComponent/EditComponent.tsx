@@ -23,10 +23,10 @@ export default function EditComponent({
   const openGenreModal = () => setIsGenreModalOpen(true);
   const closeGenreModal = () => setIsGenreModalOpen(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedGenre, setSelectedGenre] = useState<string[]>([]);
+  const [selectedGenre, setSelectedGenre] = useState<string[]>(profile.userPreference || []);
   const [userPassword, setUserPassword] = useState(profile.userPassword || '');
-  const [userName, setUserName] = useState(profile.userNickname);
-  const [userPreference, setUserPreference] = useState(profile.userPreference);
+  const [userNickname, setUserNickname] = useState(profile.userNickname);
+  // const [userPreference, setUserPreference] = useState(profile.userPreference);
 
   if (!profile) {
     return <p>no profile</p>;
@@ -41,8 +41,8 @@ export default function EditComponent({
   const handleClick = () => {
     const updatedInfo: Partial<UserInfo> = {
       userPassword: userPassword, // 상태 값 사용
-      userName: userName,
-      userPreference: userPreference,
+      userNickname: userNickname,
+      userPreference: selectedGenre,
     };
     onUpdate(updatedInfo);
   };
@@ -81,8 +81,8 @@ export default function EditComponent({
       <InputComponent
         label="닉네임"
         type="text"
-        onChange={(e) => setUserName(e.target.value)}
-        value={userName}
+        onChange={(e) => setUserNickname(e.target.value)}
+        value={userNickname}
       />
       <div className="flex mb-2">
         <label className="block text-lg font-bold text-gray-900">
