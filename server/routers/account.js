@@ -94,8 +94,9 @@ router.put(
 	userUpdateValidation,
 	async (req, res, next) => {
 		try {
-			const data = await search.UserSearch("id", req.user.id);
-			const result = await accountEdit.userEdit(data.userEmail, req.body);
+      const  userId  = req.user.userId;
+      console.log(userId)
+			const result = await accountEdit.userEdit(userId, req.body);
 			res.status(200).json(result);
 		} catch (error) {
 			next(error);
