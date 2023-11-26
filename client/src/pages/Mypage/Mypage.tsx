@@ -1,6 +1,6 @@
 import React from "react";
 import { UserInfoComponent, MyPagePlaylists } from "../../components";
-import { usePutUserDescription } from "../../hooks";
+import { usePutUserDescription, useGetUserInfo } from "../../hooks";
 import { UserInfo } from "../../types";
 
 const MYplaylistInfo = [
@@ -56,9 +56,13 @@ const LikedplaylistInfo = [
 
 export default function Mypage() {
   
-  const { data: userDescription, mutate } = usePutUserDescription()
+  const { mutate } = usePutUserDescription()
+  const { data: userData, isLoading } = useGetUserInfo()
 
-  
+  if(isLoading){
+    return <p>loading...</p>
+  }
+
   const handleUpdateDescription = async(updatedInfo: Partial<UserInfo>) =>{
     mutate(updatedInfo)
   }
@@ -66,8 +70,7 @@ export default function Mypage() {
     <>
     <UserInfoComponent
       userImage={"/img/User-Icon.png"}
-      userName={"떼깔룩"}
-      userDescription={userDescription || "20자 이내로 쓰세요."}
+      profile={userData}
       onUpdate={handleUpdateDescription}
       postsCount={7}
       followersCount={7}
