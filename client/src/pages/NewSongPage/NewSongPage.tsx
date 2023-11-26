@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChartComponent } from '../../components';
 import { useGetNewSongChart } from '../../hooks';
+import { formatDuration } from '../../utils';
 
 export default function NewSongPage() {
   const {data: song, error } = useGetNewSongChart()
@@ -26,24 +27,20 @@ export default function NewSongPage() {
   if(error) {
     return <p>Error: {error.message} </p>
   }
-  const formatDuration = (duration: number): string => {
-    const minutes = Math.floor(duration / 60000);
-    const seconds = ((duration % 60000) / 1000).toFixed(0);
-    return `${minutes}:${seconds.padStart(2, '0')}`;
-  };
 
   const songs: ChartItem[] =
   song?.map((item: SongData) => ({
     title: item.song.songName,
-    img: `http://localhost:5173/upload/songImg/${item.song.songImageName}`,
+    img: '/img/AlbumSample.jpg',
     artist: item.song.songArtist || 'Unknown Artist',
     length: formatDuration(item.song.songDuration),
     isLiked: item.isCurrentUserLiked,
+
   })) || [];
 
 
 
   return (
-    <ChartComponent items={songs} title="차트" />
+    <ChartComponent items={songs} title="최신 음악" />
   );
 }
