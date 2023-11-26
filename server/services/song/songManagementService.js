@@ -31,8 +31,8 @@ async function uploadSong({ userId, songInfo, audio, songImage }) {
     songUploader: userId,
     songDuration,
     songCategory,
-    songImageLocation: `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${songImage[0].filename}`,
-    audioLocation: `http://kdt-sw-6-team09.elicecoding.com/file/audio/${audio[0].filename}`,
+    songImageLocation: `${songImage[0].filename}`,
+    audioLocation: `${audio[0].filename}`,
   });
 
   const createdSong = await createSong.populate("songUploader");
@@ -85,8 +85,8 @@ async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
       songDescription,
       songDuration,
       songCategory,
-      songImageLocation: `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${songImage[0].filename}`,
-      audioLocation: `http://kdt-sw-6-team09.elicecoding.com/file/audio/${audio[0].filename}`,
+      songImageLocation: `${songImage[0].filename}`,
+      audioLocation: `${audio[0].filename}`,
     },
     // 업데이트된 문서를 반환하는 옵션
     { new: true }
