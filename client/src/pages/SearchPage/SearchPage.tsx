@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ChartComponent, PaginationComponent } from '../../components';
-import { useGetSongsByLike } from '../../hooks';
+import { useGetSongsBySearch } from '../../hooks';
 import { formatDuration } from '../../utils';
 
-export default function LikedSongPage() {
+export default function SearchPage() {
+  const location = useLocation();
+  const type = location.state.type;
+  const keyword = location.state.keyword;
   const [pageNum, setPageNum] = useState(1);
-  const { data, isLoading } = useGetSongsByLike(pageNum);
+  let typeName = '';
+  const { data, isLoading } = useGetSongsBySearch(type, keyword, pageNum);
+  switch (type) {
+    case 'song-name': {
+      typeName = '노래';
+      break;
+    }
+    case 'artist-name': {
+      typeName = '가수';
+      break;
+    }
+    default: {
+      typeName = '플리';
+    }
+  }
   const items: {
     title: string;
     img: string;
@@ -23,14 +41,16 @@ export default function LikedSongPage() {
       isLiked: item.isCurrentUserLiked,
     }),
   );
-
   return (
     <>
       {isLoading ? (
         <>로딩 중...</>
       ) : (
         <>
-          <ChartComponent items={items} title={'좋아요한 음악'} />
+          <ChartComponent
+            items={items}
+            title={`'${keyword}'에 대한 ${typeName} 검색 결과입니다.`}
+          />
           {data?.songs && data.songs.length > 0 ? (
             <PaginationComponent
               setPageNum={setPageNum}

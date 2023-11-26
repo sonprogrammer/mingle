@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { useMutation } from 'react-query';
-
+import { useAxios } from '../utils';
 interface SongData {
   audio: File;
   image: File;
@@ -10,16 +10,16 @@ interface SongData {
   genre: string;
 }
 
-const uploadSong = async (formData: FormData, token: string) => {
-  const response = await axios.post('/api/song', formData, {
+const uploadSong = async (formData: FormData, axiosInstance: AxiosInstance) => {
+  const response = await axiosInstance.post('/api/song', formData, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
     },
   });
   return response.data;
 };
-
-export function usePostUploadSongs(token: string) {
+export function usePostUploadSongs() {
+  const axiosInstance = useAxios();
   return useMutation(
     (songData: SongData) => {
       const formData = new FormData();
@@ -30,7 +30,7 @@ export function usePostUploadSongs(token: string) {
       formData.append('songDuration', songData.duration);
       formData.append('songCategory', songData.genre);
 
-      return uploadSong(formData, token);
+      return uploadSong(formData, axiosInstance);
     },
     {
       onSuccess: (data) => {
@@ -42,8 +42,10 @@ export function usePostUploadSongs(token: string) {
             'Error:',
             error.response ? error.response.data : error.message,
           );
+          alert('업로드에 실패하였습니다.');
         } else {
           console.error('Error:', error);
+          alert('업로드에 실패하였습나다.');
         }
       },
     },
