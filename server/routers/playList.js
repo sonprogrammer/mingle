@@ -32,7 +32,7 @@ router.get(
 );
 // 추천 플레이리스트
 router.get(
-	'/recommend',
+	"/recommend",
 	passport.authenticate("jwt-user", { session: false }),
 	async (req, res, next) => {
 		try {
@@ -43,7 +43,7 @@ router.get(
 			next(error);
 		}
 	}
-)
+);
 //특정 플레이리스트 조회
 router.get(
 	"/:playlistId",
@@ -147,7 +147,6 @@ router.delete(
 	}
 );
 
-
 // DELETE: /플레이리스트-삭제/:playlistId
 router.delete(
 	"/:playlistId",
@@ -170,16 +169,9 @@ router.put(
 	async (req, res, next) => {
 		try {
 			const playlistId = req.params.playlistId;
-			const [success, result] = await playListUpdate.playListUpdate(
-				playlistId,
-				req.body
-			);
-			if (success) {
-				res.json(result);
-			} else {
-				next(createError(500), result);
-			}
-		} catch {
+			const result = await playListUpdate.playListUpdate(playlistId, req.body);
+			res.status(200).json(result);
+		} catch (error){
 			next(error);
 		}
 	}
