@@ -7,3 +7,4 @@ export * from "./useGetNewSongChart"
 export * from "./useGetSongsByGenre";
 export * from "./useGetAllGenres";
 export * from "./useGetSongsByLike";
+export * from "./useGetSongsBySearch";

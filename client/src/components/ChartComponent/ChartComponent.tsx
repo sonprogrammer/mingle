@@ -33,21 +33,25 @@ export default function ChartComponent({
     <>
       <StyledTitleWrapper>
         <StyledChartTitleWrapper>
-          <StyledChartTitle>{title}</StyledChartTitle>
-          {setGenre && (
-            <StyledSelect
-              onChange={(e) => {
-                setGenre(e.target.value);
-              }}
-            >
-              {genres?.map((item) => {
-                return (
-                  <option key={item._id} value={item.genre}>
-                    {item.genre}
-                  </option>
-                );
-              })}
-            </StyledSelect>
+          {setGenre ? (
+            <>
+              <StyledChartTitle isGenre>{title}</StyledChartTitle>
+              <StyledSelect
+                onChange={(e) => {
+                  setGenre(e.target.value);
+                }}
+              >
+                {genres?.map((item) => {
+                  return (
+                    <option key={item._id} value={item.genre}>
+                      {item.genre}
+                    </option>
+                  );
+                })}
+              </StyledSelect>
+            </>
+          ) : (
+            <StyledChartTitle isGenre={false}>{title}</StyledChartTitle>
           )}
         </StyledChartTitleWrapper>
         <StyledChartAddButton>
