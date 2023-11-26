@@ -75,7 +75,6 @@ export default function MyPagePlaylists({
                 likes={playlist.likes}
               />
             ))}
-
           {selectTab === 'likedPlaylists' &&
             likedplaylists.map((playlist, idx) => (
               <RecommendPlaylistComponent
@@ -85,7 +84,6 @@ export default function MyPagePlaylists({
                 likes={playlist.likes}
               />
             ))}
-
           {selectTab === 'myuploadsongslists' &&
             myuploadsongslists.map((playlist, idx) => (
               <>
@@ -97,6 +95,9 @@ export default function MyPagePlaylists({
                 />
               </>
             ))}
+          //지금 버튼을 전체 다 보이게 꺼내놓은 상태인데 원래는 내가 업로드한
+          쪽에서만 보이게 하려는데 //넣으면 돔에 추가가 안되는 현상이 발생해서
+          이것도 추후 수정예정
           <UploadButtonComponent text="업로드" onClick={handleButtonClick} />
         </PlaylistConetent>
       </PlaylistContainer>
