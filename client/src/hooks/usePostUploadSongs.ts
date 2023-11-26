@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { useMutation } from 'react-query';
 import { useAxios } from '../utils';
+import { atom } from 'recoil';
 interface SongData {
   audio: File;
   image: File;
@@ -18,6 +19,11 @@ const uploadSong = async (formData: FormData, axiosInstance: AxiosInstance) => {
   });
   return response.data;
 };
+
+export const uploadedSongsState = atom<SongData[]>({
+  key: 'uploadedSongsState',
+  default: [],
+});
 export function usePostUploadSongs() {
   const axiosInstance = useAxios();
   return useMutation(

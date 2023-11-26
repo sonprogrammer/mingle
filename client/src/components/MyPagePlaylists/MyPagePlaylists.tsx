@@ -95,12 +95,9 @@ export default function MyPagePlaylists({
                   title={playlist.title}
                   likes={playlist.likes}
                 />
-                <UploadButtonComponent
-                  text="업로드"
-                  onClick={handleButtonClick}
-                />
               </>
             ))}
+          <UploadButtonComponent text="업로드" onClick={handleButtonClick} />
         </PlaylistConetent>
       </PlaylistContainer>
       {isModalOpen && <UploadModalComponent onClose={handleCloseModal} />}

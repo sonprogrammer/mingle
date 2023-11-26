@@ -14,3 +14,4 @@ export * from './useGetSongsByGenre';
 export * from './useGetAllGenres';
 export * from './useGetSongsByLike';
 export * from './usePostUploadSongs';
+export * from './useGetUploadedSongs';
