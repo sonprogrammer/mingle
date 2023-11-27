@@ -21,7 +21,6 @@ export function usePutUserInfo() {
     (updatedInfo: Partial<UserInfo>) => putUserInfo(axiosInstance, updatedInfo),
     {
       onSuccess: (data) => {
-        console.log('User Info Updated:', data);
       },
       onError: (error)=>{
         throw error
