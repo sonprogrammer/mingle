@@ -32,20 +32,20 @@ require("dotenv").config();
 // 'server/upload/songImg/abc.jpg'나 'server/upload/audio/song.mp3'와 같은 URL로 해당 파일들에 접근할 수 있다.
 
 app.use(
-  "/server/upload/profile",
+  "/file/profile",
   express.static(path.join(__dirname, "upload", "profile"))
 );
 app.use(
-  "/server/upload/playListCover",
+  "/file/playListCover",
   express.static(path.join(__dirname, "upload", "playListCover"))
 );
 app.use(
-  "/server/upload/songImg",
+  "/file/songImg",
   express.static(path.join(__dirname, "upload", "songImg"))
 );
 
 app.use(
-  "/server/upload/audio",
+  "/file/audio",
   express.static(path.join(__dirname, "upload", "audio"), {
     setHeaders: (res, path, stat) => {
       res.setHeader("Accept-Ranges", "bytes");
@@ -53,7 +53,7 @@ app.use(
   })
 );
 
-app.get("/server/upload/audio/:filename", (req, res) => {
+app.get("/file/audio/:filename", (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(audioPath, filename);
 
