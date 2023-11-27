@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChartComponent } from "../../components";
+import { usePostlikeToggle, useDeleteLikeToggle } from '../../hooks';
+
 
 export default function ChartPage() {
+
+  const postLikeToggle = usePostlikeToggle();
+  const deleteLikeToggle = useDeleteLikeToggle();
+
+
+
+
   return (
     <ChartComponent
       items={[
@@ -11,6 +20,7 @@ export default function ChartPage() {
           artist: "Troye Sivan",
           length: "03:20",
           isLiked: true,
+          _id: "1",
         },
         {
           title: "Dangerously",
@@ -18,6 +28,7 @@ export default function ChartPage() {
           artist: "Charlie Puth",
           length: "03:48",
           isLiked: false,
+          _id: "2",
         },
         {
           title: "Eyes Closed",
@@ -25,6 +36,8 @@ export default function ChartPage() {
           artist: "Ed Sherren",
           length: "03:21",
           isLiked: true,
+          _id: "3",
+
         },
         {
           title: "Steal The Show",
@@ -32,6 +45,7 @@ export default function ChartPage() {
           artist: "Lauv",
           length: "03:28",
           isLiked: false,
+          _id: "4",
         },
         {
           title: "Kill Bill",
@@ -39,6 +53,7 @@ export default function ChartPage() {
           artist: "SZA",
           length: "03:50",
           isLiked: false,
+          _id: "5",
         },
         {
           title: "Lost Boy",
@@ -46,6 +61,7 @@ export default function ChartPage() {
           artist: "Troye Sivan",
           length: "03:20",
           isLiked: true,
+          _id: "6",
         },
         {
           title: "Dangerously",
@@ -53,6 +69,7 @@ export default function ChartPage() {
           artist: "Charlie Puth",
           length: "03:48",
           isLiked: false,
+          _id: "7",
         },
         {
           title: "Eyes Closed",
@@ -60,6 +77,8 @@ export default function ChartPage() {
           artist: "Ed Sherren",
           length: "03:21",
           isLiked: true,
+          _id: "8",
+
         },
         {
           title: "Steal The Show",
@@ -67,6 +86,7 @@ export default function ChartPage() {
           artist: "Lauv",
           length: "03:28",
           isLiked: false,
+          _id: "9"
         },
         {
           title: "Kill Bill",
@@ -74,9 +94,11 @@ export default function ChartPage() {
           artist: "SZA",
           length: "03:50",
           isLiked: false,
+          _id: "10"
         },
       ]}
       title={"차트"}
+
     />
   );
 }

@@ -5,7 +5,7 @@ import { useAxios } from '../utils';
 
 const postLikeToggle = async (axiosInstance: AxiosInstance, songId: string) => {
     const response = await axiosInstance.post(`/api/song/${songId}/like-push`)
-    return response.data
+    return response
 }
 
 export function usePostlikeToggle(){

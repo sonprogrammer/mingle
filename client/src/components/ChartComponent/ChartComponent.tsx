@@ -11,9 +11,11 @@ import {
   StyledTitleWrapper,
 } from './styles';
 
+
 interface ChartComponentProps {
   title: string;
   items: {
+    _id: string;
     title: string;
     img: string;
     artist?: string;
@@ -22,6 +24,7 @@ interface ChartComponentProps {
   }[];
   setGenre?: Dispatch<SetStateAction<string>>;
   genres?: { _id: string; genre: string }[];
+
 }
 export default function ChartComponent({
   title,
@@ -29,6 +32,8 @@ export default function ChartComponent({
   setGenre,
   genres,
 }: ChartComponentProps) {
+
+
   return (
     <>
       <StyledTitleWrapper>
@@ -71,7 +76,8 @@ export default function ChartComponent({
                   artist={item.artist}
                   length={item.length}
                   isLiked={item.isLiked}
-                  key={idx}
+                  key={item._id}
+                  _id={item._id}
                 />
               );
             })

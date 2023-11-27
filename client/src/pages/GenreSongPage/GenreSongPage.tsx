@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ChartComponent } from '../../components';
 import PaginationComponent from '../../components/PaginationComponent/PaginationComponent';
-import { useGetAllGenres, useGetSongsByGenre } from '../../hooks';
+import { useGetAllGenres, useGetSongsByGenre, usePostlikeToggle, useDeleteLikeToggle } from '../../hooks';
 import { formatDuration } from '../../utils';
 
 export default function GenreSongPage() {
@@ -17,6 +17,17 @@ export default function GenreSongPage() {
     isLiked: boolean;
   }[] = [];
 
+  const postLikeMutation = usePostlikeToggle();
+  const deleteLikeMutation = useDeleteLikeToggle();
+
+  const handleLikeToggle = async (songId: string, isLiked: boolean) => {
+    if (isLiked) {
+      await deleteLikeMutation.mutateAsync(songId);
+    } else {
+      await postLikeMutation.mutateAsync(songId);
+    }
+  };
+
   data?.songs.map((item) =>
     items.push({
       title: item.song.songName,
@@ -24,6 +35,8 @@ export default function GenreSongPage() {
       artist: item.song.songArtist ?? 'Unknown Artist',
       length: formatDuration(item.song.songDuration),
       isLiked: item.isCurrentUserLiked,
+      _id: item.song._id,
+
     }),
   );
 
@@ -38,6 +51,7 @@ export default function GenreSongPage() {
             title={'장르별 음악'}
             setGenre={setGenre}
             genres={genres}
+            onLikeToggle={handleLikeToggle} 
           />
           {data?.songs && data.songs.length > 0 ? (
             <PaginationComponent
