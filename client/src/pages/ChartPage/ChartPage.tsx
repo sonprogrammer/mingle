@@ -1,82 +1,37 @@
-import React from "react";
-import { ChartComponent } from "../../components";
+import React from 'react';
+import { ChartComponent } from '../../components';
+import { useGetSongslike } from '../../hooks/useGetSongslike';
+import { formatDuration } from '../../utils';
+interface SongData {
+  song: {
+    songName: string;
+    songImageName: string;
+    songArtist: string | null;
+    songDuration: number;
+  };
+  isCurrentUserLiked: boolean;
+}
+interface ChartItem {
+  title: string;
+  img: string;
+  artist: string;
+  length: string;
+  isLiked: boolean;
+}
 
 export default function ChartPage() {
-  return (
-    <ChartComponent
-      items={[
-        {
-          title: "Lost Boy",
-          img: "/img/AlbumSample.jpg",
-          artist: "Troye Sivan",
-          length: "03:20",
-          isLiked: true,
-        },
-        {
-          title: "Dangerously",
-          img: "/img/AlbumSample.jpg",
-          artist: "Charlie Puth",
-          length: "03:48",
-          isLiked: false,
-        },
-        {
-          title: "Eyes Closed",
-          img: "/img/AlbumSample.jpg",
-          artist: "Ed Sherren",
-          length: "03:21",
-          isLiked: true,
-        },
-        {
-          title: "Steal The Show",
-          img: "/img/AlbumSample.jpg",
-          artist: "Lauv",
-          length: "03:28",
-          isLiked: false,
-        },
-        {
-          title: "Kill Bill",
-          img: "/img/AlbumSample.jpg",
-          artist: "SZA",
-          length: "03:50",
-          isLiked: false,
-        },
-        {
-          title: "Lost Boy",
-          img: "/img/AlbumSample.jpg",
-          artist: "Troye Sivan",
-          length: "03:20",
-          isLiked: true,
-        },
-        {
-          title: "Dangerously",
-          img: "/img/AlbumSample.jpg",
-          artist: "Charlie Puth",
-          length: "03:48",
-          isLiked: false,
-        },
-        {
-          title: "Eyes Closed",
-          img: "/img/AlbumSample.jpg",
-          artist: "Ed Sherren",
-          length: "03:21",
-          isLiked: true,
-        },
-        {
-          title: "Steal The Show",
-          img: "/img/AlbumSample.jpg",
-          artist: "Lauv",
-          length: "03:28",
-          isLiked: false,
-        },
-        {
-          title: "Kill Bill",
-          img: "/img/AlbumSample.jpg",
-          artist: "SZA",
-          length: "03:50",
-          isLiked: false,
-        },
-      ]}
-      title={"차트"}
-    />
-  );
+  const { data: res, isLoading } = useGetSongslike();
+
+  if (isLoading) return <div>Loading...</div>;
+
+  const songs: ChartItem[] =
+    res.data?.map((item: SongData) => ({
+      title: item.song.songName,
+      img: `http://localhost:5173/upload/songImg/${item.song.songImageName}`,
+      artist: item.song.songArtist || 'Unknown Artist',
+      length: formatDuration(item.song.songDuration),
+      isLiked: item.isCurrentUserLiked,
+    })) || [];
+
+  return <ChartComponent items={songs} title="차트" />;
 }
