@@ -7,7 +7,6 @@ export function useGetSongslike() {
 
   return useQuery('userUploadedSongs', async () => {
     const res = await axios.get(`/api/songs?orderby=top`);
-    console.log(res);
     return res;
   });
 }
