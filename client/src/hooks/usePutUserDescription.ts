@@ -7,14 +7,9 @@ const putUserDescription = async (
   axiosInstance: AxiosInstance,
   updatedInfo: Partial<UserInfo>,
 ): Promise<UserInfo> => {
-  try {
     const response = await axiosInstance.put('api/account/description', updatedInfo);
     console.log('Response from server:', response);
     return response.data;
-  } catch (error) {
-    console.error('Error updating user description:', error);
-    throw error;
-  }
 };
 
 
@@ -29,9 +24,11 @@ export function usePutUserDescription() {
       putUserDescription(axiosInstance, updatedInfo),
     {
       onSuccess: (update) => {
-        console.log('User description updated : ', update);
         queryClient.invalidateQueries('userDescription')
       },
+      onError: (error)=>{
+        throw error
+      }
     },
   );
 }

@@ -37,7 +37,6 @@ export default function UserInfoComponent({
   );
 
   const handleStatusUpdate = async(updatedText: string) => {
-    console.log('Updating user description with:', statusMessage);
     onUpdate({ userDescription: updatedText });
 
   };
