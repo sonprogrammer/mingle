@@ -7,6 +7,7 @@ const search = require("../utils/commons/search");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const createFollow = require("../services/account/follow/createFollow");
+const User = require("../db/models/userModel");
 const viewFollow = require("../services/account/follow/viewFollow");
 const playListLike = require("../services/playList/playListLike");
 const PlayList = require("../db/models/playListModel");
@@ -17,6 +18,7 @@ const {
   userUpdateValidation,
 } = require("../middlewares/account-Validation");
 const resetPassword = require("../services/account/resetPassword");
+const followRecommend = require("../services/account/follow/followRecommed");
 const routeHandler = require("../utils/errorHandler/routeHandler");
 
 router.use(routeHandler);
@@ -28,9 +30,12 @@ router.get(
   async (req, res, next) => {
     try {
       const data = await search.UserSearch("userEmail", req.user.userEmail);
+      if (Object.keys(data).length === 0) {
+        throw createError(404, "유저 정보를 찾을 수 없습니다.");
+      }
       res.status(200).json(data);
     } catch (error) {
-      next(createError(500));
+      next(error);
     }
   }
 );
@@ -81,7 +86,6 @@ router.delete(
  * PUT 방식을 사용하여 회원 정보 수정
  * @param {string} req.params.id - 사용자 ID
  * @param {object} req.body - 수정할 사용자 정보
- * @returns {object} - 수정이 성공하면 200 응답, 실패하면 400 응답
  */
 router.put(
   "/",
@@ -89,15 +93,11 @@ router.put(
   userUpdateValidation,
   async (req, res, next) => {
     try {
-      const data = await search.UserSearch("id", req.user.id);
-      const [bool, { message }] = await accountEdit.userEdit(
-        data.userEmail,
-        req.body
-      );
-      const statusCode = bool ? 200 : 400;
-      res.status(statusCode).json({ message });
+      const userId = req.user.userId;
+      const result = await accountEdit.userEdit(userId, req.body);
+      res.status(200).json(result);
     } catch (error) {
-      next(createError(500));
+      next(error);
     }
   }
 );
@@ -244,6 +244,21 @@ router.put(
       const { userDescription } = req.body;
       await accountEdit.userDescriptionEdit(userId, userDescription);
       res.status(200).json({ message: "유저 설명 수정에 성공하였습니다." });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// 팔로우한 유저가 없을 때 피드 페이지에서 유저 추천 기능 구현
+router.get(
+  "/user-recommend",
+  passport.authenticate("jwt-user", { session: false }),
+  async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+      const recommendUsers = await followRecommend.recommend(userId);
+      res.status(200).json(recommendUsers);
     } catch (error) {
       next(error);
     }

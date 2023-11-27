@@ -4,11 +4,25 @@ const path = require("path");
 const createError = require("http-errors");
 const isUserLikedSong = require("../../utils/commons/isUserLikedSong");
 const mongoose = require("mongoose");
+const fs = require("fs");
 
 async function uploadSong({ userId, songInfo, audio, songImage }) {
   // 클라이언트로부터 body로 받아야 할 곡의 정보 (음원, 이미지 제외)
-  const { songName, songDescription, songDuration, songCategory, songMood } =
-    songInfo;
+  const { songName, songDescription, songDuration, songCategory } = songInfo;
+
+  const imgLocation = path.join(
+    __dirname,
+    `../../upload/songImg/${songImage[0].filename}`
+  );
+  const imageFile = fs.readFileSync(imgLocation);
+  fs.writeFileSync(imgLocation, imageFile);
+
+  const audioLocation = path.join(
+    __dirname,
+    `../../upload/audio/${audio[0].filename}`
+  );
+  const audioFile = fs.readFileSync(audioLocation);
+  fs.writeFileSync(audioLocation, audioFile);
 
   // 곡을 업로드하는 유저 object id는 song의 songUploader에 저장
   const createSong = await Song.create({
@@ -17,15 +31,8 @@ async function uploadSong({ userId, songInfo, audio, songImage }) {
     songUploader: userId,
     songDuration,
     songCategory,
-    songMood,
-    songImageLocation: path.join(
-      __dirname,
-      `../../upload/songImg/${songImage[0].filename}`
-    ),
-    audioLocation: path.join(
-      __dirname,
-      `../../upload/audio/${audio[0].filename}`
-    ),
+    songImageLocation: `${songImage[0].filename}`,
+    audioLocation: `${audio[0].filename}`,
   });
 
   const createdSong = await createSong.populate("songUploader");
@@ -55,8 +62,21 @@ async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
     throw createError(403, "회원님이 업로드하지 않은 곡은 수정이 불가합니다.");
   }
 
-  const { songName, songDescription, songDuration, songCategory, songMood } =
-    songInfo;
+  const { songName, songDescription, songDuration, songCategory } = songInfo;
+
+  const imgLocation = path.join(
+    __dirname,
+    `../../upload/songImg/${songImage[0].filename}`
+  );
+  const imageFile = fs.readFileSync(imgLocation);
+  fs.writeFileSync(imgLocation, imageFile);
+
+  const audioLocation = path.join(
+    __dirname,
+    `../../upload/audio/${audio[0].filename}`
+  );
+  const audioFile = fs.readFileSync(audioLocation);
+  fs.writeFileSync(audioLocation, audioFile);
 
   const modifySong = await Song.findByIdAndUpdate(
     songId,
@@ -65,16 +85,8 @@ async function modifySongInfo({ userId, songId, songInfo, audio, songImage }) {
       songDescription,
       songDuration,
       songCategory,
-      songMood,
-      songImageLocation: path.join(
-        __dirname,
-        `../../upload/songImg/${songImage[0].filename}`
-      ),
-
-      audioLocation: path.join(
-        __dirname,
-        `../../upload/audio/${audio[0].filename}`
-      ),
+      songImageLocation: `${songImage[0].filename}`,
+      audioLocation: `${audio[0].filename}`,
     },
     // 업데이트된 문서를 반환하는 옵션
     { new: true }
@@ -116,20 +128,19 @@ async function deleteSong(songId, userId) {
 
 // 곡 좋아요 누르기
 async function pushLike(songId, userId) {
+  const findSong = await Song.findById(songId);
+  if (!findSong) throw createError("해당 곡은 존재하지 않습니다.");
   const findIsSongLiked = await SongLiked.findOne({ songId, userId });
-  if (findIsSongLiked)
-    throw createError(404, "해당 곡을 찾을 수 없거나 이미 좋아요된 곡입니다.");
+  if (findIsSongLiked) throw createError(404, "이미 좋아요된 곡입니다.");
   await SongLiked.create({ songId, userId });
 }
 
 // 곡 좋아요 취소하기
 async function cancelLike(songId, userId) {
+  const findSong = await Song.findById(songId);
+  if (!findSong) throw createError("해당 곡은 존재하지 않습니다.");
   const cancelLike = await SongLiked.findOneAndDelete({ songId, userId });
-  if (!cancelLike)
-    throw createError(
-      404,
-      "해당 곡을 찾을 수 없거나 이미 좋아요 취소된 곡입니다."
-    );
+  if (!cancelLike) throw createError(404, "이미 좋아요 취소된 곡입니다.");
 }
 
 module.exports = {

@@ -6,7 +6,7 @@ const cors = require("cors");
 app.use(cors());
 
 app.get("/api", function (req, res) {
-  res.send("Melody Link API Server");
+  res.send("Mingle API Server");
 });
 
 // JSON 파싱 설정: 요청의 본문을 JSON 형식으로 파싱하여 사용할 수 있도록 함
@@ -32,20 +32,20 @@ require("dotenv").config();
 // 'server/upload/songImg/abc.jpg'나 'server/upload/audio/song.mp3'와 같은 URL로 해당 파일들에 접근할 수 있다.
 
 app.use(
-  "/server/upload/profile",
+  "/file/profile",
   express.static(path.join(__dirname, "upload", "profile"))
 );
 app.use(
-  "/server/upload/playListCover",
+  "/file/playListCover",
   express.static(path.join(__dirname, "upload", "playListCover"))
 );
 app.use(
-  "/server/upload/songImg",
+  "/file/songImg",
   express.static(path.join(__dirname, "upload", "songImg"))
 );
 
 app.use(
-  "/server/upload/audio",
+  "/file/audio",
   express.static(path.join(__dirname, "upload", "audio"), {
     setHeaders: (res, path, stat) => {
       res.setHeader("Accept-Ranges", "bytes");
@@ -53,7 +53,7 @@ app.use(
   })
 );
 
-app.get("/server/upload/audio/:filename", (req, res) => {
+app.get("/file/audio/:filename", (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(audioPath, filename);
 
@@ -88,12 +88,14 @@ const accountRouter = require("./routers/account.js"); // 사용자 기능 설�
 const songManagementRouter = require("./routers/songManagement.js"); // 개별 곡 관련 요청을 받는 라우터
 const songListRouter = require("./routers/songList.js"); // 조건별로 여러 곡 리스트들을 보내주는 라우터
 const playListRouter = require("./routers/playList.js"); // 플레이리스트 기능 설정
+const genreRouter = require("./routers/genre.js"); // 장르 관련 라우터
 const routeHandler = require("./utils/errorHandler/routeHandler.js"); // 에러 핸들러 설정
 
 app.use("/api/account", accountRouter);
 app.use("/api/song", songManagementRouter);
 app.use("/api/songs", songListRouter);
 app.use("/api/playlist", playListRouter);
+app.use("/api/genre", genreRouter);
 
 app.use(routeHandler);
 var server = app.listen(3000, function () {

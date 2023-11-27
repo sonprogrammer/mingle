@@ -20,15 +20,6 @@ const songSchema = new mongoose.Schema(
     audioLocation: { type: String, required: true },
     // 곡 카테고리
     songCategory: { type: String, required: true },
-    // 곡의 분위기
-    songMood: { type: String, required: true },
-    // // 곡에 달린 좋아요 (유저 참조)
-    // songLiked: {
-    //   type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    //   default: [],
-    // },
-    // // 곡에 달린 좋아요 수
-    // songLikedCount: { type: Number, default: 0 },
   },
   {
     versionKey: false,
