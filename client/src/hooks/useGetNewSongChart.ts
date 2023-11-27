@@ -4,9 +4,9 @@ import { Songs } from '../types';
 import { useAxios } from '../utils';
 
 
-const getNewSong = (axiosInstance: AxiosInstance) =>{
-  const response = axiosInstance.get('/api/songs?orderby=recent');
-  return response
+const getNewSong = async(axiosInstance: AxiosInstance) =>{
+  const response  = await axiosInstance.get('/api/songs?orderby=recent');
+  return response.data
 }
 
 
