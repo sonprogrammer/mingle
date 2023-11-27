@@ -16,11 +16,13 @@ async function playListCreate(jsonValue, userId) {
     if (!jsonValue.genre) {
       throw createError(400, "genre가 없습니다.");
     }
+    const timestamp = new Date().getTime();
+    const imageName = `${timestamp}.png`;
     if (jsonValue.playListImg) {
       const decodedImage = Buffer.from(jsonValue.playListImg, "base64");
       const imagePath = path.join(
         __dirname,
-        `../../upload/playListCover/${jsonValue.playListTitle}.png`
+        `../../upload/playListCover/${imageName}`
       );
       fs.writeFileSync(imagePath, decodedImage);
       jsonValue.userImage = imagePath;
@@ -29,7 +31,7 @@ async function playListCreate(jsonValue, userId) {
     const data = await playListSchema(jsonValue).save();
 
     if (data) {
-      return { message: "플레이리스트가 생성되었습니다." };
+      return { message: "플레이리스트가 생성되었습니다." , playListId: data._id, playListImg: imageName};
     } else {
       throw createError(500, "플레이리스트 생성에 실패하였습니다.");
     }

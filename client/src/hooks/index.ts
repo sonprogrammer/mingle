@@ -8,3 +8,5 @@ export * from "./useGetAllGenres";
 export * from "./useGetSongsByLike";
 export * from "./usePutUserInfo"
 export * from "./useGetSongsBySearch";
+export * from './usePostUploadSongs';
+export * from './useGetUploadedSongs';
