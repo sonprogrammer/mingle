@@ -16,12 +16,7 @@ export default function EditProfilePage() {
   }
 
   const handleUpdate = async(updatedInfo: Partial<UserInfo>) =>{
-    try{
        updateUserInfo(updatedInfo);
-    }catch(error){
-      console.error('update failed', error)
-    };
-    
   }
 
   return (

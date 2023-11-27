@@ -10,13 +10,9 @@ const putUserInfo = async (
   axiosInstance: AxiosInstance,
   updatedInfo: Partial<UserInfo>,
 ): Promise<UserInfo> => {
-  // eslint-disable-next-line no-useless-catch
-  try {
     const response = await axiosInstance.put(`/api/account/`, updatedInfo);
     return response.data;
-  } catch (error) {
-    throw error;
-  }
+
 };
 
 export function usePutUserInfo() {
@@ -27,6 +23,9 @@ export function usePutUserInfo() {
       onSuccess: (data) => {
         console.log('User Info Updated:', data);
       },
+      onError: (error)=>{
+        throw error
+      }
     },
   );
 }
