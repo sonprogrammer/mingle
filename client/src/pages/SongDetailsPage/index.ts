@@ -1,1 +1,1 @@
-export { default as SongDetails } from './SongDetailsPage';
+export { default as SongDetailsPage } from './SongDetailsPage';

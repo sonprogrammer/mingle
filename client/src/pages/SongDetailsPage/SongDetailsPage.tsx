@@ -1,38 +1,26 @@
-import React, { useState } from 'react';
 import { useGetSongDetails } from '../../hooks';
+import { useParams } from 'react-router-dom';
 
-type Song = {
-  id: string;
-  name: string;
-};
-type SongListProps = {
-  songs: Song[];
-};
+export default function SongDetailsPage() {
+  const { songId } = useParams();
+  const { data, isLoading, error } = useGetSongDetails(songId ?? '');
 
-export default function SongList({ songs }: SongListProps) {
-  const [selectedSongId, setSelectedSongId] = useState<string | null>(null);
-  const { data: songData, isLoading: loading } = useGetSongDetails(
-    selectedSongId || '',
-  );
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>에러가 발생했습니다.</div>;
 
-  if (loading) return <div>Loading...</div>;
+  const song = data?.song; // 곡의 상세 정보
 
   return (
     <div>
-      <ul>
-        {songs.map((song) => (
-          <li key={song.id} onClick={() => setSelectedSongId(song.id)}>
-            {song.name}
-          </li>
-        ))}
-      </ul>
+      <h1>{song.songName}</h1>
+      <p>{song.songArtist || '익명의 아티스트'}</p>
+      <p>{song.songDescription}</p>
 
-      {songData && (
-        <div>
-          <h1>{songData.song.songName}</h1>
-          <p>{songData.song.songDescription}</p>
-          // 이하 생략...
-        </div>
+      {song.songImageLocation && (
+        <img
+          src={song.songImageLocation}
+          alt={`Album art for ${song.songName}`}
+        />
       )}
     </div>
   );

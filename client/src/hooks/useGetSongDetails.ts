@@ -9,6 +9,10 @@ const fetchSong = async (axios: AxiosInstance, songId: string) => {
 
 export function useGetSongDetails(songId: string) {
   const axios = useAxios();
-
-  return useQuery(['song', songId], () => fetchSong(axios, songId));
+  return useQuery(['song', songId], () => fetchSong(axios, songId), {
+    onError: () => {
+      alert('곡을 불러오는데 실패하였습니다.');
+    },
+    retry: 1,
+  });
 }

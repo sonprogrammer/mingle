@@ -14,6 +14,7 @@ import {
 interface ChartComponentProps {
   title: string;
   items: {
+    _id: string;
     title: string;
     img: string;
     artist?: string;
@@ -65,6 +66,7 @@ export default function ChartComponent({
             items.map((item, idx) => {
               return (
                 <ChartItemComponent
+                  _id={item._id}
                   idx={idx + 1}
                   title={item.title}
                   img={item.img}
