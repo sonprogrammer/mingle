@@ -7,7 +7,7 @@ const getSongsByGenre = async (axiosInstance: AxiosInstance, genre: string | und
 	const response: Songs | PromiseLike<Songs> = await axiosInstance.get(		
         `/api/songs?category=${genre}&page=${pageNum}&pageSize=8`
 	);
-	return response;
+	return response.data;
 };
 export function useGetSongsByGenre(genre: string | undefined, pageNum: number) {
     const axiosInstance = useAxios();
