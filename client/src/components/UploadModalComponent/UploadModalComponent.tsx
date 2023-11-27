@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
-import * as Styled from './styles';
+import {
+  StyleButton,
+  StyleContainer,
+  StyleCoverUpload,
+  StyleFileInputButton,
+  StyleFileInputContainer,
+  StyleFormInputContainer,
+  StyleFormLabel,
+  StyleFormSection,
+  StyleInput,
+  StyleLabel,
+  StyleSelect,
+} from './styles';
 import { usePostUploadSongs } from '../../hooks/usePostUploadSongs';
 
 interface UploadModalComponentProps {
@@ -10,6 +22,7 @@ export default function UploadModalComponent({
 }: UploadModalComponentProps) {
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
+
   const handleOutsideClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -63,16 +76,16 @@ export default function UploadModalComponent({
   };
 
   return (
-    <Styled.ContainerStyle onClick={handleOutsideClick}>
+    <StyleContainer onClick={handleOutsideClick}>
       <button
         style={{ display: 'flex', marginLeft: 'auto', marginBottom: '10px' }}
         onClick={onClose}
       >
         X
       </button>
-      <Styled.FormSectionStyle as="form" onSubmit={handleSubmit}>
-        <Styled.FileInputContainerStyle>
-          <Styled.FileInputButtonStyle as="label">
+      <StyleFormSection as="form" onSubmit={handleSubmit}>
+        <StyleFileInputContainer>
+          <StyleFileInputButton as="label">
             {audioFile ? `${audioFile.name}` : 'SELECT AUDIO FILE'}
             <input
               type="file"
@@ -80,11 +93,11 @@ export default function UploadModalComponent({
               onChange={handleAudioChange}
               accept="audio/*"
             />
-          </Styled.FileInputButtonStyle>
-        </Styled.FileInputContainerStyle>
+          </StyleFileInputButton>
+        </StyleFileInputContainer>
 
-        <Styled.CoverUploadStyle>
-          <Styled.LabelStyle>
+        <StyleCoverUpload>
+          <StyleLabel>
             {imageFile ? (
               <img src={URL.createObjectURL(imageFile)} alt="Album Cover" />
             ) : (
@@ -96,14 +109,12 @@ export default function UploadModalComponent({
               onChange={handleImageChange}
               accept="image/*"
             />
-          </Styled.LabelStyle>
-        </Styled.CoverUploadStyle>
+          </StyleLabel>
+        </StyleCoverUpload>
 
-        <Styled.FormInputContainerStyle>
-          <Styled.FormLabelStyle htmlFor="name">
-            음악 이름
-          </Styled.FormLabelStyle>
-          <Styled.InputStyle
+        <StyleFormInputContainer>
+          <StyleFormLabel htmlFor="name">음악 이름</StyleFormLabel>
+          <StyleInput
             type="text"
             id="name"
             name="name"
@@ -111,13 +122,11 @@ export default function UploadModalComponent({
             onChange={handleInputChange}
             placeholder="음악 이름을 적어주세요."
           />
-        </Styled.FormInputContainerStyle>
+        </StyleFormInputContainer>
 
-        <Styled.FormInputContainerStyle>
-          <Styled.FormLabelStyle htmlFor="description">
-            곡 소개
-          </Styled.FormLabelStyle>
-          <Styled.InputStyle
+        <StyleFormInputContainer>
+          <StyleFormLabel htmlFor="description">곡 소개</StyleFormLabel>
+          <StyleInput
             type="text"
             id="description"
             name="description"
@@ -125,13 +134,11 @@ export default function UploadModalComponent({
             onChange={handleInputChange}
             placeholder="소개를 적어주세요."
           />
-        </Styled.FormInputContainerStyle>
+        </StyleFormInputContainer>
 
-        <Styled.FormInputContainerStyle>
-          <Styled.FormLabelStyle htmlFor="genre">
-            장르 선택
-          </Styled.FormLabelStyle>
-          <Styled.SelectStyle
+        <StyleFormInputContainer>
+          <StyleFormLabel htmlFor="genre">장르 선택</StyleFormLabel>
+          <StyleSelect
             id="genre"
             name="genre"
             value={song.genre}
@@ -143,11 +150,11 @@ export default function UploadModalComponent({
             <option value="댄스">댄스</option>
             <option value="클래식">클래식</option>
             <option value="힙합">힙합</option>
-          </Styled.SelectStyle>
-        </Styled.FormInputContainerStyle>
+          </StyleSelect>
+        </StyleFormInputContainer>
 
-        <Styled.ButtonStyle type="submit">등록하기</Styled.ButtonStyle>
-      </Styled.FormSectionStyle>
-    </Styled.ContainerStyle>
+        <StyleButton type="submit">등록하기</StyleButton>
+      </StyleFormSection>
+    </StyleContainer>
   );
 }

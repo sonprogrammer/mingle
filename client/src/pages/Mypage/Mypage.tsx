@@ -64,7 +64,7 @@ function SongDataToPlaylist(songData: any) {
 
 export default function Mypage() {
   const page: number = 1;
-  const pageSize: number = 40;
+  const pageSize: number = 100;
   const { data } = useGetUploadedSongs(page, pageSize);
   const setUploadedSongs = useSetRecoilState(uploadedSongsState);
 
