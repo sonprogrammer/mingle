@@ -4,9 +4,10 @@ import React,{useState} from "react"
 interface EditableTextProps {
     initialText: string
     maxLength: number
+    onSave: (updatedText: string) => void
   }
   
-  export function EditableText({initialText, maxLength}: EditableTextProps) {
+  export function EditableText({initialText, maxLength, onSave}: EditableTextProps) {
   
     const [isEditing, setIsEditing] = useState(false)
     const [text, setText] = useState(initialText)
@@ -22,6 +23,7 @@ interface EditableTextProps {
   
     const handleInputBlur = () => {
       setIsEditing(false)
+      onSave(text)
     }
   
     return (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import {
   StyledUserInfo,
   StyledUserImage,
@@ -9,27 +9,37 @@ import {
   StyledFollowing,
   StyledUserSubInfo,
   StyledDivider,
-} from './styles'
-import { EditableText } from './EditableTextProps'
-
+} from './styles';
+import { EditableText } from './EditableTextProps';
+import { UserInfo } from '../../types';
 
 interface UserProfileHeaderProps {
-  userImage: string
-  userName: string
-  userDescription: string
-  postsCount: number
-  followersCount: number
-  followingCount: number
+  userImage: string;
+  postsCount: number;
+  followersCount: number;
+  followingCount: number;
+  onUpdate: (updatedInfo: Partial<UserInfo>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSave: () => void
+  profile: UserInfo
 }
 
 export default function UserInfoComponent({
+  profile,
   userImage,
-  userName,
-  userDescription,
   postsCount,
   followersCount,
   followingCount,
+  onUpdate,
 }: UserProfileHeaderProps) {
+  const [statusMessage, setStatusMessage] = useState(
+    profile.userDescription || '20자 이내로 입력하시오.'
+  );
+
+  const handleStatusUpdate = async(updatedText: string) => {
+    onUpdate({ userDescription: updatedText });
+
+  };
   return (
     <>
       <StyledUserInfo>
@@ -38,8 +48,13 @@ export default function UserInfoComponent({
           <StyledUserImage src={userImage} alt={'User'} />
           {/* </UserImageContainer> */}
           <StyledUserDescript>
-            <h2>{userName}</h2>
-            <EditableText initialText={userDescription} maxLength={20} />
+            <h2>{profile.userNickname}</h2>
+            <EditableText
+              initialText={statusMessage}
+              onChange={(e) => setStatusMessage(e.target.value)}
+              onSave={(updatedText) => handleStatusUpdate(updatedText)}
+              maxLength={20}
+            />
           </StyledUserDescript>
         </StyledUserSubInfo>
         <StyledUserStatus>
@@ -59,5 +74,5 @@ export default function UserInfoComponent({
       </StyledUserInfo>
       <StyledDivider />
     </>
-  )
+  );
 }
