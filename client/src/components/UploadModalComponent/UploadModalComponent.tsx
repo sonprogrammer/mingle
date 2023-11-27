@@ -24,7 +24,7 @@ export default function UploadModalComponent({
     description: '', // 곡 시간을 넣으니 데이터에러가 발생 추후 물어보고 수정예정
   });
 
-  const { mutate: uploadMutate } = usePostUploadSongs();
+  const { mutate: uploadMutate } = usePostUploadSongs(onClose);
 
   const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
