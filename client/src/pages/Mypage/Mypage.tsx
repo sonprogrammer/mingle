@@ -60,6 +60,7 @@ const LikedplaylistInfo = [
 
 function SongDataToPlaylist(songData: any) {
   return {
+    _id: songData.song._id,
     albumCover: '/img/AlbumSample.jpg', //이미지도 하드코딩 해놓은 상태인데 이미지 가져오는 것도 추후 수정예정
     title: songData.song.songName,
     likes: songData.song.songUploader.likeSong, //그리고 뭐가 보이게 할지도 논의해서 수정예정
@@ -69,6 +70,7 @@ function SongDataToPlaylist(songData: any) {
 export default function Mypage() {
   const page: number = 1;
   const pageSize: number = 100;
+  /*추후 페이지네이션 */
   const { data } = useGetUploadedSongs(page, pageSize);
   const { mutate } = usePutUserDescription();
   const { data: userData, isLoading } = useGetUserInfo();

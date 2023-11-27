@@ -4,6 +4,7 @@ import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChartItemImg, StyledTr } from './styles';
 import { Link } from 'react-router-dom';
+
 interface ChartItemComponentProps {
   _id: string;
   idx: number;
@@ -28,6 +29,7 @@ export default function ChartItemComponent({
   };
   return (
     <>
+      {/* 추후 여기도 Navigator랑 통일 시켜야함  */}
       <Link to={`/song/${_id}`}>
         <StyledTr
           className="text-center"

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   RecommendPlaylistComponent,
   UploadButtonComponent,
@@ -12,6 +13,7 @@ import {
   PlaylistContainer,
 } from './styles';
 interface Playlists {
+  _id?: string;
   albumCover: string;
   title: string;
   hashtags?: string[];
@@ -40,6 +42,13 @@ export default function MyPagePlaylists({
   };
   const handleTabClick = (tab: string) => {
     setSelecTab(tab);
+  };
+
+  const navigate = useNavigate();
+  /* 차트쪽은 Link를 사용했는데 여기서는 Link태그 사용시 a태그 속성때문에 ui가 깨져서
+   useNavigate함수를 사용하였음 */
+  const handleCardClick = (_id: string) => {
+    navigate(`/song/${_id}`);
   };
   return (
     <>
@@ -73,6 +82,7 @@ export default function MyPagePlaylists({
                 albumCover={playlist.albumCover}
                 title={playlist.title}
                 likes={playlist.likes}
+                _id={''}
               />
             ))}
           {selectTab === 'likedPlaylists' &&
@@ -82,23 +92,23 @@ export default function MyPagePlaylists({
                 albumCover={playlist.albumCover}
                 title={playlist.title}
                 likes={playlist.likes}
+                _id={''}
               />
             ))}
+
           {selectTab === 'myuploadsongslists' &&
-            myuploadsongslists.map((playlist, idx) => (
-              <>
+            myuploadsongslists.map((playlist) => {
+              return (
                 <RecommendPlaylistComponent
-                  key={idx}
+                  _id={playlist._id || 'error'} // 오류 메시지는 임시로 사용
+                  key={playlist._id}
                   albumCover={playlist.albumCover}
                   title={playlist.title}
                   likes={playlist.likes}
+                  onClick={handleCardClick}
                 />
-                <UploadButtonComponent
-                  text="업로드"
-                  onClick={handleButtonClick}
-                />
-              </>
-            ))}
+              );
+            })}
         </PlaylistConetent>
       </PlaylistContainer>
       {isModalOpen && <UploadModalComponent onClose={handleCloseModal} />}
