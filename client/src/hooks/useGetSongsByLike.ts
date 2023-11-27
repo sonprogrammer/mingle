@@ -7,7 +7,7 @@ const getSongsByLike = async (axiosInstance: AxiosInstance, pageNum: number): Pr
 	const response: Songs | PromiseLike<Songs> = await axiosInstance.get(		
         `/api/songs/user-liked?&page=${pageNum}&pageSize=8`
 	);
-	return response;
+	return response.data;
 };
 export function useGetSongsByLike(pageNum: number) {
     const axiosInstance = useAxios();
