@@ -8,7 +8,6 @@ const putUserDescription = async (
   updatedInfo: Partial<UserInfo>,
 ): Promise<UserInfo> => {
     const response = await axiosInstance.put('api/account/description', updatedInfo);
-    console.log('Response from server:', response);
     return response.data;
 };
 
