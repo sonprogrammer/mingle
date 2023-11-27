@@ -1,6 +1,10 @@
-import React, { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { uploadedSongsState } from '../../hooks';
+import React from 'react';
+import {
+  // uploadedSongsState,
+  useGetUserInfo,
+  usePutUserDescription,
+} from '../../hooks';
+import { UserInfo } from '../../types';
 import { UserInfoComponent, MyPagePlaylists } from '../../components';
 import { useGetUploadedSongs } from '../../hooks/useGetUploadedSongs';
 
@@ -66,13 +70,16 @@ export default function Mypage() {
   const page: number = 1;
   const pageSize: number = 100;
   const { data } = useGetUploadedSongs(page, pageSize);
-  const setUploadedSongs = useSetRecoilState(uploadedSongsState);
+  const { mutate } = usePutUserDescription();
+  const { data: userData, isLoading } = useGetUserInfo();
 
-  useEffect(() => {
-    if (data) {
-      setUploadedSongs(data);
-    }
-  }, [data, setUploadedSongs]);
+  if (isLoading) {
+    return <p>loading...</p>;
+  }
+
+  const handleUpdateDescription = async (updatedInfo: Partial<UserInfo>) => {
+    mutate(updatedInfo);
+  };
 
   // 여기서 데이터에 map함수를 적용할지 아니면 훅에서 songs배열을 바로 반환시킬지
   // 나중에 더 효율 좋은 방식으로 수정할 예정
@@ -83,8 +90,8 @@ export default function Mypage() {
     <>
       <UserInfoComponent
         userImage={'/img/User-Icon.png'}
-        userName={'떼깔룩'}
-        userDescription={'20자 이내로 쓰세요'}
+        profile={userData}
+        onUpdate={handleUpdateDescription}
         postsCount={7}
         followersCount={7}
         followingCount={7}
