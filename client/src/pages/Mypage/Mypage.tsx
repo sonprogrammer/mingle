@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { uploadedSongsState } from '../../hooks';
+import { uploadedSongsState, useGetUserInfo, usePutUserDescription } from '../../hooks';
+import { UserInfo } from '../../types';
 import { UserInfoComponent, MyPagePlaylists } from '../../components';
 import { useGetUploadedSongs } from '../../hooks/useGetUploadedSongs';
 
@@ -66,7 +67,18 @@ export default function Mypage() {
   const page: number = 1;
   const pageSize: number = 100;
   const { data } = useGetUploadedSongs(page, pageSize);
+  const { mutate } = usePutUserDescription()
+  const { data: userData, isLoading} = useGetUserInfo()
   const setUploadedSongs = useSetRecoilState(uploadedSongsState);
+
+  if(isLoading){
+    return <p>loading...</p>
+  }
+
+  const handleUpdateDescription = async(updatedInfo: Partial<UserInfo>) =>{
+    mutate(updatedInfo)
+    console.log('dffd',userData)
+  }
 
   useEffect(() => {
     if (data) {
@@ -83,8 +95,8 @@ export default function Mypage() {
     <>
       <UserInfoComponent
         userImage={'/img/User-Icon.png'}
-        userName={'떼깔룩'}
-        userDescription={'20자 이내로 쓰세요'}
+        profile={userData.data}
+        onUpdate={handleUpdateDescription}
         postsCount={7}
         followersCount={7}
         followingCount={7}

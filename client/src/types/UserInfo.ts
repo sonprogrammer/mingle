@@ -4,5 +4,6 @@ export interface UserInfo {
     userNickname: string;
     userPreference: string[];
     userDescription: string;
-  }
+}
+  
   
