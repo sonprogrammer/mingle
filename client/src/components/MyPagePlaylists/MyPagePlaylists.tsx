@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { RecommendPlaylistComponent } from '../../components';
+import {
+  RecommendPlaylistComponent,
+  UploadButtonComponent,
+  UploadModalComponent,
+} from '../../components';
 import {
   StyledButtons,
   StyledMyPlaylistButtons,
   StyledLikedButtons,
   PlaylistConetent,
-  PlaylistContainer
+  PlaylistContainer,
 } from './styles';
-
 interface Playlists {
   albumCover: string;
   title: string;
@@ -18,29 +21,46 @@ interface Playlists {
 interface PlaylistsProps {
   myplaylists: Playlists[];
   likedplaylists: Playlists[];
+  myuploadsongslists: Playlists[];
 }
 
 export default function MyPagePlaylists({
   myplaylists,
   likedplaylists,
+  myuploadsongslists,
 }: PlaylistsProps) {
   const [selectTab, setSelecTab] = useState('myPlaylists');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleButtonClick = () => {
+    setIsModalOpen(true);
+  };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   const handleTabClick = (tab: string) => {
     setSelecTab(tab);
   };
   return (
     <>
       <StyledButtons>
-        <StyledMyPlaylistButtons 
-        selected={selectTab === 'myPlaylists'}
-        onClick={() => handleTabClick('myPlaylists')}>
+        <StyledMyPlaylistButtons
+          selected={selectTab === 'myPlaylists'}
+          onClick={() => handleTabClick('myPlaylists')}
+        >
           내 플레이리스트
         </StyledMyPlaylistButtons>
-        <StyledLikedButtons 
-        selected={selectTab === 'likedPlaylists'}
-        onClick={() => handleTabClick('likedPlaylists')}>
+        <StyledLikedButtons
+          selected={selectTab === 'likedPlaylists'}
+          onClick={() => handleTabClick('likedPlaylists')}
+        >
           좋아요한 플레이리스트
+        </StyledLikedButtons>
+        <StyledLikedButtons
+          selected={selectTab === 'myuploadsongslists'}
+          onClick={() => handleTabClick('myuploadsongslists')}
+        >
+          내가 업로드한 곡
         </StyledLikedButtons>
       </StyledButtons>
 
@@ -55,7 +75,6 @@ export default function MyPagePlaylists({
                 likes={playlist.likes}
               />
             ))}
-
           {selectTab === 'likedPlaylists' &&
             likedplaylists.map((playlist, idx) => (
               <RecommendPlaylistComponent
@@ -65,8 +84,25 @@ export default function MyPagePlaylists({
                 likes={playlist.likes}
               />
             ))}
+          {selectTab === 'myuploadsongslists' &&
+            myuploadsongslists.map((playlist, idx) => (
+              <>
+                <RecommendPlaylistComponent
+                  key={idx}
+                  albumCover={playlist.albumCover}
+                  title={playlist.title}
+                  likes={playlist.likes}
+                />
+              </>
+            ))}
+          {/* 지금 버튼을 전체 다 보이게 꺼내놓은 상태인데 원래는 내가 업로드한
+          쪽에서만 보이게 하려는데
+          넣으면 돔에 추가가 안되는 현상이 발생해서
+          이것도 추후 수정예정 */}
+          <UploadButtonComponent text="업로드" onClick={handleButtonClick} />
         </PlaylistConetent>
       </PlaylistContainer>
+      {isModalOpen && <UploadModalComponent onClose={handleCloseModal} />}
     </>
   );
 }
