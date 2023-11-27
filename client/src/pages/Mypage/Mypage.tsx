@@ -77,7 +77,6 @@ export default function Mypage() {
 
   const handleUpdateDescription = async(updatedInfo: Partial<UserInfo>) =>{
     mutate(updatedInfo)
-    console.log('dffd',userData)
   }
 
   useEffect(() => {
@@ -95,7 +94,7 @@ export default function Mypage() {
     <>
       <UserInfoComponent
         userImage={'/img/User-Icon.png'}
-        profile={userData.data}
+        profile={userData}
         onUpdate={handleUpdateDescription}
         postsCount={7}
         followersCount={7}

@@ -8,7 +8,7 @@ const getUserInfo = async (axiosInstance: AxiosInstance): Promise<AxiosResponse<
         '/api/account'
 	);
 	console.log(response);
-	return response;
+	return response.data;
 };
 export function useGetUserInfo() {
     const axiosInstance = useAxios();
