@@ -13,4 +13,5 @@ export * from "./usePutUserDescription"
 
 export * from './usePostUploadSongs';
 export * from './useGetUploadedSongs';
+export * from "./useDeleteSong"
 

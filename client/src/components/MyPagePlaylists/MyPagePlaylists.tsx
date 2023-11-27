@@ -12,10 +12,12 @@ import {
   PlaylistContainer,
 } from './styles';
 interface Playlists {
-  albumCover: string;
-  title: string;
-  hashtags?: string[];
-  likes: number;
+    song: string;
+    albumCover: string;
+    title: string;
+    hashtags?: string[];
+    likes: number;
+    _id: string;
 }
 
 interface PlaylistsProps {
@@ -41,6 +43,8 @@ export default function MyPagePlaylists({
   const handleTabClick = (tab: string) => {
     setSelecTab(tab);
   };
+
+  
   return (
     <>
       <StyledButtons>
@@ -73,6 +77,7 @@ export default function MyPagePlaylists({
                 albumCover={playlist.albumCover}
                 title={playlist.title}
                 likes={playlist.likes}
+                selectTab={selectTab}
               />
             ))}
           {selectTab === 'likedPlaylists' &&
@@ -82,18 +87,22 @@ export default function MyPagePlaylists({
                 albumCover={playlist.albumCover}
                 title={playlist.title}
                 likes={playlist.likes}
+                selectTab={selectTab}
               />
             ))}
           {selectTab === 'myuploadsongslists' &&
             myuploadsongslists.map((playlist, idx) => (
-              <>
+              // <>
                 <RecommendPlaylistComponent
                   key={idx}
                   albumCover={playlist.albumCover}
                   title={playlist.title}
                   likes={playlist.likes}
+                  selectTab={selectTab}
+                  songId={playlist._id}
+                  // onDelete={() => handleDeleteUploadedSong(playlist._id)}
                 />
-              </>
+              // </>
             ))}
           {/* 지금 버튼을 전체 다 보이게 꺼내놓은 상태인데 원래는 내가 업로드한
           쪽에서만 보이게 하려는데
