@@ -13,6 +13,7 @@ interface SongData {
   isCurrentUserLiked: boolean;
 }
 interface ChartItem {
+  _id: string;
   title: string;
   img: string;
   artist: string;
