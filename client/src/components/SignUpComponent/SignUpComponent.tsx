@@ -67,7 +67,11 @@ export default function SignUpComponent({
 
   const handleEmailClick = async () => {
     setIsButtonClicked(true)
-      await refetch();
+      try{
+        await refetch();
+      }catch(error){
+        console.log('Error', error)
+      }
   }
 
 
