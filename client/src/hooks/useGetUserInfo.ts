@@ -1,13 +1,14 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
 import { UserInfo } from '../types';
 import { useAxios } from '../utils';
 
-const getUserInfo = async (axiosInstance: AxiosInstance): Promise<UserInfo> => {
+const getUserInfo = async (axiosInstance: AxiosInstance): Promise<AxiosResponse<UserInfo>> => {
 	const response = await axiosInstance.get(		
         '/api/account'
 	);
-	return response.data;
+	console.log(response);
+	return response;
 };
 export function useGetUserInfo() {
     const axiosInstance = useAxios();
