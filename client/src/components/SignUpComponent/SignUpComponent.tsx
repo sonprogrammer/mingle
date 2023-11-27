@@ -13,7 +13,7 @@ import {
 import LongButtonComponent from '../LongButtonComponent/LongButtonComponent';
 import { InputComponent } from '../InputComponent';
 import { RecommendGenreComponent } from '../RecommendGenreComponent';
-import { usePostRegister } from '../../hooks';
+import { usePostRegister, useGetEmailCheck } from '../../hooks';
 
 interface SignUpProps {
   initialUserPassword: string;
@@ -40,14 +40,19 @@ export default function SignUpComponent({
   const [showPassword, setShowPassword] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState<string[]>([]);
   const [emailError, setEmailError] = useState('');
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+
+
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
+    setIsButtonClicked(false)
     setUserEmail(email);
     if (!validateEmail(email) && email) {
       setEmailError('올바른 이메일 형식이 아닙니다.');
@@ -55,6 +60,22 @@ export default function SignUpComponent({
       setEmailError('');
     }
   };
+
+
+  const { data, error,refetch } = useGetEmailCheck(userEmail);
+
+
+  const handleEmailClick = async () => {
+    setIsButtonClicked(true)
+      try{
+        await refetch();
+      }catch(error){
+        console.log('Error', error)
+      }
+  }
+
+
+
 
   const { mutate } = usePostRegister({
     userEmail: userEmail,
@@ -96,8 +117,25 @@ export default function SignUpComponent({
           value={userEmail}
           onChange={handleEmailChange}
         />
+        <button
+          onClick={handleEmailClick}
+          style={{
+            backgroundColor: '#9e9e9e',
+            borderRadius: '5px',
+            padding: '3px',
+            position: 'absolute',
+            top: '42px',
+            right: '10px',
+            color: 'white',
+          }}
+        >
+          중복 확인
+        </button>
+        {data && <p style={{textAlign: 'center'}}>사용 가능한 이메일입니다.</p>}
+      {isButtonClicked && error && <p style={{color:'red', textAlign:'center'}}>{error.message}</p>}
+
       </div>
-      {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
+
       <div style={{ position: 'relative', width: '100%' }}>
         <InputComponent
           id="user-password"
