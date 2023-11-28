@@ -18,7 +18,7 @@ export const StyledPlaylist = styled.div`
     ${tw`
         flex
         flex-wrap
-        mt-6
+        mt-[10px]
     `}
     > div{
         ${tw`

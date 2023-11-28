@@ -46,6 +46,7 @@ async function getSongsByCategory(queryValue, userId, page, pageSize) {
 
   const categorySongs = await Song.find({ songCategory: queryValue })
     .populate("songUploader")
+    .sort({ createdAt: -1 })
     .skip(skip)
     .limit(pageSize);
   const songs = await isUserLikedSong.verifyInSong(userId, categorySongs);
