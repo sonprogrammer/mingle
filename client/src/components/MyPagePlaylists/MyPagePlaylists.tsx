@@ -99,14 +99,20 @@ export default function MyPagePlaylists({
           {selectTab === 'myuploadsongslists' &&
             myuploadsongslists.map((playlist) => {
               return (
-                <RecommendPlaylistComponent
-                  _id={playlist._id || 'error'} // 오류 메시지는 임시로 사용
-                  key={playlist._id}
-                  albumCover={playlist.albumCover}
-                  title={playlist.title}
-                  likes={playlist.likes}
-                  onClick={handleCardClick}
-                />
+                <>
+                  <RecommendPlaylistComponent
+                    _id={playlist._id || 'error'} // 오류 메시지는 임시로 사용
+                    key={playlist._id}
+                    albumCover={playlist.albumCover}
+                    title={playlist.title}
+                    likes={playlist.likes}
+                    onClick={handleCardClick}
+                  />
+                  <UploadButtonComponent
+                    text="업로드"
+                    onClick={handleButtonClick}
+                  />
+                </>
               );
             })}
         </PlaylistConetent>

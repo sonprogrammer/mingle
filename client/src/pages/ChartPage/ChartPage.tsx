@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChartComponent } from '../../components';
-import { useGetSongslike } from '../../hooks/useGetSongslike';
+import { useGetSongsByTop } from '../../hooks';
 import { formatDuration } from '../../utils';
 interface SongData {
   song: {
@@ -22,7 +22,7 @@ interface ChartItem {
 }
 
 export default function ChartPage() {
-  const { data: res, isLoading } = useGetSongslike();
+  const { data: res, isLoading } = useGetSongsByTop();
 
   if (isLoading) return <div>Loading...</div>;
 

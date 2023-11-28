@@ -19,10 +19,10 @@ async function UserDelete(userEmail, userId) {
     await session.commitTransaction();
     // 삭제된 데이터가 없는 경우 false 반환
     if (data === null) {
-      return [false, { message: "회원 정보가 없습니다." }];
+      return { message: "회원 정보가 없습니다." };
     } else {
       // 삭제가 성공적으로 이루어진 경우 true 반환
-      return [true, { message: "삭제가 정상적으로 이루어졌습니다." }];
+      return { message: "삭제가 정상적으로 이루어졌습니다." };
     }
   } catch (error) {
     // 에러가 발생한 경우 false 반환
