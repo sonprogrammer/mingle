@@ -75,8 +75,6 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
     toggleAccordion(buttonContent);
     if (buttonContent === '피드') {
       navigate('/');
-    } else if (buttonContent === '내 정보') {
-      navigate('#');
     } else if (buttonContent === '추천 플레이리스트') {
       navigate('/recommendPlaylist');
     } else if (buttonContent === '차트') {
