@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDeleteSong } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
 import {
   RecommendPlaylistComponent,
   UploadButtonComponent,
@@ -51,6 +52,12 @@ export default function MyPagePlaylists({
 
   
 
+  const navigate = useNavigate();
+  /* 차트쪽은 Link를 사용했는데 여기서는 Link태그 사용시 a태그 속성때문에 ui가 깨져서
+   useNavigate함수를 사용하였음 */
+  const handleCardClick = (_id: string) => {
+    navigate(`/song/${_id}`);
+  };
   return (
     <>
       <StyledButtons>
@@ -80,42 +87,48 @@ export default function MyPagePlaylists({
             myplaylists.map((playlist, idx) => (
               <RecommendPlaylistComponent
                 key={idx}
-                albumCover={playlist.albumCover}
-                title={playlist.title}
-                likes={playlist.likes}
+                playListImg={playlist.albumCover}
+                playListTitle={playlist.title}
+                likeCount={playlist.likes}
                 selectTab={selectTab}
+                _id={''}
               />
             ))}
           {selectTab === 'likedPlaylists' &&
             likedplaylists.map((playlist, idx) => (
               <RecommendPlaylistComponent
                 key={idx}
-                albumCover={playlist.albumCover}
-                title={playlist.title}
-                likes={playlist.likes}
+                playListImg={playlist.albumCover}
+                playListTitle={playlist.title}
+                likeCount={playlist.likes}
                 selectTab={selectTab}
+                _id={''}
               />
             ))}
+
           {selectTab === 'myuploadsongslists' &&
-            myuploadsongslists.map((playlist, idx) => (
-              <>
-                <RecommendPlaylistComponent
-                  key={idx}
-                  albumCover={playlist.albumCover}
-                  title={playlist.title}
-                  likes={playlist.likes}
-                  selectTab={selectTab}
+            myuploadsongslists.map((playlist) => {
+              return (
+                <>
+                  <RecommendPlaylistComponent
+                    _id={playlist._id || 'error'} // 오류 메시지는 임시로 사용
+                    key={playlist._id}
+                    playListImg={playlist.albumCover}
+                    playListTitle={playlist.title}
+                    likeCount={playlist.likes}
+                    onClick={handleCardClick}
+                    selectTab={selectTab}
                   songId={playlist.songId}
                   onDelete={() =>handleDeleteUploadedSong(playlist.songId)}
                   songData={playlist.songData}
-                />
-              </>
-            ))}
-          {/* 지금 버튼을 전체 다 보이게 꺼내놓은 상태인데 원래는 내가 업로드한
-          쪽에서만 보이게 하려는데
-          넣으면 돔에 추가가 안되는 현상이 발생해서
-          이것도 추후 수정예정 */}
-          <UploadButtonComponent text="업로드" onClick={handleButtonClick} />
+                  />
+                </>
+              );
+            })}
+            <UploadButtonComponent
+              text="업로드"
+              onClick={handleButtonClick}
+            />
         </PlaylistConetent>
       </PlaylistContainer>
       {isModalOpen && <UploadModalComponent onClose={handleCloseModal} />}

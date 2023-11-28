@@ -1,45 +1,69 @@
 import React, { useState } from 'react';
-import * as Styled from './styles';
+import {
+  PlaylistCardContainer,
+  ProfileSection,
+  AlbumImage,
+  ContentSection,
+  Title,
+  SocialInfo,
+  LikesText,
+  DeleteButton,
+  ConfirmButton,
+  Buttons,
+  ModalContainer,
+  ModalBox,
+  Modal,
+  CancelButton,
+} from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useDeleteSong } from '../../hooks';
 
-interface RecommendPlaylistProps {
-  albumCover: string;
-  title: string;
-  hashtags?: string[];
-  likes: number;
-  songId: string;
-  selectTab: string;
+interface RecommendPlaylistComponentProps {
+  _id: string;
+  playListSongs?: string[];
+  playListTitle: string;
+  playListExplain?: string;
+  playListOwner?: string;
+  playListImg: string;
+  playListComments?: string[];
+  likedByUser?: boolean;
+  likeCount: number;
+  onClick?: (_id: string) => void;
   onDelete: () => void;
   handleDeleteUploadedSong: (songId: string) => Promise<void>; 
-  songData: any
+  songId: string;
+  songData: any;
+  selectTab: string;
 }
 
 export default function RecommendPlaylistComponent({
-  albumCover,
-  title,
-  likes,
-  songId,
-  songData,
+  _id,
+  playListImg,
+  playListTitle,
+  likeCount,
+  onClick,
   selectTab,
   onDelete,
-  handleDeleteUploadedSong
-}: RecommendPlaylistProps) {
+  handleDeleteUploadedSong,
+  songId
+}: RecommendPlaylistComponentProps) {
   const [isModal, setIsModal] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const deleteSongMutation = useDeleteSong();
+  const { mutate : deleteSong} = useDeleteSong();
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (e) => {
+    e.stopPropagation()
     setIsModal(true);
   };
 
-  const handleCloseModalClick = () => {
+  const handleCloseModalClick = (e) => {
+    e.stopPropagation()
     setIsModal(false);
   };
   const handleMouseEnter = () => {
-    if(selectTab === 'myuploadsongslists'){
+    if (selectTab === 'myuploadsongslists') {
       setIsHovered(true);
     }
   };
@@ -48,47 +72,55 @@ export default function RecommendPlaylistComponent({
     setIsHovered(false);
   };
 
-  const handleDeleteConfirmation = async () => {
-        await deleteSongMutation.mutateAsync(songId);
-        setIsModal(false);
+  const handleDeleteConfirmation = async (e) => {
+    e.stopPropagation()
+    await deleteSong(songId);
+    setIsModal(false);
   };
-
+  const handleCardClick = () => {
+    if (onClick && _id) {
+      onClick(_id);
+    } else if (!_id) {
+      alert('정보를 불러올 수 없습니다.');
+    }
+  };
   return (
-    <Styled.PlaylistCardContainer
+    <PlaylistCardContainer
+      onClick={handleCardClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-    >
-      {isHovered && (
-        <Styled.DeleteButton onClick={handleDeleteClick}>
-          <FontAwesomeIcon icon={faCircleXmark} />
-        </Styled.DeleteButton>
-      )}
-      <Styled.ProfileSection>
-        <Styled.AlbumImage src={albumCover} alt="Album Cover" />
-      </Styled.ProfileSection>
-      <Styled.ContentSection>
-        <Styled.Title>{title}</Styled.Title>
-        <Styled.SocialInfo>
-          <Styled.LikesText>좋아요: {likes}개</Styled.LikesText>
-        </Styled.SocialInfo>
-      </Styled.ContentSection>
-      <Styled.ModalContainer>
-        {isModal && (
-          <Styled.ModalBox>
-            <Styled.Modal>
-              <p>정말 삭제하시겠습니까?</p>
-              <Styled.Buttons>
-                <Styled.ConfirmButton onClick={handleDeleteConfirmation}>
-                  확인
-                </Styled.ConfirmButton>
-                <Styled.CancelButton onClick={handleCloseModalClick}>
-                  취소
-                </Styled.CancelButton>
-              </Styled.Buttons>
-            </Styled.Modal>
-          </Styled.ModalBox>
+      >
+        {isHovered && (
+          <DeleteButton>
+            <FontAwesomeIcon icon={faCircleXmark} onClick={handleDeleteClick}/>
+            </DeleteButton>
         )}
-      </Styled.ModalContainer>
-    </Styled.PlaylistCardContainer>
+      <ProfileSection>
+        <AlbumImage src={playListImg} alt="Album Cover" />
+      </ProfileSection>
+      <ContentSection>
+        <Title>{playListTitle}</Title>
+        <SocialInfo>
+          <LikesText>좋아요: {likeCount}개</LikesText>
+        </SocialInfo>
+      </ContentSection>
+      <ModalContainer>
+        {isModal && (
+          <ModalBox>
+            <Modal>
+              <p>정말 삭제하시겠습니까?</p>
+              <Buttons>
+                <ConfirmButton onClick={handleDeleteConfirmation}>
+                  확인
+                </ConfirmButton>
+                <CancelButton onClick={handleCloseModalClick}>
+                  취소
+                </CancelButton>
+              </Buttons>
+            </Modal>
+          </ModalBox>
+        )}
+      </ModalContainer>
+    </PlaylistCardContainer>
   );
 }
