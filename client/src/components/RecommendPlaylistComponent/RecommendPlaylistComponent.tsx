@@ -10,40 +10,41 @@ import {
 } from './styles';
 
 interface RecommendPlaylistComponentProps {
-  playlist: {
-    _id: string;
-    playListSongs: string[];
-    playListTitle: string;
-    playListExplain: string;
-    playListOwner: string;
-    playListImg: string;
-    playListComments: string[];
-    likedByUser: boolean;
-    likeCount: number;
-  };
+  _id: string;
+  playListSongs?: string[];
+  playListTitle: string;
+  playListExplain?: string;
+  playListOwner?: string;
+  playListImg: string;
+  playListComments?: string[];
+  likedByUser?: boolean;
+  likeCount: number;
   onClick?: (_id: string) => void;
 }
 
 export default function RecommendPlaylistComponent({
-  playlist,
+  _id,
+  playListImg,
+  playListTitle,
+  likeCount,
   onClick,
 }: RecommendPlaylistComponentProps) {
   const handleCardClick = () => {
-    if (onClick && playlist._id) {
-      onClick(playlist._id);
-    } else if (!playlist._id) {
+    if (onClick && _id) {
+      onClick(_id);
+    } else if (!_id) {
       alert('정보를 불러올 수 없습니다.');
     }
   };
   return (
     <PlaylistCardContainer onClick={handleCardClick}>
       <ProfileSection>
-        <AlbumImage src={playlist.playListImg} alt="Album Cover" />
+        <AlbumImage src={playListImg} alt="Album Cover" />
       </ProfileSection>
       <ContentSection>
-        <Title>{playlist.playListTitle}</Title>
+        <Title>{playListTitle}</Title>
         <SocialInfo>
-          <LikesText>좋아요: {playlist.likeCount}개</LikesText>
+          <LikesText>좋아요: {likeCount}개</LikesText>
         </SocialInfo>
       </ContentSection>
     </PlaylistCardContainer>

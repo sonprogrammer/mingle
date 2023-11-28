@@ -30,7 +30,10 @@ export default function PlaylistRecommendComponent({
             playlists?.map((playlist) => (
               <RecommendPlaylistComponent
                 key={playlist._id}
-                playlist={playlist}
+                _id={playlist._id}
+                playListImg={playlist.playListImg}
+                playListTitle={playlist.playListTitle}
+                likeCount={playlist.likeCount}
               />
             ))
           ) : (
