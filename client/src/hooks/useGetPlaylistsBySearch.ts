@@ -3,7 +3,8 @@ import { useQuery } from 'react-query';
 import { Playlists } from '../types';
 import { useAxios } from '../utils';
 
-const getPlaylistsBySearch = async (axiosInstance: AxiosInstance, keyword: string, pageNum: number): Promise<{ totalPages: number, searchPlayList: Playlists[] }> => {
+const getPlaylistsBySearch = async (axiosInstance: AxiosInstance, keyword: string, pageNum: number):
+    Promise<{ totalPages: number, currentPage: number, searchPlayList: Playlists[] }> => {
 	const response = await axiosInstance.get(		
         `/api/playlist/playlistsearch/search?q=${keyword}&page=${pageNum}&pageSize=8`
 	);

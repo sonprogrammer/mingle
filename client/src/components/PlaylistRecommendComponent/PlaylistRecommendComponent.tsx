@@ -1,17 +1,20 @@
 import React from 'react';
 import { Playlists } from '../../types';
+import { StyledChartTitle } from '../ChartComponent/styles';
 import { RecommendPlaylistComponent } from '../RecommendPlaylistComponent';
 import { StyledContainer, StyledGenreName, StyledPlaylist } from './styles';
 
 interface PlaylistRecommendComponentProps {
   weather?: string;
   genre?: string;
+  search?: string;
   playlists: Playlists[] | undefined;
 }
 
 export default function PlaylistRecommendComponent({
   weather,
   genre,
+  search,
   playlists,
 }: PlaylistRecommendComponentProps) {
   return (
@@ -20,6 +23,7 @@ export default function PlaylistRecommendComponent({
         <StyledGenreName>{genre}음악 추천 플레이리스트</StyledGenreName>
       )}
       {weather && <StyledGenreName>{weather}에 듣기 좋은 노래</StyledGenreName>}
+      {search && <StyledChartTitle isGenre={false}>{search}</StyledChartTitle>}
       <StyledContainer>
         <StyledPlaylist>
           {playlists && playlists?.length > 0 ? (

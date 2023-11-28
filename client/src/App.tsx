@@ -18,7 +18,6 @@ import {
   CompleteSignUpPage,
   CompletePasswordRecoveryPage,
   GenreSongPage,
-  SearchPage,
   SongDetailsPage,
   PlaylistSearchPage,
   SongSearchPage,

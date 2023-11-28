@@ -17,11 +17,14 @@ export default function SearchPage() {
         <>로딩 중...</>
       ) : (
         <>
-          <PlaylistRecommendComponent playlists={data?.searchPlayList} />
+          <PlaylistRecommendComponent
+            playlists={data?.searchPlayList}
+            search={`'${keyword}'에 대한 플레이리스트 검색 결과입니다.`}
+          />
           {data?.searchPlayList && data?.searchPlayList.length > 0 ? (
             <PaginationComponent
               setPageNum={setPageNum}
-              currentPage={pageNum}
+              currentPage={data?.currentPage}
               totalPages={data?.totalPages}
             />
           ) : null}
