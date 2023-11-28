@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ChartComponent } from '../../components';
 import PaginationComponent from '../../components/PaginationComponent/PaginationComponent';
 import { useGetAllGenres, useGetSongsByGenre, usePostlikeToggle, useDeleteLikeToggle } from '../../hooks';
@@ -31,7 +31,7 @@ export default function GenreSongPage() {
   data?.songs.map((item) =>
     items.push({
       title: item.song.songName,
-      img: '/img/AlbumSample.jpg',
+      img: item.song.songImageLocation ?? '/img/AlbumSample.jpg',
       artist: item.song.songArtist ?? 'Unknown Artist',
       length: formatDuration(item.song.songDuration),
       isLiked: item.isCurrentUserLiked,

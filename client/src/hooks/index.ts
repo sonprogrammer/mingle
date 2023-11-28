@@ -12,6 +12,7 @@ export * from "./usePostlikeToggle"
 export * from "./useDeleteLikeToggle"
 export * from "./usePutUserInfo"
 export * from "./usePutUserDescription"
+export * from "./useGetSongsByTop";
 export * from './usePostUploadSongs';
 export * from './useGetUploadedSongs';
 

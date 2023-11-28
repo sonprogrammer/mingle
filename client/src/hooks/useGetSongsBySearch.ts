@@ -4,7 +4,7 @@ import { Songs } from '../types';
 import { useAxios } from '../utils';
 
 const getSongsBySearch = async (axiosInstance: AxiosInstance, type: string, keyword: string, pageNum: number): Promise<Songs> => {
-	const response: Songs | PromiseLike<Songs> = await axiosInstance.get(		
+	const response = await axiosInstance.get(		
         `/api/songs?search=${keyword}&type=${type}&page=${pageNum}&pageSize=8`
 	);
 	return response.data;

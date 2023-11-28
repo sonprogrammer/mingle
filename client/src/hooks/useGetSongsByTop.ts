@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 import { useQuery } from 'react-query';
 import { useAxios } from '../utils';
 
-export function useGetSongslike() {
+export function useGetSongsByTop() {
   const axios: AxiosInstance = useAxios();
 
   return useQuery('userUploadedSongs', async () => {
