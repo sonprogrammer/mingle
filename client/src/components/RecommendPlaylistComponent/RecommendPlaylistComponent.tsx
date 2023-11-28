@@ -12,6 +12,8 @@ interface RecommendPlaylistProps {
   songId: string;
   selectTab: string;
   onDelete: () => void;
+  handleDeleteUploadedSong: (songId: string) => Promise<void>; 
+  songData: any
 }
 
 export default function RecommendPlaylistComponent({
@@ -19,7 +21,10 @@ export default function RecommendPlaylistComponent({
   title,
   likes,
   songId,
-  selectTab
+  songData,
+  selectTab,
+  onDelete,
+  handleDeleteUploadedSong
 }: RecommendPlaylistProps) {
   const [isModal, setIsModal] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -43,13 +48,9 @@ export default function RecommendPlaylistComponent({
     setIsHovered(false);
   };
 
-  const handleDeleteConfirmation = async (songId: string) => {
-    try {
-      await deleteSongMutation.mutateAsync(songId);
-      setIsModal(false);
-    } catch (error) {
-      console.error('음악 삭제 중 에러:', error);
-    }
+  const handleDeleteConfirmation = async () => {
+        await deleteSongMutation.mutateAsync(songId);
+        setIsModal(false);
   };
 
   return (
@@ -77,7 +78,7 @@ export default function RecommendPlaylistComponent({
             <Styled.Modal>
               <p>정말 삭제하시겠습니까?</p>
               <Styled.Buttons>
-                <Styled.ConfirmButton onClick={() => handleDeleteConfirmation(playlist._id)}>
+                <Styled.ConfirmButton onClick={handleDeleteConfirmation}>
                   확인
                 </Styled.ConfirmButton>
                 <Styled.CancelButton onClick={handleCloseModalClick}>

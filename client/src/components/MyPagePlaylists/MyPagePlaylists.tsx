@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDeleteSong } from '../../hooks';
 import {
   RecommendPlaylistComponent,
   UploadButtonComponent,
@@ -18,21 +19,25 @@ interface Playlists {
     hashtags?: string[];
     likes: number;
     _id: string;
+    songId: string;
 }
 
 interface PlaylistsProps {
   myplaylists: Playlists[];
   likedplaylists: Playlists[];
   myuploadsongslists: Playlists[];
+  handleDeleteUploadedSong: (songId: string) => Promise<void>; 
 }
 
 export default function MyPagePlaylists({
   myplaylists,
   likedplaylists,
   myuploadsongslists,
+  handleDeleteUploadedSong,
 }: PlaylistsProps) {
   const [selectTab, setSelecTab] = useState('myPlaylists');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleButtonClick = () => {
     setIsModalOpen(true);
   };
@@ -45,6 +50,7 @@ export default function MyPagePlaylists({
   };
 
   
+
   return (
     <>
       <StyledButtons>
@@ -92,17 +98,18 @@ export default function MyPagePlaylists({
             ))}
           {selectTab === 'myuploadsongslists' &&
             myuploadsongslists.map((playlist, idx) => (
-              // <>
+              <>
                 <RecommendPlaylistComponent
                   key={idx}
                   albumCover={playlist.albumCover}
                   title={playlist.title}
                   likes={playlist.likes}
                   selectTab={selectTab}
-                  songId={playlist._id}
-                  // onDelete={() => handleDeleteUploadedSong(playlist._id)}
+                  songId={playlist.songId}
+                  onDelete={() =>handleDeleteUploadedSong(playlist.songId)}
+                  songData={playlist.songData}
                 />
-              // </>
+              </>
             ))}
           {/* 지금 버튼을 전체 다 보이게 꺼내놓은 상태인데 원래는 내가 업로드한
           쪽에서만 보이게 하려는데

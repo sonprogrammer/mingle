@@ -15,7 +15,6 @@ export function useDeleteSong() {
   return useMutation((songId: string) => deleteSong(axiosInstance, songId), {
     onSuccess: () => {
       queryClient.invalidateQueries()
-      alert('노래가 삭제되었습니다.');
     },
     onError: (error) => {
         throw error;
