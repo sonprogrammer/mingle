@@ -20,8 +20,7 @@ async function userEdit(userId, jsonValue) {
 				delete jsonValue[data];
 			}
 		});
-		console.log(userId);
-		const userData = await userSchema.findById(userId).lean();
+		const userData = await userSchema.findById(userId).select("-userPassword").lean();
 		// 이미지가 jsonValue에 있는 경우에만 처리
 		if (jsonValue.userImage) {
 			// 기존 이미지가 있으면 삭제

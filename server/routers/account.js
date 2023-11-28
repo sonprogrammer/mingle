@@ -66,15 +66,14 @@ router.delete(
 	async (req, res, next) => {
 		try {
 			const { userId } = req.user;
-			const data = await search.UserSearch("userEmail", req.user.userEmail);
-			const [bool, { message }] = await accountDelete.UserDelete(
-				data.userEmail,
+			const user = await search.UserSearch("userEmail", req.user.userEmail);
+			const data = await accountDelete.UserDelete(
+				user.userEmail,
 				userId
 			);
-			const statusCode = bool ? 200 : 400;
-			res.status(statusCode).json({ message });
+			res.status(200).json(data);
 		} catch (error) {
-			next(createError(500));
+			next(error);
 		}
 	}
 );
@@ -185,7 +184,6 @@ router.get(
 		try {
 			const userId = req.user.userId;
 			const data = await viewFollow.viewFollow(userId);
-      console.log(data);
 			res.status(200).json(data);
 		} catch (error) {
 			next(error);
