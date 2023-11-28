@@ -94,7 +94,7 @@ export default function Mypage() {
     <>
       <UserInfoComponent
         userImage={'/img/User-Icon.png'}
-        profile={userData}
+        profile={userData.user}
         onUpdate={handleUpdateDescription}
         postsCount={7}
         followersCount={7}
