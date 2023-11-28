@@ -44,7 +44,7 @@ export default function RecommendPlaylistComponent({
       <ContentSection>
         <Title>{playListTitle}</Title>
         <SocialInfo>
-          <LikesText>좋아요: {likeCount}개</LikesText>
+          <LikesText>좋아요: {likeCount ?? 0}개</LikesText>
         </SocialInfo>
       </ContentSection>
     </PlaylistCardContainer>

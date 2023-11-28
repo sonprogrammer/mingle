@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  useGetPlaylistsByLike,
   // uploadedSongsState,
   useGetUserInfo,
   usePutUserDescription,
@@ -10,51 +11,29 @@ import { useGetUploadedSongs } from '../../hooks/useGetUploadedSongs';
 
 const MYplaylistInfo = [
   {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 111,
+    playListImg: '/img/AlbumSample.jpg',
+    playListTitle: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
+    likeCount: 111,
   },
   {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 333,
+    playListImg: '/img/AlbumSample.jpg',
+    playListTitle: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
+    likeCount: 333,
   },
   {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 555,
+    playListImg: '/img/AlbumSample.jpg',
+    playListTitle: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
+    likeCount: 555,
   },
   {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 777,
+    playListImg: '/img/AlbumSample.jpg',
+    playListTitle: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
+    likeCount: 777,
   },
   {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 999,
-  },
-];
-const LikedplaylistInfo = [
-  {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 333,
-  },
-  {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 333,
-  },
-  {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 555,
-  },
-  {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 777,
+    playListImg: '/img/AlbumSample.jpg',
+    playListTitle: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
+    likeCount: 999,
   },
 ];
 
@@ -74,6 +53,7 @@ export default function Mypage() {
   const { data } = useGetUploadedSongs(page, pageSize);
   const { mutate } = usePutUserDescription();
   const { data: userData, isLoading } = useGetUserInfo();
+  const { data: likedPlaylist } = useGetPlaylistsByLike();
 
   if (isLoading) {
     return <p>loading...</p>;
@@ -87,7 +67,6 @@ export default function Mypage() {
   // 나중에 더 효율 좋은 방식으로 수정할 예정
   const uploadedPlaylists =
     data && data.songs ? data.songs.map(SongDataToPlaylist) : [];
-
   return (
     <>
       <UserInfoComponent
@@ -99,9 +78,9 @@ export default function Mypage() {
         followingCount={7}
       />
       <MyPagePlaylists
-        myplaylists={MYplaylistInfo}
-        likedplaylists={LikedplaylistInfo}
-        myuploadsongslists={uploadedPlaylists}
+        myPlaylists={MYplaylistInfo}
+        likedPlaylists={likedPlaylist}
+        myUploadSongslists={uploadedPlaylists}
       />
     </>
   );
