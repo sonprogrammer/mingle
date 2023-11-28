@@ -79,7 +79,7 @@ async function getSongsBySearch(
       .limit(pageSize);
   } else if (searchType === "artist-name") {
     const totalItems = await Song.countDocuments({
-      songName: { $regex: new RegExp(searchWord, "i") },
+      songArtist: { $regex: new RegExp(searchWord, "i") },
     });
     searchedSongs = await Song.find({ songArtist: searchWord })
       .populate("songUploader")
