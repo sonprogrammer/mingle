@@ -88,9 +88,9 @@ export default function PlaybarComponent() {
       </StyledControlContainer>
       <PlayComponent>
         <span onClick={handleClick} className="cursor-pointer">
-          나의 재생목록 1
+          재생목록을 선택해 주세요.
         </span>
-        <SongInfo>Troye Sivan - Lost Boy</SongInfo>
+        <SongInfo>현재 재생중인 노래가 없습니다.</SongInfo>
         <PlayingPlaybar id="playing" progress={progress.current} />
         <Playbar
           className="playbar"
