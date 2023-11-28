@@ -11,29 +11,20 @@ export default function SearchPage() {
   const [pageNum, setPageNum] = useState(1);
   let typeName = '';
   const { data, isLoading } = useGetSongsBySearch(type, keyword, pageNum);
-  switch (type) {
-    case 'song-name': {
-      typeName = '노래';
-      break;
-    }
-    case 'artist-name': {
-      typeName = '가수';
-      break;
-    }
-    default: {
-      typeName = '플리';
-    }
-  }
+  if (type === 'song-name') {
+    typeName = '노래';
+  } else typeName = '가수';
   const items: {
+    _id: string;
     title: string;
     img: string;
     artist?: string;
     length: string;
     isLiked: boolean;
   }[] = [];
-
   data?.songs.map((item) =>
     items.push({
+      _id: item.song._id,
       title: item.song.songName,
       img: '/img/AlbumSample.jpg',
       artist: item.song.songArtist ?? 'Unknown Artist',

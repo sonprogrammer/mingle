@@ -18,8 +18,9 @@ import {
   CompleteSignUpPage,
   CompletePasswordRecoveryPage,
   GenreSongPage,
-  SearchPage,
   SongDetailsPage,
+  PlaylistSearchPage,
+  SongSearchPage,
 } from './pages';
 import PrivateRoute from './PrivateRoute';
 
@@ -56,7 +57,11 @@ function App() {
                 ></Route>
                 <Route path="/mypage" element={<Mypage />}></Route>
                 <Route path="/edit" element={<EditProfilePage />}></Route>
-                <Route path="/search" element={<SearchPage />}></Route>
+                <Route path="/songsearch" element={<SongSearchPage />}></Route>
+                <Route
+                  path="/playlistsearch"
+                  element={<PlaylistSearchPage />}
+                ></Route>
                 <Route path="/song/:songId" element={<SongDetailsPage />} />
               </Route>
             </Route>

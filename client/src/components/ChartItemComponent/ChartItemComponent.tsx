@@ -3,7 +3,7 @@ import { faHeart as like } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChartItemImg, StyledTr } from './styles';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface ChartItemComponentProps {
   _id: string;
@@ -24,8 +24,12 @@ export default function ChartItemComponent({
   isLiked,
 }: ChartItemComponentProps) {
   const [isClick, setIsClick] = useState(false);
+  const navigate = useNavigate();
   const handleClick = () => {
     setIsClick(!isClick);
+  };
+  const handleNavigate = () => {
+    navigate(`/song/${_id}`);
   };
   return (
     <>
@@ -36,10 +40,9 @@ export default function ChartItemComponent({
         <td className="w-1/10 px-6 py-4">
           <ChartItemImg src={img} />
         </td>
-        {/* 추후 여기도 Navigator랑 통일 시켜야함  */}
-        <Link to={`/song/${_id}`}>
-          <td className="w-1/4 px-6 py-4">{title}</td>
-        </Link>
+        <td className="w-1/4 px-6 py-4" onClick={handleNavigate}>
+          {title}
+        </td>
         <td className="w-1/4 px-6 py-4">{artist}</td>
         <td className="w-1/4 px-6 py-4">{length}</td>
         <td className="w-1/4 px-6 py-4">
