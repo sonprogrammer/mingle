@@ -36,6 +36,7 @@ async function recommend(userId) {
     recommendUser.userId = uploader._id;
     recommendUser.nickname = uploader.userNickname;
     recommendUser.userImg = uploader.userImage;
+    recommendUser.userFile = uploader.userFile;
     recommendUser.playListPreview = await PlayList.find({
       playListOwner: playList._id,
     })

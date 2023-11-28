@@ -22,13 +22,18 @@ async function userEdit(userId, jsonValue) {
 		});
 		console.log(userId);
 		const userData = await userSchema.findById(userId).lean();
-
 		// 이미지가 jsonValue에 있는 경우에만 처리
 		if (jsonValue.userImage) {
+			// 기존 이미지가 있으면 삭제
+			if (userData.userImage) {
+				fs.unlinkSync(userData.userImage);
+			}
+			const timestamp = new Date().getTime();
+			const imageName = `${timestamp}.png`;
 			const decodedImage = Buffer.from(jsonValue.userImage, "base64");
 			const imagePath = path.join(
 				__dirname,
-				`../../upload/profile/${userData.userEmail}.png`
+				`../../upload/profile/${imageName}`
 			);
 			fs.writeFileSync(imagePath, decodedImage);
 
@@ -43,7 +48,7 @@ async function userEdit(userId, jsonValue) {
 
 		// 수정된 항목이 1개인 경우 수정 성공으로 간주하고 true 반환
 		if (data.modifiedCount !== 0) {
-			return { message: "수정이 정상적으로 이루어졌습니다." };
+			return { message: "수정이 정상적으로 이루어졌습니다.", user:userData };
 		} else {
 			// 수정된 항목이 없는 경우 수정 실패로 간주하고 false 반환
 			throw createError(400, "수정할 데이터가 없습니다.");

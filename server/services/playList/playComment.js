@@ -34,7 +34,7 @@ async function playCommentRead(playlistId) {
 	try {
 		const playlist = await PlayList.findById(playlistId).populate(
 			"playListComments.author",
-			"username userNickname"
+			"username userNickname userFile"
 		);
 		if (!playlist) {
 			throw createError(404, "플레이리스트를 찾을 수 없습니다.");

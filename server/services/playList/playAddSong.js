@@ -4,7 +4,6 @@ const createError = require("http-errors");
  * 플레이리스트를 음악을 추가하는 함수
  * @param {string} playListid - 생성한 플레이리스트의 ObjectId
  * @param {string} songId - 추가할 음악의 ObjectId
- * @returns {Array} - [성공 여부(boolean), 메시지 객체(object)]
  */
 async function playListAddSong(playListid, songIds, userId) {
 	try {
