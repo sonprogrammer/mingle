@@ -1,9 +1,6 @@
 import tw, { styled } from "twin.macro";
 import AudioPlayer from 'react-h5-audio-player';
 
-interface PlayingPlaybarProps {
-  progress: number;
-}
 export const Container = styled.div`
   ${tw`mt-10 mx-auto flex items-center gap-[10px]`}
   padding: 0 650px;
@@ -12,40 +9,47 @@ export const PlayComponent = styled.div`
   ${tw`mt-[-20px] text-white text-sm w-full`}
 `;
 export const SongInfo = styled.div`
-  ${tw`pb-2 font-bold`}
+  ${tw`font-bold`}
   font-size: 16px;
 `;
-export const PlayingPlaybar = styled.div<PlayingPlaybarProps>`
-  ${tw`h-2 absolute z-1`}
-  background: #9b59b6;
-  width: ${({ progress }) => (progress ? `${progress}%` : 0)};
-`;
 export const Playbar = styled(AudioPlayer)`
-${tw`bg-white w-full h-2 relative`}
+  background-color: #404040;
+  box-shadow: none;
+  padding: 0;
+  .rhap_time, .rhap_volume-button, .rhap_play-pause-button, .rhap_main-controls-button {
+    color: #fff;
+  }
+  .rhap_controls-section {
+    margin-right: 8px;
+    flex: 0 1 auto;
+  }
+  .rhap_main-controls-button {
+    margin-left: -8px;
+    margin-right: 8px;
+  }
+  .rhap_time {
+    width: 40px;
+  }
+  .rhap_main {
+    flex: 1 0 auto;
+  }
+  .rhap_progress-container {
+    width: 38%;
+    margin-right: 8px;
+  }
+  .rhap_progress-bar, .rhap_volume-bar {
+    background-color: #fff;
+  }
   .rhap_progress-section {
-    display: none;
+    margin-left: -8px;
   }
-  .rhap_controls-section { 
-    display: none;
+  .rhap_progress-indicator, .rhap_progress-filled, .rhap_volume-indicator {
+    background-color: #b959b6;
   }
-`;
-export const VolumeBar = styled.div`
-${tw`bg-white w-1/12 h-2 absolute`}
-  right: 480px;
-`;
-export const ControlVolumeBar = styled.div`
-  ${tw`h-2 absolute z-1`}
-  background: #9b59b6;
-  width: 30px;
-  right: 610px;
-`;
-export const StyledMuteContainer = styled.div`
-  width: 30px;
-  padding: 2px;
-  cursor: pointer;
-`;
-export const StyledControlContainer = styled.div`
-  width: 30px;
-  padding: 2px;
-  cursor: pointer;
+  .rhap_progress-indicator {
+    width: 12px;
+    height: 12px;
+    margin-left: -5px;
+    top: -4px;
+  }
 `;
