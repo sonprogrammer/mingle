@@ -1,5 +1,4 @@
 import React from 'react';
-import { useGetSongUploader } from '../../hooks';
 import {
   StyledUserInfo,
   StyledUserImage,
@@ -13,32 +12,34 @@ import {
 } from './styles';
 
 interface UserInfoComponentProps {
-  songId: string;
+  songUploader: any;
 }
 
-export default function UserInfoComponent({ songId }: UserInfoComponentProps) {
-  const { data: userDetails, isLoading, isError } = useGetSongUploader(songId);
-
-  if (isLoading) return <div>로딩 중...</div>;
-  if (isError || !userDetails) return <div>데이터 에러</div>;
+export default function UserInfoComponent({
+  songUploader,
+}: UserInfoComponentProps) {
+  if (!songUploader) return <div>데이터 에러</div>;
 
   return (
     <>
       <StyledUserInfo>
         <StyledUserSubInfo>
-          <StyledUserImage src={'/img/user.png'} alt={'User'} />
+          <StyledUserImage
+            src={songUploader.userImage || '/img/default-user.jpg'}
+            alt="User"
+          />
           <StyledUserDescript>
-            <h2>{userDetails.userNickName}</h2>
+            <h2>{songUploader.userNickName || 'Unknown Uploader'}</h2>
           </StyledUserDescript>
         </StyledUserSubInfo>
         <StyledUserStatus>
           <StyledFollower>
             <p>팔로워: </p>
-            <span>1</span>
+            <span>{songUploader.followersCount || 0}</span>
           </StyledFollower>
           <StyledFollowing>
             <p>팔로잉: </p>
-            <span>1</span>
+            <span>{songUploader.followingCount || 0}</span>
           </StyledFollowing>
         </StyledUserStatus>
       </StyledUserInfo>

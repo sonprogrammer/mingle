@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as like } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams } from 'react-router-dom';
 import { useGetSongDetails } from '../../hooks';
-import { formatDuration } from '../../utils';
+import { formatDuration, songUploaderState } from '../../utils';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import {
   PageContainer,
   Header,
@@ -23,19 +24,36 @@ import {
 
 export default function SongDetailsPage() {
   const navigate = useNavigate();
-  const handleUserClick = () => {
-    if (song?.songUploader?._id) {
-      navigate(`/user/${song.songUploader._id}`);
-    } else alert('정보가 존재하지 않습니다.');
-  };
   const { songId } = useParams();
   const { data, isLoading, error } = useGetSongDetails(songId ?? '');
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>에러가 발생했습니다.</div>;
-  console.log(data);
+  const [songUploader, setSongUploader] = useRecoilState(songUploaderState);
+
+  useEffect(() => {
+    if (data?.song?.songUploader) {
+      setSongUploader(data.song.songUploader);
+    }
+  }, [data, setSongUploader]);
+
+  const handleUserClick = () => {
+    if (songUploader?._id) {
+      navigate(`/user/${songUploader._id}`);
+    } else {
+      alert('업로더 정보가 존재하지 않습니다.');
+    }
+  };
+
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    return <div>에러가 발생했습니다.</div>;
+  }
+
   const song = data?.song;
   const isLiked = data?.isCurrentUserLiked;
   const formattedDuration = formatDuration(song?.songDuration || 0);
+
   return (
     <PageContainer>
       <Header>곡 정보</Header>
@@ -76,7 +94,6 @@ export default function SongDetailsPage() {
       <div style={{ padding: '1rem', fontSize: '30px', marginTop: '4px' }}>
         곡 소개
       </div>
-
       <StyleDescriptionSection>{song.songDescription}</StyleDescriptionSection>
     </PageContainer>
   );

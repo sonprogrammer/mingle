@@ -1,29 +1,34 @@
 import { atom } from 'recoil';
-
+import { UserInfo } from '../types';
 export const loginState = atom<{
-    isLogin: boolean,
-    accessToken: string,
-    accessExpiredDate: Date,
+  isLogin: boolean;
+  accessToken: string;
+  accessExpiredDate: Date;
 }>({
-    key: 'login',
-    default: {
-        isLogin: false,
-        accessToken: '',
-        accessExpiredDate: new Date(Date.now()),
-    },
+  key: 'login',
+  default: {
+    isLogin: false,
+    accessToken: '',
+    accessExpiredDate: new Date(Date.now()),
+  },
 });
 
 export const musicState = atom<{
-    url: string,
-    isPlaying: boolean,
-    volume: number,
-    mute: boolean,
+  url: string;
+  isPlaying: boolean;
+  volume: number;
+  mute: boolean;
 }>({
-    key: 'music',
-    default: {
-        url: '/song/Square.mp3',
-        isPlaying: false,
-        volume: 1,
-        mute: false,
-    }
-})
+  key: 'music',
+  default: {
+    url: '/song/Square.mp3',
+    isPlaying: false,
+    volume: 1,
+    mute: false,
+  },
+});
+
+export const songUploaderState = atom<UserInfo | null>({
+  key: 'songUploaderState',
+  default: null,
+});

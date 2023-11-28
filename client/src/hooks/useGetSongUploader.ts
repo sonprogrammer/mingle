@@ -2,22 +2,20 @@ import { useQuery } from 'react-query';
 import { useAxios } from '../utils';
 import { AxiosInstance } from 'axios';
 
-const getSongUploader = async (axios: AxiosInstance, userId: string) => {
-  const { data } = await axios.get(`/api/song/${userId}`);
+const getSongUploader = async (axios: AxiosInstance, songId: string) => {
+  const { data } = await axios.get(`/api/song/${songId}`);
   if (!data.song.songUploader) {
     console.log('songUploader is null');
     return null;
   }
-  console.log(data);
-  console.log(data.song.songUploader);
   return data.song.songUploader;
 };
 
-export function useGetSongUploader(userId: string) {
+export function useGetSongUploader(songId: string) {
   const axios = useAxios();
   return useQuery(
-    ['songUploader', userId],
-    () => getSongUploader(axios, userId),
+    ['songUploader', songId],
+    () => getSongUploader(axios, songId),
     {
       retry: 1,
     },
