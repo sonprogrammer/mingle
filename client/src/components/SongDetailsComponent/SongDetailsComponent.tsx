@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams } from 'react-router-dom';
 import { useGetSongDetails } from '../../hooks';
 import { formatDuration } from '../../utils';
+import { useNavigate } from 'react-router-dom';
 import {
   PageContainer,
   Header,
@@ -17,14 +18,21 @@ import {
   AdditionalInfo,
   LikeSection,
   StyleDescriptionSection,
+  StyleUploaderInfo,
 } from './styles';
 
 export default function SongDetailsPage() {
+  const navigate = useNavigate();
+  const handleUserClick = () => {
+    if (song?.songUploader?._id) {
+      navigate(`/user/${song.songUploader._id}`);
+    } else alert('정보가 존재하지 않습니다.');
+  };
   const { songId } = useParams();
   const { data, isLoading, error } = useGetSongDetails(songId ?? '');
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>에러가 발생했습니다.</div>;
-
+  console.log(data);
   const song = data?.song;
   const isLiked = data?.isCurrentUserLiked;
   const formattedDuration = formatDuration(song?.songDuration || 0);
@@ -42,6 +50,11 @@ export default function SongDetailsPage() {
           <ArtistName>{song?.songArtist || 'Unknown Artist'}</ArtistName>
           <AdditionalInfo>장르 : {song.songCategory}</AdditionalInfo>
           <AdditionalInfo>시간 : {formattedDuration}</AdditionalInfo>
+          <StyleUploaderInfo>
+            <span style={{ cursor: 'pointer' }} onClick={handleUserClick}>
+              {song?.songUploader?.userNickName || 'Unknown Uploader'}
+            </span>
+          </StyleUploaderInfo>
           <LikeSection>
             {isLiked ? (
               <FontAwesomeIcon icon={like} color={'#9b59b6'} cursor="pointer" />

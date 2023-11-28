@@ -20,6 +20,7 @@ import {
   GenreSongPage,
   SearchPage,
   SongDetailsPage,
+  UserInfoPage,
 } from './pages';
 import PrivateRoute from './PrivateRoute';
 
@@ -58,6 +59,7 @@ function App() {
                 <Route path="/edit" element={<EditProfilePage />}></Route>
                 <Route path="/search" element={<SearchPage />}></Route>
                 <Route path="/song/:songId" element={<SongDetailsPage />} />
+                <Route path="/user/:userId" element={<UserInfoPage />}></Route>
               </Route>
             </Route>
           </Routes>

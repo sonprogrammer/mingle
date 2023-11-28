@@ -24,7 +24,7 @@ interface UserProfileHeaderProps {
   profile: UserInfo;
 }
 
-export default function UserInfoComponent({
+export default function MyInfoComponent({
   profile,
   userImage,
   postsCount,

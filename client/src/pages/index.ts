@@ -16,3 +16,4 @@ export * from './CompletePasswordRecoveryPage';
 export * from './GenreSongPage';
 export * from './SearchPage';
 export * from './SongDetailsPage';
+export * from './UserInfoPage';

@@ -25,3 +25,4 @@ export * from './useGetSongsByTop';
 export * from './usePostUploadSongs';
 export * from './useGetUploadedSongs';
 export * from './useGetSongDetails';
+export * from './useGetSongUploader';
