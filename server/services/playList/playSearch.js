@@ -34,12 +34,12 @@ const playSearch = async (query, page, pageSize, userId) => {
     );
 
     const totalPages = Math.ceil(totalPlaylists / pageSize);
-
+    const currentPage = page * 1;
     if (searchPlayListWithLikeInfo.length === 0) {
       return [];
     }
 
-    return { totalPages, searchPlayList: searchPlayListWithLikeInfo };
+    return { totalPages, currentPage, searchPlayList: searchPlayListWithLikeInfo };
   } catch (error) {
     console.error(error);
     throw error;

@@ -15,7 +15,11 @@ export default function SearchComponent() {
   const [type, setType] = useState('song-name');
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate('/search', { state: { type: type, keyword: keyword } });
+    if (type === 'song-name' || type === 'artist-name') {
+      navigate('/songsearch', { state: { type: type, keyword: keyword } });
+    } else {
+      navigate('/playlistsearch', { state: { keyword: keyword } });
+    }
   };
   return (
     <div>

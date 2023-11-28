@@ -1,29 +1,52 @@
-import React from "react";
-import * as Styled from "./styles";
+import React from 'react';
+import {
+  PlaylistCardContainer,
+  ProfileSection,
+  AlbumImage,
+  ContentSection,
+  Title,
+  SocialInfo,
+  LikesText,
+} from './styles';
 
-interface RecommendPlaylistProps {
-  albumCover: string;
-  title: string;
-  hashtags?: string[];
-  likes: number;
+interface RecommendPlaylistComponentProps {
+  _id: string;
+  playListSongs?: string[];
+  playListTitle: string;
+  playListExplain?: string;
+  playListOwner?: string;
+  playListImg: string;
+  playListComments?: string[];
+  likedByUser?: boolean;
+  likeCount: number;
+  onClick?: (_id: string) => void;
 }
 
 export default function RecommendPlaylistComponent({
-  albumCover,
-  title,
-  likes,
-}: RecommendPlaylistProps) {
+  _id,
+  playListImg,
+  playListTitle,
+  likeCount,
+  onClick,
+}: RecommendPlaylistComponentProps) {
+  const handleCardClick = () => {
+    if (onClick && _id) {
+      onClick(_id);
+    } else if (!_id) {
+      alert('정보를 불러올 수 없습니다.');
+    }
+  };
   return (
-    <Styled.PlaylistCardContainer>
-      <Styled.ProfileSection>
-        <Styled.AlbumImage src={albumCover} alt="Album Cover" />
-      </Styled.ProfileSection>
-      <Styled.ContentSection>
-        <Styled.Title>{title}</Styled.Title>
-        <Styled.SocialInfo>
-          <Styled.LikesText>좋아요: {likes}개</Styled.LikesText>
-        </Styled.SocialInfo>
-      </Styled.ContentSection>
-    </Styled.PlaylistCardContainer>
+    <PlaylistCardContainer onClick={handleCardClick}>
+      <ProfileSection>
+        <AlbumImage src={playListImg} alt="Album Cover" />
+      </ProfileSection>
+      <ContentSection>
+        <Title>{playListTitle}</Title>
+        <SocialInfo>
+          <LikesText>좋아요: {likeCount}개</LikesText>
+        </SocialInfo>
+      </ContentSection>
+    </PlaylistCardContainer>
   );
 }

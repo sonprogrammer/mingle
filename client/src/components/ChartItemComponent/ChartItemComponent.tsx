@@ -5,8 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChartItemImg, StyledTr } from './styles';
 import { usePostlikeToggle, useDeleteLikeToggle } from '../../hooks';
 
+import { useNavigate } from 'react-router-dom';
 
 interface ChartItemComponentProps {
+  _id: string;
   idx: number;
   title: string;
   img: string;
@@ -14,7 +16,6 @@ interface ChartItemComponentProps {
   length: string;
   isLiked: boolean;
   songId: string;
-  _id: string;
 }
 export default function ChartItemComponent({
   idx,
@@ -27,19 +28,24 @@ export default function ChartItemComponent({
   _id
 }: ChartItemComponentProps) {
   const [isClick, setIsClick] = useState(false);
-  const postLikeMutation = usePostlikeToggle();
-  const deleteLikeMutation = useDeleteLikeToggle();
+  const { mutate: Like} = usePostlikeToggle();
+  const { mutate: deleteLike } = useDeleteLikeToggle();
   
   const handleLikeClick = async () => {
     if(!isClick){
-      await postLikeMutation.mutateAsync(_id)
+      await Like(_id)
     }else{
-      await deleteLikeMutation.mutateAsync(_id)
+      await deleteLike(_id)
     }
   }
 
-  const handleClick =  async () => {
+
+  const navigate = useNavigate();
+  const handleClick = () => {
     setIsClick(!isClick);
+  };
+  const handleNavigate = () => {
+    navigate(`/song/${_id}`);
   };
   return (
     <StyledTr
@@ -47,7 +53,6 @@ export default function ChartItemComponent({
       onClick={handleClick}
       isClick={isClick}
     >
-      <div style={{ display: 'none' }}>{songId}</div>
       <td scope="row" className="w-1/12 pl-10 pr-6 py-4">
         {idx}
       </td>
@@ -77,4 +82,5 @@ export default function ChartItemComponent({
       </td>
     </StyledTr>
   );
+
 }

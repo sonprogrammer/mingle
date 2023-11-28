@@ -27,7 +27,7 @@ export default function LikedSongPage() {
   data?.songs.map((item) =>
     items.push({
       title: item.song.songName,
-      img: '/img/AlbumSample.jpg',
+      img: item.song.songImageLocation && '/img/AlbumSample.jpg',
       artist: item.song.songArtist ?? 'Unknown Artist',
       length: formatDuration(item.song.songDuration),
       isLiked: item.isCurrentUserLiked,
