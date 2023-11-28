@@ -13,7 +13,7 @@ export const Header = styled.div`
 
 export const ContentContainer = styled.div`
   ${tw`flex`}
-  border: 2px solid black;
+  border: 2px solid #ccc;
 `;
 
 export const ImageSection = styled.div`
