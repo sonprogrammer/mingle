@@ -6,6 +6,7 @@ interface SongData {
   audio: File;
   image: File;
   name: string;
+  artist: string;
   description: string;
   duration: string;
   genre: string;
@@ -32,6 +33,7 @@ export function usePostUploadSongs(onClose: () => void) {
       formData.append('audio', songData.audio);
       formData.append('songImage', songData.image);
       formData.append('songName', songData.name);
+      formData.append('songArtist', songData.artist);
       formData.append('songDescription', songData.description);
       formData.append('songDuration', songData.duration);
       formData.append('songCategory', songData.genre);

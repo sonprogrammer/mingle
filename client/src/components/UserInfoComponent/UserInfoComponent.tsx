@@ -20,8 +20,8 @@ interface UserProfileHeaderProps {
   followingCount: number;
   onUpdate: (updatedInfo: Partial<UserInfo>) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSave: () => void
-  profile: UserInfo
+  onSave: () => void;
+  profile: UserInfo;
 }
 
 export default function UserInfoComponent({
@@ -33,12 +33,11 @@ export default function UserInfoComponent({
   onUpdate,
 }: UserProfileHeaderProps) {
   const [statusMessage, setStatusMessage] = useState(
-    profile.userDescription || '20자 이내로 입력하시오.'
+    profile.userDescription || '20자 이내로 입력하시오.',
   );
 
-  const handleStatusUpdate = async(updatedText: string) => {
+  const handleStatusUpdate = async (updatedText: string) => {
     onUpdate({ userDescription: updatedText });
-
   };
   return (
     <>

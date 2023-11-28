@@ -4,6 +4,7 @@ import { useGetSongsByTop } from '../../hooks';
 import { formatDuration } from '../../utils';
 interface SongData {
   song: {
+    _id: string;
     songName: string;
     songImageName: string;
     songArtist: string | null;
@@ -12,6 +13,7 @@ interface SongData {
   isCurrentUserLiked: boolean;
 }
 interface ChartItem {
+  _id: string;
   title: string;
   img: string;
   artist: string;
@@ -24,14 +26,16 @@ export default function ChartPage() {
 
   if (isLoading) return <div>Loading...</div>;
 
-  const songs: ChartItem[] =
-    res?.data?.map((item: SongData) => ({
-      title: item.song.songName,
-      img: `http://localhost:5173/upload/songImg/${item.song.songImageName}`,
-      artist: item.song.songArtist || 'Unknown Artist',
-      length: formatDuration(item.song.songDuration),
-      isLiked: item.isCurrentUserLiked,
-    })) || [];
+  const songs: ChartItem[] = res
+    ? res.data.map((item: SongData) => ({
+        _id: item.song._id,
+        title: item.song.songName,
+        img: `http://localhost:5173/upload/songImg/${item.song.songImageName}`,
+        artist: item.song.songArtist || 'Unknown Artist',
+        length: formatDuration(item.song.songDuration),
+        isLiked: item.isCurrentUserLiked,
+      }))
+    : [];
 
   return <ChartComponent items={songs} title="차트" />;
 }

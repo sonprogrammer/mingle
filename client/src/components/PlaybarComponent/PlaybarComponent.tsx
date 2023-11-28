@@ -29,7 +29,6 @@ export default function PlaybarComponent() {
   const music = useRecoilValue(musicState);
   const [play, setPlay] = useState(music.isPlaying);
   const progress = useRef<number>(0);
-  console.log(progress.current);
   const playRef = useRef<H5AudioPlayer | null>(null);
   const handlePlay = () => {
     if (playRef.current?.audio.current)

@@ -42,17 +42,14 @@ export default function SignUpComponent({
   const [emailError, setEmailError] = useState('');
   const [isButtonClicked, setIsButtonClicked] = useState(false);
 
-
-
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
-    setIsButtonClicked(false)
+    setIsButtonClicked(false);
     setUserEmail(email);
     if (!validateEmail(email) && email) {
       setEmailError('올바른 이메일 형식이 아닙니다.');
@@ -61,21 +58,16 @@ export default function SignUpComponent({
     }
   };
 
-
-  const { data, error,refetch } = useGetEmailCheck(userEmail);
-
+  const { data, error, refetch } = useGetEmailCheck(userEmail);
 
   const handleEmailClick = async () => {
-    setIsButtonClicked(true)
-      try{
-        await refetch();
-      }catch(error){
-        console.log('Error', error)
-      }
-  }
-
-
-
+    setIsButtonClicked(true);
+    try {
+      await refetch();
+    } catch (error) {
+      console.log('Error', error);
+    }
+  };
 
   const { mutate } = usePostRegister({
     userEmail: userEmail,
@@ -131,9 +123,12 @@ export default function SignUpComponent({
         >
           중복 확인
         </button>
-        {data && <p style={{textAlign: 'center'}}>사용 가능한 이메일입니다.</p>}
-      {isButtonClicked && error && <p style={{color:'red', textAlign:'center'}}>{error.message}</p>}
-
+        {data && (
+          <p style={{ textAlign: 'center' }}>사용 가능한 이메일입니다.</p>
+        )}
+        {isButtonClicked && error && (
+          <p style={{ color: 'red', textAlign: 'center' }}>{error.message}</p>
+        )}
       </div>
 
       <div style={{ position: 'relative', width: '100%' }}>

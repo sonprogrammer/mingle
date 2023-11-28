@@ -46,6 +46,7 @@ export default function UploadModalComponent({
         audio: audioFile,
         image: imageFile,
         name: song.name,
+        artist: song.artist,
         description: song.description,
         duration: '6000', // 곡 시간쪽을 일단은 하드코딩 해놓은 상태 추후 수정예정
         genre: song.genre,
@@ -121,6 +122,18 @@ export default function UploadModalComponent({
             value={song.name}
             onChange={handleInputChange}
             placeholder="음악 이름을 적어주세요."
+          />
+        </StyleFormInputContainer>
+
+        <StyleFormInputContainer>
+          <StyleFormLabel htmlFor="artist">아티스트 이름</StyleFormLabel>
+          <StyleInput
+            type="text"
+            id="artist"
+            name="artist"
+            value={song.artist}
+            onChange={handleInputChange}
+            placeholder="아티스트 이름을 적어주세요."
           />
         </StyleFormInputContainer>
 
