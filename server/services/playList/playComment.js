@@ -34,7 +34,7 @@ async function playCommentRead(playlistId) {
 	try {
 		const playlist = await PlayList.findById(playlistId).populate(
 			"playListComments.author",
-			"username userNickname"
+			"username userNickname userFile"
 		);
 		if (!playlist) {
 			throw createError(404, "플레이리스트를 찾을 수 없습니다.");
@@ -65,7 +65,6 @@ async function playCommentUpdate(userId, commentId, comment) {
 		if (!targetComment) {
 			throw createError(404, "댓글을 찾을 수 없습니다.");
 		}
-		console.log(targetComment.author.toString());
 		if (targetComment.author.toString() !== userId) {
 			throw createError(403, "댓글을 수정할 권한이 없습니다.");
 		}

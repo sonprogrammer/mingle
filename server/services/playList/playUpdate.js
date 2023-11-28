@@ -12,6 +12,13 @@ const path = require("path");
 async function playListUpdate(playlistId, jsonValue) {
 	try {
 		// 주어진 ID에 해당하는 정보를 수정한다
+		const playListData = await playListSchema.findById(playlistId);
+		if (!playListData) {
+			throw createError(400, "수정할 데이터가 없습니다.");
+		}
+		if(jsonValue.playListName) {
+			playListData.playListName = jsonValue.playListName;
+		}
 		if (jsonValue.playListImg) {
 			const timestamp = new Date().getTime();
 			const imageName = `${timestamp}.png`;
@@ -22,6 +29,7 @@ async function playListUpdate(playlistId, jsonValue) {
 			);
 			fs.writeFileSync(imagePath, decodedImage);
 			jsonValue.playListImg = imagePath; // 수정된 이미지 경로를 JSON 데이터에 저장
+			jsonValue.playListImg = imageName;
 		}
 
 		// 플레이리스트 수정
@@ -42,7 +50,7 @@ async function playListUpdate(playlistId, jsonValue) {
 			};
 		}
 	} catch (error) {
-		throw createError(400, "수정에 실패했습니다.");
+		throw error;
 	}
 }
 

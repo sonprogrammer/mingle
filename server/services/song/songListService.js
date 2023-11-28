@@ -78,17 +78,14 @@ async function getSongsBySearch(
       .populate("songUploader")
       .limit(pageSize);
   } else if (searchType === "artist-name") {
-    const songs = await Song.find({}).populate("songUploader");
-    searchedSongs = songs.filter((song) => {
-      return (
-        (song.songUploader &&
-          song.songUploader.userNickname &&
-          song.songUploader.userNickname.includes(searchWord)) ||
-        (song.songArtist && song.songArtist.includes(searchWord))
-      );
+    const totalItems = await Song.countDocuments({
+      songArtist: { $regex: new RegExp(searchWord, "i") },
     });
-    totalPages = Math.ceil(searchedSongs.length / pageSize);
-    searchedSongs = searchedSongs.slice(skip, skip + pageSize);
+    searchedSongs = await Song.find({ songArtist: searchWord })
+      .populate("songUploader")
+      .skip(skip)
+      .limit(pageSize);
+    totalPages = Math.ceil(totalItems / pageSize);
   } else {
     throw createError(400, "path를 형식에 맞게 입력해 주세요.");
   }
