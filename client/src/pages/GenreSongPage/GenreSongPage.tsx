@@ -34,7 +34,6 @@ export default function GenreSongPage() {
       isLiked: item.isCurrentUserLiked,
     }),
   );
-
   return (
     <>
       {isLoading && isGenreLoading ? (
@@ -47,11 +46,12 @@ export default function GenreSongPage() {
             setGenre={setGenre}
             genres={genres}
             onItemClick={handleItemClick}
+            setPageNum={setPageNum}
           />
           {data?.songs && data.songs.length > 0 ? (
             <PaginationComponent
               setPageNum={setPageNum}
-              currentPage={data?.currentPage}
+              currentPage={pageNum}
               totalPages={data?.totalPages}
             />
           ) : null}

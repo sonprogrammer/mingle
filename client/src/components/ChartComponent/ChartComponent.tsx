@@ -23,12 +23,14 @@ interface ChartComponentProps {
   }[];
   setGenre?: Dispatch<SetStateAction<string>>;
   genres?: { _id: string; genre: string }[];
+  setPageNum?: Dispatch<SetStateAction<number>>;
 }
 export default function ChartComponent({
   title,
   items,
   setGenre,
   genres,
+  setPageNum,
 }: ChartComponentProps) {
   return (
     <>
@@ -40,6 +42,7 @@ export default function ChartComponent({
               <StyledSelect
                 onChange={(e) => {
                   setGenre(e.target.value);
+                  setPageNum && setPageNum(1);
                 }}
               >
                 {genres?.map((item) => {
