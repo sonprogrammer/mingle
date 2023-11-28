@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { StyledContentsItem, StyledContentsItemLength } from "./styles";
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import { StyledContentsItem, StyledContentsItemLength } from './styles';
 
 interface PlaylistItemComponentProps {
   item: {

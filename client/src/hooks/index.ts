@@ -26,3 +26,4 @@ export * from './usePostUploadSongs';
 export * from './useGetUploadedSongs';
 export * from './useGetSongDetails';
 export * from "./useGetPlaylistsBySearch";
+export * from './useGetPlaylistById';
