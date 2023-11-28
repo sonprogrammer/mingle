@@ -14,5 +14,6 @@ export * from './FindPasswordPage';
 export * from './CompleteSignUpPage';
 export * from './CompletePasswordRecoveryPage';
 export * from './GenreSongPage';
-export * from './SearchPage';
 export * from './SongDetailsPage';
+export * from './SongSearchPage';
+export * from './PlaylistSearchPage';
