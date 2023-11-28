@@ -185,7 +185,6 @@ router.get(
 		try {
 			const userId = req.user.userId;
 			const data = await viewFollow.viewFollow(userId);
-      console.log(data);
 			res.status(200).json(data);
 		} catch (error) {
 			next(error);

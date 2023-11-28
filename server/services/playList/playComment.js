@@ -65,7 +65,6 @@ async function playCommentUpdate(userId, commentId, comment) {
 		if (!targetComment) {
 			throw createError(404, "댓글을 찾을 수 없습니다.");
 		}
-		console.log(targetComment.author.toString());
 		if (targetComment.author.toString() !== userId) {
 			throw createError(403, "댓글을 수정할 권한이 없습니다.");
 		}
