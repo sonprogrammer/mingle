@@ -93,7 +93,7 @@ async function searchUserLike(userId) {
     // playList 객체에 likeCounts 속성 추가
     const playListWithLikeCounts = playList.map((playlist, index) => ({
       ...playlist.toObject(),
-      likeCounts: likeCounts[index],
+      likeCount: likeCounts[index],
     }));
 
     return { playList: playListWithLikeCounts };
