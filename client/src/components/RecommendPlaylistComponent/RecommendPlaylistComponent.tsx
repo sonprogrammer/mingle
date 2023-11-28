@@ -24,7 +24,6 @@ export default function RecommendPlaylistComponent({
   const [isModal, setIsModal] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  // const { mutate: deleteSong } = useDeleteSong();
   const deleteSongMutation = useDeleteSong();
 
   const handleDeleteClick = () => {
@@ -47,9 +46,7 @@ export default function RecommendPlaylistComponent({
   const handleDeleteConfirmation = async (songId: string) => {
     try {
       await deleteSongMutation.mutateAsync(songId);
-      onDelete();
       setIsModal(false);
-      // 삭제 성공 후 필요한 작업 추가
     } catch (error) {
       console.error('음악 삭제 중 에러:', error);
     }
@@ -80,7 +77,7 @@ export default function RecommendPlaylistComponent({
             <Styled.Modal>
               <p>정말 삭제하시겠습니까?</p>
               <Styled.Buttons>
-                <Styled.ConfirmButton onClick={handleDeleteConfirmation}>
+                <Styled.ConfirmButton onClick={() => handleDeleteConfirmation(playlist._id)}>
                   확인
                 </Styled.ConfirmButton>
                 <Styled.CancelButton onClick={handleCloseModalClick}>
