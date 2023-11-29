@@ -3,12 +3,16 @@ import { AxiosInstance } from "axios";
 import { useAxios } from '../utils';
 import { UserInfo } from '../types';
 
-const getuserPreference = async(axiosInstance: AxiosInstance, userId: string): Promise<AxiosInstance<UserInfo>> =>{
-    const response = await axiosInstance.get(`/playlist/preference/${userId}`)
+
+const getuserPreference = async(axiosInstance: AxiosInstance): Promise<UserInfo> =>{
+    const response = await axiosInstance.get(`/api/playlist/recommend`)
     return response.data
 }
 
-export function useGetUserPreference(userId: string){
+export function useGetUserPreference(){
     const axiosInstance = useAxios()
-    return useQuery(['get-user-preference'], () => getuserPreference(axiosInstance, userId))
+    return useQuery(['get-user-preference'], () => getuserPreference(axiosInstance))
 }
+
+
+

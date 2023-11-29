@@ -22,7 +22,7 @@ export * from "./useGetRecommendUser"
 export * from './useDeleteLikeToggle';
 export * from './usePostlikeToggle';
 export * from './useGetPlaylistsByLike';
-
+export * from "./useGetUserPreference"
 
 export * from './useGetSongUploader';
 export * from './usePostUserFollow';
