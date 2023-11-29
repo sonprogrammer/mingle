@@ -54,7 +54,7 @@ export default function Mypage() {
   const { data } = useGetUploadedSongs(page, pageSize);
   const { mutate } = usePutUserDescription()
   const { data: userData, isLoading} = useGetUserInfo()
-  const {playlist} = useGetUserPlaylist()
+  const { data: playlist } = useGetUserPlaylist()
   console.log(playlist)
   const { mutate: deleteSong } = useDeleteSong();
 
