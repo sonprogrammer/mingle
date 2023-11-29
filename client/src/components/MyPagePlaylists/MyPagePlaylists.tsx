@@ -15,13 +15,13 @@ import {
   PlaylistContainer,
 } from './styles';
 interface Playlists {
-    song: string;
-    albumCover: string;
-    title: string;
-    hashtags?: string[];
-    likes: number;
-    _id: string;
-    songId: string;
+  song: string;
+  albumCover: string;
+  title: string;
+  hashtags?: string[];
+  likes: number;
+  _id: string;
+  songId: string;
 }
 
 interface PlaylistsProps {
@@ -39,21 +39,17 @@ interface PlaylistsProps {
   myplaylists: Playlists[];
   likedplaylists: Playlists[];
   myuploadsongslists: Playlists[];
-  handleDeleteUploadedSong: (songId: string) => Promise<void>; 
+  handleDeleteUploadedSong: (songId: string) => Promise<void>;
 }
 
 export default function MyPagePlaylists({
   myPlaylists,
   likedPlaylists,
   myUploadSongslists,
-  myplaylists,
-  likedplaylists,
-  myuploadsongslists,
   handleDeleteUploadedSong,
 }: PlaylistsProps) {
   const [selectTab, setSelecTab] = useState('myPlaylists');
   const [isModalOpen, setIsModalOpen] = useState(false);
-
 
   const handleButtonClick = () => {
     setIsModalOpen(true);
@@ -65,8 +61,6 @@ export default function MyPagePlaylists({
   const handleTabClick = (tab: string) => {
     setSelecTab(tab);
   };
-
-  
 
   const navigate = useNavigate();
   /* 차트쪽은 Link를 사용했는데 여기서는 Link태그 사용시 a태그 속성때문에 ui가 깨져서
@@ -118,9 +112,9 @@ export default function MyPagePlaylists({
                 key={playlist._id}
                 playListImg={playlist.playListImg}
                 playListTitle={playlist.playListTitle}
-                likeCount={playlist.likesCount}
+                likeCount={playlist.likeCount}
                 selectTab={selectTab}
-                _id={''}
+                _id={playlist._id}
               />
             ))}
 
@@ -136,17 +130,14 @@ export default function MyPagePlaylists({
                     likeCount={playlist.likeCount}
                     onClick={handleCardClick}
                     selectTab={selectTab}
-                  songId={playlist.songId}
-                  onDelete={() =>handleDeleteUploadedSong(playlist.songId)}
-                  songData={playlist.songData}
+                    songId={playlist.songId}
+                    onDelete={() => handleDeleteUploadedSong(playlist.songId)}
+                    songData={playlist.songData}
                   />
                 </>
               );
             })}
-            <UploadButtonComponent
-              text="업로드"
-              onClick={handleButtonClick}
-            />
+          <UploadButtonComponent text="업로드" onClick={handleButtonClick} />
         </PlaylistConetent>
       </PlaylistContainer>
       {isModalOpen && <UploadModalComponent onClose={handleCloseModal} />}
