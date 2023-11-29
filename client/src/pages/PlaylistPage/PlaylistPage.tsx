@@ -64,10 +64,12 @@ export default function PlaylistPage() {
       </Content>
       <Divider />
       <PlaylistDescriptionComponent
+        playlistId={data?._id}
         description={data?.playListExplain}
         userImg={'/img/User-Icon.png'}
-        userName={data?.playListOwner}
-        liked={data?.likeCount}
+        userName={data?.playListOwner.userNickname}
+        isUserLiked={data?.like}
+        likeCount={data?.likeCount}
       />
       <Divider />
       <PlaylistCommentComponent

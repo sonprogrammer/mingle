@@ -14,29 +14,40 @@ import {
   StyledUserName,
   StyledButton,
 } from './styles';
+import {
+  useDeletePlaylistLikeToggle,
+  usePostPlaylistLikeToggle,
+} from '../../hooks';
 
 interface PlayDescript {
+  playlistId: string | undefined;
   description: string | undefined;
 }
 
 interface User {
   userImg: string;
   userName: string | undefined;
-  liked: number | undefined;
+  isUserLiked: boolean | undefined;
+  likeCount: number | undefined;
 }
 
 interface PlayDescriptAndUser extends User, PlayDescript {}
 export default function PlaylistDescriptionComponent({
+  playlistId,
   description,
   userImg,
   userName,
-  liked,
+  isUserLiked,
+  likeCount,
 }: PlayDescriptAndUser) {
-  const [isLike, setIsLike] = useState(false);
+  const [isLike, setIsLike] = useState(isUserLiked);
   const [isExpand, setIsExpand] = useState(false);
-
+  const { mutate: likeToggle } = usePostPlaylistLikeToggle(playlistId);
+  const { mutate: unLikeToggle } = useDeletePlaylistLikeToggle(playlistId);
   const handleClick = () => {
     setIsLike(!isLike);
+    if (!isLike) likeToggle();
+    else unLikeToggle();
   };
 
   const handleExpandClick = () => {
@@ -67,7 +78,7 @@ export default function PlaylistDescriptionComponent({
                   color={'#9b59b6'}
                   cursor="pointer"
                 />
-                <span>{liked}</span>
+                <span>{likeCount}</span>
               </>
             ) : (
               <>
@@ -76,7 +87,7 @@ export default function PlaylistDescriptionComponent({
                   color={'#9b59b6'}
                   cursor="pointer"
                 />
-                <span>{liked}</span>
+                <span>{likeCount}</span>
               </>
             )}
           </StyledHeart>

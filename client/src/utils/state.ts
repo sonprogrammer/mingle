@@ -39,6 +39,7 @@ export const musicState = atom<{
     volume: 1,
     mute: false,
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const songUploaderState = atom<UserInfo | null>({
