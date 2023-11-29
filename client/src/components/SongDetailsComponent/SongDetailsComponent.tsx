@@ -34,7 +34,10 @@ export default function SongDetailsPage() {
       <ContentContainer>
         <ImageSection>
           {song.songImageLocation && (
-            <img src="/img/AlbumSample.jpg" alt="앨범 커버" /> //앨범 사진 바꿔야함
+            <img
+              src={`http://kdt-sw-6-team09.elicecoding.com/file/songImg/${song.songImageLocation}`}
+              alt="앨범 커버"
+            /> //앨범 사진 바꿔야함
           )}
         </ImageSection>
         <DetailsSection>

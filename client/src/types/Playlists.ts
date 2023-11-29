@@ -1,3 +1,5 @@
+import { SongDetail } from "./SongDetail";
+
 export interface Playlists {
     _id: string,
     playListSongs: string[],
@@ -10,5 +12,6 @@ export interface Playlists {
     updatedAt: Date,
     likedByUser: boolean,
     likeCount: number,
+    songDetails: SongDetail[],
 }
 

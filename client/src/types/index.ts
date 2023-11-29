@@ -5,3 +5,4 @@ export * from "./UserInfo";
 export * from "./EmailCheck"
 export * from "./Songs";
 export * from "./Playlists";
+export * from "./SongDetail";

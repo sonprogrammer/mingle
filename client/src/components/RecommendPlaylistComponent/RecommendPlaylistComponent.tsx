@@ -1,3 +1,5 @@
+
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import {
   PlaylistCardContainer,
@@ -46,6 +48,7 @@ export default function RecommendPlaylistComponent({
   selectTab,
   songId
 }: RecommendPlaylistComponentProps) {
+  const navigate = useNavigate();
   const [isModal, setIsModal] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -76,11 +79,7 @@ export default function RecommendPlaylistComponent({
     setIsModal(false);
   };
   const handleCardClick = () => {
-    if (onClick && _id) {
-      onClick(_id);
-    } else if (!_id) {
-      alert('정보를 불러올 수 없습니다.');
-    }
+    navigate(`/playlist?id=${_id}`);
   };
   return (
     <PlaylistCardContainer
@@ -94,12 +93,15 @@ export default function RecommendPlaylistComponent({
             </DeleteButton>
         )}
       <ProfileSection>
-        <AlbumImage src={playListImg} alt="Album Cover" />
+        <AlbumImage
+          src={`http://kdt-sw-6-team09.elicecoding.com/file/playListCover/${playListImg}`}
+          alt="Album Cover"
+        />
       </ProfileSection>
       <ContentSection>
         <Title>{playListTitle}</Title>
         <SocialInfo>
-          <LikesText>좋아요: {likeCount}개</LikesText>
+          <LikesText>좋아요: {likeCount ?? 0}개</LikesText>
         </SocialInfo>
       </ContentSection>
       <ModalContainer>

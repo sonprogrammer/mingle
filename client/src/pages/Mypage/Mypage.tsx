@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import React from 'react';
 import { 
   // uploadedSongsState, 
-  useGetUserInfo, usePutUserDescription, useDeleteSong } from '../../hooks';
+  useGetPlaylistsByLike, useGetUserInfo, usePutUserDescription, useDeleteSong } from '../../hooks';
+
 
 import { UserInfo } from '../../types';
 import { UserInfoComponent, MyPagePlaylists } from '../../components';
@@ -10,51 +10,29 @@ import { useGetUploadedSongs } from '../../hooks/useGetUploadedSongs';
 
 const MYplaylistInfo = [
   {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 111,
+    playListImg: '/img/AlbumSample.jpg',
+    playListTitle: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
+    likeCount: 111,
   },
   {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 333,
+    playListImg: '/img/AlbumSample.jpg',
+    playListTitle: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
+    likeCount: 333,
   },
   {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 555,
+    playListImg: '/img/AlbumSample.jpg',
+    playListTitle: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
+    likeCount: 555,
   },
   {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 777,
+    playListImg: '/img/AlbumSample.jpg',
+    playListTitle: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
+    likeCount: 777,
   },
   {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 999,
-  },
-];
-const LikedplaylistInfo = [
-  {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 333,
-  },
-  {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 333,
-  },
-  {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 555,
-  },
-  {
-    albumCover: '/img/AlbumSample.jpg',
-    title: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
-    likes: 777,
+    playListImg: '/img/AlbumSample.jpg',
+    playListTitle: '[Playlist] 쌀쌀한 늦가을에 듣기 좋은 팝송 플레이리스트',
+    likeCount: 999,
   },
 ];
 
@@ -76,11 +54,12 @@ export default function Mypage() {
   const { data } = useGetUploadedSongs(page, pageSize);
   const { mutate } = usePutUserDescription()
   const { data: userData, isLoading} = useGetUserInfo()
-  const deleteSongMutation = useDeleteSong();
+  const { mutate: deleteSong } = useDeleteSong();
 
   const handleDeleteUploadedSong = async (songId: string) => {
-      await deleteSongMutation.mutateAsync(songId);
+      await deleteSong(songId);
   };
+  const { data: likedPlaylist } = useGetPlaylistsByLike();
 
   if (isLoading) {
     return <p>loading...</p>;
@@ -100,17 +79,17 @@ export default function Mypage() {
     <>
       <UserInfoComponent
         userImage={'/img/User-Icon.png'}
-        profile={userData}
+        profile={userData?.user}
         onUpdate={handleUpdateDescription}
         postsCount={7}
         followersCount={7}
         followingCount={7}
       />
       <MyPagePlaylists
-        myplaylists={MYplaylistInfo}
-        likedplaylists={LikedplaylistInfo}
-        myuploadsongslists={uploadedPlaylists}
-        handleDeleteUploadedSong={handleDeleteUploadedSong} 
+        myPlaylists={MYplaylistInfo}
+        likedPlaylists={likedPlaylist ?? []}
+        myUploadSongslists={uploadedPlaylists}
+        handleDeleteUploadedSong={handleDeleteUploadedSong}
       />
     </>
   );

@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 import {
   StyledAlbumArtImg,
   StyledAlbumCircle,
   StyledAlbumCircleImg,
   StyledAlbumWrapper,
-} from "./styles";
+} from './styles';
 
 interface AlbumArtComponentProps {
   albumArtSrc: string;

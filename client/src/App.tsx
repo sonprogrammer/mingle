@@ -10,7 +10,6 @@ import {
   Mypage,
   LayoutPage,
   SignUpPage,
-  MyPlaylistPage,
   EditProfilePage,
   LikedSongPage,
   NewSongPage,
@@ -50,7 +49,6 @@ function App() {
                 <Route path="/newsong" element={<NewSongPage />}></Route>
                 <Route path="/likedsong" element={<LikedSongPage />}></Route>
                 <Route path="/playlist" element={<PlaylistPage />}></Route>
-                <Route path="/myplaylist" element={<MyPlaylistPage />}></Route>
                 <Route
                   path="/recommendPlaylist"
                   element={<RecommendPlaylistPage />}

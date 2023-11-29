@@ -25,7 +25,7 @@ async function playListCreate(jsonValue, userId) {
         `../../upload/playListCover/${imageName}`
       );
       fs.writeFileSync(imagePath, decodedImage);
-      jsonValue.userImage = imagePath;
+      jsonValue.playListImg = imagePath.slice(-17);
     }
     // 플레이리스트 데이터를 생성하여 저장한다
     const data = await playListSchema(jsonValue).save();
