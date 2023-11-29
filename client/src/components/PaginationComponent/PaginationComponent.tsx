@@ -23,7 +23,7 @@ export default function PaginationComponent({
         Array.from({ length: totalPages }, (_, index) => index + 1),
       );
     } else {
-      setPageNumbers(Array.from({ length }, (_, index) => 1 + index));
+      setPageNumbers(Array.from({ length: 5 }, (_, index) => 1 + index));
     }
   }, [totalPages]);
   const generateConsecutiveNumbers = (start: number, length: number) => {

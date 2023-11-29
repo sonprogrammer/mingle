@@ -18,6 +18,7 @@ export default function SearchPage() {
       ) : (
         <>
           <PlaylistRecommendComponent
+            isMypage={false}
             playlists={data?.searchPlayList}
             search={`'${keyword}'에 대한 플레이리스트 검색 결과입니다.`}
           />

@@ -7,6 +7,9 @@ const getPlaylistsByLike = async (axiosInstance: AxiosInstance): Promise<Playlis
 	const response = await axiosInstance.get(		
         '/api/account/my-like-playlist'
 	);
+	if(response.data.message === '좋아요를 누른 플레이리스트가 없습니다.') {
+		return [];
+	}
 	return response.data.playList;
 };
 export function useGetPlaylistsByLike() {

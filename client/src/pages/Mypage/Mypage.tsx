@@ -79,7 +79,7 @@ export default function Mypage() {
     <>
       <UserInfoComponent
         userImage={'/img/User-Icon.png'}
-        profile={userData}
+        profile={userData?.user}
         onUpdate={handleUpdateDescription}
         postsCount={7}
         followersCount={7}
@@ -87,7 +87,7 @@ export default function Mypage() {
       />
       <MyPagePlaylists
         myPlaylists={MYplaylistInfo}
-        likedPlaylists={likedPlaylist}
+        likedPlaylists={likedPlaylist ?? []}
         myUploadSongslists={uploadedPlaylists}
         handleDeleteUploadedSong={handleDeleteUploadedSong}
       />
