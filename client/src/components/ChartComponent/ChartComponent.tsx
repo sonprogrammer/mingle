@@ -78,7 +78,7 @@ export default function ChartComponent({
                   length={item.length}
                   isLiked={item.isLiked}
                   key={item._id}
-                  _id={item._id}
+                  // _id={item._id}
                 />
               );
             })
