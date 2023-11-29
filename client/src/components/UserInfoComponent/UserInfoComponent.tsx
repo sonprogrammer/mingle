@@ -33,7 +33,7 @@ export default function UserInfoComponent({
   onUpdate,
 }: UserProfileHeaderProps) {
   const [statusMessage, setStatusMessage] = useState(
-    profile.userDescription || '20자 이내로 입력하시오.',
+    profile?.userDescription || '20자 이내로 입력하시오.',
   );
 
   const handleStatusUpdate = async (updatedText: string) => {
@@ -47,7 +47,7 @@ export default function UserInfoComponent({
           <StyledUserImage src={userImage} alt={'User'} />
           {/* </UserImageContainer> */}
           <StyledUserDescript>
-            <h2>{profile.userNickname}</h2>
+            <h2>{profile?.userNickname}</h2>
             <EditableText
               initialText={statusMessage}
               onChange={(e) => setStatusMessage(e.target.value)}

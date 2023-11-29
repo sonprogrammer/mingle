@@ -10,6 +10,8 @@ interface PlaylistContentsComponentProps {
   title: string | undefined;
   songs: {
     title: string;
+    url: string;
+    img: string;
     length: string;
   }[];
 }

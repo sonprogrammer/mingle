@@ -9,6 +9,7 @@ interface PlaylistRecommendComponentProps {
   genre?: string;
   search?: string;
   playlists: Playlists[] | undefined;
+  isMypage: boolean;
 }
 
 export default function PlaylistRecommendComponent({
@@ -16,6 +17,7 @@ export default function PlaylistRecommendComponent({
   genre,
   search,
   playlists,
+  isMypage,
 }: PlaylistRecommendComponentProps) {
   return (
     <>
@@ -29,6 +31,7 @@ export default function PlaylistRecommendComponent({
           {playlists && playlists?.length > 0 ? (
             playlists?.map((playlist) => (
               <RecommendPlaylistComponent
+                isMypage={isMypage}
                 key={playlist._id}
                 _id={playlist._id}
                 playListImg={playlist.playListImg}
