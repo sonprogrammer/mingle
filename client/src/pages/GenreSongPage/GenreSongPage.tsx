@@ -48,7 +48,6 @@ const handleLikeToggle = async (songId: string, isLiked: boolean) => {
 
     }),
   );
-
   return (
     <>
       {isLoading && isGenreLoading ? (
@@ -62,11 +61,12 @@ const handleLikeToggle = async (songId: string, isLiked: boolean) => {
             genres={genres}
             onLikeToggle={handleLikeToggle} 
             onItemClick={handleItemClick}
+            setPageNum={setPageNum}
           />
           {data?.songs && data.songs.length > 0 ? (
             <PaginationComponent
               setPageNum={setPageNum}
-              currentPage={data?.currentPage}
+              currentPage={pageNum}
               totalPages={data?.totalPages}
             />
           ) : null}
