@@ -17,3 +17,5 @@ export * from "./useDeleteSong"
 
 export * from './useGetSongDetails';
 export * from "./useGetPlaylistsBySearch";
+export * from "./useDeleteLikeToggle"
+export * from "./usePostlikeToggle"

@@ -44,8 +44,6 @@ export default function RecommendPlaylistComponent({
   likeCount,
   onClick,
   selectTab,
-  onDelete,
-  handleDeleteUploadedSong,
   songId
 }: RecommendPlaylistComponentProps) {
   const [isModal, setIsModal] = useState(false);

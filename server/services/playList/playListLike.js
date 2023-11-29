@@ -66,23 +66,40 @@ const deleteLike = async (playListId, userId) => {
 
 //유저가 좋아요를 누른 플레이리스트를 찾는 함수
 async function searchUserLike(userId) {
-	try {
-		const user = await userSchema.findById(userId);
-		if (!user) {
-			throw createError(404, "유저를 찾을 수 없습니다.");
-		}
-		const like = await playListLIkeSchema.find({ userId: userId });
-		if (!like) {
-			throw createError(400, "좋아요를 누른 플레이리스트가 없습니다.");
-		}
-		const playListId = like.map((like) => like.playListId);
-		const playList = await playListSchema.find({
-			_id: { $in: playListId },
-		});
-		return playList;
-	} catch (error) {
-		throw error;
-	}
+  try {
+    const user = await userSchema.findById(userId);
+    if (!user) {
+      throw createError(404, '유저를 찾을 수 없습니다.');
+    }
+
+    const like = await playListLIkeSchema.find({ userId: userId });
+    if (!like || like.length === 0) {
+      throw createError(400, '좋아요를 누른 플레이리스트가 없습니다.');
+    }
+
+    const playListId = like.map((like) => like.playListId);
+
+    const likeCountPromises = playListId.map(async (id) => {
+      const count = await playListLIkeSchema.countDocuments({ playListId: id });
+      return count;
+    });
+
+    const likeCounts = await Promise.all(likeCountPromises);
+
+    const playList = await playListSchema.find({
+      _id: { $in: playListId },
+    });
+
+    // playList 객체에 likeCounts 속성 추가
+    const playListWithLikeCounts = playList.map((playlist, index) => ({
+      ...playlist.toObject(),
+      likeCount: likeCounts[index],
+    }));
+
+    return { playList: playListWithLikeCounts };
+  } catch (error) {
+    throw error;
+  }
 }
 
 module.exports = {
