@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { usePostPlaylistComment, useGetPlaylistComment } from '../../hooks';
+import {
+  usePostPlaylistComment,
+  useGetPlaylistComment,
+  useDeletePlaylistComment,
+} from '../../hooks';
 import { useQueryClient } from 'react-query';
 
 interface CommentProps {
@@ -20,9 +24,10 @@ const TestComponent = () => {
     '65669cbbd90757f3cfea1728',
   );
   const { mutate: postComment, isLoading } = usePostPlaylistComment();
+  const deleteComment = useDeletePlaylistComment();
 
   useEffect(() => {
-    refetch(); // 댓글 목록 최신 상태로 불러오기
+    refetch();
   }, [refetch]);
 
   const handleSubmit = () => {
@@ -35,6 +40,23 @@ const TestComponent = () => {
             'playlistComment',
             '65669cbbd90757f3cfea1728',
           ]);
+        },
+      },
+    );
+  };
+
+  const handleDelete = (commentId: string) => {
+    deleteComment.mutate(
+      { playlistId: '65669cbbd90757f3cfea1728', commentId },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([
+            'playlistComment',
+            '65669cbbd90757f3cfea1728',
+          ]);
+        },
+        onError: () => {
+          alert('댓글을 삭제할 수 없습니다.');
         },
       },
     );
@@ -56,6 +78,7 @@ const TestComponent = () => {
             <p>{comment.author ? comment.author.userNickname : '익명'}</p>
             <p>{comment.comment}</p>
             <p>{new Date(comment.date).toLocaleString()}</p>
+            <button onClick={() => handleDelete(comment._id)}>X</button>
           </div>
         ))
       ) : (
