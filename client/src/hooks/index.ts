@@ -29,4 +29,5 @@ export * from './usePostUserFollow';
 export * from './useDeleteUnFollow';
 export * from "./usePostPlaylistLikeToggle";
 export * from "./useDeletePlaylistLikeToggle";
+export * from "./useGetPlaylistsByFollow";
 export* from "./useGetUserPlaylist";
