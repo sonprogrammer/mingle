@@ -44,7 +44,9 @@ export default function LoginComponent({
     userPassword: userPassword,
   });
   const handleClick = () => {
-    mutate();
+    if (userEmail === '') alert('이메일을 입력해주세요.');
+    else if (userPassword === '') alert('비밀번호를 입력해주세요.');
+    else mutate();
   };
 
   return (
@@ -70,6 +72,7 @@ export default function LoginComponent({
             placeholder="비밀번호를 입력하세요."
             value={userPassword}
             onChange={(e) => setUserPassword(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleClick()}
           />
         </div>
         <StyledHelpWrapper>

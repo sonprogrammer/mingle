@@ -18,13 +18,15 @@ export * from './useDeleteSong';
 export * from './useGetSongDetails';
 export * from './useGetPlaylistsBySearch';
 export * from './useGetPlaylistById';
+export * from './useGetRecommendUser';
 export * from './useDeleteLikeToggle';
 export * from './usePostlikeToggle';
 export * from './useGetPlaylistsByLike';
 
-export * from './useGetPlaylistsBySearch';
 export * from './useGetSongUploader';
 export * from './usePostUserFollow';
 export * from './useDeleteUnFollow';
+export * from './usePostPlaylistLikeToggle';
+export * from './useDeletePlaylistLikeToggle';
 export * from './usePostPlaylistComment';
 export * from './useGetPlaylistComment';

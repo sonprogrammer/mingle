@@ -39,12 +39,15 @@ export default function MyInfoComponent({
   const handleStatusUpdate = async (updatedText: string) => {
     onUpdate({ userDescription: updatedText });
   };
+
+  //이미지 경로 생성
+  const imageUrl = `http://kdt-sw-6-team09.elicecoding.com/file/profile/${profile.userFile}`
   return (
     <>
       <StyledUserInfo>
         <StyledUserSubInfo>
           {/* <UserImageContainer> */}
-          <StyledUserImage src={userImage} alt={'User'} />
+          <StyledUserImage src={imageUrl} alt={'User'} />
           {/* </UserImageContainer> */}
           <StyledUserDescript>
             <h2>{profile?.userNickname}</h2>

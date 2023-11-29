@@ -33,10 +33,10 @@ export default function PlaylistItemComponent({
     setMusic({
       playlistId: music.playlistId,
       playlist: music.playlist,
-      idx: idx,
       title: item.title,
       img: `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${item.img}`,
       url: `http://kdt-sw-6-team09.elicecoding.com/file/audio/${item.url}`,
+      idx: idx,
       isPlaying: true,
       volume: music.volume,
       mute: music.mute,
