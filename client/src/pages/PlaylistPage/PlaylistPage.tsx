@@ -52,7 +52,7 @@ export default function PlaylistPage() {
       <PlaylistDescriptionComponent
         playlistId={data?._id}
         description={data?.playListExplain}
-        userImg={'/img/User-Icon.png'}
+        userImg={`http://kdt-sw-6-team09.elicecoding.com/file/profile/${data?.playListOwner.userFile}`}
         userName={data?.playListOwner.userNickname}
         isUserLiked={data?.like}
         likeCount={data?.likeCount}
