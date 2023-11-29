@@ -32,7 +32,7 @@ export const StyledUserDescript = styled.div`
     ml-4
     gap-3
     flex
-    mt-3
+    mt-6
 `}
   h2 {
     ${tw`
