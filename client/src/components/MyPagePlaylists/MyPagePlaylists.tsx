@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useDeleteSong } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import {
   RecommendPlaylistComponent,
   UploadButtonComponent,
   UploadModalComponent,
 } from '../../components';
+import { Playlists } from '../../types';
 import {
   StyledButtons,
   StyledMyPlaylistButtons,
@@ -13,26 +15,46 @@ import {
   PlaylistContainer,
 } from './styles';
 interface Playlists {
-  _id?: string;
-  albumCover: string;
-  title: string;
-  hashtags?: string[];
-  likes: number;
+    song: string;
+    albumCover: string;
+    title: string;
+    hashtags?: string[];
+    likes: number;
+    _id: string;
+    songId: string;
 }
 
 interface PlaylistsProps {
+  myPlaylists: {
+    playListImg: string;
+    playListTitle: string;
+    likeCount: number;
+  }[]; // 임시, 데이터 바인딩 후 아래와 같은 Playlists[] | undefined 형태로 수정 필요
+  likedPlaylists: Playlists[] | undefined;
+  myUploadSongslists: {
+    playListImg: string;
+    playListTitle: string;
+    likeCount: number;
+  }[]; // 임시, 데이터 바인딩 후 아래와 같은 Playlists[] | undefined 형태로 수정 필요
   myplaylists: Playlists[];
   likedplaylists: Playlists[];
   myuploadsongslists: Playlists[];
+  handleDeleteUploadedSong: (songId: string) => Promise<void>; 
 }
 
 export default function MyPagePlaylists({
+  myPlaylists,
+  likedPlaylists,
+  myUploadSongslists,
   myplaylists,
   likedplaylists,
   myuploadsongslists,
+  handleDeleteUploadedSong,
 }: PlaylistsProps) {
   const [selectTab, setSelecTab] = useState('myPlaylists');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+
   const handleButtonClick = () => {
     setIsModalOpen(true);
   };
@@ -43,6 +65,8 @@ export default function MyPagePlaylists({
   const handleTabClick = (tab: string) => {
     setSelecTab(tab);
   };
+
+  
 
   const navigate = useNavigate();
   /* 차트쪽은 Link를 사용했는데 여기서는 Link태그 사용시 a태그 속성때문에 ui가 깨져서
@@ -76,45 +100,53 @@ export default function MyPagePlaylists({
       <PlaylistContainer>
         <PlaylistConetent>
           {selectTab === 'myPlaylists' &&
-            myplaylists.map((playlist, idx) => (
+            myPlaylists.map((playlist, idx) => (
               <RecommendPlaylistComponent
                 key={idx}
-                playListImg={playlist.albumCover}
-                playListTitle={playlist.title}
-                likeCount={playlist.likes}
+                playListImg={playlist.playListImg}
+                playListTitle={playlist.playListTitle}
+                likeCount={playlist.likeCount}
+                selectTab={selectTab}
                 _id={''}
               />
             ))}
           {selectTab === 'likedPlaylists' &&
-            likedplaylists.map((playlist, idx) => (
+            likedPlaylists &&
+            likedPlaylists.length > 0 &&
+            likedPlaylists?.map((playlist) => (
               <RecommendPlaylistComponent
-                key={idx}
-                playListImg={playlist.albumCover}
-                playListTitle={playlist.title}
-                likeCount={playlist.likes}
+                key={playlist._id}
+                playListImg={playlist.playListImg}
+                playListTitle={playlist.playListTitle}
+                likeCount={playlist.likesCount}
+                selectTab={selectTab}
                 _id={''}
               />
             ))}
 
           {selectTab === 'myuploadsongslists' &&
-            myuploadsongslists.map((playlist) => {
+            myUploadSongslists.map((playlist) => {
               return (
                 <>
                   <RecommendPlaylistComponent
                     _id={playlist._id || 'error'} // 오류 메시지는 임시로 사용
                     key={playlist._id}
-                    playListImg={playlist.albumCover}
-                    playListTitle={playlist.title}
-                    likeCount={playlist.likes}
+                    playListImg={playlist.playListImg}
+                    playListTitle={playlist.playListTitle}
+                    likeCount={playlist.likeCount}
                     onClick={handleCardClick}
-                  />
-                  <UploadButtonComponent
-                    text="업로드"
-                    onClick={handleButtonClick}
+                    selectTab={selectTab}
+                  songId={playlist.songId}
+                  onDelete={() =>handleDeleteUploadedSong(playlist.songId)}
+                  songData={playlist.songData}
                   />
                 </>
               );
             })}
+            <UploadButtonComponent
+              text="업로드"
+              onClick={handleButtonClick}
+            />
         </PlaylistConetent>
       </PlaylistContainer>
       {isModalOpen && <UploadModalComponent onClose={handleCloseModal} />}

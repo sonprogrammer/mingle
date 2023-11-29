@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChartComponent } from '../../components';
-import { useGetSongsByTop } from '../../hooks';
+import { usePostlikeToggle, useDeleteLikeToggle } from '../../hooks';
+import { useGetSongsByTop } from '../../hooks/useGetSongsByTop';
 import { formatDuration } from '../../utils';
 interface SongData {
   song: {
@@ -23,6 +24,13 @@ interface ChartItem {
 
 export default function ChartPage() {
   const { data: res, isLoading } = useGetSongsByTop();
+  const { mutate: postLike } = usePostlikeToggle();
+  const { mutate: deleteLike } = useDeleteLikeToggle();
+
+  const handleLikeToggle = async (songId: string, isLiked: boolean) => {
+    const mutation = isLiked ? deleteLike : postLike;
+    await mutation.mutateAsync(songId);
+  };
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -30,12 +38,18 @@ export default function ChartPage() {
     ? res.data.map((item: SongData) => ({
         _id: item.song._id,
         title: item.song.songName,
-        img: `http://localhost:5173/upload/songImg/${item.song.songImageName}`,
+        img: `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${item.song.songImageLocation}`,
         artist: item.song.songArtist || 'Unknown Artist',
         length: formatDuration(item.song.songDuration),
         isLiked: item.isCurrentUserLiked,
       }))
     : [];
 
-  return <ChartComponent items={songs} title="차트" />;
+  return (
+    <ChartComponent
+      items={songs}
+      onLikeToggle={handleLikeToggle}
+      title="차트"
+    />
+  );
 }

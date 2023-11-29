@@ -40,7 +40,7 @@ export default function EditComponent({
   };
   const handleClick = () => {
     const updatedInfo: Partial<UserInfo> = {
-      userPassword: userPassword, // 상태 값 사용
+      userPassword: userPassword, 
       userNickname: userNickname,
       userPreference: selectedGenre,
     };

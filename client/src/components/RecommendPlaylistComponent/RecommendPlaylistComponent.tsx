@@ -1,4 +1,6 @@
-import React from 'react';
+
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import {
   PlaylistCardContainer,
   ProfileSection,
@@ -7,7 +9,17 @@ import {
   Title,
   SocialInfo,
   LikesText,
+  DeleteButton,
+  ConfirmButton,
+  Buttons,
+  ModalContainer,
+  ModalBox,
+  Modal,
+  CancelButton,
 } from './styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { useDeleteSong } from '../../hooks';
 
 interface RecommendPlaylistComponentProps {
   _id: string;
@@ -20,6 +32,11 @@ interface RecommendPlaylistComponentProps {
   likedByUser?: boolean;
   likeCount: number;
   onClick?: (_id: string) => void;
+  onDelete: () => void;
+  handleDeleteUploadedSong: (songId: string) => Promise<void>; 
+  songId: string;
+  songData: any;
+  selectTab: string;
 }
 
 export default function RecommendPlaylistComponent({
@@ -28,25 +45,82 @@ export default function RecommendPlaylistComponent({
   playListTitle,
   likeCount,
   onClick,
+  selectTab,
+  songId
 }: RecommendPlaylistComponentProps) {
-  const handleCardClick = () => {
-    if (onClick && _id) {
-      onClick(_id);
-    } else if (!_id) {
-      alert('정보를 불러올 수 없습니다.');
+  const navigate = useNavigate();
+  const [isModal, setIsModal] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const { mutate : deleteSong} = useDeleteSong();
+
+  const handleDeleteClick = (e) => {
+    e.stopPropagation()
+    setIsModal(true);
+  };
+
+  const handleCloseModalClick = (e) => {
+    e.stopPropagation()
+    setIsModal(false);
+  };
+  const handleMouseEnter = () => {
+    if (selectTab === 'myuploadsongslists') {
+      setIsHovered(true);
     }
   };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleDeleteConfirmation = async (e) => {
+    e.stopPropagation()
+    await deleteSong(songId);
+    setIsModal(false);
+  };
+  const handleCardClick = () => {
+    navigate(`/playlist?id=${_id}`);
+  };
   return (
-    <PlaylistCardContainer onClick={handleCardClick}>
+    <PlaylistCardContainer
+      onClick={handleCardClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      >
+        {isHovered && (
+          <DeleteButton>
+            <FontAwesomeIcon icon={faCircleXmark} onClick={handleDeleteClick}/>
+            </DeleteButton>
+        )}
       <ProfileSection>
-        <AlbumImage src={playListImg} alt="Album Cover" />
+        <AlbumImage
+          src={`http://kdt-sw-6-team09.elicecoding.com/file/playListCover/${playListImg}`}
+          alt="Album Cover"
+        />
       </ProfileSection>
       <ContentSection>
         <Title>{playListTitle}</Title>
         <SocialInfo>
-          <LikesText>좋아요: {likeCount}개</LikesText>
+          <LikesText>좋아요: {likeCount ?? 0}개</LikesText>
         </SocialInfo>
       </ContentSection>
+      <ModalContainer>
+        {isModal && (
+          <ModalBox>
+            <Modal>
+              <p>정말 삭제하시겠습니까?</p>
+              <Buttons>
+                <ConfirmButton onClick={handleDeleteConfirmation}>
+                  확인
+                </ConfirmButton>
+                <CancelButton onClick={handleCloseModalClick}>
+                  취소
+                </CancelButton>
+              </Buttons>
+            </Modal>
+          </ModalBox>
+        )}
+      </ModalContainer>
     </PlaylistCardContainer>
   );
 }

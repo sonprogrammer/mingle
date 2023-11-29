@@ -17,14 +17,24 @@ export const loginState = atom<{
 });
 
 export const musicState = atom<{
+  playlist: string;
+  playlistId: string;
+  title: string;
   url: string;
+  idx: number;
+  img: string;
   isPlaying: boolean;
   volume: number;
   mute: boolean;
 }>({
   key: 'music',
   default: {
-    url: '/song/Square.mp3',
+    playlistId: '',
+    playlist: '재생목록을 선택해 주세요.',
+    title: '현재 재생중인 노래가 없습니다.',
+    img: '',
+    idx: 0,
+    url: '',
     isPlaying: false,
     volume: 1,
     mute: false,
