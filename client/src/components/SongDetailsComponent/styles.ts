@@ -31,12 +31,20 @@ export const SongTitle = styled.h2`
 `;
 
 export const ArtistName = styled.h3`
-  ${tw`text-xl text-purple-700 mb-4`}
+  ${tw`text-xl text-black mb-4`}
 `;
 
 export const AdditionalInfo = styled.div`
   ${tw` text-gray-500`}
   font-size: 20px;
+`;
+
+export const StyleUploaderInfo = styled.div`
+  color: #9b59b6;
+  margin-top: 10px;
+  font-weight: bolder;
+  font-size: 22px;
+}}
 `;
 
 export const LikeSection = styled.div`

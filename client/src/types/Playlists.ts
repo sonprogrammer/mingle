@@ -11,7 +11,7 @@ export interface Playlists {
     playListComments: string[],
     createdAt: Date,
     updatedAt: Date,
-    likedByUser: boolean,
+    like: boolean,
     likeCount: number,
     songDetails: SongDetail[],
 }
