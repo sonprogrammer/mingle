@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDeleteSong } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import {
   RecommendPlaylistComponent,
@@ -13,6 +14,16 @@ import {
   PlaylistConetent,
   PlaylistContainer,
 } from './styles';
+interface Playlists {
+    song: string;
+    albumCover: string;
+    title: string;
+    hashtags?: string[];
+    likes: number;
+    _id: string;
+    songId: string;
+}
+
 interface PlaylistsProps {
   myPlaylists: {
     playListImg: string;
@@ -25,15 +36,24 @@ interface PlaylistsProps {
     playListTitle: string;
     likeCount: number;
   }[]; // 임시, 데이터 바인딩 후 아래와 같은 Playlists[] | undefined 형태로 수정 필요
+  myplaylists: Playlists[];
+  likedplaylists: Playlists[];
+  myuploadsongslists: Playlists[];
+  handleDeleteUploadedSong: (songId: string) => Promise<void>; 
 }
 
 export default function MyPagePlaylists({
   myPlaylists,
   likedPlaylists,
   myUploadSongslists,
+  myplaylists,
+  likedplaylists,
+  myuploadsongslists,
+  handleDeleteUploadedSong,
 }: PlaylistsProps) {
   const [selectTab, setSelecTab] = useState('myPlaylists');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const handleButtonClick = () => {
     setIsModalOpen(true);
@@ -45,6 +65,8 @@ export default function MyPagePlaylists({
   const handleTabClick = (tab: string) => {
     setSelecTab(tab);
   };
+
+  
 
   const navigate = useNavigate();
   /* 차트쪽은 Link를 사용했는데 여기서는 Link태그 사용시 a태그 속성때문에 ui가 깨져서
@@ -84,6 +106,7 @@ export default function MyPagePlaylists({
                 playListImg={playlist.playListImg}
                 playListTitle={playlist.playListTitle}
                 likeCount={playlist.likeCount}
+                selectTab={selectTab}
                 _id={''}
               />
             ))}
@@ -95,8 +118,9 @@ export default function MyPagePlaylists({
                 key={playlist._id}
                 playListImg={playlist.playListImg}
                 playListTitle={playlist.playListTitle}
-                likeCount={playlist.likeCount}
-                _id={playlist._id}
+                likeCount={playlist.likesCount}
+                selectTab={selectTab}
+                _id={''}
               />
             ))}
 
@@ -111,14 +135,18 @@ export default function MyPagePlaylists({
                     playListTitle={playlist.playListTitle}
                     likeCount={playlist.likeCount}
                     onClick={handleCardClick}
-                  />
-                  <UploadButtonComponent
-                    text="업로드"
-                    onClick={handleButtonClick}
+                    selectTab={selectTab}
+                  songId={playlist.songId}
+                  onDelete={() =>handleDeleteUploadedSong(playlist.songId)}
+                  songData={playlist.songData}
                   />
                 </>
               );
             })}
+            <UploadButtonComponent
+              text="업로드"
+              onClick={handleButtonClick}
+            />
         </PlaylistConetent>
       </PlaylistContainer>
       {isModalOpen && <UploadModalComponent onClose={handleCloseModal} />}

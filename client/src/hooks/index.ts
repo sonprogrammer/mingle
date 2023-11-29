@@ -13,6 +13,8 @@ export * from './usePutUserDescription';
 export * from './useGetSongsByTop';
 export * from './usePostUploadSongs';
 export * from './useGetUploadedSongs';
+export * from "./useDeleteSong"
+
 export * from './useGetSongDetails';
 export * from "./useGetPlaylistsBySearch";
 export * from './useGetPlaylistById';
