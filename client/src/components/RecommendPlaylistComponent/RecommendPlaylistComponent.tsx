@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   PlaylistCardContainer,
   ProfileSection,
@@ -19,7 +20,6 @@ interface RecommendPlaylistComponentProps {
   playListComments?: string[];
   likedByUser?: boolean;
   likeCount: number;
-  onClick?: (_id: string) => void;
 }
 
 export default function RecommendPlaylistComponent({
@@ -27,14 +27,10 @@ export default function RecommendPlaylistComponent({
   playListImg,
   playListTitle,
   likeCount,
-  onClick,
 }: RecommendPlaylistComponentProps) {
+  const navigate = useNavigate();
   const handleCardClick = () => {
-    if (onClick && _id) {
-      onClick(_id);
-    } else if (!_id) {
-      alert('정보를 불러올 수 없습니다.');
-    }
+    navigate(`/playlist?id=${_id}`);
   };
   return (
     <PlaylistCardContainer onClick={handleCardClick}>
