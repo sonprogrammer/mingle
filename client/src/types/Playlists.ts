@@ -1,11 +1,12 @@
 import { SongDetail } from "./SongDetail";
+import { User } from "./User";
 
 export interface Playlists {
     _id: string,
     playListSongs: string[],
     playListTitle: string,
     playListExplain: string,
-    playListOwner: string,
+    playListOwner: User,
     playListImg: string,
     playListComments: string[],
     createdAt: Date,

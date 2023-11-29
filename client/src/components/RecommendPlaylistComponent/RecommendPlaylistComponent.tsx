@@ -1,4 +1,3 @@
-
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import {
@@ -33,7 +32,7 @@ interface RecommendPlaylistComponentProps {
   likeCount: number;
   onClick?: (_id: string) => void;
   onDelete: () => void;
-  handleDeleteUploadedSong: (songId: string) => Promise<void>; 
+  handleDeleteUploadedSong: (songId: string) => Promise<void>;
   songId: string;
   songData: any;
   selectTab: string;
@@ -46,21 +45,21 @@ export default function RecommendPlaylistComponent({
   likeCount,
   onClick,
   selectTab,
-  songId
+  songId,
 }: RecommendPlaylistComponentProps) {
   const navigate = useNavigate();
   const [isModal, setIsModal] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const { mutate : deleteSong} = useDeleteSong();
+  const { mutate: deleteSong } = useDeleteSong();
 
   const handleDeleteClick = (e) => {
-    e.stopPropagation()
+    e.stopPropagation();
     setIsModal(true);
   };
 
   const handleCloseModalClick = (e) => {
-    e.stopPropagation()
+    e.stopPropagation();
     setIsModal(false);
   };
   const handleMouseEnter = () => {
@@ -74,24 +73,24 @@ export default function RecommendPlaylistComponent({
   };
 
   const handleDeleteConfirmation = async (e) => {
-    e.stopPropagation()
+    e.stopPropagation();
     await deleteSong(songId);
     setIsModal(false);
   };
   const handleCardClick = () => {
-    navigate(`/playlist?id=${_id}`);
+    navigate(`/playlist?id=${_id}`, { state: { id: 0 } });
   };
   return (
     <PlaylistCardContainer
       onClick={handleCardClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      >
-        {isHovered && (
-          <DeleteButton>
-            <FontAwesomeIcon icon={faCircleXmark} onClick={handleDeleteClick}/>
-            </DeleteButton>
-        )}
+    >
+      {isHovered && (
+        <DeleteButton>
+          <FontAwesomeIcon icon={faCircleXmark} onClick={handleDeleteClick} />
+        </DeleteButton>
+      )}
       <ProfileSection>
         <AlbumImage
           src={`http://kdt-sw-6-team09.elicecoding.com/file/playListCover/${playListImg}`}

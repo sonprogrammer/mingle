@@ -11,7 +11,7 @@ import { formatDuration } from '../../utils';
 import { useNavigate } from 'react-router-dom';
 
 export default function GenreSongPage() {
-  const [genre, setGenre] = useState('발라드');
+  const [genre, setGenre] = useState('클래식');
   const [pageNum, setPageNum] = useState(1);
   const { data, isLoading } = useGetSongsByGenre(genre, pageNum);
   const { data: genres, isLoading: isGenreLoading } = useGetAllGenres();
