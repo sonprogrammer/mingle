@@ -7,7 +7,7 @@ const getUserInfo = async (
   axiosInstance: AxiosInstance,
 ): Promise<AxiosResponse<UserInfo>> => {
   const response = await axiosInstance.get('/api/account');
-  return response.data;
+  return response.data.user;
 };
 export function useGetUserInfo() {
   const axiosInstance = useAxios();
