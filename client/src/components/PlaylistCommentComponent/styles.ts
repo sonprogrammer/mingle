@@ -25,16 +25,17 @@ export const StyledUserNameAndImg = styled.div`
         flex
         w-full
         pl-5
-        mt-3
+        mt-2
     `}
 `;
 export const StyledUserName = styled.div`
   ${tw`
-        text-2xl
+        text-xl
         font-bold
-        mt-6
+        mt-8
         pl-4
     `}
+  width:200px;
 `;
 export const StyledUserImg = styled.img`
   ${tw`
@@ -45,6 +46,7 @@ export const StyledCommentAndFunction = styled.div`
   ${tw`
         flex
         justify-between
+        w-full
         px-4
         pl-8
         pt-5
@@ -74,6 +76,7 @@ export const StyledCorrection = styled.div`
 export const StyledComment = styled.div`
   ${tw`
         pb-10
+        mt-3
     `}
 `;
 
@@ -113,7 +116,6 @@ export const StyledTextArea = styled.textarea`
 
 export const StyledButton = styled.button`
   padding: 10px 15px;
-  position: absolute;
   border: none;
   border-radius: 5px;
   background-color: #9b59b6;
@@ -121,10 +123,10 @@ export const StyledButton = styled.button`
   font-size: 16px;
   cursor: pointer;
   outline: none;
-  margin-left: 10px; // 버튼과 입력창 사이의 간격을 추가합니다.
+  margin-left: 10px;
 
   &:hover {
-    background-color: #8e44ad; // 호버 상태일 때의 배경 색상을 변경합니다.
+    background-color: #8e44ad;
   }
 
   &:disabled {

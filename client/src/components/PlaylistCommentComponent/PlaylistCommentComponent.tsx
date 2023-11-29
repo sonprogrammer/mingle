@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   StyledCommentContainer,
   StyledUserFunction,
@@ -34,28 +35,26 @@ interface CommentProps {
 
 export default function PlaylistCommentComponent() {
   const [comment, setComment] = useState('');
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const playlistId = query.get('id');
   const queryClient = useQueryClient();
-  const { data: commentsData, refetch } = useGetPlaylistComment(
-    '65669cbbd90757f3cfea1728',
-  );
+  const { data: commentsData, refetch } = useGetPlaylistComment(playlistId);
   const { data: userInfo } = useGetUserInfo();
   const { mutate: postComment, isLoading } = usePostPlaylistComment();
   const deleteComment = useDeletePlaylistComment();
 
   useEffect(() => {
     refetch();
-  }, [refetch]);
+  }, [refetch, playlistId]);
 
   const handleSubmit = () => {
     postComment(
-      { playlistId: '65669cbbd90757f3cfea1728', comment },
+      { playlistId: playlistId, comment },
       {
         onSuccess: () => {
           setComment('');
-          queryClient.invalidateQueries([
-            'playlistComment',
-            '65669cbbd90757f3cfea1728',
-          ]);
+          queryClient.invalidateQueries(['playlistComment', playlistId]);
         },
       },
     );
@@ -64,13 +63,10 @@ export default function PlaylistCommentComponent() {
   const handleDelete = (commentId: string, authorId?: string) => {
     if (userInfo && authorId && userInfo.user._id === authorId) {
       deleteComment.mutate(
-        { playlistId: '65669cbbd90757f3cfea1728', commentId },
+        { playlistId: playlistId, commentId },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries([
-              'playlistComment',
-              '65669cbbd90757f3cfea1728',
-            ]);
+            queryClient.invalidateQueries(['playlistComment', playlistId]);
           },
           onError: () => {
             alert('댓글을 삭제할 수 없습니다.');
@@ -108,11 +104,21 @@ export default function PlaylistCommentComponent() {
                 comment.author &&
                 userInfo.user._id === comment.author._id && (
                   <StyledUserFunction>
+                    <div style={{ marginRight: '30px', marginTop: '2px' }}>
+                      {new Date(comment.date).toLocaleString('ko-KR', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </div>
+                    {/* 날짜가 모두에게 보이게 수정? */}
                     <StyledCorrection>수정</StyledCorrection>
                     <span>|</span>
                     <StyledDelete
                       onClick={() =>
-                        handleDelete(comment._id, comment.author._id)
+                        handleDelete(comment._id, comment?.author?._id)
                       }
                     >
                       삭제

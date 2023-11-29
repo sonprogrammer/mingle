@@ -72,7 +72,9 @@ export default function FindPasswordComponent({
             onChange={(e) => setUserNickname(e.target.value)}
           />
         </div>
-        <LongButtonComponent text="비밀번호 찾기" onClick={handleClick} />
+        <Link to="/completerecoverypw">
+          <LongButtonComponent text="비밀번호 찾기" onClick={handleClick} />
+        </Link>
       </StyleFormContainer>
     </>
   );
