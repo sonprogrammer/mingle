@@ -36,7 +36,7 @@ export default function UserInfoComponent({
           setShowSuccessMessage(true);
           setTimeout(() => setShowSuccessMessage(false), 3000);
         },
-        onError: (error) => {
+        onError: () => {
           alert('팔로우 실패');
         },
       });
@@ -84,11 +84,11 @@ export default function UserInfoComponent({
         <StyledUserStatus>
           <StyledFollower>
             <p>팔로워: </p>
-            <span>{songUploader.followersCount || 0}</span>
+            <span>{songUploader.userFollow.length || 0}</span>
           </StyledFollower>
           <StyledFollowing>
             <p>팔로잉: </p>
-            <span>{songUploader.followingCount || 0}</span>
+            <span>{songUploader.userFollower.length || 0}</span>
           </StyledFollowing>
         </StyledUserStatus>
       </StyledUserInfo>
