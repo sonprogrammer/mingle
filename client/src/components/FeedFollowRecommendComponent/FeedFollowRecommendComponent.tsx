@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Styled from "./styles";
 interface FeedFollowRecommendProps {
   profileName: string;
@@ -15,9 +15,11 @@ export default function FeedFollowRecommendComponent({
   actionText,
   feedRecommendText,
 }: FeedFollowRecommendProps) {
+  
+
   return (
     <Styled.FeedFollowRecommendContainer>
-      <Styled.ProfileImage src={profilePicture} alt={profileName} />
+      <Styled.ProfileImage src={profilePicture || 'name'} alt={profileName} />
       <Styled.ProfileName>{profileName}</Styled.ProfileName>
       <Styled.PreviewImagesContainer>
         {pictures.map((picture, index) => (
