@@ -5,6 +5,7 @@ interface InputComponentProps {
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
 }
 export default function InputComponent({
   id,
@@ -13,6 +14,7 @@ export default function InputComponent({
   placeholder,
   value,
   onChange,
+  onKeyDown,
 }: InputComponentProps) {
   return (
     <div className="mb-6">
@@ -29,6 +31,7 @@ export default function InputComponent({
         value={value}
         placeholder={placeholder}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         required
       />
     </div>

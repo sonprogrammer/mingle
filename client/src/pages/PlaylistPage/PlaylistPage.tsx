@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import {
   AlbumArtComponent,
   PlaylistContentsComponent,
@@ -14,6 +14,7 @@ import { Content, Divider } from './styles';
 export default function PlaylistPage() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get('id') as string;
+  const songId = location.state.id;
   const { data, isLoading } = useGetPlaylistById(id);
   const items: {
     title: string;
@@ -29,24 +30,7 @@ export default function PlaylistPage() {
       length: formatDuration(song.songDuration),
     });
   });
-  const setMusic = useSetRecoilState(musicState);
   const music = useRecoilValue(musicState);
-  useEffect(() => {
-    setMusic({
-      playlistId: data?._id as string,
-      playlist: data?.playListTitle as string,
-      title: items[0]?.title,
-      idx: data?.playListTitle === music.playlist ? music.idx : 0,
-      img: `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${items[
-        music.idx
-      ]?.img}`,
-      url: `http://kdt-sw-6-team09.elicecoding.com/file/audio/${items[music.idx]
-        ?.url}`,
-      isPlaying: true,
-      volume: music.volume,
-      mute: music.mute,
-    });
-  }, []);
   return (
     <>
       <Content>
@@ -56,8 +40,10 @@ export default function PlaylistPage() {
           <>
             <AlbumArtComponent albumArtSrc={music.img} />
             <PlaylistContentsComponent
+              playlistId={data?._id}
               title={data?.playListTitle}
               songs={items}
+              songId={songId}
             />
           </>
         )}
@@ -66,7 +52,7 @@ export default function PlaylistPage() {
       <PlaylistDescriptionComponent
         description={data?.playListExplain}
         userImg={'/img/User-Icon.png'}
-        userName={data?.playListOwner}
+        userName={data?.playListOwner.userNickname}
         liked={data?.likeCount}
       />
       <Divider />
