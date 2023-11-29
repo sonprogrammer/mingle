@@ -1,11 +1,11 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 import { useQuery } from 'react-query';
 import { UserInfo } from '../types';
 import { useAxios } from '../utils';
 
 const getUserInfo = async (
   axiosInstance: AxiosInstance,
-): Promise<AxiosResponse<UserInfo>> => {
+): Promise<UserInfo> => {
   const response = await axiosInstance.get('/api/account');
   return response.data;
 };

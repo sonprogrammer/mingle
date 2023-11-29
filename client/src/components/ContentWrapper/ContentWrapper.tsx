@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { Wrapper } from "./styles";
+import { ReactNode } from 'react';
+import { Wrapper } from './styles';
 
 interface ContentWrapperProps {
   children: ReactNode;

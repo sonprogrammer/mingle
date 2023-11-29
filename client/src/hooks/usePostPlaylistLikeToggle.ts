@@ -14,6 +14,7 @@ export function usePostPlaylistLikeToggle(id: string | undefined) {
     return useMutation(() => postPlaylistLikeToggle(axiosInstance, id), {
         onSuccess: () => {
         queryClient.invalidateQueries("get-playlists-by-id");
+        queryClient.invalidateQueries("get-playlists-by-follow");
     },
         onError: (e) => {
         console.log(`error: ${e}`);
