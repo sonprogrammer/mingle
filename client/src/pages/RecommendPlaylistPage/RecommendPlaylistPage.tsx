@@ -1,5 +1,6 @@
 import React from 'react';
 import { PlaylistRecommendComponent } from '../../components';
+import { useGetWeatherPlaylist } from '../../hooks/useGetWeatherPlaylist';
 
 const playlistInfo = [
   {
@@ -46,10 +47,13 @@ const GenreplaylistInfo = [
   },
 ];
 
+
+
 export default function FeedPage() {
+  
   return (
     <>
-      <PlaylistRecommendComponent weather="맑은날" playlists={playlistInfo} />
+      <PlaylistRecommendComponent weather='맑음' playlists={playlistInfo}  />
       <PlaylistRecommendComponent genre="댄스" playlists={GenreplaylistInfo} />
     </>
   );
