@@ -35,7 +35,10 @@ export default function RecommendPlaylistComponent({
   return (
     <PlaylistCardContainer onClick={handleCardClick}>
       <ProfileSection>
-        <AlbumImage src={playListImg} alt="Album Cover" />
+        <AlbumImage
+          src={`http://kdt-sw-6-team09.elicecoding.com/file/playListCover/${playListImg}`}
+          alt="Album Cover"
+        />
       </ProfileSection>
       <ContentSection>
         <Title>{playListTitle}</Title>

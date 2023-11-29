@@ -2,7 +2,7 @@ import tw, { styled } from "twin.macro";
 
 export const Content = styled.div`
     ${tw`flex justify-between items-center`}
-    padding: 50px 0;
+    padding: 70px 0;
 `;
 export const Divider = styled.div`
     ${tw`mx-auto h-[1px]`}

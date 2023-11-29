@@ -88,6 +88,8 @@ export default function MyPagePlaylists({
               />
             ))}
           {selectTab === 'likedPlaylists' &&
+            likedPlaylists &&
+            likedPlaylists.length > 0 &&
             likedPlaylists?.map((playlist) => (
               <RecommendPlaylistComponent
                 key={playlist._id}
