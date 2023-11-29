@@ -66,11 +66,11 @@ export default function MyInfoComponent({
           </StyledPostCount>
           <StyledFollower>
             <p>팔로워 </p>
-            <span>{followersCount} </span>
+            <span>{profile.userFollower.length} </span>
           </StyledFollower>
           <StyledFollowing>
             <p>팔로잉</p>
-            <span>{followingCount}</span>
+            <span>{profile.userFollow.length}</span>
           </StyledFollowing>
         </StyledUserStatus>
       </StyledUserInfo>

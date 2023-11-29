@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
   // uploadedSongsState, 
-  useGetPlaylistsByLike, useGetUserInfo, usePutUserDescription, useDeleteSong } from '../../hooks';
+  useGetPlaylistsByLike, useGetUserInfo, usePutUserDescription, useDeleteSong ,useGetUserPlaylist} from '../../hooks';
 
 
 import { UserInfo } from '../../types';
@@ -54,6 +54,8 @@ export default function Mypage() {
   const { data } = useGetUploadedSongs(page, pageSize);
   const { mutate } = usePutUserDescription()
   const { data: userData, isLoading} = useGetUserInfo()
+  const {playlist} = useGetUserPlaylist()
+  console.log(playlist)
   const { mutate: deleteSong } = useDeleteSong();
 
   const handleDeleteUploadedSong = async (songId: string) => {
@@ -78,15 +80,11 @@ export default function Mypage() {
   return (
     <>
       <MyInfoComponent
-        userImage={'/img/User-Icon.png'}
         profile={userData?.user}
         onUpdate={handleUpdateDescription}
-        postsCount={7}
-        followersCount={7}
-        followingCount={7}
       />
       <MyPagePlaylists
-        myPlaylists={MYplaylistInfo}
+        myPlaylists={playlist ?? []}
         likedPlaylists={likedPlaylist ?? []}
         myUploadSongslists={uploadedPlaylists}
         handleDeleteUploadedSong={handleDeleteUploadedSong}
