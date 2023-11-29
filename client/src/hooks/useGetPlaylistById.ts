@@ -11,7 +11,7 @@ const getPlaylistById = async (axiosInstance: AxiosInstance, id: string): Promis
 };
 export function useGetPlaylistById(id: string) {
     const axiosInstance = useAxios();
-	return useQuery(["get-playlists-by-search", id], ({ queryKey }) =>
+	return useQuery(["get-playlists-by-id", id], ({ queryKey }) =>
 		getPlaylistById(axiosInstance, queryKey[1] as string),
 		{
 			refetchOnWindowFocus: false,
