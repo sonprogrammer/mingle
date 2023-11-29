@@ -5,7 +5,7 @@ import {
 
 
 import { UserInfo } from '../../types';
-import { UserInfoComponent, MyPagePlaylists } from '../../components';
+import { MyInfoComponent, MyPagePlaylists } from '../../components';
 import { useGetUploadedSongs } from '../../hooks/useGetUploadedSongs';
 
 const MYplaylistInfo = [
@@ -77,7 +77,7 @@ export default function Mypage() {
 
   return (
     <>
-      <UserInfoComponent
+      <MyInfoComponent
         userImage={'/img/User-Icon.png'}
         profile={userData?.user}
         onUpdate={handleUpdateDescription}
