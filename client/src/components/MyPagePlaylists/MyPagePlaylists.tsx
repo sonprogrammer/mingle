@@ -6,6 +6,7 @@ import {
   UploadButtonComponent,
   UploadModalComponent,
 } from '../../components';
+import { Playlists } from '../../types';
 import {
   StyledButtons,
   StyledMyPlaylistButtons,
@@ -24,6 +25,17 @@ interface Playlists {
 }
 
 interface PlaylistsProps {
+  myPlaylists: {
+    playListImg: string;
+    playListTitle: string;
+    likeCount: number;
+  }[]; // 임시, 데이터 바인딩 후 아래와 같은 Playlists[] | undefined 형태로 수정 필요
+  likedPlaylists: Playlists[] | undefined;
+  myUploadSongslists: {
+    playListImg: string;
+    playListTitle: string;
+    likeCount: number;
+  }[]; // 임시, 데이터 바인딩 후 아래와 같은 Playlists[] | undefined 형태로 수정 필요
   myplaylists: Playlists[];
   likedplaylists: Playlists[];
   myuploadsongslists: Playlists[];
@@ -31,6 +43,9 @@ interface PlaylistsProps {
 }
 
 export default function MyPagePlaylists({
+  myPlaylists,
+  likedPlaylists,
+  myUploadSongslists,
   myplaylists,
   likedplaylists,
   myuploadsongslists,
@@ -38,6 +53,7 @@ export default function MyPagePlaylists({
 }: PlaylistsProps) {
   const [selectTab, setSelecTab] = useState('myPlaylists');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const handleButtonClick = () => {
     setIsModalOpen(true);
@@ -84,38 +100,38 @@ export default function MyPagePlaylists({
       <PlaylistContainer>
         <PlaylistConetent>
           {selectTab === 'myPlaylists' &&
-            myplaylists.map((playlist, idx) => (
+            myPlaylists.map((playlist, idx) => (
               <RecommendPlaylistComponent
                 key={idx}
-                playListImg={playlist.albumCover}
-                playListTitle={playlist.title}
-                likeCount={playlist.likes}
+                playListImg={playlist.playListImg}
+                playListTitle={playlist.playListTitle}
+                likeCount={playlist.likeCount}
                 selectTab={selectTab}
                 _id={''}
               />
             ))}
           {selectTab === 'likedPlaylists' &&
-            likedplaylists.map((playlist, idx) => (
+            likedPlaylists?.map((playlist) => (
               <RecommendPlaylistComponent
-                key={idx}
-                playListImg={playlist.albumCover}
-                playListTitle={playlist.title}
-                likeCount={playlist.likes}
+                key={playlist._id}
+                playListImg={playlist.playListImg}
+                playListTitle={playlist.playListTitle}
+                likeCount={playlist.likesCount}
                 selectTab={selectTab}
                 _id={''}
               />
             ))}
 
           {selectTab === 'myuploadsongslists' &&
-            myuploadsongslists.map((playlist) => {
+            myUploadSongslists.map((playlist) => {
               return (
                 <>
                   <RecommendPlaylistComponent
                     _id={playlist._id || 'error'} // 오류 메시지는 임시로 사용
                     key={playlist._id}
-                    playListImg={playlist.albumCover}
-                    playListTitle={playlist.title}
-                    likeCount={playlist.likes}
+                    playListImg={playlist.playListImg}
+                    playListTitle={playlist.playListTitle}
+                    likeCount={playlist.likeCount}
                     onClick={handleCardClick}
                     selectTab={selectTab}
                   songId={playlist.songId}

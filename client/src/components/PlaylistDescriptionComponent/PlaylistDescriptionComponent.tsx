@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart as like } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons'
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as like } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons';
 import {
   StyledDescriptBox,
   StyledTitle,
@@ -12,18 +12,17 @@ import {
   StyledFollow,
   StyledUserImg,
   StyledUserName,
-  StyledButton
-} from './styles'
+  StyledButton,
+} from './styles';
 
 interface PlayDescript {
-  description: string
-
+  description: string | undefined;
 }
 
 interface User {
-  userImg: string
-  userName: string
-  liked: number
+  userImg: string;
+  userName: string | undefined;
+  liked: number | undefined;
 }
 
 interface PlayDescriptAndUser extends User, PlayDescript {}
@@ -32,20 +31,21 @@ export default function PlaylistDescriptionComponent({
   userImg,
   userName,
   liked,
-  
 }: PlayDescriptAndUser) {
   const [isLike, setIsLike] = useState(false);
   const [isExpand, setIsExpand] = useState(false);
 
   const handleClick = () => {
-    setIsLike(!isLike)
-  }
+    setIsLike(!isLike);
+  };
 
   const handleExpandClick = () => {
-    setIsExpand(!isExpand)
-  }
+    setIsExpand(!isExpand);
+  };
 
-  const OverDescription = isExpand ? description : description.slice(0, 20) + '...';
+  const OverDescription = isExpand
+    ? description
+    : description?.slice(0, 20) + '...';
   return (
     <>
       <StyledDescriptBox>
@@ -65,7 +65,7 @@ export default function PlaylistDescriptionComponent({
                 <FontAwesomeIcon
                   icon={like}
                   color={'#9b59b6'}
-                  cursor='pointer'
+                  cursor="pointer"
                 />
                 <span>{liked}</span>
               </>
@@ -74,7 +74,7 @@ export default function PlaylistDescriptionComponent({
                 <FontAwesomeIcon
                   icon={noLike}
                   color={'#9b59b6'}
-                  cursor='pointer'
+                  cursor="pointer"
                 />
                 <span>{liked}</span>
               </>
@@ -83,16 +83,19 @@ export default function PlaylistDescriptionComponent({
         </StyledTop>
 
         <StyledTitle>
-        <StyledOverTitle isExpand={isExpand}>{OverDescription}</StyledOverTitle>
-        {description.length > 20  && (
-          <>
-          <br />
-          <StyledButton onClick={handleExpandClick}>{isExpand ? '접기' : '더보기'}</StyledButton>
-          </>
-        )}
-      </StyledTitle>
-
+          <StyledOverTitle isExpand={isExpand}>
+            {OverDescription}
+          </StyledOverTitle>
+          {description && description?.length > 20 && (
+            <>
+              <br />
+              <StyledButton onClick={handleExpandClick}>
+                {isExpand ? '접기' : '더보기'}
+              </StyledButton>
+            </>
+          )}
+        </StyledTitle>
       </StyledDescriptBox>
     </>
-  )
+  );
 }
