@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChartComponent } from '../../components';
-import { useGetSongsByTop } from '../../hooks';
+import { usePostlikeToggle, useDeleteLikeToggle } from '../../hooks'
+import { useGetSongsByTop } from '../../hooks/useGetSongsByTop';
 import { formatDuration } from '../../utils';
 interface SongData {
   song: {
@@ -23,6 +24,13 @@ interface ChartItem {
 
 export default function ChartPage() {
   const { data: res, isLoading } = useGetSongsByTop();
+  const { mutate: postLike } = usePostlikeToggle();
+  const { mutate: deleteLike } = useDeleteLikeToggle();
+  
+  const handleLikeToggle = async (songId: string, isLiked: boolean) => {
+    const mutation = isLiked ? deleteLike : postLike;
+    await mutation.mutateAsync(songId);
+  };
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -37,5 +45,5 @@ export default function ChartPage() {
       }))
     : [];
 
-  return <ChartComponent items={songs} title="차트" />;
+  return <ChartComponent items={songs} onLikeToggle={handleLikeToggle}  title="차트" />;
 }

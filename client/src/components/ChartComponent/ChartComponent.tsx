@@ -11,6 +11,7 @@ import {
   StyledTitleWrapper,
 } from './styles';
 
+
 interface ChartComponentProps {
   title: string;
   items: {
@@ -32,6 +33,8 @@ export default function ChartComponent({
   genres,
   setPageNum,
 }: ChartComponentProps) {
+
+
   return (
     <>
       <StyledTitleWrapper>
@@ -76,7 +79,8 @@ export default function ChartComponent({
                   artist={item.artist}
                   length={item.length}
                   isLiked={item.isLiked}
-                  key={idx}
+                  key={item._id}
+                  _id={item._id}
                 />
               );
             })
