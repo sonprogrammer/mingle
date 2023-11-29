@@ -21,7 +21,7 @@ export default function EditProfilePage() {
 
   return (
     <StyledEditWrapper>
-      <EditComponent profile={userData} onUpdate={handleUpdate} />
+      <EditComponent profile={userData.user} onUpdate={handleUpdate} />
       <UserWithdrawComponent />
     </StyledEditWrapper>
   );

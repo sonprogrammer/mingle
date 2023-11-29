@@ -2,7 +2,7 @@ import tw, { styled } from "twin.macro";
 import AudioPlayer from 'react-h5-audio-player';
 
 export const Container = styled.div`
-  ${tw`mt-10 mx-auto flex items-center gap-[10px]`}
+  ${tw`mt-8 mx-auto flex items-center gap-[10px]`}
   padding: 0 650px;
 `;
 export const PlayComponent = styled.div`
@@ -20,7 +20,7 @@ export const Playbar = styled(AudioPlayer)`
     color: #fff;
   }
   .rhap_controls-section {
-    margin-right: 8px;
+    margint: 0 8px;
     flex: 0 1 auto;
   }
   .rhap_main-controls-button {

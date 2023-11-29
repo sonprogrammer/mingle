@@ -25,20 +25,19 @@ export default function ChartItemComponent({
   length,
   isLiked,
   songId,
-  _id
+  _id,
 }: ChartItemComponentProps) {
   const [isClick, setIsClick] = useState(false);
-  const { mutate: Like} = usePostlikeToggle();
+  const { mutate: Like } = usePostlikeToggle();
   const { mutate: deleteLike } = useDeleteLikeToggle();
-  
-  const handleLikeClick = async () => {
-    if(!isClick){
-      await Like(_id)
-    }else{
-      await deleteLike(_id)
-    }
-  }
 
+  const handleLikeClick = async () => {
+    if (!isClick) {
+      await Like(_id);
+    } else {
+      await deleteLike(_id);
+    }
+  };
 
   const navigate = useNavigate();
   const handleClick = () => {
@@ -48,18 +47,16 @@ export default function ChartItemComponent({
     navigate(`/song/${_id}`);
   };
   return (
-    <StyledTr
-      className="text-center"
-      onClick={handleClick}
-      isClick={isClick}
-    >
+    <StyledTr className="text-center" onClick={handleClick} isClick={isClick}>
       <td scope="row" className="w-1/12 pl-10 pr-6 py-4">
         {idx}
       </td>
       <td className="w-1/10 px-6 py-4">
         <ChartItemImg src={img} />
       </td>
-      <td className="w-1/4 px-6 py-4">{title}</td>
+      <td className="w-1/4 px-6 py-4" onClick={handleNavigate}>
+        {title}
+      </td>
       <td className="w-1/4 px-6 py-4">{artist}</td>
       <td className="w-1/4 px-6 py-4">{length}</td>
       <td className="w-1/4 px-6 py-4">
@@ -82,5 +79,4 @@ export default function ChartItemComponent({
       </td>
     </StyledTr>
   );
-
 }
