@@ -7,7 +7,7 @@ const playListLike = require("../../db/models/playListLike");
 
 async function playListGetOne(userId, playListId) {
   try {
-    const playList = await playListSchema.findById(playListId);
+    const playList = await playListSchema.findById(playListId).populate("playListOwner","_id userEmail userNickname userFile userImage userFollow userPreference");
     const songDetails = await Promise.all(
       playList.playListSongs.map(async (songId) => {
         const song = await songSchema.findById(songId);
