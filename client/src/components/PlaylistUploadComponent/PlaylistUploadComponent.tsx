@@ -60,7 +60,6 @@ const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
         playListImg: imageFile.split(';base64,')[1],
         genre: playListGenre,
       };
-      console.log(playListData);
       uploadMutate(playListData);
     }
   };

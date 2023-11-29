@@ -26,10 +26,8 @@ interface UserProfileHeaderProps {
 
 export default function MyInfoComponent({
   profile,
-  userImage,
+  playlist,
   postsCount,
-  followersCount,
-  followingCount,
   onUpdate,
 }: UserProfileHeaderProps) {
   const [statusMessage, setStatusMessage] = useState(
@@ -62,7 +60,7 @@ export default function MyInfoComponent({
         <StyledUserStatus>
           <StyledPostCount>
             <p>게시물 </p>
-            <span>{postsCount}</span>
+            <span>{playlist.length}</span>
           </StyledPostCount>
           <StyledFollower>
             <p>팔로워 </p>
