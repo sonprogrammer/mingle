@@ -17,3 +17,4 @@ export * from './SongDetailsPage';
 export * from './SongSearchPage';
 export * from './PlaylistSearchPage';
 export * from './UserInfoPage';
+export * from './TestPage';

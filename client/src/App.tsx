@@ -21,6 +21,7 @@ import {
   PlaylistSearchPage,
   SongSearchPage,
   UserInfoPage,
+  TestPage,
 } from './pages';
 import PrivateRoute from './PrivateRoute';
 
@@ -63,6 +64,7 @@ function App() {
                 ></Route>
                 <Route path="/song/:songId" element={<SongDetailsPage />} />
                 <Route path="/user/:userId" element={<UserInfoPage />}></Route>
+                <Route path="/test" element={<TestPage />}></Route>
               </Route>
             </Route>
           </Routes>
