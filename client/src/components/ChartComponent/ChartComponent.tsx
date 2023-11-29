@@ -1,7 +1,14 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useState,
+  useRef,
+  useEffect,
+} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ChartItemComponent } from '../ChartItemComponent';
+import { PlaylistUploadComponent } from '../PlaylistUploadComponent';
 import {
   StyledChartAddButton,
   StyledChartTitle,
@@ -10,7 +17,6 @@ import {
   StyledSelect,
   StyledTitleWrapper,
 } from './styles';
-
 
 interface ChartComponentProps {
   title: string;
@@ -26,6 +32,7 @@ interface ChartComponentProps {
   genres?: { _id: string; genre: string }[];
   setPageNum?: Dispatch<SetStateAction<number>>;
 }
+
 export default function ChartComponent({
   title,
   items,
@@ -33,11 +40,43 @@ export default function ChartComponent({
   genres,
   setPageNum,
 }: ChartComponentProps) {
+  const [ismodalAppear, setIsModalAppear] = useState(false);
+  const [songs, setSongs] = useState([]);
+  const modelRef = useRef(null);
 
+  const handleOutsideClick = (e) => {
+    if (modelRef.current && !modelRef.current.contains(e.target)) {
+      // 모달 외부를 클릭한 경우에만 모달을 닫음
+      setIsModalAppear(false);
+    }
+  };
+
+  useEffect(() => {
+    // 모달이 열려있을 때만 외부 클릭 이벤트를 감지함
+    if (ismodalAppear) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    } else {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    }
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리함
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [ismodalAppear]);
 
   return (
     <>
       <StyledTitleWrapper>
+        {ismodalAppear ? (
+          <div ref={modelRef}>
+            <PlaylistUploadComponent
+              setIsModalAppear={setIsModalAppear}
+              songs={songs}
+              setSongs={setSongs}
+            />
+          </div>
+        ) : null}
         <StyledChartTitleWrapper>
           {setGenre ? (
             <>
@@ -61,33 +100,40 @@ export default function ChartComponent({
             <StyledChartTitle isGenre={false}>{title}</StyledChartTitle>
           )}
         </StyledChartTitleWrapper>
-        <StyledChartAddButton>
+        <StyledChartAddButton
+          onClick={() => {
+            if (songs.length === 0) {
+              alert('플레이리스트에 담을 곡을 선택해 주세요.');
+              return;
+            }
+            setIsModalAppear(true);
+          }}
+        >
           <FontAwesomeIcon icon={faPlus} />
           <span>Playlist</span>
         </StyledChartAddButton>
       </StyledTitleWrapper>
       <StyledChartWrapper>
-        <tbody>
-          {items.length > 0 ? (
-            items.map((item, idx) => {
-              return (
-                <ChartItemComponent
-                  _id={item._id}
-                  idx={idx + 1}
-                  title={item.title}
-                  img={item.img}
-                  artist={item.artist}
-                  length={item.length}
-                  isLiked={item.isLiked}
-                  key={item._id}
-                  // _id={item._id}
-                />
-              );
-            })
-          ) : (
-            <>일치하는 검색 결과가 없습니다.</>
-          )}
-        </tbody>
+        {items.length > 0 ? (
+          items.map((item, idx) => {
+            return (
+              <ChartItemComponent
+                _id={item._id}
+                idx={idx + 1}
+                title={item.title}
+                img={item.img}
+                artist={item.artist}
+                length={item.length}
+                isLiked={item.isLiked}
+                key={item._id}
+                songs={songs}
+                setSongs={setSongs}
+              />
+            );
+          })
+        ) : (
+          <span>일치하는 검색 결과가 없습니다.</span>
+        )}
       </StyledChartWrapper>
     </>
   );

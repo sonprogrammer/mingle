@@ -14,6 +14,7 @@ export function useDeletePlaylistLikeToggle(id: string | undefined) {
     return useMutation(() => deletePlaylistLikeToggle(axiosInstance, id), {
         onSuccess: () => {
         queryClient.invalidateQueries("get-playlists-by-id");
+        queryClient.invalidateQueries("get-playlists-by-follow");
     },
         onError: (e) => {
         console.log(`error: ${e}`);
