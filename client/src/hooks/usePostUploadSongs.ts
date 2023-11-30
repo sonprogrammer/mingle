@@ -47,9 +47,10 @@ export function usePostUploadSongs(onClose: () => void) {
       },
       onError: (error) => {
         if (axios.isAxiosError(error)) {
-          alert('업로드에 실패하였습니다.');
+          const message = error.response?.data?.message || error.message;
+          alert(`업로드에 실패하였습니다:.${message} `);
         } else {
-          alert('업로드에 실패하였습나다.');
+          alert(`업로드에 실패하였습니다:.${error} `);
         }
       },
     },
