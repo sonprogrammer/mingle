@@ -5,7 +5,6 @@ export const StyledCommentContainer = styled.div`
         w-full
         flex-col
         mt-10
-        ml-8
     `}
   p {
     font-size: 24px;
