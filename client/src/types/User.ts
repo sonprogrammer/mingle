@@ -4,4 +4,5 @@ export interface User {
     userPassword: string;
     userNickname: string;
     userPreference: string[];
+    userFile: string;
 }

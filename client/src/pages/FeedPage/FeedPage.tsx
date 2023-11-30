@@ -39,7 +39,7 @@ export default function FeedPage() {
               playlistId={item._id}
               userId={item.playListOwner._id}
               playlistDescription={item.playListExplain}
-              profileIcon={'/img/User-Icon.png'}
+              profileIcon={`http://kdt-sw-6-team09.elicecoding.com/file/profile/${item.playListOwner.userFile}`}
               profileName={item.playListOwner.userNickname}
               albumCover={`http://kdt-sw-6-team09.elicecoding.com/file/playListCover/${item.playListImg}`}
               title={item.playListTitle}
