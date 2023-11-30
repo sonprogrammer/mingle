@@ -8,7 +8,7 @@ import {
   PlaylistCommentComponent,
 } from '../../components';
 import { PlaylistModifyComponent } from '../../components/PlaylistModifyComponent';
-import { useGetPlaylistById } from '../../hooks';
+import { useGetPlaylistById, useGetUserInfo } from '../../hooks';
 import { useDeletePlayList } from '../../hooks/useCUDPlayList';
 import { formatDuration, musicState } from '../../utils';
 import {
@@ -26,6 +26,12 @@ export default function PlaylistPage() {
   const songId = location.state.id;
   const isFromMyPage = Boolean(location.state.isFromMyPage);
   const { data, isLoading } = useGetPlaylistById(id);
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useGetUserInfo();
+  const handleIsFollowing = (userId: string | undefined) => {
+    return currentUser?.user.userFollow.includes(userId as string);
+  };
+
   const items: {
     title: string;
     img: string;
@@ -94,7 +100,7 @@ export default function PlaylistPage() {
             />
           </div>
         ) : null}
-        {isLoading ? (
+        {isLoading || isCurrentUserLoading ? (
           <div role="status" className="text-center mt-[36vh]">
             <svg
               aria-hidden="true"
@@ -135,6 +141,8 @@ export default function PlaylistPage() {
       <Divider />
       <PlaylistDescriptionComponent
         playlistId={data?._id}
+        userId={data?.playListOwner._id}
+        isFollowing={handleIsFollowing(data?.playListOwner._id)}
         description={data?.playListExplain}
         userImg={`http://kdt-sw-6-team09.elicecoding.com/file/profile/${
           data?.playListOwner.userFile || '1701310949831.png'

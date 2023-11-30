@@ -23,7 +23,9 @@ export const StyledUserInfo = styled.div`
 export const StyledUserImg = styled.img`
   ${tw`
     w-20
+    h-20
     rounded-full
+    cursor-pointer
   `}
 `;
 
@@ -33,6 +35,7 @@ export const StyledUserName = styled.div`
   font-bold
   mt-6
   pl-4
+  cursor-pointer
   `}
 `;
 
