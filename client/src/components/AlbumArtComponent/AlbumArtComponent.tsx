@@ -17,7 +17,6 @@ export default function AlbumArtComponent({
   const music = useRecoilValue(musicState);
   const [isPlaying, setIsPlaying] = useState(false);
   useEffect(() => {
-    console.log(music.isPlaying);
     setIsPlaying(music.isPlaying);
   }, [music.isPlaying]);
   return (
