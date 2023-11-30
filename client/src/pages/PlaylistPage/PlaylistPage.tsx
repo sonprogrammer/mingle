@@ -38,7 +38,7 @@ export default function PlaylistPage() {
           <>Loading...</>
         ) : (
           <>
-            <AlbumArtComponent albumArtSrc={music.img} />
+            <AlbumArtComponent albumArtSrc={music.img[music.idx]} />
             <PlaylistContentsComponent
               playlistId={data?._id}
               title={data?.playListTitle}
@@ -52,7 +52,9 @@ export default function PlaylistPage() {
       <PlaylistDescriptionComponent
         playlistId={data?._id}
         description={data?.playListExplain}
-        userImg={`http://kdt-sw-6-team09.elicecoding.com/file/profile/${data?.playListOwner.userFile}`}
+        userImg={`http://kdt-sw-6-team09.elicecoding.com/file/profile/${
+          data?.playListOwner.userFile || '1701310949831.png'
+        }`}
         userName={data?.playListOwner.userNickname}
         isUserLiked={data?.like}
         likeCount={data?.likeCount}
