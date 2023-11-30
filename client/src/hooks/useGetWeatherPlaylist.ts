@@ -5,9 +5,7 @@ import { useAxios } from '../utils';
 import { Playlists } from '../types';
 
 const getCurrentWeather = async (_axiosInstance: AxiosInstance, latitude: number, longitude: number) => {
-
-  const API_KEY = "c98216fdd5f29bb8103a673be31e42a9";
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${import.meta.env.VITE_WEATHER_API_KEY}`;
   try {
       const response = await axios.get(url);
       return response.data;
