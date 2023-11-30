@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { useAxios } from '../utils';
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
 export function useGetUserPlaylist() {
   const axiosInstance = useAxios();

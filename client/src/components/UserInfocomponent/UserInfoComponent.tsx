@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
-import { usePostUserFollow, useDeleteUnFollow } from '../../hooks';
+import React, { useState, useEffect } from 'react';
+import {
+  usePostUserFollow,
+  useDeleteUnFollow,
+  useGetUserInfo,
+} from '../../hooks';
 import { useParams } from 'react-router-dom';
-
+import { useQueryClient } from 'react-query';
 import {
   StyledUserInfo,
   StyledUserImage,
   StyledUserDescript,
   StyledUserSubInfo,
   StyledUserStatus,
-  /* StyledPostCount, 게시물 갯수 스타일 */
   StyledFollower,
   StyledFollowing,
   StyledDivider,
@@ -23,10 +26,20 @@ export default function UserInfoComponent({
   songUploader,
 }: UserInfoComponentProps) {
   const { userId } = useParams();
+  const queryClient = useQueryClient();
   const followMutation = usePostUserFollow();
   const unfollowMutation = useDeleteUnFollow();
   const [isFollowing, setIsFollowing] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const { data: userInfo } = useGetUserInfo();
+  console.log(userInfo);
+  useEffect(() => {
+    if (songUploader && userInfo) {
+      const isUserFollowing = songUploader.userFollower.includes(
+        userInfo.user._id,
+      );
+      setIsFollowing(isUserFollowing);
+    }
+  }, [songUploader, userInfo]);
   if (!songUploader) return <div>데이터 에러</div>;
 
   const handleFollowClick = () => {
@@ -34,15 +47,13 @@ export default function UserInfoComponent({
       followMutation.mutate(userId, {
         onSuccess: () => {
           setIsFollowing(true);
-          setShowSuccessMessage(true);
-          setTimeout(() => setShowSuccessMessage(false), 3000);
+
+          queryClient.invalidateQueries(['get-user-info', 'get-song-details']);
         },
         onError: () => {
           alert('팔로우 실패');
         },
       });
-    } else {
-      console.error('유효하지 않은 사용자 ID');
     }
   };
 
@@ -51,13 +62,12 @@ export default function UserInfoComponent({
       unfollowMutation.mutate(userId, {
         onSuccess: () => {
           setIsFollowing(false);
+          queryClient.invalidateQueries(['get-user-info', 'get-song-details']);
         },
         onError: () => {
-          alert('언팔로우 실패:');
+          alert('언팔로우 실패');
         },
       });
-    } else {
-      console.error('유효하지 않은 사용자 ID');
     }
   };
   return (
@@ -69,7 +79,7 @@ export default function UserInfoComponent({
             alt="User"
           />
           <StyledUserDescript>
-            <h2>{songUploader.userNickName || 'Unknown User'}</h2>
+            <h2>{songUploader.userNickname || 'Unknown User'}</h2>
             {isFollowing ? (
               <StyledFollow onClick={handleUnfollowClick}>
                 언팔로우
