@@ -9,10 +9,11 @@ import {
   StyledCheckboxChildren,
   StyledTextWrapper,
   StyledTextButton,
-  Divider,
 } from './styles';
 import { LongButtonComponent } from '../LongButtonComponent';
 import { usePostLogin } from '../../hooks';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { emailState } from '../../utils';
 interface LoginProps {
   initialUserEmail: string;
   initialUserPassword: string;
@@ -21,10 +22,14 @@ export default function LoginComponent({
   initialUserEmail,
   initialUserPassword,
 }: LoginProps) {
+  const setEmail = useSetRecoilState(emailState);
+  const existedEmail = useRecoilValue(emailState);
+  const [isSaveEmail, setIsSaveEmail] = useState(false);
   const [emailError, setEmailError] = useState('');
-  const [userEmail, setUserEmail] = useState(initialUserEmail);
+  const [userEmail, setUserEmail] = useState(
+    existedEmail === '' ? initialUserEmail : existedEmail,
+  );
   const [userPassword, setUserPassword] = useState(initialUserPassword);
-
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -44,6 +49,11 @@ export default function LoginComponent({
     userPassword: userPassword,
   });
   const handleClick = () => {
+    if (isSaveEmail) {
+      setEmail(userEmail);
+    } else {
+      setEmail('');
+    }
     if (userEmail === '') alert('이메일을 입력해주세요.');
     else if (userPassword === '') alert('비밀번호를 입력해주세요.');
     else mutate();
@@ -77,13 +87,15 @@ export default function LoginComponent({
         </div>
         <StyledHelpWrapper>
           <StyledLabel>
-            <StyledCheckbox className="peer" type="checkbox" />
+            <StyledCheckbox
+              className="peer"
+              type="checkbox"
+              onClick={() => setIsSaveEmail(!isSaveEmail)}
+            />
             <StyledCheckboxChildren className="peer" />
-            <span>아이디 저장</span>
+            <span>이메일 저장</span>
           </StyledLabel>
           <StyledTextWrapper>
-            <StyledTextButton>아이디 찾기</StyledTextButton>
-            <Divider />
             <Link to="/findpassword">
               <StyledTextButton>비밀번호 찾기</StyledTextButton>
             </Link>
