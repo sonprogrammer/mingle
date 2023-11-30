@@ -71,7 +71,6 @@ export default function SongDetailsPage() {
   const song = data?.song;
   const isLiked = data?.isCurrentUserLiked;
   const formattedDuration = formatDuration(song?.songDuration || 0);
-  console.log(song);
   return (
     <PageContainer>
       <Header>곡 정보</Header>
