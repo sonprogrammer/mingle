@@ -19,8 +19,8 @@ export default function FeedFollowRecommendComponent({
   feedRecommendText,
 }: FeedFollowRecommendProps) {
   const navigate = useNavigate();
-  const handleUserNavigate = (id: string | undefined) => {
-    navigate(`/user/${id}`);
+  const handleUserNavigate = (userId: string | undefined) => {
+    navigate(`/user?id=${userId}`);
   };
   const handlePlaylistNaivgate = (id: string | undefined) => {
     navigate(`/playlist?id=${id}`, { state: { id: 0 } });
