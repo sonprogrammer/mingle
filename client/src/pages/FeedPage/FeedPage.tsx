@@ -49,7 +49,7 @@ export default function FeedPage() {
           );
         })}
       <Box>
-        {userFollower?.length === 0 &&
+        {feedData?.length === 0 &&
           recommendUserData &&
           recommendUserData
             .slice(currentIndex, currentIndex + 3)

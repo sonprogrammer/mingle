@@ -40,7 +40,7 @@ export default function PlaylistCardComponent({
     navigate(`/playlist?id=${playlistId}`, { state: { id: 0 } });
   };
   const handleUserNavigate = () => {
-    navigate(`/user/${userId}`);
+    navigate(`/user?id=${userId}`);
   };
   const handleClick = () => {
     setIsLike(!isLike);

@@ -7,6 +7,7 @@ export interface UserInfo {
     userPreference: string[];
     userDescription: string;
     userFollow: string[];
+    userFollower: string[];
     userFile: string;
   }
 }

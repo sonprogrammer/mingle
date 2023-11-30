@@ -31,11 +31,11 @@ interface RecommendPlaylistComponentProps {
   likedByUser?: boolean;
   likeCount: number;
   onClick?: (_id: string) => void;
-  onDelete: () => void;
-  handleDeleteUploadedSong: (songId: string) => Promise<void>;
-  songId: string;
-  songData: any;
-  selectTab: string;
+  onDelete?: () => void;
+  handleDeleteUploadedSong?: (songId: string) => Promise<void>;
+  songId?: string;
+  songData?: any;
+  selectTab?: string;
 }
 
 export default function RecommendPlaylistComponent({

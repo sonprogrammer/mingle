@@ -64,7 +64,7 @@ function App() {
                   element={<PlaylistSearchPage />}
                 ></Route>
                 <Route path="/song/:songId" element={<SongDetailsPage />} />
-                <Route path="/user/:userId" element={<UserInfoPage />}></Route>
+                <Route path="/user" element={<UserInfoPage />}></Route>
               </Route>
             </Route>
           </Routes>

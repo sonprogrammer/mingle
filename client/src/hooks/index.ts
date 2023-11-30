@@ -42,3 +42,4 @@ export * from './usePostPlaylistLikeToggle';
 export * from './useDeletePlaylistLikeToggle';
 export * from './useGetPlaylistsByFollow';
 export * from './usePutPlaylistComment';
+export * from './useGetOtherUserInfo';

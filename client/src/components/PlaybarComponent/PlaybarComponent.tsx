@@ -21,13 +21,15 @@ export default function PlaybarComponent() {
     <Container>
       <PlayComponent>
         <span onClick={handleClick} className="cursor-pointer">
-          {music.playlist}
+          {music.playlist ?? '재생 중인 플레이리스트가 없습니다.'}
         </span>
-        <SongInfo>{music.title[music.idx]}</SongInfo>
+        <SongInfo>
+          {music.title[music.idx] ?? '재생 중인 음악이 없습니다.'}
+        </SongInfo>
         <Playbar
           className="playbar"
           ref={playRef}
-          src={music.url[music.idx]}
+          src={music.url[music.idx] ?? ''}
           volume={music.mute ? 0 : music.volume}
           layout="horizontal-reverse"
           customProgressBarSection={[
