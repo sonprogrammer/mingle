@@ -53,8 +53,6 @@ const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
   const [playListDescription, setPlayListDescription] =
     useState<string>(description);
   const [playListGenre, setPlayListGenre] = useState<string | null>(genre);
-  console.log(songs);
-
   const { mutate: modifyMutate } = usePutModifyPlayList(
     playListId,
     setIsModalAppear,
@@ -76,7 +74,7 @@ const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
         playListData.playListImg = imageFile.split(';base64,')[1];
       }
       modifyMutate(playListData);
-      window.location.reload;
+      window.location.reload();
     }
   };
 

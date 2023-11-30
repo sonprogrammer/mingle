@@ -36,7 +36,6 @@ export default function PlaylistPage() {
       _id: song._id,
     });
   });
-  console.log(data);
 
   const music = useRecoilValue(musicState);
 
@@ -93,7 +92,7 @@ export default function PlaylistPage() {
                 />
               </div>
             ) : null}
-            <AlbumArtComponent albumArtSrc={data?.playListImg} />
+            <AlbumArtComponent albumArtSrc={music.img} />
             <PlaylistContentsComponent
               playlistId={data?._id}
               title={data?.playListTitle}
