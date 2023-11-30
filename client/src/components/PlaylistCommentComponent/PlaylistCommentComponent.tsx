@@ -109,7 +109,7 @@ export default function PlaylistCommentComponent() {
   };
   return (
     <StyledCommentContainer>
-      <p>댓글</p>
+      <p>댓글 ({commentsData ? commentsData.length : 0})</p>
       <StyledInputContainer>
         <StyledTextArea
           value={comment}
@@ -118,7 +118,7 @@ export default function PlaylistCommentComponent() {
           placeholder="댓글을 입력하세요."
         />
         <StyledButton onClick={handleSubmit} disabled={isLoading}>
-          게시
+          작성
         </StyledButton>
       </StyledInputContainer>
 
@@ -184,7 +184,7 @@ export default function PlaylistCommentComponent() {
           </StyledUserNameAndImg>
         ))
       ) : (
-        <p>댓글이 없습니다.</p>
+        <p></p>
       )}
     </StyledCommentContainer>
   );

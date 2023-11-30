@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as like } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons';
 import * as Styled from './styles';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   usePostPlaylistLikeToggle,
   useDeletePlaylistLikeToggle,

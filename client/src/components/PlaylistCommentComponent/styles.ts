@@ -10,7 +10,7 @@ export const StyledCommentContainer = styled.div`
   p {
     font-size: 24px;
     margin-left: 20px;
-    margin-botton: 10px;
+    margin-bottom: 16px;
     font-weight: bold;
   }
 `;
@@ -84,10 +84,10 @@ export const StyledInputContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
   margin-left: 14px;
   margin-right: 10px;
   margin-bottom: 10px;
+  width: calc(100% - 40px);
 `;
 
 export const StyledTextArea = styled.textarea`
