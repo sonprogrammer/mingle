@@ -60,7 +60,6 @@ export default function UserInfoComponent({
       console.error('유효하지 않은 사용자 ID');
     }
   };
-  console.log(songUploader);
   return (
     <>
       <StyledUserInfo>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDeleteSong } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import {
+  UserUploadSongComponent,
   RecommendPlaylistComponent,
   UploadButtonComponent,
   UploadModalComponent,
@@ -128,20 +129,20 @@ export default function MyPagePlaylists({
 
           {selectTab === 'myuploadsongslists' ? (
             myUploadSongslists && myUploadSongslists.length > 0 ? (
-              myUploadSongslists.map((playlist) => {
+              myUploadSongslists.map((songs) => {
                 return (
                   <>
-                    <RecommendPlaylistComponent
-                      _id={playlist._id || 'error'} // 오류 메시지는 임시로 사용
-                      key={playlist._id}
-                      playListImg={playlist.playListImg}
-                      playListTitle={playlist.playListTitle}
-                      likeCount={playlist.likeCount}
+                    <UserUploadSongComponent
+                      _id={songs.song._id || 'error'} // 오류 메시지는 임시로 사용
+                      key={songs.song._id}
+                      playListImg={songs.song.songImageLocation}
+                      playListTitle={songs.song.songName}
+                      likeCount={songs.song.likeCount}
                       onClick={handleCardClick}
                       selectTab={selectTab}
-                      songId={playlist.songId}
-                      onDelete={() => handleDeleteUploadedSong(playlist.songId)}
-                      songData={playlist.songData}
+                      songId={songs.song._id}
+                      onDelete={() => handleDeleteUploadedSong(songs.song._id)}
+                      songData={songs.song.songData}
                     />
                   </>
                 );
