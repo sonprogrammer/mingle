@@ -134,7 +134,6 @@ async function getUserUploadedSongs(userId, page, pageSize) {
 		})
 	);
 
-	console.log(songsInfo.map((song) => song.likeCount)); 
 
 	return {
 		songInfo: songsInfo,

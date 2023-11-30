@@ -11,7 +11,7 @@ const PostFollowUser = async (userId: string, axiosInstance: AxiosInstance) => {
 };
 
 export function usePostUserFollow() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
 
   const mutation = useMutation((userId: string) =>
     PostFollowUser(userId, axiosInstance),

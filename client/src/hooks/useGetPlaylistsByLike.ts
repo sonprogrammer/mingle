@@ -13,7 +13,7 @@ const getPlaylistsByLike = async (axiosInstance: AxiosInstance): Promise<Playlis
 	return response.data.playList;
 };
 export function useGetPlaylistsByLike() {
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
 	return useQuery(["get-playlists-by-like"], () => getPlaylistsByLike(axiosInstance),
 	{
 		refetchOnWindowFocus: false,

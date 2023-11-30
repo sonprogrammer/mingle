@@ -3,7 +3,7 @@ import { useAxios } from '../utils';
 import { AxiosResponse } from 'axios';
 
 export function useGetUserPlaylist() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
 
   const { data, error, isLoading } = useQuery('user-playlist', async () => {
     try {

@@ -9,7 +9,7 @@ const postLikeToggle = async (axiosInstance: AxiosInstance, songId: string) => {
 }
 
 export function usePostlikeToggle(){
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
     const queryClient = useQueryClient();
 
     return useMutation(

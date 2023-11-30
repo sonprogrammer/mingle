@@ -10,7 +10,7 @@ const getSongsBySearch = async (axiosInstance: AxiosInstance, type: string, keyw
 	return response.data;
 };
 export function useGetSongsBySearch(type: string, keyword: string, pageNum: number) {
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
 	return useQuery(["get-songs-by-search", type, keyword, pageNum], ({ queryKey }) =>
 		getSongsBySearch(axiosInstance, queryKey[1] as string, queryKey[2] as string, queryKey[3] as number),
 		{

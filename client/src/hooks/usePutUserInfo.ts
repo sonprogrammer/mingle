@@ -16,7 +16,7 @@ const putUserInfo = async (
 };
 
 export function usePutUserInfo() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   const queryClient = useQueryClient();
   return useMutation(
     (updatedInfo: Partial<UserInfo>) => putUserInfo(axiosInstance, updatedInfo),

@@ -9,7 +9,12 @@ export const useAxios = () => {
   const { accessToken, accessExpiredDate } = useRecoilValue(loginState);
   const diff = today.getTime() - new Date(accessExpiredDate).getTime();
   const refreshToken = getCookieToken();
+  
+  const axiosBase = Axios.create({
+    baseURL: 'http://kdt-sw-6-team09.elicecoding.com/'
+  });
   const axiosInstance = Axios.create({
+    baseURL: 'http://kdt-sw-6-team09.elicecoding.com/',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
@@ -18,7 +23,7 @@ export const useAxios = () => {
   const setLogin = useSetRecoilState(loginState);
   axiosInstance.interceptors.request.use(async (config) => {
     if ((accessToken === '' && refreshToken) || diff >= 0) {
-      const response = await axios.post('/api/account/refresh', {
+      const response = await axiosBase.post('/api/account/refresh', {
         refreshToken: refreshToken,
       });
       setLogin({
@@ -42,5 +47,5 @@ export const useAxios = () => {
       return Promise.reject(error);
     },
   );
-  return axiosInstance;
+  return { axiosInstance, axiosBase };
 };

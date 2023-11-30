@@ -23,7 +23,9 @@ export default function PlaylistRecommendComponent({
       {genre && (
         <StyledGenreName>{genre}음악 추천 플레이리스트</StyledGenreName>
       )}
-      {weather && <StyledGenreName>{weather}에 듣기 좋은 노래</StyledGenreName>}
+      {weather && (
+        <StyledGenreName>{weather} 날씨에 듣기 좋은 노래</StyledGenreName>
+      )}
       {search && <StyledChartTitle isGenre={false}>{search}</StyledChartTitle>}
       <StyledContainer>
         <StyledPlaylist>

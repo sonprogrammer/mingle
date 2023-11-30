@@ -5,4 +5,7 @@ export interface User {
     userNickname: string;
     userPreference: string[];
     userFile: string;
+    userDescription: string;
+    userFollow: string[];
+    userFollower: string[];
 }

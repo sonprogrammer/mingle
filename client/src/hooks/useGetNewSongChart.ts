@@ -11,6 +11,6 @@ const getNewSong = async(axiosInstance: AxiosInstance) =>{
 
 
 export function useGetNewSongChart(){
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useQuery<Songs, Error>('newSongChart', () => getNewSong(axiosInstance))
 }

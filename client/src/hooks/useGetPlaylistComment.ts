@@ -13,7 +13,7 @@ const getPlaylistComment = async (
 };
 
 export function useGetPlaylistComment(playlistId: string) {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useQuery(['playlistComment', playlistId], () =>
     getPlaylistComment(playlistId, axiosInstance),
   );

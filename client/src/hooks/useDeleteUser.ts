@@ -13,7 +13,7 @@ const deleteUser = async (axiosInstance: AxiosInstance): Promise<Token> => {
 };
 
 export function useDeleteUser() {
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
     const setLogin = useSetRecoilState(loginState);
     const navigate = useNavigate();
     return useMutation(() => deleteUser(axiosInstance), {

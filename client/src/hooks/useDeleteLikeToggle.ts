@@ -8,7 +8,7 @@ const deleteLikeToggle = async (axiosInstance: AxiosInstance, songId: string) =>
 };
 
 export function useDeleteLikeToggle() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   const queryClient = useQueryClient();
 
   return useMutation(
