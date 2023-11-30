@@ -12,11 +12,12 @@ interface AlbumArtComponentProps {
 export default function AlbumArtComponent({
   albumArtSrc,
 }: AlbumArtComponentProps) {
+  console.log(albumArtSrc);
   return (
     <StyledAlbumWrapper>
-      <StyledAlbumArtImg src={albumArtSrc} />
+      <StyledAlbumArtImg src={`/file/playListCover/${albumArtSrc}`} />
       <StyledAlbumCircle>
-        <StyledAlbumCircleImg src={albumArtSrc} />
+        <StyledAlbumCircleImg src={`/file/playListCover/${albumArtSrc}`} />
       </StyledAlbumCircle>
     </StyledAlbumWrapper>
   );
