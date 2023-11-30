@@ -1,33 +1,28 @@
 import { AxiosInstance } from 'axios';
+import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useAxios } from '../utils';
 import { useEffect, useState } from 'react';
 
-const getCurrentWeather = async (axiosInstance: AxiosInstance, latitude, longitude) => {
+const getCurrentWeather = async (_axiosInstance: AxiosInstance, latitude: any, longitude: any) => {
 
   const API_KEY = "c98216fdd5f29bb8103a673be31e42a9";
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`;
-
   try {
-      const response = await axiosInstance.get(url);
-      console.log(response);
+      const response = await axios.get(url);
       return response.data;
+      // return data.weather[0].id;
     } catch (error) {
       throw new Error(`Error fetching weather: ${error.message}`);
     }
-};
-
-const getWeatherId = (weatherData) => {
-  console.log(weatherData)
-  return weatherData?.weather[0]?.id;
 };
 
 const GetWeatherPlaylist = async (axiosInstance: AxiosInstance, latitude, longitude) => {
   try {
 
     const weatherData = await getCurrentWeather(axiosInstance, latitude, longitude);
-    const weatherId = getWeatherId(weatherData);
-    console.log(weatherData);
+    const weatherId = weatherData.weather[0].id;
+    console.log(weatherData, weatherId);
     const playlistResponse = await axiosInstance.get(`/playlist/weather/${weatherId}`);
     console.log(playlistResponse);
     return playlistResponse.data;
@@ -62,7 +57,8 @@ export function useGetWeatherPlaylist() {
 
     fetchUserLocation();
   }, []);
-  console.log(userLocation)
+
+
   useEffect(() => {
     if (userLocation) {
       GetWeatherPlaylist(axiosInstance, userLocation.latitude, userLocation.longitude)
@@ -71,7 +67,9 @@ export function useGetWeatherPlaylist() {
     }
   }, [userLocation]);
 
-  return useQuery(['weatherPlaylist', userLocation?.latitude, userLocation?.longitude], async () =>{
+  return useQuery(
+      ['weatherPlaylist', userLocation?.latitude, userLocation?.longitude],
+      async () =>{
     if (!userLocation) {
       return Promise.resolve(null);
     }

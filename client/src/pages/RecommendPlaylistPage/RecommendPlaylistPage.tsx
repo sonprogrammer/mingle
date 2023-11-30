@@ -51,8 +51,7 @@ const GenreplaylistInfo = [
 
 export default function FeedPage() {
   const { data: weatherData , isLoading, error} = useGetWeatherPlaylist();
-  console.log('weatherData',weatherData)
-
+  console.log('FeedPage', weatherData);
   if (isLoading) {
     return <p>Loading...</p>;
   }

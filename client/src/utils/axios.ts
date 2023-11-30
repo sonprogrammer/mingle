@@ -10,6 +10,7 @@ export const useAxios = () => {
   const diff = today.getTime() - new Date(accessExpiredDate).getTime();
   const refreshToken = getCookieToken();
   const axiosInstance = Axios.create({
+    baseURL: 'http://kdt-sw-6-team09.elicecoding.com/api',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
