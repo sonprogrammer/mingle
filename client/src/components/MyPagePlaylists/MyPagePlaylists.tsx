@@ -130,7 +130,6 @@ export default function MyPagePlaylists({
           {selectTab === 'myuploadsongslists' ? (
             myUploadSongslists && myUploadSongslists.length > 0 ? (
               myUploadSongslists.map((songs) => {
-                console.log(songs);
                 return (
                   <>
                     <UserUploadSongComponent
