@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useAxios } from '../utils';
+import { Playlists } from '../types';
 
 const getCurrentWeather = async (_axiosInstance: AxiosInstance, latitude: number, longitude: number) => {
 
@@ -14,7 +15,7 @@ const getCurrentWeather = async (_axiosInstance: AxiosInstance, latitude: number
       throw new Error(`Error fetching weather: ${error.message}`);
     }
 };
-const getWeatherPlaylist = async (axiosInstance: AxiosInstance, latitude: number, longitude: number) => {
+const getWeatherPlaylist = async (axiosInstance: AxiosInstance, latitude: number, longitude: number): Promise<{weatherPlaylists: Playlists[], weather: string}>  => {
   try {
 
     const weatherData = await getCurrentWeather(axiosInstance, latitude, longitude);

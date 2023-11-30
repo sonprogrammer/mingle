@@ -42,7 +42,10 @@ export default function RecommendPlaylistPage() {
 
   return (
     <>
-      <PlaylistRecommendComponent weather={'맑음'} playlists={weatherData} />
+      <PlaylistRecommendComponent
+        weather={weatherData?.weather}
+        playlists={weatherData?.weatherPlaylists}
+      />
       {/* <PlaylistRecommendComponent genre="댄스" playlists={GenreplaylistInfo} /> */}
     </>
   );
