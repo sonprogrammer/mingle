@@ -29,7 +29,7 @@ async function getWeatherPlayList(weatherCode) {
     // 대기 (안개, 황사 등등등)
     case weatherCode >= 700 && weatherCode < 800:
       matchGenre = ["힙합"];
-      weather = "공기가 안 좋은 날";
+      weather = "공기가 안 좋은";
       break;
     // 맑은
     case weatherCode == 800:
