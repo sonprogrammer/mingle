@@ -8,6 +8,6 @@ const getUserInfo = async (axiosInstance: AxiosInstance): Promise<UserInfo> => {
   return response.data;
 };
 export function useGetUserInfo() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useQuery(['get-user-info'], () => getUserInfo(axiosInstance));
 }

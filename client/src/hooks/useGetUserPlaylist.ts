@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
 import { useAxios } from '../utils';
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
 export function useGetUserPlaylist() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
 
   const { data, error, isLoading } = useQuery('user-playlist', async () => {
     try {

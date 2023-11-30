@@ -14,8 +14,8 @@ const fetchUploadedSongs = async (
 };
 
 export function useGetUploadedSongs(page: number, pageSize: number) {
-  const axios: AxiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useQuery(['userUploadedSongs', page, pageSize], () =>
-    fetchUploadedSongs(axios, page, pageSize),
+    fetchUploadedSongs(axiosInstance, page, pageSize),
   );
 }

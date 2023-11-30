@@ -10,7 +10,7 @@ const getSongsByGenre = async (axiosInstance: AxiosInstance, genre: string | und
 	return response.data;
 };
 export function useGetSongsByGenre(genre: string | undefined, pageNum: number) {
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
 	return useQuery(["get-songs-by-genre", genre, pageNum], ({ queryKey }) => getSongsByGenre(axiosInstance, queryKey[1] as string, queryKey[2] as number),
 	{
 		refetchOnWindowFocus: false,

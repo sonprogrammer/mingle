@@ -25,24 +25,6 @@ export default defineConfig({
       },
     }),
   ],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://kdt-sw-6-team09.elicecoding.com/api',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        secure: false,
-        ws: true,
-      },
-      '/file': {
-        target: 'http://kdt-sw-6-team09.elicecoding.com/file',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/file/, ''),
-        secure: false,
-        ws: true,
-      },
-    },
-  },
   optimizeDeps: {
     esbuildOptions: {
       target: 'es2020',

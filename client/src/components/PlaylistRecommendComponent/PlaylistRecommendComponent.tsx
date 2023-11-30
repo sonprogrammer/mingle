@@ -18,11 +18,10 @@ export default function PlaylistRecommendComponent({
   search,
   playlists,
 }: PlaylistRecommendComponentProps) {
-
   let weatherId = null;
-  if(weather && playlists && playlists.length > 0) {
+  if (weather && playlists && playlists.length > 0) {
     const firstPlaylistWeather = playlists[0].weather;
-    if(firstPlaylistWeather && firstPlaylistWeather.length > 0){
+    if (firstPlaylistWeather && firstPlaylistWeather.length > 0) {
       weatherId == firstPlaylistWeather[0].id;
     }
   }
@@ -32,7 +31,9 @@ export default function PlaylistRecommendComponent({
       {genre && (
         <StyledGenreName>{genre}음악 추천 플레이리스트</StyledGenreName>
       )}
-      {weather && <StyledGenreName>{weather}에 듣기 좋은 노래</StyledGenreName>}
+      {weather && (
+        <StyledGenreName>{weather} 날씨에 듣기 좋은 노래</StyledGenreName>
+      )}
       {search && <StyledChartTitle isGenre={false}>{search}</StyledChartTitle>}
       <StyledContainer>
         <StyledPlaylist>

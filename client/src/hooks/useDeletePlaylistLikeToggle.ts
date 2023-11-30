@@ -9,7 +9,7 @@ const deletePlaylistLikeToggle = async (axiosInstance: AxiosInstance, id: string
 	return response.data;
 };
 export function useDeletePlaylistLikeToggle(id: string | undefined) {
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
     const queryClient = useQueryClient();
     return useMutation(() => deletePlaylistLikeToggle(axiosInstance, id), {
         onSuccess: () => {

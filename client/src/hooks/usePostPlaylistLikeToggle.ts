@@ -9,7 +9,7 @@ const postPlaylistLikeToggle = async (axiosInstance: AxiosInstance, id: string |
 	return response.data;
 };
 export function usePostPlaylistLikeToggle(id: string | undefined) {
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
     const queryClient = useQueryClient();
     return useMutation(() => postPlaylistLikeToggle(axiosInstance, id), {
         onSuccess: () => {
