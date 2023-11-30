@@ -19,7 +19,7 @@ const getWeatherPlaylist = async (axiosInstance: AxiosInstance, latitude: number
 
     const weatherData = await getCurrentWeather(axiosInstance, latitude, longitude);
     const weatherId = weatherData.weather[0].id;
-    const playlistResponse = await axiosInstance.get(`/playlist/weather/${weatherId}`);
+    const playlistResponse = await axiosInstance.get(`/api/playlist/weather/${weatherId}`);
     return playlistResponse.data;
   } catch (error: unknown) {
     throw new Error(`Error fetching data: ${error.message}`);
