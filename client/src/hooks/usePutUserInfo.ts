@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { UserInfo } from '../types';
 import { useAxios } from '../utils';
 
@@ -17,10 +17,12 @@ const putUserInfo = async (
 
 export function usePutUserInfo() {
   const axiosInstance = useAxios();
+  const queryClient = useQueryClient();
   return useMutation(
     (updatedInfo: Partial<UserInfo>) => putUserInfo(axiosInstance, updatedInfo),
     {
       onSuccess: (data) => {
+        queryClient.invalidateQueries('get-user-info');
       },
       onError: (error)=>{
         throw error

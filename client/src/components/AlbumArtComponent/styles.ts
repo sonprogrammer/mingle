@@ -1,16 +1,19 @@
 import tw, { styled } from "twin.macro";
 
+interface StyledAlbumCircleProps {
+  isPlaying: boolean;
+}
 export const StyledAlbumWrapper = styled.div`
     ${tw`flex w-[750px]`}
 `;
 export const StyledAlbumArtImg = styled.img`
     ${tw`w-[460px] h-[460px] z-20`}
 `;
-export const StyledAlbumCircle = styled.div`
+export const StyledAlbumCircle = styled.div<StyledAlbumCircleProps>`
     ${tw`rounded-full relative p-[230px] ml-[-230px]`}
     background: rgb(0,0,0);
     background: linear-gradient(0deg, rgba(0,0,0,1) 25%, rgba(82,82,82,1) 50%, rgba(0,0,0,1) 75%);
-    animation: rotateAnimation 10s linear infinite;
+    -webkit-animation: ${({ isPlaying }) => (isPlaying ? 'rotateAnimation 10s linear infinite' : 'none')};
     @keyframes rotateAnimation {
       from {
         transform: rotate(0deg);

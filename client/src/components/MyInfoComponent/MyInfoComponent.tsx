@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   StyledUserInfo,
   StyledUserImage,
@@ -19,33 +19,68 @@ interface UserProfileHeaderProps {
   followersCount: number;
   followingCount: number;
   onUpdate: (updatedInfo: Partial<UserInfo>) => void;
+  onProfileUpdate: (userImage: string) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSave: () => void;
   profile: UserInfo;
 }
 
+interface UploadImage {
+  file: File;
+  type: string;
+}
 export default function MyInfoComponent({
   profile,
   playlist,
   postsCount,
+  onProfileUpdate,
   onUpdate,
 }: UserProfileHeaderProps) {
   const [statusMessage, setStatusMessage] = useState(
-    profile?.userDescription || '20자 이내로 입력하시오.',
+    profile?.userDescription || '20자 이내로 계정 설명을 입력해주세요.',
   );
 
   const handleStatusUpdate = async (updatedText: string) => {
     onUpdate({ userDescription: updatedText });
   };
-
   //이미지 경로 생성
-  const imageUrl = `http://kdt-sw-6-team09.elicecoding.com/file/profile/${profile.userFile}`
+  const imageUrl = `http://kdt-sw-6-team09.elicecoding.com/file/profile/${
+    profile.userFile || '1701310949831.png'
+  }`;
+  const imageInput = useRef<HTMLInputElement>();
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    if (fileList && fileList[0]) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const result = reader.result as string;
+        const dataIndex = result.indexOf(',') + 1;
+        const base64 = result.substring(dataIndex, result?.length);
+        onProfileUpdate(base64);
+      };
+      reader.readAsDataURL(fileList[0]);
+    }
+  };
+  const onClickImageUpload = () => {
+    if (imageInput.current) imageInput.current.click();
+  };
   return (
     <>
       <StyledUserInfo>
         <StyledUserSubInfo>
           {/* <UserImageContainer> */}
-          <StyledUserImage src={imageUrl} alt={'User'} />
+          <input
+            type="file"
+            style={{ display: 'none' }}
+            accept="image/*"
+            onChange={handleImageUpload}
+            ref={imageInput}
+          />
+          <StyledUserImage
+            src={imageUrl}
+            alt={'User'}
+            onClick={onClickImageUpload}
+          />
           {/* </UserImageContainer> */}
           <StyledUserDescript>
             <h2>{profile?.userNickname}</h2>

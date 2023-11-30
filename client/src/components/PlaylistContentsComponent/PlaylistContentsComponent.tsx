@@ -33,11 +33,17 @@ export default function PlaylistContentsComponent({
     setMusic({
       playlistId: playlistId as string,
       playlist: title as string,
-      title: songs[songId]?.title,
-      img: `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${songs[songId]?.img}`,
-      url: `http://kdt-sw-6-team09.elicecoding.com/file/audio/${songs[songId]?.url}`,
+      title: songs.map((song) => song.title),
+      img: songs.map(
+        (song) =>
+          `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${song.img}`,
+      ),
+      url: songs.map(
+        (song) =>
+          `http://kdt-sw-6-team09.elicecoding.com/file/audio/${song.url}`,
+      ),
       idx: songId,
-      isPlaying: true,
+      isPlaying: music.isPlaying,
       volume: music.volume,
       mute: music.mute,
     });

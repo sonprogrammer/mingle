@@ -44,7 +44,7 @@ export default function ChartComponent({
   const [songs, setSongs] = useState([]);
   const modelRef = useRef(null);
 
-  const handleOutsideClick = (e) => {
+  const handleOutsideClick = (e: React.MouseEvent<HTMLElement>) => {
     if (modelRef.current && !modelRef.current.contains(e.target)) {
       // 모달 외부를 클릭한 경우에만 모달을 닫음
       setIsModalAppear(false);
