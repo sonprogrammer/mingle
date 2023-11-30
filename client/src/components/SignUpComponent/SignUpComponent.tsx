@@ -198,8 +198,9 @@ export default function SignUpComponent({
           </StyledSelectedGenre>
         </div>
       )}
-
-      <LongButtonComponent text="가입하기" onClick={handleClick} />
+      <Link to="/completesignup">
+        <LongButtonComponent text="가입하기" onClick={handleClick} />
+      </Link>
       <StyledTextWrapper>
         <span>회원이신가요?</span>
         <Link to="/login">

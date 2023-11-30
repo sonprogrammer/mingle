@@ -1,31 +1,31 @@
-import tw, { styled } from 'twin.macro'
+import tw, { styled } from 'twin.macro';
 
 export const StyledDescriptBox = styled.div`
   ${tw`
         pt-12
-        ml-10
         pb-16
 
     `}
-`
+  margin:0 1.5rem;
+`;
 
 export const StyledTop = styled.div`
   ${tw`
     flex
     mb-8
   `}
-`
+`;
 export const StyledUserInfo = styled.div`
   ${tw`
     flex
   `}
-`
+`;
 export const StyledUserImg = styled.img`
   ${tw`
     w-20
     rounded-full
   `}
-`
+`;
 
 export const StyledUserName = styled.div`
   ${tw`
@@ -34,7 +34,7 @@ export const StyledUserName = styled.div`
   mt-6
   pl-4
   `}
-`
+`;
 
 export const StyledFollow = styled.div`
   ${tw`
@@ -49,7 +49,7 @@ export const StyledFollow = styled.div`
       background-color: #9b59b6;
       color: white;
   
-`
+`;
 export const StyledHeart = styled.div`
   ${tw`
   flex
@@ -70,7 +70,7 @@ export const StyledHeart = styled.div`
     font-size: 18px;
     mt-3
   }
-`
+`;
 
 export const StyledTitle = styled.div`
   ${tw`
@@ -82,22 +82,23 @@ export const StyledTitle = styled.div`
   whitespace-nowrap
 
     `}
-`
+`;
 
 export const StyledButton = styled.div`
-    ${tw`
+  ${tw`
       cursor-pointer
       font-black
       ml-1
       text-[#9b59b6]
     `}
-`
+`;
 
-export const StyledOverTitle = styled.div<{isExpand: boolean}>`
+export const StyledOverTitle = styled.div<{ isExpand: boolean }>`
   ${tw`
     overflow-hidden
   `}
-  ${({ isExpand}) => isExpand ?  tw` whitespace-normal` :  tw `whitespace-nowrap`}
+  ${({ isExpand }) =>
+    isExpand ? tw` whitespace-normal` : tw`whitespace-nowrap`}
   line-height:2rem;
-  overflow-wrap: break-word
-`
+  overflow-wrap: break-word;
+`;
