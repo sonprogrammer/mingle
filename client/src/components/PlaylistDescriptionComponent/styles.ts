@@ -23,6 +23,7 @@ export const StyledUserInfo = styled.div`
 export const StyledUserImg = styled.img`
   ${tw`
     w-20
+    rounded-full
   `}
 `
 

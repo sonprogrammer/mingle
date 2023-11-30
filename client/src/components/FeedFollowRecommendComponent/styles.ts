@@ -9,4 +9,4 @@ export const ProfileName = styled.p`
 export const PreviewImagesContainer = tw.div`grid grid-cols-3 gap-1 h-[100px] items-center`;
 export const PreviewImage = tw.img`w-full h-auto rounded-md cursor-pointer`;
 export const RecommendText = tw.p`text-sm mt-6 -mb-2 text-gray-500`;
-export const FollowButton = tw.button`bg-purple-600 hover:bg-purple-800 text-white font-bold mt-4 py-2 px-28 mb-4 rounded-xl`;
+export const FollowButton = tw.button`bg-purple-600 hover:bg-purple-800 text-white font-bold mt-4 py-2 px-24 mb-4 rounded-xl`;
