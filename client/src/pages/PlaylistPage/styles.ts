@@ -9,25 +9,27 @@ export const Divider = styled.div`
   width: 98%;
   border: 1px solid #ccc;
 `;
-export const ModifyBtn = styled.button`
-  position: absolute;
-  left: 72%;
-  top: 13%;
-  background-color: #9b59b6;
-  width: 130px;
-  height: 40px;
-  border-radius: 10px;
-  color: white;
+export const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 15%;
+  position: relative;
+  top: 14.7%;
+  left: 20%;
 `;
-
+export const ModifyBtn = styled.button`
+  color: #9b59b6;
+  font-size: 20px;
+  font-weight: bold;
+  position: relative;
+`;
 export const DeleteBtn = styled.button`
-  position: absolute;
-  left: 60%;
-  top: 13%;
-  background-color: #9b59b6;
-  width: 130px;
-  height: 40px;
-  border-radius: 10px;
-  color: white;
-  margin-right: 50px;
+  color: #9b59b6;
+  font-size: 20px;
+  font-weight: bold;
+`;
+export const Text = styled.span`
+  color: #9b59b6;
+  font-size: 20px;
+  font-weight: bold;
 `;
