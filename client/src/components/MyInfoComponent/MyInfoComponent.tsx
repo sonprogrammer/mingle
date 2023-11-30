@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   StyledUserInfo,
   StyledUserImage,
@@ -19,17 +19,21 @@ interface UserProfileHeaderProps {
   followersCount: number;
   followingCount: number;
   onUpdate: (updatedInfo: Partial<UserInfo>) => void;
+  onProfileUpdate: (userImage: string) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSave: () => void;
   profile: UserInfo;
 }
 
-export default function UserInfoComponent({
+interface UploadImage {
+  file: File;
+  type: string;
+}
+export default function MyInfoComponent({
   profile,
-  userImage,
+  playlist,
   postsCount,
-  followersCount,
-  followingCount,
+  onProfileUpdate,
   onUpdate,
 }: UserProfileHeaderProps) {
   const [statusMessage, setStatusMessage] = useState(
@@ -39,12 +43,42 @@ export default function UserInfoComponent({
   const handleStatusUpdate = async (updatedText: string) => {
     onUpdate({ userDescription: updatedText });
   };
+  //이미지 경로 생성
+  const imageUrl = `http://kdt-sw-6-team09.elicecoding.com/file/profile/${profile.userFile}`;
+  const imageInput = useRef<HTMLInputElement>();
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    if (fileList && fileList[0]) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const result = reader.result as string;
+        const dataIndex = result.indexOf(',') + 1;
+        const base64 = result.substring(dataIndex, result?.length);
+        onProfileUpdate(base64);
+      };
+      reader.readAsDataURL(fileList[0]);
+    }
+  };
+  const onClickImageUpload = () => {
+    if (imageInput.current) imageInput.current.click();
+  };
   return (
     <>
       <StyledUserInfo>
         <StyledUserSubInfo>
           {/* <UserImageContainer> */}
-          <StyledUserImage src={userImage} alt={'User'} />
+          <input
+            type="file"
+            style={{ display: 'none' }}
+            accept="image/*"
+            onChange={handleImageUpload}
+            ref={imageInput}
+          />
+          <StyledUserImage
+            src={imageUrl}
+            alt={'User'}
+            onClick={onClickImageUpload}
+          />
           {/* </UserImageContainer> */}
           <StyledUserDescript>
             <h2>{profile?.userNickname}</h2>
@@ -59,15 +93,15 @@ export default function UserInfoComponent({
         <StyledUserStatus>
           <StyledPostCount>
             <p>게시물 </p>
-            <span>{postsCount}</span>
+            <span>{playlist.length}</span>
           </StyledPostCount>
           <StyledFollower>
             <p>팔로워 </p>
-            <span>{followersCount} </span>
+            <span>{profile.userFollower.length} </span>
           </StyledFollower>
           <StyledFollowing>
             <p>팔로잉</p>
-            <span>{followingCount}</span>
+            <span>{profile.userFollow.length}</span>
           </StyledFollowing>
         </StyledUserStatus>
       </StyledUserInfo>

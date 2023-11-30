@@ -99,6 +99,18 @@ router.put(
 	}
 );
 
+router.get('/:userId',
+passport.authenticate("jwt-user", { session: false }),
+ async (req, res, next) => {
+	try{
+		const userId = req.params.userId;
+		const data = await accountGet.getInfo(userId);	
+		res.status(200).json(data);
+	}catch(error){
+		next(error);
+	}
+});
+
 /**
  * 로그인 라우터
  * POST 방식을 사용하여 로그인 처리

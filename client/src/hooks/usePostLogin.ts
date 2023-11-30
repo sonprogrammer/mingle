@@ -25,8 +25,8 @@ export function usePostLogin(auth: Auth) {
             setRefreshToken(response.refreshToken, response.refreshExpiredDate);
             navigate('/');
         },
-        onError: (e) => {
-            console.log(e);
+        onError: () => {
+            alert("아이디 또는 비밀번호가 올바르지 않습니다.");
         }
 });
 }

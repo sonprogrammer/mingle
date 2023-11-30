@@ -39,6 +39,7 @@ export default function SignUpComponent({
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState<string[]>([]);
+  const [isEmailChekced, setIsEmailChecked] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [isButtonClicked, setIsButtonClicked] = useState(false);
 
@@ -63,6 +64,7 @@ export default function SignUpComponent({
   const handleEmailClick = async () => {
     setIsButtonClicked(true);
     try {
+      setIsEmailChecked(true);
       await refetch();
     } catch (error) {
       console.log('Error', error);
@@ -77,7 +79,13 @@ export default function SignUpComponent({
   });
   const handleClick = (event: React.FormEvent) => {
     event.preventDefault();
-    mutate();
+    if (userEmail === '') alert('이메일을 입력해주세요.');
+    else if (!isEmailChekced || error) alert('이메일 중복 확인을 해주세요.');
+    else if (userPassword === '') alert('비밀번호를 입력해주세요.');
+    else if (verifyPassword === '')
+      alert('비밀번호 재확인이 올바르지 않습니다.');
+    else if (userNickname === '') alert('닉네임을 입력해주세요.');
+    else mutate();
   };
 
   const togglePasswordVisibility = () => {
@@ -171,6 +179,9 @@ export default function SignUpComponent({
           onChange={(e) => setUserNickname(e.target.value)}
         />
       </div>
+      {userEmail === '' && (
+        <StyleWarningText>비밀번호가 일치하지 않습니다.</StyleWarningText>
+      )}
       {passwordError && (
         <StyleWarningText>비밀번호가 일치하지 않습니다.</StyleWarningText>
       )}

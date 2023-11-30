@@ -27,7 +27,7 @@ const playSearch = async (query, page, pageSize, userId) => {
         });
         return {
           ...playlist._doc,
-          likedByUser: like ? true : false, 
+          liked: like ? true : false,
           likeCount,
         };
       })
@@ -39,7 +39,11 @@ const playSearch = async (query, page, pageSize, userId) => {
       return [];
     }
 
-    return { totalPages, currentPage, searchPlayList: searchPlayListWithLikeInfo };
+    return {
+      totalPages,
+      currentPage,
+      searchPlayList: searchPlayListWithLikeInfo,
+    };
   } catch (error) {
     console.error(error);
     throw error;

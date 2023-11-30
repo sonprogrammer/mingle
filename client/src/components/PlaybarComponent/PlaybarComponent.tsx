@@ -10,7 +10,7 @@ export default function PlaybarComponent() {
   const navigate = useNavigate();
   const music = useRecoilValue(musicState);
   const handleClick = () => {
-    navigate(`/playlist?id=${music.playlistId}`);
+    navigate(`/playlist?id=${music.playlistId}`, { state: { id: music.idx } });
   };
   const playRef = useRef<H5AudioPlayer | null>(null);
   return (
