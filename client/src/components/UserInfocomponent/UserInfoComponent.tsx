@@ -7,7 +7,6 @@ import {
   StyledUserDescript,
   StyledUserSubInfo,
   StyledUserStatus,
-  /* StyledPostCount, 게시물 갯수 스타일 */
   StyledFollower,
   StyledFollowing,
   StyledDivider,
