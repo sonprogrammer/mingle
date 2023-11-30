@@ -18,6 +18,15 @@ export default function PlaylistRecommendComponent({
   search,
   playlists,
 }: PlaylistRecommendComponentProps) {
+
+  let weatherId = null;
+  if(weather && playlists && playlists.length > 0) {
+    const firstPlaylistWeather = playlists[0].weather;
+    if(firstPlaylistWeather && firstPlaylistWeather.length > 0){
+      weatherId == firstPlaylistWeather[0].id;
+    }
+  }
+
   return (
     <>
       {genre && (

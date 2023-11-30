@@ -1,6 +1,6 @@
 import React from 'react';
 import { PlaylistRecommendComponent } from '../../components';
-import { useGetWeatherPlaylist } from '../../hooks/useGetWeatherPlaylist';
+import { useGetWeatherPlaylist } from '../../hooks';
 
 const playlistInfo = [
   {
@@ -50,10 +50,25 @@ const GenreplaylistInfo = [
 
 
 export default function FeedPage() {
+  const { data: weatherData , isLoading, error} = useGetWeatherPlaylist();
+  console.log('weatherData',weatherData)
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
+
+  const currentWeather = weatherData?.weather[0]?.main || '맑음';
+  const weatherPlaylists = weatherData?.playlists || [];
+
+  console.log(currentWeather);
   
   return (
     <>
-      <PlaylistRecommendComponent weather='맑음' playlists={playlistInfo}  />
+      <PlaylistRecommendComponent weather={currentWeather} playlists={weatherPlaylists}  />
       <PlaylistRecommendComponent genre="댄스" playlists={GenreplaylistInfo} />
     </>
   );
