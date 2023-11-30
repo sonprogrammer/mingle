@@ -28,3 +28,4 @@ export * from './UploadButtonComponent';
 export * from './UserInfocomponent';
 export * from './PaginationComponent';
 export * from './UserUploadSongComponent';
+export * from './NotFoundComponent';
