@@ -134,16 +134,16 @@ export default function MyPagePlaylists({
                 return (
                   <>
                     <UserUploadSongComponent
-                      _id={songs.song._id || 'error'} // 오류 메시지는 임시로 사용
-                      key={songs.song._id}
-                      playListImg={songs.song.songImageLocation}
-                      playListTitle={songs.song.songName}
-                      likeCount={songs.song.likeCount}
+                      _id={songs._id || 'error'} // 오류 메시지는 임시로 사용
+                      key={songs._id}
+                      playListImg={songs.songImageLocation}
+                      playListTitle={songs.songName}
+                      likeCount={songs.likeCount}
                       onClick={handleCardClick}
                       selectTab={selectTab}
-                      songId={songs.song._id}
-                      onDelete={() => handleDeleteUploadedSong(songs.song._id)}
-                      songData={songs.song.songData}
+                      songId={songs._id}
+                      onDelete={() => handleDeleteUploadedSong(songs._id)}
+                      // songData={songs.song.songData}
                     />
                   </>
                 );
