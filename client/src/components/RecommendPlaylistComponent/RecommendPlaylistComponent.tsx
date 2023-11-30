@@ -78,7 +78,7 @@ export default function RecommendPlaylistComponent({
     setIsModal(false);
   };
   const handleCardClick = () => {
-    navigate(`/playlist?id=${_id}`, { state: { id: 0 } });
+    navigate(`/playlist?id=${_id}`, { state: { id: 0, isFromMyPage: true } });
   };
   return (
     <PlaylistCardContainer
