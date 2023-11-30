@@ -83,6 +83,8 @@ export const StyledComment = styled.div`
 export const StyledInputContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
   margin-left: 14px;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -91,7 +93,7 @@ export const StyledInputContainer = styled.div`
 export const StyledTextArea = styled.textarea`
   flex-grow: 1;
   position: relative;
-  height: 90px;
+  height: 60px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -116,6 +118,7 @@ export const StyledTextArea = styled.textarea`
 
 export const StyledButton = styled.button`
   padding: 10px 15px;
+  height: 60px;
   border: none;
   border-radius: 5px;
   background-color: #9b59b6;

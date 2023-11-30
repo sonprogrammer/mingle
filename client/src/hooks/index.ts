@@ -40,3 +40,4 @@ export * from './useDeletePlaylistComment';
 export * from './usePostPlaylistLikeToggle';
 export * from './useDeletePlaylistLikeToggle';
 export * from './useGetPlaylistsByFollow';
+export * from './usePutPlaylistComment';
