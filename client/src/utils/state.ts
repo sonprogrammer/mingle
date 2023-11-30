@@ -16,6 +16,10 @@ export const loginState = atom<{
   },
 });
 
+export const emailState = atom<string>({
+  key: 'email',
+  default: '',
+})
 export const musicState = atom<{
   playlist: string;
   playlistId: string;

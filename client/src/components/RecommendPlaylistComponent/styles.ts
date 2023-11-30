@@ -2,10 +2,9 @@ import tw, { styled } from 'twin.macro';
 
 export const PlaylistCardContainer = tw.div`flex-col h-max relative overflow-auto bg-neutral-400 rounded-lg w-1/6  cursor-pointer`;
 export const AlbumImage = tw.img`flex-col w-40 h-40 rounded-lg self-center`;
-export const ContentSection = tw.div`flex-col p-4 pl-6 -ml-2 h-[100px]`;
+export const ContentSection = tw.div`flex-col p-4 pl-6 -ml-2 h-[100px] overflow-hidden`;
 export const Title = styled.h3`
   ${tw`text-lg -mt-4 text-white font-semibold h-[50px]`}
-  width: 200px;
   text-overflow: ellipsis;
   overflow: hidden;
   word-break: break-all;
