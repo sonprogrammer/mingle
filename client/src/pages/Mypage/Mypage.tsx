@@ -62,7 +62,8 @@ export default function Mypage() {
 
   // 여기서 데이터에 map함수를 적용할지 아니면 훅에서 songs배열을 바로 반환시킬지
   // 나중에 더 효율 좋은 방식으로 수정할 예정
-  const uploadedPlaylists = data && data.songs ? data.songs : [];
+  const uploadedPlaylists = data && data.songInfo ? data.songInfo : [];
+  console.log(uploadedPlaylists);
   return (
     <>
       <MyInfoComponent
