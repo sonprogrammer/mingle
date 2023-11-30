@@ -18,7 +18,6 @@ export default function PlaylistRecommendComponent({
   search,
   playlists,
 }: PlaylistRecommendComponentProps) {
-  let weatherId = null;
   return (
     <>
       {genre && (
