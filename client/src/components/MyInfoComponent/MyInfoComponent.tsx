@@ -37,7 +37,7 @@ export default function MyInfoComponent({
   onUpdate,
 }: UserProfileHeaderProps) {
   const [statusMessage, setStatusMessage] = useState(
-    profile?.userDescription || '20자 이내로 입력하시오.',
+    profile?.userDescription || '20자 이내로 계정 설명을 입력해주세요.',
   );
 
   const handleStatusUpdate = async (updatedText: string) => {

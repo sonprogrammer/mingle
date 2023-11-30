@@ -93,51 +93,64 @@ export default function MyPagePlaylists({
 
       <PlaylistContainer>
         <PlaylistConetent>
-          {selectTab === 'myPlaylists' &&
-            myPlaylists.map((playlist, idx) => (
-              <RecommendPlaylistComponent
-                key={idx}
-                playListImg={playlist.playListImg}
-                playListTitle={playlist.playListTitle}
-                likeCount={playlist.likeCount}
-                selectTab={selectTab}
-                _id={playlist._id}
-              />
-            ))}
-          {selectTab === 'likedPlaylists' &&
-            likedPlaylists &&
-            likedPlaylists.length > 0 &&
-            likedPlaylists?.map((playlist) => (
-              <RecommendPlaylistComponent
-                key={playlist._id}
-                playListImg={playlist.playListImg}
-                playListTitle={playlist.playListTitle}
-                likeCount={playlist.likeCount}
-                selectTab={selectTab}
-                _id={playlist._id}
-              />
-            ))}
+          {selectTab === 'myPlaylists' ? (
+            myPlaylists && myPlaylists.length > 0 ? (
+              myPlaylists?.map((playlist) => (
+                <RecommendPlaylistComponent
+                  key={playlist._id}
+                  playListImg={playlist.playListImg}
+                  playListTitle={playlist.playListTitle}
+                  likeCount={playlist.likeCount}
+                  selectTab={selectTab}
+                  _id={playlist._id}
+                />
+              ))
+            ) : (
+              <>업로드한 플레이리스트가 없습니다.</>
+            )
+          ) : null}
+          {selectTab === 'likedPlaylists' ? (
+            likedPlaylists && likedPlaylists.length > 0 ? (
+              likedPlaylists?.map((playlist) => (
+                <RecommendPlaylistComponent
+                  key={playlist._id}
+                  playListImg={playlist.playListImg}
+                  playListTitle={playlist.playListTitle}
+                  likeCount={playlist.likeCount}
+                  selectTab={selectTab}
+                  _id={playlist._id}
+                />
+              ))
+            ) : (
+              <>좋아요한 플레이리스트가 없습니다.</>
+            )
+          ) : null}
 
-          {selectTab === 'myuploadsongslists' &&
-            myUploadSongslists.map((playlist) => {
-              return (
-                <>
-                  <RecommendPlaylistComponent
-                    _id={playlist._id || 'error'} // 오류 메시지는 임시로 사용
-                    key={playlist._id}
-                    playListImg={playlist.playListImg}
-                    playListTitle={playlist.playListTitle}
-                    likeCount={playlist.likeCount}
-                    onClick={handleCardClick}
-                    selectTab={selectTab}
-                    songId={playlist.songId}
-                    onDelete={() => handleDeleteUploadedSong(playlist.songId)}
-                    songData={playlist.songData}
-                  />
-                </>
-              );
-            })}
-          <UploadButtonComponent text="업로드" onClick={handleButtonClick} />
+          {selectTab === 'myuploadsongslists' ? (
+            myUploadSongslists && myUploadSongslists.length > 0 ? (
+              myUploadSongslists.map((playlist) => {
+                return (
+                  <>
+                    <RecommendPlaylistComponent
+                      _id={playlist._id || 'error'} // 오류 메시지는 임시로 사용
+                      key={playlist._id}
+                      playListImg={playlist.playListImg}
+                      playListTitle={playlist.playListTitle}
+                      likeCount={playlist.likeCount}
+                      onClick={handleCardClick}
+                      selectTab={selectTab}
+                      songId={playlist.songId}
+                      onDelete={() => handleDeleteUploadedSong(playlist.songId)}
+                      songData={playlist.songData}
+                    />
+                  </>
+                );
+              })
+            ) : (
+              <>업로드한 곡이 없습니다.</>
+            )
+          ) : null}
+          <UploadButtonComponent text="곡 업로드" onClick={handleButtonClick} />
         </PlaylistConetent>
       </PlaylistContainer>
       {isModalOpen && <UploadModalComponent onClose={handleCloseModal} />}

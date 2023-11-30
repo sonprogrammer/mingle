@@ -43,7 +43,7 @@ export default function PlaylistContentsComponent({
           `http://kdt-sw-6-team09.elicecoding.com/file/audio/${song.url}`,
       ),
       idx: songId,
-      isPlaying: true,
+      isPlaying: music.isPlaying,
       volume: music.volume,
       mute: music.mute,
     });
