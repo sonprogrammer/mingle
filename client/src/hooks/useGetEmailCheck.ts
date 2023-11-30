@@ -1,11 +1,12 @@
 import { useQuery } from 'react-query';
-import axios from 'axios';
+import { AxiosInstance } from 'axios';
 import { emailCheck } from '../types';
+import { useAxios } from '../utils';
 
 
-const getEmailCheck = async (email: string): Promise<emailCheck> => {
+const getEmailCheck = async (axiosBase: AxiosInstance, email: string): Promise<emailCheck> => {
   try {
-    const response = await axios.get(`/api/account/check-email?email=${email}`);
+    const response = await axiosBase.get(`/api/account/check-email?email=${email}`);
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -18,9 +19,10 @@ const getEmailCheck = async (email: string): Promise<emailCheck> => {
 };
 
 export function useGetEmailCheck(email: string){
+  const { axiosBase } = useAxios();
   return useQuery<emailCheck, Error>(
     ['emailCheck', email],
-    ({ queryKey }) => getEmailCheck(queryKey[1] as string),
+    ({ queryKey }) => getEmailCheck(axiosBase, queryKey[1] as string),
     {
       retry: false,
       enabled: false,

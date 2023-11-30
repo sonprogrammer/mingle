@@ -1,21 +1,22 @@
-import axios from 'axios';
 import { useMutation } from 'react-query';
 import { Auth, Token } from '../types';
 import { useSetRecoilState } from 'recoil';
-import { setRefreshToken, loginState } from '../utils';
+import { setRefreshToken, loginState, useAxios } from '../utils';
 import { useNavigate } from 'react-router-dom';
+import { AxiosInstance } from 'axios';
 
-const postLogin = async (auth: Auth): Promise<Token> => { 
-	const response = await axios.post(
+const postLogin = async (axiosBase: AxiosInstance, auth: Auth): Promise<Token> => { 
+	const response = await axiosBase.post(
 		'/api/account/login', auth
 	);
 	return response.data;
 };
 
 export function usePostLogin(auth: Auth) {
+    const { axiosBase } = useAxios();
     const setLogin = useSetRecoilState(loginState);
     const navigate = useNavigate();
-    return useMutation(() => postLogin(auth), {
+    return useMutation(() => postLogin(axiosBase, auth), {
         onSuccess: (response) => {
             setLogin({
                 isLogin: true,

@@ -11,7 +11,7 @@ const getPlaylistsBySearch = async (axiosInstance: AxiosInstance, keyword: strin
 	return response.data;
 };
 export function useGetPlaylistsBySearch(keyword: string, pageNum: number) {
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
 	return useQuery(["get-playlists-by-search", keyword, pageNum], ({ queryKey }) =>
 		getPlaylistsBySearch(axiosInstance, queryKey[1] as string, queryKey[2] as number),
 		{

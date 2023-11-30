@@ -26,7 +26,7 @@ export const uploadedSongsState = atom<SongData[]>({
   default: [],
 });
 export function usePostUploadSongs(onClose: () => void) {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useMutation(
     (songData: SongData) => {
       const formData = new FormData();

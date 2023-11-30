@@ -8,7 +8,7 @@ const unfollowUser = async (userId: string, axiosInstance: AxiosInstance) => {
 };
 
 export function useDeleteUnFollow() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
 
   const mutation = useMutation((userId: string) =>
     unfollowUser(userId, axiosInstance),

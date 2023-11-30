@@ -8,6 +8,6 @@ const getOtherUserInfo = async (axiosInstance: AxiosInstance, userId: string): P
   return response.data;
 };
 export function useGetOtherUserInfo(userId: string) {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useQuery(['get-other-user-info', userId], ({ queryKey }) => getOtherUserInfo(axiosInstance, queryKey[1]));
 }

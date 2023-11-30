@@ -1,24 +1,25 @@
+import { AxiosInstance } from 'axios';
 import { useMutation } from 'react-query';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../types';
+import { useAxios } from '../utils';
 
-async function postPassword({
+async function postPassword(axiosBase: AxiosInstance, {
   userEmail,
   userNickname,
 }: Pick<User, 'userEmail' | 'userNickname'>) {
-  const response = await axios.post('/api/account/reset-password', {
+  const response = await axiosBase.post('/api/account/reset-password', {
     userEmail,
     userNickname,
   });
   return response.data;
 }
 
-export function usePostPassword() {
+export function usePostPassword(userEmail: string, userNickname: string) {
   const navigate = useNavigate();
-
+  const { axiosBase } = useAxios();
   return useMutation<string, Error, Pick<User, 'userEmail' | 'userNickname'>>(
-    postPassword,
+    () => postPassword(axiosBase, { userEmail, userNickname }),
     {
       onSuccess: () => {
         navigate('/completerecoverypw');

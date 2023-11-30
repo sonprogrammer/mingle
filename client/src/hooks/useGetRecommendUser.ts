@@ -10,7 +10,7 @@ const getRecommendUser = async( axiosInstance: AxiosInstance) => {
 }
 
 export function useGetRecommendUser(){
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
     return useQuery(['get-recommend-user'], () => getRecommendUser(axiosInstance), {
         refetchOnWindowFocus: false,
         retry: 1,

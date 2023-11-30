@@ -3,19 +3,19 @@ import { useQuery } from 'react-query';
 import { useAxios } from '../utils';
 import { AxiosInstance } from 'axios';
 
-const getSongDetails = async (axios: AxiosInstance, songId: string) => {
-  const { data } = await axios.get(`/api/song/${songId}`);
+const getSongDetails = async (axiosInstance: AxiosInstance, songId: string) => {
+  const { data } = await axiosInstance.get(`/api/song/${songId}`);
   return data;
 };
 
 export function useGetSongDetails(songId: string) {
-  const axios = useAxios();
+  const { axiosInstance } = useAxios();
   const [errorOccurred, setErrorOccurred] = useState(false);
   return useQuery(
     ['song', songId],
     async () => {
       try {
-        return await getSongDetails(axios, songId);
+        return await getSongDetails(axiosInstance, songId);
       } catch (error) {
         if (!errorOccurred) {
           setErrorOccurred(true);
