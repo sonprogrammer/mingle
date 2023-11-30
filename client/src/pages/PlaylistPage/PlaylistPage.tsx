@@ -11,7 +11,14 @@ import { PlaylistModifyComponent } from '../../components/PlaylistModifyComponen
 import { useGetPlaylistById } from '../../hooks';
 import { useDeletePlayList } from '../../hooks/useCUDPlayList';
 import { formatDuration, musicState } from '../../utils';
-import { Content, Divider, ModifyBtn, DeleteBtn } from './styles';
+import {
+  Content,
+  Divider,
+  ButtonBox,
+  ModifyBtn,
+  DeleteBtn,
+  Text,
+} from './styles';
 
 export default function PlaylistPage() {
   const location = useLocation();
@@ -102,10 +109,11 @@ export default function PlaylistPage() {
         )}
       </Content>
       {isFromMyPage ? (
-        <>
+        <ButtonBox>
           <DeleteBtn onClick={handlePlayListDelete}>삭제하기</DeleteBtn>
+          <Text>/</Text>
           <ModifyBtn onClick={() => setIsModalAppear(true)}>수정하기</ModifyBtn>
-        </>
+        </ButtonBox>
       ) : null}
       <Divider />
       <PlaylistDescriptionComponent
@@ -115,6 +123,7 @@ export default function PlaylistPage() {
         userName={data?.playListOwner.userNickname}
         isUserLiked={data?.like}
         likeCount={data?.likeCount}
+        isFromMyPage={isFromMyPage}
       />
       <Divider />
       <PlaylistCommentComponent
