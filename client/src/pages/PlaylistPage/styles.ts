@@ -10,22 +10,22 @@ export const Divider = styled.div`
   border: 1px solid #ccc;
 `;
 export const ModifyBtn = styled.button`
-  position: absolute;
-  left: 72%;
-  top: 13%;
+  position: relative;
+  bottom: 83%;
+  left: 70%;
   background-color: #9b59b6;
-  width: 130px;
+  width: 100px;
   height: 40px;
   border-radius: 10px;
   color: white;
 `;
 
 export const DeleteBtn = styled.button`
-  position: absolute;
-  left: 60%;
-  top: 13%;
+  position: relative;
+  bottom: 83%;
+  left: 70%;
   background-color: #9b59b6;
-  width: 130px;
+  width: 100px;
   height: 40px;
   border-radius: 10px;
   color: white;

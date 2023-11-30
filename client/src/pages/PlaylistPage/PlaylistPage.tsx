@@ -15,7 +15,6 @@ import { Content, Divider, ModifyBtn, DeleteBtn } from './styles';
 
 export default function PlaylistPage() {
   const location = useLocation();
-  const navigate = useNavigate();
   const id = new URLSearchParams(location.search).get('id') as string;
   const songId = location.state.id;
   const isFromMyPage = Boolean(location.state.isFromMyPage);
@@ -99,17 +98,15 @@ export default function PlaylistPage() {
               songs={items}
               songId={songId}
             />
-            {isFromMyPage ? (
-              <>
-                <DeleteBtn onClick={handlePlayListDelete}>삭제하기</DeleteBtn>
-                <ModifyBtn onClick={() => setIsModalAppear(true)}>
-                  수정하기
-                </ModifyBtn>
-              </>
-            ) : null}
           </>
         )}
       </Content>
+      {isFromMyPage ? (
+        <>
+          <DeleteBtn onClick={handlePlayListDelete}>삭제하기</DeleteBtn>
+          <ModifyBtn onClick={() => setIsModalAppear(true)}>수정하기</ModifyBtn>
+        </>
+      ) : null}
       <Divider />
       <PlaylistDescriptionComponent
         playlistId={data?._id}

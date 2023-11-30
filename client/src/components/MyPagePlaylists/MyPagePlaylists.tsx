@@ -102,6 +102,7 @@ export default function MyPagePlaylists({
                 likeCount={playlist.likeCount}
                 selectTab={selectTab}
                 _id={playlist._id}
+                isFromMyPage={true}
               />
             ))}
           {selectTab === 'likedPlaylists' &&
