@@ -81,6 +81,19 @@ export default function PlaylistPage() {
   return (
     <>
       <Content>
+        {isModalAppear ? (
+          <div ref={modalRef}>
+            <PlaylistModifyComponent
+              playListId={data?._id}
+              img={data?.playListImg}
+              title={data?.playListTitle}
+              playListSongs={items}
+              description={data?.playListExplain}
+              genre={data?.genre}
+              setIsModalAppear={setIsModalAppear}
+            />
+          </div>
+        ) : null}
         {isLoading ? (
           <div role="status" className="text-center mt-[36vh]">
             <svg
