@@ -93,31 +93,39 @@ export default function MyPagePlaylists({
 
       <PlaylistContainer>
         <PlaylistConetent>
-          {selectTab === 'myPlaylists' &&
-            myPlaylists.map((playlist, idx) => (
-              <RecommendPlaylistComponent
-                key={idx}
-                playListImg={playlist.playListImg}
-                playListTitle={playlist.playListTitle}
-                likeCount={playlist.likeCount}
-                selectTab={selectTab}
-                _id={playlist._id}
-                isFromMyPage={true}
-              />
-            ))}
-          {selectTab === 'likedPlaylists' &&
-            likedPlaylists &&
-            likedPlaylists.length > 0 &&
-            likedPlaylists?.map((playlist) => (
-              <RecommendPlaylistComponent
-                key={playlist._id}
-                playListImg={playlist.playListImg}
-                playListTitle={playlist.playListTitle}
-                likeCount={playlist.likeCount}
-                selectTab={selectTab}
-                _id={playlist._id}
-              />
-            ))}
+          {selectTab === 'myPlaylists' ? (
+            myPlaylists && myPlaylists.length > 0 ? (
+              myPlaylists?.map((playlist) => (
+                <RecommendPlaylistComponent
+                  key={playlist._id}
+                  playListImg={playlist.playListImg}
+                  playListTitle={playlist.playListTitle}
+                  likeCount={playlist.likeCount}
+                  selectTab={selectTab}
+                  _id={playlist._id}
+                  isFromMyPage={true}
+                />
+              ))
+            ) : (
+              <>업로드한 플레이리스트가 없습니다.</>
+            )
+          ) : null}
+          {selectTab === 'likedPlaylists' ? (
+            likedPlaylists && likedPlaylists.length > 0 ? (
+              likedPlaylists?.map((playlist) => (
+                <RecommendPlaylistComponent
+                  key={playlist._id}
+                  playListImg={playlist.playListImg}
+                  playListTitle={playlist.playListTitle}
+                  likeCount={playlist.likeCount}
+                  selectTab={selectTab}
+                  _id={playlist._id}
+                />
+              ))
+            ) : (
+              <>좋아요한 플레이리스트가 없습니다.</>
+            )
+          ) : null}
 
           {selectTab === 'myuploadsongslists' &&
             myUploadSongslists.map((playlist) => {
