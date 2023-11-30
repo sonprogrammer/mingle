@@ -51,11 +51,6 @@ const deletePlayList = async (
   return response.data;
 };
 
-// export const uploadedPlayListState = atom<PlayListData[]>({
-//   key: 'uploadedPlayListState',
-//   default: [],
-// });
-
 export function usePostUploadPlayList(
   setIsModalAppear: (value: boolean) => void,
   setSongs: (value: string[]) => void,

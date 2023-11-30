@@ -22,6 +22,7 @@ import {
 interface PlayDescript {
   playlistId: string | undefined;
   description: string | undefined;
+  isFromMyPage: boolean;
 }
 
 interface User {
@@ -39,6 +40,7 @@ export default function PlaylistDescriptionComponent({
   userName,
   isUserLiked,
   likeCount,
+  isFromMyPage,
 }: PlayDescriptAndUser) {
   const [isLike, setIsLike] = useState(isUserLiked);
   const [isExpand, setIsExpand] = useState(false);
@@ -66,9 +68,11 @@ export default function PlaylistDescriptionComponent({
             <StyledUserName>{userName}</StyledUserName>
           </StyledUserInfo>
 
-          <StyledFollow>
-            <span>팔로우</span>
-          </StyledFollow>
+          {!isFromMyPage ? (
+            <StyledFollow>
+              <span>팔로우</span>
+            </StyledFollow>
+          ) : null}
 
           <StyledHeart onClick={handleClick}>
             {isLike ? (

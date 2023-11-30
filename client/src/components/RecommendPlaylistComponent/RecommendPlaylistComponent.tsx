@@ -46,6 +46,7 @@ export default function RecommendPlaylistComponent({
   onClick,
   selectTab,
   songId,
+  isFromMyPage,
 }: RecommendPlaylistComponentProps) {
   const navigate = useNavigate();
   const [isModal, setIsModal] = useState(false);
@@ -78,8 +79,13 @@ export default function RecommendPlaylistComponent({
     setIsModal(false);
   };
   const handleCardClick = () => {
-    navigate(`/playlist?id=${_id}`, { state: { id: 0, isFromMyPage: true } });
+    if (isFromMyPage) {
+      navigate(`/playlist?id=${_id}`, { state: { id: 0, isFromMyPage: true } });
+    } else {
+      navigate(`/playlist?id=${_id}`, { state: { id: 0 } });
+    }
   };
+
   return (
     <PlaylistCardContainer
       onClick={handleCardClick}
