@@ -179,9 +179,6 @@ export default function SignUpComponent({
           onChange={(e) => setUserNickname(e.target.value)}
         />
       </div>
-      {userEmail === '' && (
-        <StyleWarningText>비밀번호가 일치하지 않습니다.</StyleWarningText>
-      )}
       {passwordError && (
         <StyleWarningText>비밀번호가 일치하지 않습니다.</StyleWarningText>
       )}
@@ -201,8 +198,9 @@ export default function SignUpComponent({
           </StyledSelectedGenre>
         </div>
       )}
-
-      <LongButtonComponent text="가입하기" onClick={handleClick} />
+      <Link to="/completesignup">
+        <LongButtonComponent text="가입하기" onClick={handleClick} />
+      </Link>
       <StyledTextWrapper>
         <span>회원이신가요?</span>
         <Link to="/login">

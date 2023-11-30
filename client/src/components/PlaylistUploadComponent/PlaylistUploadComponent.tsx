@@ -14,7 +14,7 @@ import {
   StyleSongInfo,
   StyleSongImg,
 } from './styles';
-import { usePostUploadPlayList } from '../../hooks/usePostUploadPlayList';
+import { usePostUploadPlayList } from '../../hooks/useCUDPlayList';
 
 interface Song {
   _id: string;

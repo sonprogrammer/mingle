@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { musicState } from '../../utils';
 import { StyledContentsItem, StyledContentsItemLength } from './styles';
@@ -26,6 +26,9 @@ export default function PlaylistItemComponent({
   const [isClick, setIsClick] = useState(false);
   const setMusic = useSetRecoilState(musicState);
   const music = useRecoilValue(musicState);
+  useEffect(() => {
+    setSelectedIdx(music.idx);
+  }, [music.idx, setSelectedIdx]);
   const handleClick = () => {
     setSelectedSong(true);
     setSelectedIdx(idx);
@@ -33,9 +36,9 @@ export default function PlaylistItemComponent({
     setMusic({
       playlistId: music.playlistId,
       playlist: music.playlist,
-      title: item.title,
-      img: `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${item.img}`,
-      url: `http://kdt-sw-6-team09.elicecoding.com/file/audio/${item.url}`,
+      title: music.title,
+      img: music.img,
+      url: music.url,
       idx: idx,
       isPlaying: true,
       volume: music.volume,

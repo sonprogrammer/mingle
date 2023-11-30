@@ -21,6 +21,7 @@ import {
   PlaylistSearchPage,
   SongSearchPage,
   UserInfoPage,
+  NotFoundPage,
 } from './pages';
 import PrivateRoute from './PrivateRoute';
 
@@ -42,6 +43,7 @@ function App() {
                 path="/completerecoverypw"
                 element={<CompletePasswordRecoveryPage />}
               ></Route>
+              <Route path="*" element={<NotFoundPage />}></Route>
 
               <Route element={<LayoutPage />}>
                 <Route path="/" element={<FeedPage />}></Route>

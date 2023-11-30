@@ -21,7 +21,7 @@ export const StyledUserImageContainer = styled.div`
 export const StyledUserImage = styled.img`
   ${tw`
     rounded-full
-    w-20
+    w-40
     mt-1
  `}
 `;
@@ -100,4 +100,18 @@ export const StyledDivider = styled.div`
   ${tw`ml-[70px] h-[1px]`}
   width: 90%;
   border: 1px solid #ccc;
+`;
+
+export const StyledFollow = styled.button`
+  ${tw`
+  flex items-center	justify-center rounded-full w-20 px-2 cursor-pointer
+  ml-4 h-8 mt-2 
+  font-semibold
+  `}
+  background-color: #ffffff;
+  color: #7f7f7f;
+  gap: 4px;
+  &:hover {
+      background-color: #9b59b6;
+      color: white;
 `;

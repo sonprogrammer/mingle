@@ -1,7 +1,7 @@
 import { PlayComponent, SongInfo, Playbar, Container } from './styles';
 import { useNavigate } from 'react-router-dom';
 import { musicState } from '../../utils';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import React, { useRef } from 'react';
 import H5AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
@@ -9,8 +9,12 @@ import 'react-h5-audio-player/lib/styles.css';
 export default function PlaybarComponent() {
   const navigate = useNavigate();
   const music = useRecoilValue(musicState);
+  const setMusic = useSetRecoilState(musicState);
   const handleClick = () => {
-    navigate(`/playlist?id=${music.playlistId}`, { state: { id: music.idx } });
+    if (music.playlistId !== '')
+      navigate(`/playlist?id=${music.playlistId}`, {
+        state: { id: music.idx },
+      });
   };
   const playRef = useRef<H5AudioPlayer | null>(null);
   return (
@@ -19,11 +23,11 @@ export default function PlaybarComponent() {
         <span onClick={handleClick} className="cursor-pointer">
           {music.playlist}
         </span>
-        <SongInfo>{music.title}</SongInfo>
+        <SongInfo>{music.title[music.idx]}</SongInfo>
         <Playbar
           className="playbar"
           ref={playRef}
-          src={music.url}
+          src={music.url[music.idx]}
           volume={music.mute ? 0 : music.volume}
           layout="horizontal-reverse"
           customProgressBarSection={[
@@ -32,8 +36,50 @@ export default function PlaybarComponent() {
             RHAP_UI.DURATION,
             RHAP_UI.VOLUME_CONTROLS,
           ]}
+          onPlay={() => {
+            setMusic({
+              ...music,
+              isPlaying: true,
+            });
+          }}
+          onPause={() => {
+            setMusic({
+              ...music,
+              isPlaying: false,
+            });
+          }}
+          onEnded={() =>
+            music.idx < music.url.length - 1
+              ? setMusic({
+                  ...music,
+                  idx: music.idx + 1,
+                })
+              : setMusic({
+                  ...music,
+                  idx: 0,
+                })
+          }
+          onClickPrevious={() => {
+            music.idx > 0 &&
+              setMusic({
+                ...music,
+                idx: music.idx - 1,
+              });
+          }}
+          onClickNext={() => {
+            music.idx < music.url.length - 1
+              ? setMusic({
+                  ...music,
+                  idx: music.idx + 1,
+                })
+              : setMusic({
+                  ...music,
+                  idx: 0,
+                });
+          }}
           hasDefaultKeyBindings={false}
-          showJumpControls={true}
+          showJumpControls={false}
+          showSkipControls={true}
           customControlsSection={[RHAP_UI.MAIN_CONTROLS]}
         />
       </PlayComponent>

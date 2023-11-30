@@ -22,6 +22,7 @@ export default function UploadModalComponent({
 }: UploadModalComponentProps) {
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleOutsideClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -34,7 +35,7 @@ export default function UploadModalComponent({
     artist: '',
     albumCover: '',
     genre: '',
-    description: '', // 곡 시간을 넣으니 데이터에러가 발생 추후 물어보고 수정예정
+    description: '',
   });
 
   const { mutate: uploadMutate } = usePostUploadSongs(onClose);
@@ -42,17 +43,22 @@ export default function UploadModalComponent({
   const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
     if (audioFile && imageFile) {
+      setIsUploading(true);
       const songData = {
         audio: audioFile,
         image: imageFile,
         name: song.name,
         artist: song.artist,
         description: song.description,
-        duration: '6000', // 곡 시간쪽을 일단은 하드코딩 해놓은 상태 추후 수정예정
+        duration: '6000',
         genre: song.genre,
       };
 
-      uploadMutate(songData);
+      uploadMutate(songData, {
+        onSettled: () => {
+          setIsUploading(false);
+        },
+      });
     }
   };
   const handleAudioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +85,11 @@ export default function UploadModalComponent({
   return (
     <StyleContainer onClick={handleOutsideClick}>
       <button
-        style={{ display: 'flex', marginLeft: 'auto', marginBottom: '10px' }}
+        style={{
+          display: 'flex',
+          marginLeft: 'auto',
+          marginBottom: '10px',
+        }}
         onClick={onClose}
       >
         X
@@ -87,7 +97,7 @@ export default function UploadModalComponent({
       <StyleFormSection as="form" onSubmit={handleSubmit}>
         <StyleFileInputContainer>
           <StyleFileInputButton as="label">
-            {audioFile ? `${audioFile.name}` : 'SELECT AUDIO FILE'}
+            {audioFile ? `${audioFile.name}` : 'SELECT AUDIO FILE(mp3,wav)'}
             <input
               type="file"
               hidden
@@ -102,7 +112,7 @@ export default function UploadModalComponent({
             {imageFile ? (
               <img src={URL.createObjectURL(imageFile)} alt="Album Cover" />
             ) : (
-              'SELECT IMAGE FILE'
+              'SELECT IMAGE FILE(jpg,png)'
             )}
             <input
               type="file"
@@ -166,7 +176,9 @@ export default function UploadModalComponent({
           </StyleSelect>
         </StyleFormInputContainer>
 
-        <StyleButton type="submit">등록하기</StyleButton>
+        <StyleButton type="submit" disabled={isUploading}>
+          등록하기
+        </StyleButton>
       </StyleFormSection>
     </StyleContainer>
   );

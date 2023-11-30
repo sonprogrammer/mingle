@@ -30,22 +30,29 @@ async function recommend(userId) {
 
   // 2. 존재하면 그 플레이리스트의 업로더 id를 추출하여 그 업로더에 대한 정보(업로더의 프로필 사진, 닉네임)와, 그 업로더가 올린
   // 플레이리스트를 최근순으로 3개 가져온다.
-  const promises = distinctPlaylistUploaders.map(async (playList) => {
-    const recommendUser = new Object();
-    const uploader = await User.findById(playList._id);
-    recommendUser.userId = uploader._id;
-    recommendUser.nickname = uploader.userNickname;
-    recommendUser.userImg = uploader.userImage;
-    recommendUser.userFile = uploader.userFile;
-    recommendUser.playListPreview = await PlayList.find({
-      playListOwner: playList._id,
-    })
-      .select("playListImg")
-      .sort({ createdAt: -1 })
-      .limit(3);
-    return recommendUser;
-  });
+  const promises = [];
 
+  for (const playList of distinctPlaylistUploaders) {
+    if (playList && playList._id) {
+      const recommendUser = new Object();
+      const uploader = await User.findById(playList._id);
+  
+      if (uploader) {
+        recommendUser.userId = uploader._id;
+        recommendUser.nickname = uploader.userNickname;
+        recommendUser.userImg = uploader.userImage;
+        recommendUser.userFile = uploader.userFile;
+        recommendUser.playListPreview = await PlayList.find({
+          playListOwner: playList._id,
+        })
+          .select("playListImg")
+          .sort({ createdAt: -1 })
+          .limit(3);
+        
+        promises.push(recommendUser);
+      }
+    }
+  }
   recommendUsers = await Promise.all(promises);
   return recommendUsers;
 }
