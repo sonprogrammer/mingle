@@ -37,7 +37,7 @@ export default function PlaylistContentsComponent({
       img: `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${songs[songId]?.img}`,
       url: `http://kdt-sw-6-team09.elicecoding.com/file/audio/${songs[songId]?.url}`,
       idx: songId,
-      isPlaying: true,
+      isPlaying: music.isPlaying,
       volume: music.volume,
       mute: music.mute,
     });
