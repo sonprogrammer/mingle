@@ -31,29 +31,40 @@ router.get(
 	async (req, res, next) => {
 		try {
 			const userId = req.user.userId;
-			const data = await accountGet(userId);
+			const data = await accountGet.accountGet(userId);
 			res.status(200).json(data);
 		} catch (error) {
 			next(error);
 		}
 	}
-);
-
-/**
- * 회원 가입 API
- * POST 방식을 사용하여 회원 가입 처리
- * @param {object} req.body - 가입할 사용자 정보 (JSON 형태의 request body로 전달)
- * @returns {object} - 회원 가입 성공 시 200 응답, 실패 시 400 응답
- */
-router.post("/", userCreateValidation, async (req, res, next) => {
-	try {
-		const data = await accountCreate.userCreate(req.body);
-		res.status(200).json(data);
-	} catch (error) {
-		next(error);
-	}
-});
-
+	);
+	
+	/**
+	 * 회원 가입 API
+	 * POST 방식을 사용하여 회원 가입 처리
+	 * @param {object} req.body - 가입할 사용자 정보 (JSON 형태의 request body로 전달)
+	 * @returns {object} - 회원 가입 성공 시 200 응답, 실패 시 400 응답
+	*/
+	router.post("/", userCreateValidation, async (req, res, next) => {
+		try {
+			const data = await accountCreate.userCreate(req.body);
+			res.status(200).json(data);
+		} catch (error) {
+			next(error);
+		}
+	});
+	
+	router.get('/:userId',
+	passport.authenticate("jwt-user", { session: false }),
+	 async (req, res, next) => {
+		try{
+			const userId = req.params.userId;
+			const data = await accountGet.getInfo(userId);	
+			res.status(200).json(data);
+		}catch(error){
+			next(error);
+		}
+	});
 /**
  * 회원 탈퇴 API
  * DELETE 방식을 사용하여 회원 탈퇴 처리
@@ -99,17 +110,7 @@ router.put(
 	}
 );
 
-router.get('/:userId',
-passport.authenticate("jwt-user", { session: false }),
- async (req, res, next) => {
-	try{
-		const userId = req.params.userId;
-		const data = await accountGet.getInfo(userId);	
-		res.status(200).json(data);
-	}catch(error){
-		next(error);
-	}
-});
+
 
 /**
  * 로그인 라우터
