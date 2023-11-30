@@ -14,40 +14,51 @@ import {
   StyleSongInfo,
   StyleSongImg,
 } from './styles';
-import { usePostUploadPlayList } from '../../hooks/useCUDPlayList';
+import { usePutModifyPlayList } from '../../hooks/useCUDPlayList';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 interface Song {
+  title: string;
+  img: string;
+  url: string;
+  length: string;
   _id: string;
+}
+
+interface PlaylistModifyComponentProps {
+  playListId: string;
   img: string;
   title: string;
-  artist: string;
-  length: string;
-}
-
-interface PlaylistUploadComponentProps {
+  playListSongs: Song[];
+  description: string;
+  genre: string;
   setIsModalAppear: (value: boolean) => void;
-  songs: Song[];
-  setSongs: <T>(value: T[]) => void;
 }
 
-const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
+const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
+  playListId,
+  img,
+  title,
+  playListSongs,
+  description,
+  genre,
   setIsModalAppear,
-  songs,
-  setSongs,
 }) => {
-  const [imageFile, setImageFile] = useState<string | null>(null);
-  const [playListName, setPlayListName] = useState<string | null>(null);
-  const [playListDescription, setPlayListDescription] = useState<string | null>(
-    null,
+  const [songs, setSongs] = useState<Song[]>(playListSongs);
+  const [imageFile, setImageFile] = useState<string>(
+    `/file/playListCover/${img}`,
   );
-  const [playListGenre, setPlayListGenre] = useState<string | null>(null);
-
-  const { mutate: uploadMutate } = usePostUploadPlayList(
+  const [playListName, setPlayListName] = useState<string>(title);
+  const [playListDescription, setPlayListDescription] =
+    useState<string>(description);
+  const [playListGenre, setPlayListGenre] = useState<string | null>(genre);
+  const { mutate: modifyMutate } = usePutModifyPlayList(
+    playListId,
     setIsModalAppear,
-    setSongs,
   );
 
-  const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
     if (!imageFile || !playListName || !playListDescription || !playListGenre) {
       alert('모든 항목을 입력해 주세요.');
@@ -57,10 +68,13 @@ const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
         playListTitle: playListName,
         playListExplain: playListDescription,
         playListSongs: songs.map((song: Song) => song._id),
-        playListImg: imageFile.split(';base64,')[1],
         genre: playListGenre,
       };
-      uploadMutate(playListData);
+      if (!imageFile.includes('http://')) {
+        playListData.playListImg = imageFile.split(';base64,')[1];
+      }
+      modifyMutate(playListData);
+      window.location.reload();
     }
   };
 
@@ -99,6 +113,13 @@ const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
     }
   };
 
+  const handleDeleteSong = (deletedId: string) => {
+    setSongs((pre: Song[]) => {
+      const newArray = [...pre].filter((song) => song._id !== deletedId);
+      return newArray;
+    });
+  };
+
   return (
     <StyleContainer>
       <button
@@ -112,23 +133,35 @@ const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
       <StyleFormSection as="form" onSubmit={handleSubmit}>
         <StyleFormInputContainer>
           <StyleFormLabel htmlFor="description">
-            플레이리스트에 담을 곡들
+            플레이리스트에 담긴 곡들
           </StyleFormLabel>
           <StyleAddSongContainer>
             <ul>
               {songs.map((song) => (
                 <StyleToAddSong key={song._id}>
-                  <StyleSongImg src={song.img} alt="songImage" />
                   <StyleSongInfo>{song.title}</StyleSongInfo>
-                  <StyleSongInfo>{song.artist}</StyleSongInfo>
                   <StyleSongInfo>{song.length}</StyleSongInfo>
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    style={{
+                      color: '#ffffff',
+                      marginLeft: '20px',
+                      marginTop: '3px',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      handleDeleteSong(song._id);
+                    }}
+                  />
                 </StyleToAddSong>
               ))}
             </ul>
           </StyleAddSongContainer>
         </StyleFormInputContainer>
 
-        <StyleFormLabel htmlFor="name">플레이리스트 커버 이미지</StyleFormLabel>
+        <StyleFormLabel htmlFor="name">
+          플레이리스트 커버 이미지 (이미지 클릭하면 수정 가능)
+        </StyleFormLabel>
         <StyleCoverUpload>
           <StyleLabel>
             {imageFile ? (
@@ -188,10 +221,10 @@ const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
           </StyleSelect>
         </StyleFormInputContainer>
 
-        <StyleButton type="submit">등록하기</StyleButton>
+        <StyleButton type="submit">수정하기</StyleButton>
       </StyleFormSection>
     </StyleContainer>
   );
 };
 
-export default PlaylistUploadComponent;
+export default PlaylistModifyComponent;

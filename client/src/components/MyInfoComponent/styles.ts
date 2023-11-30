@@ -27,7 +27,12 @@ export const StyledUserImage = styled.img`
     rounded-full
     w-20
     mt-1
+    cursor-pointer
  `}
+ &:hover {
+     background-color: #000000;
+     opacity: 0.3;
+ }
 `
     
 export const StyledUserDescript = styled.div`

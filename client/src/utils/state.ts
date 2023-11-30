@@ -19,10 +19,10 @@ export const loginState = atom<{
 export const musicState = atom<{
   playlist: string;
   playlistId: string;
-  title: string;
-  url: string;
+  title: string[];
+  url: string[];
   idx: number;
-  img: string;
+  img: string[];
   isPlaying: boolean;
   volume: number;
   mute: boolean;
@@ -30,11 +30,11 @@ export const musicState = atom<{
   key: 'music',
   default: {
     playlistId: '',
-    playlist: '재생목록을 선택해 주세요.',
-    title: '현재 재생중인 노래가 없습니다.',
-    img: '',
+    playlist: '재생 중인 플레이리스트가 없습니다.',
+    title: ['재생 중인 음악이 없습니다.'],
+    img: [],
     idx: 0,
-    url: '',
+    url: [],
     isPlaying: false,
     volume: 1,
     mute: false,
