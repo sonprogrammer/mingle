@@ -37,14 +37,16 @@ export default function MyInfoComponent({
   onUpdate,
 }: UserProfileHeaderProps) {
   const [statusMessage, setStatusMessage] = useState(
-    profile?.userDescription || '20자 이내로 입력하시오.',
+    profile?.userDescription || '20자 이내로 계정 설명을 입력해주세요.',
   );
 
   const handleStatusUpdate = async (updatedText: string) => {
     onUpdate({ userDescription: updatedText });
   };
   //이미지 경로 생성
-  const imageUrl = `http://kdt-sw-6-team09.elicecoding.com/file/profile/${profile.userFile}`;
+  const imageUrl = `http://kdt-sw-6-team09.elicecoding.com/file/profile/${
+    profile.userFile || '1701310949831.png'
+  }`;
   const imageInput = useRef<HTMLInputElement>();
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;

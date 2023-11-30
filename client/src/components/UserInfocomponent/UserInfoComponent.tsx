@@ -12,6 +12,7 @@ import {
   StyledFollower,
   StyledFollowing,
   StyledDivider,
+  StyledFollow,
 } from './styles';
 
 interface UserInfoComponentProps {
@@ -59,7 +60,6 @@ export default function UserInfoComponent({
       console.error('유효하지 않은 사용자 ID');
     }
   };
-  console.log(songUploader);
   return (
     <>
       <StyledUserInfo>
@@ -71,13 +71,11 @@ export default function UserInfoComponent({
           <StyledUserDescript>
             <h2>{songUploader.userNickName || 'Unknown User'}</h2>
             {isFollowing ? (
-              <button onClick={handleUnfollowClick} style={{ display: 'flex' }}>
+              <StyledFollow onClick={handleUnfollowClick}>
                 언팔로우
-              </button>
+              </StyledFollow>
             ) : (
-              <button onClick={handleFollowClick} style={{ display: 'flex' }}>
-                팔로우
-              </button>
+              <StyledFollow onClick={handleFollowClick}>팔로우</StyledFollow>
             )}
           </StyledUserDescript>
         </StyledUserSubInfo>

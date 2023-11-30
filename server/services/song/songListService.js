@@ -1,6 +1,7 @@
 const Song = require("../../db/models/songModel");
 const SongLiked = require("../../db/models/songLikedModel");
 const isUserLikedSong = require("../../utils/commons/isUserLikedSong");
+const songLikedModel = require("../../db/models/songLikedModel");
 const createError = require("http-errors");
 
 // query로 orderby가 입력된 경우
@@ -128,8 +129,20 @@ async function getUserUploadedSongs(userId, page, pageSize) {
     .skip(skip)
     .limit(pageSize);
   const songs = await isUserLikedSong.verifyInSong(userId, userUploadedSongs);
+  const like = await songLikedModel.find({ userId: userId });
+  const songsInfo = await Promise.all(
+    songs.map(async (song) => {
+      const liked = like.some(
+        (likeItem) => likeItem.songId.toString() === song._id.toString()
+      );
+      const likeCount = await songLikedModel.countDocuments({
+        songId: song._id,
+      });
+      return { ...song, like: liked, likeCount };
+    })
+  );
   return {
-    songs,
+    songsInfo,
     currentPage: page,
     totalPages,
   };

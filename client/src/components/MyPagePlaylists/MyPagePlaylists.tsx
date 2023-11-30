@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDeleteSong } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import {
+  UserUploadSongComponent,
   RecommendPlaylistComponent,
   UploadButtonComponent,
   UploadModalComponent,
@@ -127,26 +128,31 @@ export default function MyPagePlaylists({
             )
           ) : null}
 
-          {selectTab === 'myuploadsongslists' &&
-            myUploadSongslists.map((playlist) => {
-              return (
-                <>
-                  <RecommendPlaylistComponent
-                    _id={playlist._id || 'error'} // 오류 메시지는 임시로 사용
-                    key={playlist._id}
-                    playListImg={playlist.playListImg}
-                    playListTitle={playlist.playListTitle}
-                    likeCount={playlist.likeCount}
-                    onClick={handleCardClick}
-                    selectTab={selectTab}
-                    songId={playlist.songId}
-                    onDelete={() => handleDeleteUploadedSong(playlist.songId)}
-                    songData={playlist.songData}
-                  />
-                </>
-              );
-            })}
-          <UploadButtonComponent text="업로드" onClick={handleButtonClick} />
+          {selectTab === 'myuploadsongslists' ? (
+            myUploadSongslists && myUploadSongslists.length > 0 ? (
+              myUploadSongslists.map((songs) => {
+                return (
+                  <>
+                    <UserUploadSongComponent
+                      _id={songs.song._id || 'error'} // 오류 메시지는 임시로 사용
+                      key={songs.song._id}
+                      playListImg={songs.song.songImageLocation}
+                      playListTitle={songs.song.songName}
+                      likeCount={songs.song.likeCount}
+                      onClick={handleCardClick}
+                      selectTab={selectTab}
+                      songId={songs.song._id}
+                      onDelete={() => handleDeleteUploadedSong(songs.song._id)}
+                      songData={songs.song.songData}
+                    />
+                  </>
+                );
+              })
+            ) : (
+              <>업로드한 곡이 없습니다.</>
+            )
+          ) : null}
+          <UploadButtonComponent text="곡 업로드" onClick={handleButtonClick} />
         </PlaylistConetent>
       </PlaylistContainer>
       {isModalOpen && <UploadModalComponent onClose={handleCloseModal} />}

@@ -64,7 +64,7 @@ export default function FeedPage() {
                 <FeedFollowRecommendComponent
                   userId={user.userId}
                   profileName={user.nickname || '엘리스'}
-                  profilePicture={user.userFile || '/img/AlbumSample.jpg'}
+                  profilePicture={user.userFile || '1701310949831.png'}
                   pictures={
                     user.playListPreview || [
                       '/img/AlbumSample.jpg',
