@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, SetStateAction, Dispatch } from 'react';
 import { faHeart as like } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +7,7 @@ import { usePostlikeToggle, useDeleteLikeToggle } from '../../hooks';
 
 import { useNavigate } from 'react-router-dom';
 
-interface Song {
+interface SelectedSongToUpload {
   _id: string;
   img: string;
   title: string;
@@ -20,12 +20,12 @@ interface ChartItemComponentProps {
   idx: number;
   title: string;
   img: string;
-  artist?: string;
+  artist: string;
   length: string;
   isLiked: boolean;
   songId: string;
-  songs: Song[];
-  setSongs: (value: Song) => void;
+  songs: SelectedSongToUpload[];
+  setSongs: Dispatch<SetStateAction<SelectedSongToUpload[]>>;
 }
 
 export default function ChartItemComponent({
@@ -70,14 +70,16 @@ export default function ChartItemComponent({
     }
     setIsClick(!isClick);
     if (songs.find((song) => song._id === _id)) {
-      setSongs((pre: Song[]) => {
+      setSongs((pre: SelectedSongToUpload[]) => {
         const removeCurSong = [...pre].filter((song) => song._id !== _id);
         return removeCurSong;
       });
       return;
     }
-    setSongs((pre: Song[]) => {
-      return [...pre, { _id, img, title, artist, length }];
+    setSongs((pre: SelectedSongToUpload[]) => {
+      const newArray = [...pre];
+      newArray.push({ _id, img, title, artist, length });
+      return newArray;
     });
   };
 

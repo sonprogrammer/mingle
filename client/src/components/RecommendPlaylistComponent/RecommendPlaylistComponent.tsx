@@ -36,6 +36,7 @@ interface RecommendPlaylistComponentProps {
   songId: string;
   songData: any;
   selectTab: string;
+  isFromMyPage: boolean;
 }
 
 export default function RecommendPlaylistComponent({

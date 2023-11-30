@@ -5,13 +5,9 @@ import { useAxios } from '../utils';
 interface PlayListData {
   playListTitle: string;
   playListExplain: string;
-  playListSongs: SongData[]; // SongData는 곡의 정보를 담는 타입으로 정의해야 함
-  playListImg: string;
+  playListSongs: string[]; // SongData는 곡의 정보를 담는 타입으로 정의해야 함
+  playListImg?: string;
   genre: string;
-}
-
-interface SongData {
-  _id: string;
 }
 
 const uploadPlayList = async (

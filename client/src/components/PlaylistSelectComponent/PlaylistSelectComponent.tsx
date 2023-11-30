@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import {
   StyleButton,
   StyleContainer,
@@ -19,7 +19,7 @@ import { usePostPlaylistAddSongs } from '../../hooks/usePostPlaylistAddSongs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
-interface Song {
+interface SelectedSong {
   _id: string;
   img: string;
   title: string;
@@ -27,11 +27,34 @@ interface Song {
   length: string;
 }
 
+interface CommentInSelect {
+  author: string;
+  comment: string;
+  date: string;
+  _id: string;
+}
+
+interface GetPlayListForModal {
+  createdAt: string;
+  genre: string;
+  like: boolean;
+  likeCount: number;
+  playListComments: CommentInSelect[];
+  playListExplain: string;
+  playListImg: string;
+  playListOwner: string;
+  playListSongs: string[];
+  playListTitle: string;
+  updatedAt: string;
+  _id: string;
+}
+
 interface PlaylistSelectComponentProps {
-  setIsModalAppear: (value: boolean) => void;
-  setIsSelectModal: (value: boolean | null) => void;
-  setIsExistingPlayList: (value: boolean | null) => void;
-  songs: Song[];
+  setIsModalAppear: Dispatch<SetStateAction<boolean>>;
+  setIsSelectModal: Dispatch<SetStateAction<boolean | null>>;
+  setIsExistingPlayList: Dispatch<SetStateAction<boolean | null>>;
+  setSongs: Dispatch<SetStateAction<SelectedSong[]>>;
+  songs: SelectedSong[];
 }
 
 const PlaylistSelectComponent: React.FC<PlaylistSelectComponentProps> = ({
@@ -76,6 +99,8 @@ const PlaylistSelectComponent: React.FC<PlaylistSelectComponentProps> = ({
     uploadMutate({ songId: songData });
   };
 
+  console.log(data);
+
   return (
     <StyleContainer>
       <button
@@ -110,7 +135,7 @@ const PlaylistSelectComponent: React.FC<PlaylistSelectComponentProps> = ({
               ) : !data.length ? (
                 <StyledText>기존 플레이리스트가 존재하지 않습니다.</StyledText>
               ) : (
-                data.map((playlist) => (
+                data.map((playlist: GetPlayListForModal) => (
                   <StyledPlayListLi
                     selectedPlaylist={selectedPlaylist}
                     playlistId={playlist._id}

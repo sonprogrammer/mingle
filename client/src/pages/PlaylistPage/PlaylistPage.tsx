@@ -46,16 +46,16 @@ export default function PlaylistPage() {
   const music = useRecoilValue(musicState);
 
   const [isModalAppear, setIsModalAppear] = useState<boolean>(false);
-  const modalRef = useRef();
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const handleOutsideClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       // 모달 외부를 클릭한 경우에만 모달을 닫음
       setIsModalAppear(false);
     }
   };
 
-  const { mutate: deleteMutate } = useDeletePlayList(data?._id);
+  const { mutate: deleteMutate } = useDeletePlayList(data?._id || '');
 
   const handlePlayListDelete = () => {
     const isUserAgreed = confirm('정말로 이 플레이리스트를 삭제하시겠습니까?');
@@ -84,12 +84,12 @@ export default function PlaylistPage() {
         {isModalAppear ? (
           <div ref={modalRef}>
             <PlaylistModifyComponent
-              playListId={data?._id}
-              img={data?.playListImg}
-              title={data?.playListTitle}
+              playListId={data?._id || ''}
+              img={data?.playListImg || ''}
+              title={data?.playListTitle || ''}
               playListSongs={items}
-              description={data?.playListExplain}
-              genre={data?.genre}
+              description={data?.playListExplain || ''}
+              genre={data?.genre || ''}
               setIsModalAppear={setIsModalAppear}
             />
           </div>

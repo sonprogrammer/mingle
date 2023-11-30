@@ -17,7 +17,6 @@ export const StyleContainer = styled.div`
 `;
 export const StyleButton = styled.button`
   ${tw` flex bg-purple-600 hover:bg-purple-800 ml-auto text-white font-bold py-2 px-4 rounded`}
-  display: ${({ data }) => (data.length ? 'block' : 'none')};
 `;
 export const StyleInput = styled.input`
   ${tw`border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow`}

@@ -27,6 +27,7 @@ interface Playlists {
 
 interface PlaylistsProps {
   myPlaylists: {
+    _id: string;
     playListImg: string;
     playListTitle: string;
     likeCount: number;
