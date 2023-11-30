@@ -16,7 +16,7 @@ async function playListUpdate(playlistId, jsonValue) {
 		if (!playListData) {
 			throw createError(400, "수정할 데이터가 없습니다.");
 		}
-		if(jsonValue.playListName) {
+		if (jsonValue.playListName) {
 			playListData.playListName = jsonValue.playListName;
 		}
 		if (jsonValue.playListImg) {
@@ -31,7 +31,11 @@ async function playListUpdate(playlistId, jsonValue) {
 			jsonValue.playListImg = imagePath; // 수정된 이미지 경로를 JSON 데이터에 저장
 			jsonValue.playListImg = imageName;
 		}
-
+		if(jsonValue.playListSongs){
+			const array = jsonValue.playListSongs;
+			const uniqueArray = [...new Set(array)];
+			jsonValue.playListSongs = uniqueArray;
+		}
 		// 플레이리스트 수정
 		const data = await playListSchema.findOneAndUpdate(
 			{ _id: playlistId },
@@ -40,13 +44,12 @@ async function playListUpdate(playlistId, jsonValue) {
 		);
 
 		if (!data) {
-			throw createError(400, "수정할 데이터가 없습니다.")
+			throw createError(400, "수정할 데이터가 없습니다.");
 		} else {
 			return {
 				data: data,
 				message: "수정이 정상적으로 이루어졌습니다.",
-        playListId: data._id,
-				playListImg: jsonValue.playListImg.slice(-17),
+				playListId: data._id,
 			};
 		}
 	} catch (error) {
