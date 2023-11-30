@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { musicState } from '../../utils';
 import {
   StyledAlbumArtImg,
   StyledAlbumCircle,
@@ -12,10 +14,15 @@ interface AlbumArtComponentProps {
 export default function AlbumArtComponent({
   albumArtSrc,
 }: AlbumArtComponentProps) {
+  const music = useRecoilValue(musicState);
+  const [isPlaying, setIsPlaying] = useState(false);
+  useEffect(() => {
+    setIsPlaying(music.isPlaying);
+  }, [music.isPlaying]);
   return (
     <StyledAlbumWrapper>
       <StyledAlbumArtImg src={albumArtSrc} />
-      <StyledAlbumCircle>
+      <StyledAlbumCircle isPlaying={isPlaying}>
         <StyledAlbumCircleImg src={albumArtSrc} />
       </StyledAlbumCircle>
     </StyledAlbumWrapper>
