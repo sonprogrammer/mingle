@@ -118,7 +118,7 @@ export default function SideBarComponent({ userIcon }: UserIconProps) {
       <StyledDivideLine>
         <StyledLogo>
           <Link to="/">
-            <img src="../../../dist/img/Logo-Sidebar.png" alt="Logo" />
+            <img src="./img/Logo-Sidebar.png" alt="Logo" />
           </Link>
         </StyledLogo>
       </StyledDivideLine>

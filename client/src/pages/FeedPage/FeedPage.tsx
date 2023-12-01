@@ -96,9 +96,9 @@ export default function FeedPage() {
                   profilePicture={user.userFile || '1701310949831.png'}
                   pictures={
                     user.playListPreview || [
-                      '../../../dist/img/AlbumSample.jpg',
-                      '../../../dist/img/AlbumSample.jpg',
-                      '../../../dist/img/AlbumSample.jpg',
+                      './img/AlbumSample.jpg',
+                      './img/AlbumSample.jpg',
+                      './img/AlbumSample.jpg',
                     ]
                   }
                   feedRecommendText={'회원님을 위한 추천'}
