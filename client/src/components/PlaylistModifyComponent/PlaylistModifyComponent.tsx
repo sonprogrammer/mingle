@@ -70,6 +70,8 @@ const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
     if (!imageFile || !playListName || !playListDescription || !playListGenre) {
       alert('모든 항목을 입력해 주세요.');
       return;
+    } else if (songs.length === 0) {
+      alert('모든 곡 삭제는 불가합니다.');
     } else {
       const playListData: ModifyPlaylistData = {
         playListTitle: playListName,
