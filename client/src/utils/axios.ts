@@ -16,7 +16,6 @@ export const useAxios = () => {
     baseURL: 'http://kdt-sw-6-team09.elicecoding.com/',
     headers: {
       'Content-Type': 'application/json',
-      withCredentials: true,
       Authorization: `Bearer ${accessToken}`,
     },
   });
