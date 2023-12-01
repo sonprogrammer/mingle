@@ -1,6 +1,5 @@
 import { AxiosInstance } from 'axios';
 import { useQuery } from 'react-query';
-import { Songs } from '../types';
 import { useAxios } from '../utils';
 
 
@@ -12,5 +11,5 @@ const getNewSong = async(axiosInstance: AxiosInstance) =>{
 
 export function useGetNewSongChart(){
   const { axiosInstance } = useAxios();
-  return useQuery<Songs, Error>('newSongChart', () => getNewSong(axiosInstance))
+  return useQuery('newSongChart', () => getNewSong(axiosInstance))
 }

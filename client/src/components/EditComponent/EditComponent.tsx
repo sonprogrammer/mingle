@@ -9,6 +9,7 @@ import {
 } from '../SignUpComponent/styles';
 import { StyledPasswordWrapper } from './styles';
 import {User} from '../../types';
+import { useNavigate } from 'react-router-dom';
 
 interface EditComponentProps {
   profile?: User;
@@ -19,6 +20,9 @@ export default function EditComponent({
   profile,
   onUpdate,
 }: EditComponentProps) {
+
+  const navigate = useNavigate()
+  
   const [isGenreModalOpen, setIsGenreModalOpen] = useState(false);
   const openGenreModal = () => setIsGenreModalOpen(true);
   const closeGenreModal = () => setIsGenreModalOpen(false);
@@ -45,7 +49,7 @@ export default function EditComponent({
       userNickname: userNickname!,
       userPreference: selectedGenre,
     };
-    if(onUpdate) onUpdate(updatedInfo);
+    if(onUpdate) {onUpdate(updatedInfo); navigate('/');};
   };
   return (
     <>
