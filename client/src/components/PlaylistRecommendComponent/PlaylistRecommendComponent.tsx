@@ -18,6 +18,7 @@ export default function PlaylistRecommendComponent({
   search,
   playlists,
 }: PlaylistRecommendComponentProps) {
+
   return (
     <>
       {genre && (
@@ -25,9 +26,10 @@ export default function PlaylistRecommendComponent({
       )}
       {weather && <StyledGenreName>{weather}에 듣기 좋은 노래</StyledGenreName>}
       {search && <StyledChartTitle isGenre={false}>{search}</StyledChartTitle>}
+
       <StyledContainer>
         <StyledPlaylist>
-          {playlists && playlists?.length > 0 ? (
+        {playlists && playlists?.length > 0 ? (
             playlists?.map((playlist) => (
               <RecommendPlaylistComponent
                 key={playlist._id}
@@ -40,6 +42,7 @@ export default function PlaylistRecommendComponent({
           ) : (
             <>일치하는 검색 결과가 없습니다.</>
           )}
+
         </StyledPlaylist>
       </StyledContainer>
     </>
