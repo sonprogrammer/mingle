@@ -9,8 +9,8 @@ export const StyledContainer = styled.div`
 export const StyledGenreName = styled.div`
     ${tw`
         text-2xl
-        mt-2
-        ml-10
+        mt-10
+        ml-28
         font-semibold
     `}
 `

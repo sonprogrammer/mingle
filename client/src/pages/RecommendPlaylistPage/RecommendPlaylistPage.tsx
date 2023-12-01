@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PlaylistRecommendComponent } from '../../components';
-import { useGetWeatherPlaylist } from '../../hooks';
+import { useGetWeatherPlaylist,useGetUserPreference } from '../../hooks';
 
 export default function RecommendPlaylistPage() {
   const [userLocation, setUserLocation] = useState<{
@@ -31,6 +31,7 @@ export default function RecommendPlaylistPage() {
 
     fetchUserLocation();
   }, []);
+  const { data: userPreference } = useGetUserPreference()
 
   const { data: weatherData, isLoading } = useGetWeatherPlaylist(
     userLocation?.latitude,
@@ -40,13 +41,34 @@ export default function RecommendPlaylistPage() {
     return <p>Loading...</p>;
   }
 
+  const [randomType, playlists] = userPreference;
+
+
+
   return (
     <>
       <PlaylistRecommendComponent
         weather={weatherData?.weather}
         playlists={weatherData?.weatherPlaylists}
       />
-      {/* <PlaylistRecommendComponent genre="댄스" playlists={GenreplaylistInfo} /> */}
-    </>
+
+      {randomType === 'random' ? (
+        <>
+          <PlaylistRecommendComponent
+            genre="랜덤"
+            playlists={playlists}
+          />
+        </>
+      ) : (
+        userPreference.map((playlist)=>{
+
+          return(
+          <PlaylistRecommendComponent
+            key={playlist.id}
+            genre={playlist[0]}
+            playlists={playlist.slice(1)}
+          />)
+        }))}
+        </>
   );
 }

@@ -14,7 +14,7 @@ export * from './useGetSongsByTop';
 export * from './usePostUploadSongs';
 export * from './useGetUploadedSongs';
 export * from './useDeleteSong';
-
+export * from "./useDeletePlaylistComment"
 export * from './useGetSongDetails';
 export * from './useGetPlaylistsBySearch';
 export * from './useGetPlaylistById';
@@ -23,6 +23,11 @@ export * from './useDeleteLikeToggle';
 export * from './usePostlikeToggle';
 export * from './useGetPlaylistsByLike';
 export * from "./useGetWeatherPlaylist"
+export * from "./useGetUserPreference"
+
+export * from "./useGetPlaylistComment"
+export * from "./usePostPlaylistComment"
+export * from "./usePutPlaylistComment"
 
 export * from './useGetSongUploader';
 export * from './usePostUserFollow';
