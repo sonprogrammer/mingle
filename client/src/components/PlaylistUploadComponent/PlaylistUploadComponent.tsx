@@ -15,7 +15,7 @@ import {
   StyleSongImg,
 } from './styles';
 import { usePostUploadPlayList } from '../../hooks/useCUDPlayList';
-import {ChartSong} from "../ChartComponent/ChartComponent";
+import { ChartSong } from '../ChartComponent/ChartComponent';
 
 interface PlayListSong {
   _id: string;
@@ -30,7 +30,7 @@ interface PlaylistUploadComponentProps {
   setIsSelectModal: Dispatch<SetStateAction<boolean | null>>;
   setIsExistingPlayList: Dispatch<SetStateAction<boolean | null>>;
   songs: PlayListSong[];
-  setSongs: Dispatch<SetStateAction<ChartSong[]>>
+  setSongs: Dispatch<SetStateAction<ChartSong[]>>;
 }
 
 const PlaylistUploadComponent = ({
@@ -112,6 +112,8 @@ const PlaylistUploadComponent = ({
         style={{ display: 'flex', marginLeft: 'auto', marginBottom: '10px' }}
         onClick={() => {
           setIsModalAppear(false);
+          setIsSelectModal(true);
+          setIsExistingPlayList(null);
         }}
       >
         X

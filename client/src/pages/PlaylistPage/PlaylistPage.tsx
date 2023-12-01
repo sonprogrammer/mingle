@@ -49,10 +49,10 @@ export default function PlaylistPage() {
   const music = useRecoilValue(musicState);
 
   const [isModalAppear, setIsModalAppear] = useState<boolean>(false);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   const handleOutsideClick = (e: MouseEvent) => {
-    if (modalRef.current && modalRef.current.contains(e.target as Node)) {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       // 모달 외부를 클릭한 경우에만 모달을 닫음
       setIsModalAppear(false);
     }
@@ -63,7 +63,7 @@ export default function PlaylistPage() {
   const handlePlayListDelete = () => {
     const isUserAgreed = confirm('정말로 이 플레이리스트를 삭제하시겠습니까?');
     if (!isUserAgreed) return;
-    if(data) {
+    if (data) {
       deleteMutate(data._id);
       window.location.href = '/mypage';
     }
@@ -87,8 +87,9 @@ export default function PlaylistPage() {
     <>
       <Content>
         {isModalAppear ? (
-          <div ref={modalRef}>\
-            {data && <PlaylistModifyComponent
+          <div ref={modalRef}>
+            {data && (
+              <PlaylistModifyComponent
                 playListId={data._id}
                 img={data.playListImg}
                 title={data.playListTitle}
@@ -96,7 +97,8 @@ export default function PlaylistPage() {
                 description={data.playListExplain}
                 genre={data.genre}
                 setIsModalAppear={setIsModalAppear}
-            />}
+              />
+            )}
           </div>
         ) : null}
         {isLoading || isCurrentUserLoading ? (
