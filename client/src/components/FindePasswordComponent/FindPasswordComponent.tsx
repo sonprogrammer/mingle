@@ -18,7 +18,8 @@ export default function FindPasswordComponent({
 
   const { mutate: postPassword } = usePostPassword(userEmail, userNickname);
 
-  const handleClick = () => {
+  const handleClick = (event: React.FormEvent) => {
+    event.preventDefault();
     if (!userEmail || !userNickname) {
       alert('이메일과 닉네임을 모두 입력해주세요.');
       return;
