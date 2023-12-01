@@ -45,7 +45,9 @@ export function usePostPlaylistAddSongs(
     },
     {
       onSuccess: () => {
-        alert('플레이리스트 곡 추가에 성공하였습니다.');
+        alert(
+          '플레이리스트 곡 추가에 성공하였습니다. 중복곡은 제외되었습니다.',
+        );
         setIsModalAppear(false);
         setIsSelectModal(true); // 모달이 닫힐 때 다시 초기 상태로 돌아감
         setIsExistingPlayList(null);
