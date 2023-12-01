@@ -11,11 +11,15 @@ export const useAxios = () => {
   
   const axiosBase = Axios.create({
     baseURL: 'http://kdt-sw-6-team09.elicecoding.com/',
+    headers: {
+      withCredentials: true,
+    }
   });
   const axiosInstance = Axios.create({
     baseURL: 'http://kdt-sw-6-team09.elicecoding.com/',
     headers: {
       'Content-Type': 'application/json',
+      withCredentials: true,
       Authorization: `Bearer ${accessToken}`,
     },
   });
