@@ -15,7 +15,7 @@ export function useDeleteLikeToggle() {
     (songId: string) => deleteLikeToggle(axiosInstance, songId),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries();
+        queryClient.invalidateQueries('song');
       },
     }
   );

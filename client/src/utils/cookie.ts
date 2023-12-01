@@ -8,6 +8,7 @@ export const setRefreshToken = (
   return cookies.set('refresh_token', refreshToken, {
     sameSite: 'strict',
     path: '/',
+    domain: "http://kdt-sw-6-team09.elicecoding.com",
     expires: new Date(refreshExpiredDate),
   });
 };
@@ -17,5 +18,5 @@ export const getCookieToken = () => {
 };
 
 export const removeCookieToken = () => {
-  return cookies.remove('refresh_token', { sameSite: 'strict', path: '/' });
+  return cookies.remove('refresh_token', { sameSite: 'strict', path: '/', domain: "http://kdt-sw-6-team09.elicecoding.com" });
 };

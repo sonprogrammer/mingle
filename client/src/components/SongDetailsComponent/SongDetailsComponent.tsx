@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as like } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams } from 'react-router-dom';
-import { useGetSongDetails } from '../../hooks';
+import {
+  useDeleteLikeToggle,
+  useGetSongDetails,
+  usePostlikeToggle,
+} from '../../hooks';
 import { formatDuration, songUploaderState } from '../../utils';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -27,12 +31,16 @@ export default function SongDetailsPage() {
   const navigate = useNavigate();
   const { songId } = useParams();
   const { data, isLoading, error } = useGetSongDetails(songId ?? '');
+  const { mutate: likeToggle } = usePostlikeToggle();
+  const { mutate: deleteLikeToggle } = useDeleteLikeToggle();
   const [songUploader, setSongUploader] = useRecoilState(songUploaderState);
+  const [isLiked, setIsLiked] = useState(false);
   useEffect(() => {
     if (data?.song?.songUploader) {
       setSongUploader(data.song.songUploader);
+      setIsLiked(data?.isCurrentUserLiked);
     }
-  }, [data, setSongUploader]);
+  }, [data, data?.isCurrentUserLiked, setSongUploader]);
   const handleUserClick = () => {
     if (songUploader?._id) {
       navigate(`/user?id=${songUploader._id}`);
@@ -69,8 +77,8 @@ export default function SongDetailsPage() {
   }
 
   const song = data?.song;
-  const isLiked = data?.isCurrentUserLiked;
   const formattedDuration = formatDuration(song?.songDuration || 0);
+
   return (
     <PageContainer>
       <Header>곡 정보</Header>
@@ -97,18 +105,26 @@ export default function SongDetailsPage() {
           </StyleUploaderInfo>
           <LikeSection>
             {isLiked ? (
-              <FontAwesomeIcon icon={like} color={'#9b59b6'} cursor="pointer" />
+              <FontAwesomeIcon
+                icon={like}
+                color={'#9b59b6'}
+                cursor="pointer"
+                onClick={() => {
+                  deleteLikeToggle(song._id);
+                  setIsLiked(false);
+                }}
+              />
             ) : (
               <FontAwesomeIcon
                 icon={noLike}
                 color={'#9b59b6'}
                 cursor="pointer"
+                onClick={() => {
+                  likeToggle(song._id);
+                  setIsLiked(true);
+                }}
               />
             )}
-            <FontAwesomeIcon
-              style={{ marginLeft: '12px', color: '#9b59b6' }}
-              icon={faPlus}
-            />{' '}
           </LikeSection>
         </DetailsSection>
       </ContentContainer>

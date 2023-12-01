@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as like } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons';
@@ -33,7 +33,7 @@ export default function PlaylistCardComponent({
   likeCount,
 }: PlaylistCardProps) {
   const navigate = useNavigate();
-  const [isLike, setIsLike] = useState(isUserLiked);
+  const [isLike, setIsLike] = useState(false);
   const { mutate: likeToggle } = usePostPlaylistLikeToggle(playlistId);
   const { mutate: unLikeToggle } = useDeletePlaylistLikeToggle(playlistId);
   const handlePlaylistNavigate = () => {
@@ -47,7 +47,9 @@ export default function PlaylistCardComponent({
     if (!isLike) likeToggle();
     else unLikeToggle();
   };
-
+  useEffect(() => {
+    setIsLike(isUserLiked);
+  }, [isUserLiked]);
   return (
     <Styled.PlaylistCardContainer>
       <Styled.ProfileSection>
