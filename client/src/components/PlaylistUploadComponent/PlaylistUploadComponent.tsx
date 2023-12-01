@@ -25,13 +25,17 @@ interface PlayListSong {
 }
 
 interface PlaylistUploadComponentProps {
-  setIsModalAppear: (value: boolean) => void;
+  setIsModalAppear: Dispatch<SetStateAction<boolean>>;
+  setIsSelectModal: Dispatch<SetStateAction<boolean | null>>;
+  setIsExistingPlayList: Dispatch<SetStateAction<boolean | null>>;
   songs: PlayListSong[];
   setSongs: Dispatch<SetStateAction<PlayListSong[]>>;
 }
 
 const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
   setIsModalAppear,
+  setIsSelectModal,
+  setIsExistingPlayList,
   songs,
   setSongs,
 }) => {
@@ -44,6 +48,8 @@ const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
 
   const { mutate: uploadMutate } = usePostUploadPlayList(
     setIsModalAppear,
+    setIsSelectModal,
+    setIsExistingPlayList,
     setSongs,
   );
 

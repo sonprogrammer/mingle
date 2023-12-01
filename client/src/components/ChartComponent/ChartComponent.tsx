@@ -103,6 +103,8 @@ export default function ChartComponent({
           <div ref={modalRef}>
             <PlaylistUploadComponent
               setIsModalAppear={setIsModalAppear}
+              setIsSelectModal={setIsSelectModal}
+              setIsExistingPlayList={setIsExistingPlayList}
               songs={songs}
               setSongs={setSongs}
             />

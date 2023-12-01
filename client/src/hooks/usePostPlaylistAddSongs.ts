@@ -27,9 +27,11 @@ const addSongs = async (
 export function usePostPlaylistAddSongs(
   playListId: string,
   setIsModalAppear: Dispatch<SetStateAction<boolean>>,
+  setIsSelectModal: Dispatch<SetStateAction<boolean | null>>,
+  setIsExistingPlayList: Dispatch<SetStateAction<boolean | null>>,
   setSongs: Dispatch<SetStateAction<PlayListAddSongData[]>>,
 ) {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useMutation(
     (songData: PlayListAddSongData) => {
       return addSongs(playListId, songData, axiosInstance);
@@ -38,6 +40,8 @@ export function usePostPlaylistAddSongs(
       onSuccess: () => {
         alert('플레이리스트 곡 추가에 성공하였습니다.');
         setIsModalAppear(false);
+        setIsSelectModal(true); // 모달이 닫힐 때 다시 초기 상태로 돌아감
+        setIsExistingPlayList(null);
         setSongs([]);
       },
       onError: (error) => {
