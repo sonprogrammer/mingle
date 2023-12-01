@@ -27,6 +27,11 @@ async function playListCreate(jsonValue, userId) {
       fs.writeFileSync(imagePath, decodedImage);
       jsonValue.playListImg = imagePath.slice(-17);
     }
+    if(jsonValue.playListSongs){
+			const array = jsonValue.playListSongs;
+			const uniqueArray = [...new Set(array)];
+			jsonValue.playListSongs = uniqueArray;
+		}
     // 플레이리스트 데이터를 생성하여 저장한다
     const data = await playListSchema(jsonValue).save();
 
