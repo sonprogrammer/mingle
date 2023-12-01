@@ -70,6 +70,8 @@ const PlaylistSelectComponent: React.FC<PlaylistSelectComponentProps> = ({
   const { mutate: uploadMutate } = usePostPlaylistAddSongs(
     selectedPlaylist,
     setIsModalAppear,
+    setIsSelectModal,
+    setIsExistingPlayList,
     setSongs,
   );
 
@@ -144,7 +146,7 @@ const PlaylistSelectComponent: React.FC<PlaylistSelectComponentProps> = ({
                     }
                   >
                     <StyledPlayListImg
-                      src={`/file/playListCover/${playlist.playListImg}`}
+                      src={`http://kdt-sw-6-team09.elicecoding.com/file/playListCover/${playlist.playListImg}`}
                       alt={playlist.playListTitle}
                     />
                     <StyledPlayListTitle>
