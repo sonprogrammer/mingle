@@ -31,12 +31,11 @@ interface RecommendPlaylistComponentProps {
   likedByUser?: boolean;
   likeCount: number;
   onClick?: (_id: string) => void;
-  onDelete: () => void;
-  handleDeleteUploadedSong: (songId: string) => Promise<void>;
-  songId: string;
-  songData: any;
-  selectTab: string;
-  isFromMyPage: boolean;
+  onDelete?: () => void;
+  handleDeleteUploadedSong?: (songId: string) => Promise<void>;
+  songId?: string;
+  selectTab?: string;
+  isFromMyPage?: boolean;
 }
 
 export default function RecommendPlaylistComponent({
@@ -44,7 +43,6 @@ export default function RecommendPlaylistComponent({
   playListImg,
   playListTitle,
   likeCount,
-  onClick,
   selectTab,
   songId,
   isFromMyPage,
@@ -55,12 +53,12 @@ export default function RecommendPlaylistComponent({
 
   const { mutate: deleteSong } = useDeleteSong();
 
-  const handleDeleteClick = (e) => {
+  const handleDeleteClick = (e:React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.stopPropagation();
     setIsModal(true);
   };
 
-  const handleCloseModalClick = (e) => {
+  const handleCloseModalClick = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setIsModal(false);
   };
@@ -74,9 +72,9 @@ export default function RecommendPlaylistComponent({
     setIsHovered(false);
   };
 
-  const handleDeleteConfirmation = async (e) => {
+  const handleDeleteConfirmation =  (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    await deleteSong(songId);
+     deleteSong(songId);
     setIsModal(false);
   };
   const handleCardClick = () => {

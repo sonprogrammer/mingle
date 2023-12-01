@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { AxiosInstance } from 'axios';
+import { AxiosInstance , AxiosError } from 'axios';
 import { emailCheck } from '../types';
 import { useAxios } from '../utils';
 
@@ -8,8 +8,8 @@ const getEmailCheck = async (axiosBase: AxiosInstance, email: string): Promise<e
   try {
     const response = await axiosBase.get(`/api/account/check-email?email=${email}`);
     return response.data;
-  } catch (error) {
-    if (error.response) {
+  } catch (error:unknown) {
+    if (error instanceof AxiosError && error.response){
       const errorMessage = error.response.data.message;
       throw new Error(errorMessage);
     } else {

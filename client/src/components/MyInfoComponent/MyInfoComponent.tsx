@@ -11,28 +11,24 @@ import {
   StyledDivider,
 } from './styles';
 import { EditableText } from './EditableTextProps';
-import { UserInfo } from '../../types';
+import { Playlists, User } from '../../types';
 
 interface UserProfileHeaderProps {
+  playlist: Playlists[];
   userImage: string;
   postsCount: number;
   followersCount: number;
   followingCount: number;
-  onUpdate: (updatedInfo: Partial<UserInfo>) => void;
+  onUpdate: (updatedInfo: Partial<User>) => void;
   onProfileUpdate: (userImage: string) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSave: () => void;
-  profile: UserInfo;
+  profile: User;
 }
 
-interface UploadImage {
-  file: File;
-  type: string;
-}
 export default function MyInfoComponent({
   profile,
   playlist,
-  postsCount,
   onProfileUpdate,
   onUpdate,
 }: UserProfileHeaderProps) {
@@ -47,7 +43,7 @@ export default function MyInfoComponent({
   const imageUrl = `http://kdt-sw-6-team09.elicecoding.com/file/profile/${
     profile.userFile || '1701310949831.png'
   }`;
-  const imageInput = useRef<HTMLInputElement>();
+  const imageInput = useRef<HTMLInputElement>(null) ;
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
     if (fileList && fileList[0]) {
@@ -74,7 +70,7 @@ export default function MyInfoComponent({
             style={{ display: 'none' }}
             accept="image/*"
             onChange={handleImageUpload}
-            ref={imageInput}
+            ref={imageInput }
           />
           <StyledUserImage
             src={imageUrl}
@@ -86,7 +82,6 @@ export default function MyInfoComponent({
             <h2>{profile?.userNickname}</h2>
             <EditableText
               initialText={statusMessage}
-              onChange={(e) => setStatusMessage(e.target.value)}
               onSave={(updatedText) => handleStatusUpdate(updatedText)}
               maxLength={20}
             />

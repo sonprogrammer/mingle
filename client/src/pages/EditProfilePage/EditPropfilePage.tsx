@@ -31,6 +31,9 @@ export default function EditProfilePage() {
       </div>
     );
   }
+  if (!userData) {
+    return <></>;
+  }
 
   const handleUpdate = async (updatedInfo: Partial<UserInfo>) => {
     updateUserInfo(updatedInfo);

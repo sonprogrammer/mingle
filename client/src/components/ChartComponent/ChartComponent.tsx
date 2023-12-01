@@ -24,10 +24,10 @@ interface ChartComponentProps {
   items: {
     _id: string;
     title: string;
-    img: string;
-    artist: string;
-    length: string;
-    isLiked: boolean;
+    img?: string;
+    artist?: string | undefined;
+    length?: string;
+    isLiked?: boolean;
   }[];
   setGenre?: Dispatch<SetStateAction<string>>;
   genres?: { _id: string; genre: string }[];
@@ -35,7 +35,7 @@ interface ChartComponentProps {
 }
 
 interface ChartSong {
-  artist: string;
+  artist: string ;
   img: string;
   length: string;
   title: string;
@@ -105,8 +105,8 @@ export default function ChartComponent({
               setIsModalAppear={setIsModalAppear}
               setIsSelectModal={setIsSelectModal}
               setIsExistingPlayList={setIsExistingPlayList}
-              songs={songs}
               setSongs={setSongs}
+              songs={songs}
             />
           </div>
         ) : null}

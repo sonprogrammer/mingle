@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { UserInfo } from '../types';
+import { User } from '../types';
 import { recoilPersist } from 'recoil-persist';
 const { persistAtom } = recoilPersist();
 
@@ -46,7 +46,7 @@ export const musicState = atom<{
   effects_UNSTABLE: [persistAtom],
 });
 
-export const songUploaderState = atom<UserInfo | null>({
+export const songUploaderState = atom<User | null>({
   key: 'songUploaderState',
   default: null,
   effects_UNSTABLE: [persistAtom],

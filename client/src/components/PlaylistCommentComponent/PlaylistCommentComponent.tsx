@@ -52,7 +52,7 @@ export default function PlaylistCommentComponent() {
     setEditingCommentId(null);
     setEditedComment('');
   };
-  const { data: commentsData, refetch } = useGetPlaylistComment(playlistId);
+  const { data: commentsData, refetch } = useGetPlaylistComment(playlistId as string);
   const { data: userInfo } = useGetUserInfo();
   const { mutate: postComment, isLoading } = usePostPlaylistComment();
   const deleteComment = useDeletePlaylistComment();
@@ -62,7 +62,7 @@ export default function PlaylistCommentComponent() {
 
   const handleSubmit = () => {
     postComment(
-      { playlistId: playlistId, comment },
+      { playlistId: playlistId as string, comment },
       {
         onSuccess: () => {
           setComment('');
@@ -75,7 +75,7 @@ export default function PlaylistCommentComponent() {
   const handleDelete = (commentId: string, authorId?: string) => {
     if (userInfo && authorId && userInfo.user._id === authorId) {
       deleteComment.mutate(
-        { playlistId: playlistId, commentId },
+        { playlistId: playlistId as string, commentId },
         {
           onSuccess: () => {
             queryClient.invalidateQueries(['playlistComment', playlistId]);

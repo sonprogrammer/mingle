@@ -12,7 +12,12 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { MoveRightButton, MoveLeftButton, Box } from './styles';
-
+interface   RecommendUser {
+  userId: string;
+  nickname: string;
+  userFile: string;
+  playListPreview: { _id: string; playListImg: string; }[]
+}
 export default function FeedPage() {
   const { data: recommendUserData } = useGetRecommendUser();
   const { data: userData } = useGetUserInfo();
@@ -53,7 +58,7 @@ export default function FeedPage() {
           recommendUserData &&
           recommendUserData
             .slice(currentIndex, currentIndex + 3)
-            .map((user, index) => (
+            .map((user:RecommendUser) => (
               <>
                 <MoveLeftButton onClick={() => showNextSet(-1)}>
                   <FontAwesomeIcon icon={faArrowLeft} />

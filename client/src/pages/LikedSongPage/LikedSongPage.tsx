@@ -2,25 +2,14 @@ import React, { useState } from 'react';
 import { ChartComponent, PaginationComponent } from '../../components';
 import {
   useGetSongsByLike,
-  usePostlikeToggle,
-  useDeleteLikeToggle,
 } from '../../hooks';
 import { formatDuration } from '../../utils';
 
 export default function LikedSongPage() {
   const [pageNum, setPageNum] = useState(1);
   const { data, isLoading } = useGetSongsByLike(pageNum);
-  const postLikeMutation = usePostlikeToggle();
-  const deleteLikeMutation = useDeleteLikeToggle();
-
-  const handleLikeToggle = async (songId: string, isLiked: boolean) => {
-    if (isLiked) {
-      await deleteLikeMutation.mutateAsync(songId);
-    } else {
-      await postLikeMutation.mutateAsync(songId);
-    }
-  };
   const items: {
+    _id: string;
     title: string;
     img: string;
     artist?: string;
@@ -65,7 +54,6 @@ export default function LikedSongPage() {
           <ChartComponent
             items={items}
             title={'좋아요한 음악'}
-            onLikeToggle={handleLikeToggle}
           />
           {data?.songs && data.songs.length > 0 ? (
             <PaginationComponent

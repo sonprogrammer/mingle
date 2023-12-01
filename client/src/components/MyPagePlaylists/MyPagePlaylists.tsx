@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDeleteSong } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import {
   UserUploadSongComponent,
@@ -15,15 +14,6 @@ import {
   PlaylistConetent,
   PlaylistContainer,
 } from './styles';
-interface Playlists {
-  song: string;
-  albumCover: string;
-  title: string;
-  hashtags?: string[];
-  likes: number;
-  _id: string;
-  songId: string;
-}
 
 interface PlaylistsProps {
   myPlaylists: {
@@ -34,6 +24,9 @@ interface PlaylistsProps {
   }[]; // 임시, 데이터 바인딩 후 아래와 같은 Playlists[] | undefined 형태로 수정 필요
   likedPlaylists: Playlists[] | undefined;
   myUploadSongslists: {
+    _id: string;
+    songImageLocation: string;
+    songName: string;
     playListImg: string;
     playListTitle: string;
     likeCount: number;
@@ -144,7 +137,6 @@ export default function MyPagePlaylists({
                       selectTab={selectTab}
                       songId={songs._id}
                       onDelete={() => handleDeleteUploadedSong(songs._id)}
-                      // songData={songs.song.songData}
                     />
                   </>
                 );

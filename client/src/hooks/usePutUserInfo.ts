@@ -21,7 +21,7 @@ export function usePutUserInfo() {
   return useMutation(
     (updatedInfo: Partial<UserInfo>) => putUserInfo(axiosInstance, updatedInfo),
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         queryClient.invalidateQueries('get-user-info');
       },
       onError: (error)=>{

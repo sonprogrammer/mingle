@@ -29,7 +29,7 @@ interface PlaylistUploadComponentProps {
   setIsSelectModal: Dispatch<SetStateAction<boolean | null>>;
   setIsExistingPlayList: Dispatch<SetStateAction<boolean | null>>;
   songs: PlayListSong[];
-  setSongs: Dispatch<SetStateAction<PlayListSong[]>>;
+  setSongs: (value: string[]) => void;
 }
 
 const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
