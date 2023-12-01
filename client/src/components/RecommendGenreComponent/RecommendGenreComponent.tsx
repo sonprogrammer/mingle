@@ -16,11 +16,11 @@ interface GenreModalProps {
 }
 
 const genres = [
-  { id: 1, name: '발라드', image: '../../../public/img/Ballad.png' },
-  { id: 2, name: '록', image: '../../../public/img/Rock.png' },
-  { id: 3, name: '댄스', image: '../../../public/img/Dance.png' },
-  { id: 4, name: '클래식', image: '../../../public/img/Classic.png' },
-  { id: 5, name: '힙합', image: '../../../public/img/Hip-Hop.png' },
+  { id: 1, name: '발라드', image: '/img/Ballad.png' },
+  { id: 2, name: '록', image: '/img/Rock.png' },
+  { id: 3, name: '댄스', image: '/img/Dance.png' },
+  { id: 4, name: '클래식', image: '/img/Classic.png' },
+  { id: 5, name: '힙합', image: '/img/Hip-Hop.png' },
 ];
 
 export default function RecommendGenreComponent({
