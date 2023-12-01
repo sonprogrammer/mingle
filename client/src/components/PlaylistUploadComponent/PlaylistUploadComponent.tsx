@@ -15,6 +15,7 @@ import {
   StyleSongImg,
 } from './styles';
 import { usePostUploadPlayList } from '../../hooks/useCUDPlayList';
+import {ChartSong} from "../ChartComponent/ChartComponent";
 
 interface PlayListSong {
   _id: string;
@@ -29,16 +30,16 @@ interface PlaylistUploadComponentProps {
   setIsSelectModal: Dispatch<SetStateAction<boolean | null>>;
   setIsExistingPlayList: Dispatch<SetStateAction<boolean | null>>;
   songs: PlayListSong[];
-  setSongs: (value: string[]) => void;
+  setSongs: Dispatch<SetStateAction<ChartSong[]>>
 }
 
-const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
+const PlaylistUploadComponent = ({
   setIsModalAppear,
   setIsSelectModal,
   setIsExistingPlayList,
   songs,
   setSongs,
-}) => {
+}: PlaylistUploadComponentProps) => {
   const [imageFile, setImageFile] = useState<string | null>(null);
   const [playListName, setPlayListName] = useState<string | null>(null);
   const [playListDescription, setPlayListDescription] = useState<string | null>(

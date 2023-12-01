@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import {
   AlbumArtComponent,
@@ -49,22 +49,24 @@ export default function PlaylistPage() {
   const music = useRecoilValue(musicState);
 
   const [isModalAppear, setIsModalAppear] = useState<boolean>(false);
-  const modalRef = useRef();
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  const handleOutsideClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (modalRef.current && modalRef.current.contains(e.target as Node)) {
       // 모달 외부를 클릭한 경우에만 모달을 닫음
       setIsModalAppear(false);
     }
   };
 
-  const { mutate: deleteMutate } = useDeletePlayList(data?._id);
+  const { mutate: deleteMutate } = useDeletePlayList();
 
   const handlePlayListDelete = () => {
     const isUserAgreed = confirm('정말로 이 플레이리스트를 삭제하시겠습니까?');
     if (!isUserAgreed) return;
-    deleteMutate(data?._id);
-    window.location.href = '/mypage';
+    if(data) {
+      deleteMutate(data._id);
+      window.location.href = '/mypage';
+    }
   };
 
   useEffect(() => {
@@ -85,16 +87,16 @@ export default function PlaylistPage() {
     <>
       <Content>
         {isModalAppear ? (
-          <div ref={modalRef}>
-            <PlaylistModifyComponent
-              playListId={data?._id}
-              img={data?.playListImg}
-              title={data?.playListTitle}
-              playListSongs={items}
-              description={data?.playListExplain}
-              genre={data?.genre}
-              setIsModalAppear={setIsModalAppear}
-            />
+          <div ref={modalRef}>\
+            {data && <PlaylistModifyComponent
+                playListId={data._id}
+                img={data.playListImg}
+                title={data.playListTitle}
+                playListSongs={items}
+                description={data.playListExplain}
+                genre={data.genre}
+                setIsModalAppear={setIsModalAppear}
+            />}
           </div>
         ) : null}
         {isLoading || isCurrentUserLoading ? (
@@ -152,12 +154,7 @@ export default function PlaylistPage() {
         isFromMyPage={isFromMyPage}
       />
       <Divider />
-      <PlaylistCommentComponent
-        userImage={'./img/User-Icon.png'}
-        userName={'떼깔룩'}
-        userComment={'덕분에 오늘 하루가 즐거워졌습니다!'}
-        currentUser={'떼깔룩'}
-      />
+      <PlaylistCommentComponent />
     </>
   );
 }

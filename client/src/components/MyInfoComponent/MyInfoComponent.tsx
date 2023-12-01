@@ -11,19 +11,19 @@ import {
   StyledDivider,
 } from './styles';
 import { EditableText } from './EditableTextProps';
-import { Playlists, User } from '../../types';
+import {Playlists, User, UserInfo} from '../../types';
 
 interface UserProfileHeaderProps {
   playlist: Playlists[];
-  userImage: string;
-  postsCount: number;
-  followersCount: number;
-  followingCount: number;
-  onUpdate: (updatedInfo: Partial<User>) => void;
-  onProfileUpdate: (userImage: string) => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSave: () => void;
   profile: User;
+  onProfileUpdate: (userImage: string) => void;
+  onUpdate: (updatedInfo: Partial<UserInfo & User>) => void;
+  // userImage: string;
+  // postsCount: number;
+  // followersCount: number;
+  // followingCount: number;
+  // onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // onSave: () => void;
 }
 
 export default function MyInfoComponent({

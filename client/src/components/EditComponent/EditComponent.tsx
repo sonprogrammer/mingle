@@ -8,11 +8,11 @@ import {
   StylePasswordToggleIcon,
 } from '../SignUpComponent/styles';
 import { StyledPasswordWrapper } from './styles';
-import { User } from '../../types';
+import {User} from '../../types';
 
 interface EditComponentProps {
   profile?: User;
-  onUpdate?: (updatedInfo: Partial<User>) => Promise<void>;
+  onUpdate?: (updatedInfo: {userPassword: string; userNickname: string; userPreference: string[]}) => Promise<void>;
 }
 
 export default function EditComponent({
@@ -40,12 +40,12 @@ export default function EditComponent({
     setSelectedGenre(selectedGenre);
   };
   const handleClick = () => {
-    const updatedInfo: Partial<User> = {
+    const updatedInfo = {
       userPassword: userPassword,
-      userNickname: userNickname,
+      userNickname: userNickname!,
       userPreference: selectedGenre,
     };
-    onUpdate(updatedInfo);
+    if(onUpdate) onUpdate(updatedInfo);
   };
   return (
     <>

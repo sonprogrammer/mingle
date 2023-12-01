@@ -34,7 +34,7 @@ interface ChartComponentProps {
   setPageNum?: Dispatch<SetStateAction<number>>;
 }
 
-interface ChartSong {
+export interface ChartSong {
   artist: string ;
   img: string;
   length: string;
@@ -155,10 +155,10 @@ export default function ChartComponent({
                 _id={item._id}
                 idx={idx + 1}
                 title={item.title}
-                img={item.img}
-                artist={item.artist}
-                length={item.length}
-                isLiked={item.isLiked}
+                img={item.img!}
+                artist={item.artist!}
+                length={item.length!}
+                isLiked={item.isLiked!}
                 songId={item._id}
                 key={item._id}
                 songs={songs}

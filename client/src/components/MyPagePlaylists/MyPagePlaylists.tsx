@@ -31,9 +31,9 @@ interface PlaylistsProps {
     playListTitle: string;
     likeCount: number;
   }[]; // 임시, 데이터 바인딩 후 아래와 같은 Playlists[] | undefined 형태로 수정 필요
-  myplaylists: Playlists[];
-  likedplaylists: Playlists[];
-  myuploadsongslists: Playlists[];
+  // myplaylists: Playlists[];
+  // likedplaylists: Playlists[];
+  // myuploadsongslists: Playlists[];
   handleDeleteUploadedSong: (songId: string) => Promise<void>;
 }
 
