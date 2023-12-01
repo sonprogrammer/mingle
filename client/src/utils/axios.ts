@@ -1,17 +1,16 @@
 import Axios, { AxiosHeaders } from 'axios';
-import { getCookieToken } from './cookie';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { loginState } from './state';
-import axios from 'axios';
 
 export const useAxios = () => {
   const today = new Date(Date.now());
   const { accessToken, accessExpiredDate } = useRecoilValue(loginState);
   const diff = today.getTime() - new Date(accessExpiredDate).getTime();
-  const refreshToken = getCookieToken();
+  const storage = window.localStorage;
+  const refreshToken = storage.getItem("refresh_token");
   
   const axiosBase = Axios.create({
-    baseURL: 'http://kdt-sw-6-team09.elicecoding.com/'
+    baseURL: 'http://kdt-sw-6-team09.elicecoding.com/',
   });
   const axiosInstance = Axios.create({
     baseURL: 'http://kdt-sw-6-team09.elicecoding.com/',

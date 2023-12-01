@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { Auth, Token } from '../types';
 import { useSetRecoilState } from 'recoil';
-import { setRefreshToken, loginState, useAxios } from '../utils';
+import { loginState, useAxios } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import { AxiosInstance } from 'axios';
 
@@ -16,6 +16,7 @@ export function usePostLogin(auth: Auth) {
     const { axiosBase } = useAxios();
     const setLogin = useSetRecoilState(loginState);
     const navigate = useNavigate();
+    const storage = window.localStorage;
     return useMutation(() => postLogin(axiosBase, auth), {
         onSuccess: (response) => {
             setLogin({
@@ -23,7 +24,7 @@ export function usePostLogin(auth: Auth) {
                 accessToken: response.accessToken,
                 accessExpiredDate: response.accessExpiredDate,
             });
-            setRefreshToken(response.refreshToken, response.refreshExpiredDate);
+            storage.setItem("refresh_token", response.refreshToken);
             navigate('/');
         },
         onError: () => {
