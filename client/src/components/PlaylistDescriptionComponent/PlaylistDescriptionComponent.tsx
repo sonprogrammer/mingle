@@ -50,7 +50,7 @@ export default function PlaylistDescriptionComponent({
   likeCount,
   isFromMyPage,
 }: PlayDescriptAndUser) {
-  const [isLike, setIsLike] = useState(isUserLiked);
+  const [isLike, setIsLike] = useState(false);
   const [isExpand, setIsExpand] = useState(false);
   const { mutate: likeToggle } = usePostPlaylistLikeToggle(playlistId);
   const { mutate: unLikeToggle } = useDeletePlaylistLikeToggle(playlistId);
@@ -61,8 +61,9 @@ export default function PlaylistDescriptionComponent({
 
   const [isUserFollowing, setIsUserFollowing] = useState(false);
   useEffect(() => {
-    return setIsUserFollowing(isFollowing as boolean);
-  }, [isFollowing]);
+    setIsUserFollowing(isFollowing as boolean);
+    setIsLike(isUserLiked as boolean);
+  }, [isFollowing, isUserLiked]);
 
   const handleFollowClick = () => {
     followMutation(userId as string, {

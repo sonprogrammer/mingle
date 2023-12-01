@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePostUserFollow, useDeleteUnFollow } from '../../hooks';
 
 import {
@@ -34,8 +34,11 @@ export default function UserInfoComponent({
 }: UserInfoComponentProps) {
   const { mutate: followMutation } = usePostUserFollow();
   const { mutate: unfollowMutation } = useDeleteUnFollow();
-  const [isUserFollowing, setIsUserFollowing] = useState(isFollowing);
+  const [isUserFollowing, setIsUserFollowing] = useState(false);
   const queryClient = useQueryClient();
+  useEffect(() => {
+    return setIsUserFollowing(isFollowing as boolean);
+  }, [isFollowing]);
   const handleFollowClick = () => {
     followMutation(userId, {
       onSuccess: () => {
