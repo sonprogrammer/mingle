@@ -28,6 +28,15 @@ conn.MongoConnect();
 // dotenv 설정: 환경변수 로드를 위해 dotenv 설정을 적용
 require("dotenv").config();
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    // path는 여기에서만 사용되었다.
+    res.sendFile(path.join(__dirname, "../client/index.html"));
+  });
+}
+
 // /server/upload/songImg 폴더 안에 있는 모든 하위 폴더에 대해 정적 파일 제공
 // 'server/upload/songImg/abc.jpg'나 'server/upload/audio/song.mp3'와 같은 URL로 해당 파일들에 접근할 수 있다.
 
