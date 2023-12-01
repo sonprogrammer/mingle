@@ -85,7 +85,7 @@ const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
         playListData.playListImg = imageFile.split(';base64,')[1];
       }
       modifyMutate(playListData);
-      navigate(`/mypage`);
+      navigate('/mypage');
     }
   };
 
