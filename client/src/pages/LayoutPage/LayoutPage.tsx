@@ -11,7 +11,7 @@ export default function LayoutPage() {
   return (
     <>
       <SearchComponent />
-      <SideBarComponent userIcon={'../../../dist/img/User-Icon.png'} />
+      <SideBarComponent userIcon={'./img/User-Icon.png'} />
       <ContentWrapper>
         <Outlet />
       </ContentWrapper>
