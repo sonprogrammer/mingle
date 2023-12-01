@@ -25,13 +25,21 @@ interface ChartComponentProps {
     _id: string;
     title: string;
     img: string;
-    artist?: string;
+    artist: string;
     length: string;
     isLiked: boolean;
   }[];
   setGenre?: Dispatch<SetStateAction<string>>;
   genres?: { _id: string; genre: string }[];
   setPageNum?: Dispatch<SetStateAction<number>>;
+}
+
+interface ChartSong {
+  artist: string;
+  img: string;
+  length: string;
+  title: string;
+  _id: string;
 }
 
 export default function ChartComponent({
@@ -47,12 +55,11 @@ export default function ChartComponent({
     null,
   );
 
-  const [songs, setSongs] = useState([]);
-  const modalRef = useRef(null);
-  console.log(isExsistingPlayList);
+  const [songs, setSongs] = useState<ChartSong[]>([]);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const handleOutsideClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       // 모달 외부를 클릭한 경우에만 모달을 닫음
       setIsModalAppear(false);
       setIsExistingPlayList(null);
@@ -73,9 +80,8 @@ export default function ChartComponent({
     };
   }, [ismodalAppear]);
 
-  const handleSelectModal = (existing: boolean) => {
+  const handleSelectModal = () => {
     setIsSelectModal(true);
-    setIsExistingPlayList(existing);
     setIsModalAppear(true);
   };
 
@@ -151,6 +157,7 @@ export default function ChartComponent({
                 artist={item.artist}
                 length={item.length}
                 isLiked={item.isLiked}
+                songId={item._id}
                 key={item._id}
                 songs={songs}
                 setSongs={setSongs}

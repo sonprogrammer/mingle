@@ -1,14 +1,15 @@
 import axios, { AxiosInstance } from 'axios';
 import { useMutation } from 'react-query';
 import { useAxios } from '../utils';
+import { Dispatch, SetStateAction } from 'react';
 
-interface SongData {
+interface PlayListAddSongData {
   _id: string[];
 }
 
 const addSongs = async (
   playListId: string,
-  songData: SongData,
+  songData: PlayListAddSongData,
   axiosInstance: AxiosInstance,
 ) => {
   const response = await axiosInstance.post(
@@ -25,12 +26,12 @@ const addSongs = async (
 
 export function usePostPlaylistAddSongs(
   playListId: string,
-  setIsModalAppear: (value: boolean) => void,
-  setSongs: (value: string[]) => void,
+  setIsModalAppear: Dispatch<SetStateAction<boolean>>,
+  setSongs: Dispatch<SetStateAction<PlayListAddSongData[]>>,
 ) {
   const axiosInstance = useAxios();
   return useMutation(
-    (songData: songData) => {
+    (songData: PlayListAddSongData) => {
       return addSongs(playListId, songData, axiosInstance);
     },
     {

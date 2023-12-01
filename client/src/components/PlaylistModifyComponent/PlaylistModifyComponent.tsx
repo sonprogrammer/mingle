@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import {
   StyleButton,
   StyleContainer,
@@ -12,13 +12,12 @@ import {
   StyleAddSongContainer,
   StyleToAddSong,
   StyleSongInfo,
-  StyleSongImg,
 } from './styles';
 import { usePutModifyPlayList } from '../../hooks/useCUDPlayList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-interface Song {
+interface PlayListModifySong {
   title: string;
   img: string;
   url: string;
@@ -26,14 +25,22 @@ interface Song {
   _id: string;
 }
 
+interface ModifyPlaylistData {
+  playListTitle: string;
+  playListExplain: string;
+  playListSongs: string[];
+  genre: string;
+  playListImg?: string;
+}
+
 interface PlaylistModifyComponentProps {
   playListId: string;
   img: string;
   title: string;
-  playListSongs: Song[];
+  playListSongs: PlayListModifySong[];
   description: string;
   genre: string;
-  setIsModalAppear: (value: boolean) => void;
+  setIsModalAppear: Dispatch<SetStateAction<boolean>>;
 }
 
 const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
@@ -45,7 +52,7 @@ const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
   genre,
   setIsModalAppear,
 }) => {
-  const [songs, setSongs] = useState<Song[]>(playListSongs);
+  const [songs, setSongs] = useState<PlayListModifySong[]>(playListSongs);
   const [imageFile, setImageFile] = useState<string>(
     `/file/playListCover/${img}`,
   );
@@ -64,10 +71,10 @@ const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
       alert('모든 항목을 입력해 주세요.');
       return;
     } else {
-      const playListData = {
+      const playListData: ModifyPlaylistData = {
         playListTitle: playListName,
         playListExplain: playListDescription,
-        playListSongs: songs.map((song: Song) => song._id),
+        playListSongs: songs.map((song: PlayListModifySong) => song._id),
         genre: playListGenre,
       };
       if (!imageFile.includes('http://')) {
@@ -114,7 +121,7 @@ const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
   };
 
   const handleDeleteSong = (deletedId: string) => {
-    setSongs((pre: Song[]) => {
+    setSongs((pre: PlayListModifySong[]) => {
       const newArray = [...pre].filter((song) => song._id !== deletedId);
       return newArray;
     });
