@@ -8,21 +8,24 @@ import {
   StylePasswordToggleIcon,
 } from '../SignUpComponent/styles';
 import { StyledPasswordWrapper } from './styles';
-import {User} from '../../types';
+import { User } from '../../types';
 import { useNavigate } from 'react-router-dom';
 
 interface EditComponentProps {
   profile?: User;
-  onUpdate?: (updatedInfo: {userPassword: string; userNickname: string; userPreference: string[]}) => Promise<void>;
+  onUpdate?: (updatedInfo: {
+    userPassword: string;
+    userNickname: string;
+    userPreference: string[];
+  }) => Promise<void>;
 }
 
 export default function EditComponent({
   profile,
   onUpdate,
 }: EditComponentProps) {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-  
   const [isGenreModalOpen, setIsGenreModalOpen] = useState(false);
   const openGenreModal = () => setIsGenreModalOpen(true);
   const closeGenreModal = () => setIsGenreModalOpen(false);
@@ -49,7 +52,10 @@ export default function EditComponent({
       userNickname: userNickname!,
       userPreference: selectedGenre,
     };
-    if(onUpdate) {onUpdate(updatedInfo); navigate('/');};
+    if (onUpdate) {
+      onUpdate(updatedInfo);
+      navigate('/');
+    }
   };
   return (
     <>
@@ -67,7 +73,7 @@ export default function EditComponent({
           onChange={(e) => setUserPassword(e.target.value)}
         />
         <StylePasswordToggleIcon
-          src="/img/view-password.png"
+          src="../../../dist/img/view-password.png"
           alt="비밀번호 보기"
           onClick={togglePasswordVisibility}
         />
@@ -80,7 +86,7 @@ export default function EditComponent({
           placeholder="비밀번호를 재입력하세요"
         />
         <StylePasswordToggleIcon
-          src="/img/view-password.png"
+          src="../../../dist/img/view-password.png"
           alt="비밀번호 보기"
           onClick={togglePasswordVisibility}
         />

@@ -64,7 +64,7 @@ export default function LoginComponent({
       <StyledLoginWrapper>
         <div style={{ position: 'relative', width: '100%' }}>
           <Link to="/">
-            <img src="public/img/Logo.png" className="mx-auto" />
+            <img src="../../../dist/img/Logo.png" className="mx-auto" />
           </Link>
           <InputComponent
             id="user-email"
