@@ -13,7 +13,7 @@ const deletePlaylistComment = async (
 };
 
 export function useDeletePlaylistComment() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useMutation(
     ({ playlistId, commentId }: { playlistId: string; commentId: string }) =>
       deletePlaylistComment({ playlistId, commentId }, axiosInstance),

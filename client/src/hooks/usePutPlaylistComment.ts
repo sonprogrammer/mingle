@@ -14,7 +14,7 @@ const putPlaylistComment = async (
 };
 
 export function usePutPlaylistComment() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   const mutation = useMutation(
     ({ commentId, comment }: { commentId: string; comment: string }) =>
       putPlaylistComment({ commentId, comment }, axiosInstance),

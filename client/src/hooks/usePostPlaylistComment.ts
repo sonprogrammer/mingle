@@ -14,7 +14,7 @@ const postPlaylistComment = async (
 };
 
 export function usePostPlaylistComment() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   const mutation = useMutation(
     (data: { playlistId: string; comment: string }) =>
       postPlaylistComment(data, axiosInstance),
