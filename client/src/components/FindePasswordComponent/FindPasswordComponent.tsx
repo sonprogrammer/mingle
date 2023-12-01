@@ -48,7 +48,7 @@ export default function FindPasswordComponent({
       <StyleFormContainer>
         <div style={{ position: 'relative', width: '100%' }}>
           <Link to="/">
-            <img src="../../../dist/img/Logo.png" className="mx-auto" />
+            <img src="./img/Logo.png" className="mx-auto" />
           </Link>
           <InputComponent
             id="user-email"

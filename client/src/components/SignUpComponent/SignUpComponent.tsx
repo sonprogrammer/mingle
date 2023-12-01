@@ -107,7 +107,7 @@ export default function SignUpComponent({
     <StyleSignUpContainer>
       <StyleServiceName>
         <Link to="/">
-          <img src="../../../dist/img/Logo.png" alt="Mingle Logo" />
+          <img src="./img/Logo.png" alt="Mingle Logo" />
         </Link>
       </StyleServiceName>
       <div style={{ position: 'relative', width: '100%' }}>
@@ -151,7 +151,7 @@ export default function SignUpComponent({
           onChange={(e) => setUserPassword(e.target.value)}
         />
         <StylePasswordToggleIcon
-          src="../../../dist/img/view-password.png"
+          src="./img/view-password.png"
           alt="비밀번호 보기"
           onClick={togglePasswordVisibility}
         />
@@ -166,7 +166,7 @@ export default function SignUpComponent({
           onChange={(e) => setVerifyPassword(e.target.value)}
         />
         <StylePasswordToggleIcon
-          src="../../../dist/img/view-password.png"
+          src="./img/view-password.png"
           alt="비밀번호 보기"
           onClick={togglePasswordVisibility}
         />

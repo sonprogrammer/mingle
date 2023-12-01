@@ -73,7 +73,7 @@ export default function EditComponent({
           onChange={(e) => setUserPassword(e.target.value)}
         />
         <StylePasswordToggleIcon
-          src="../../../dist/img/view-password.png"
+          src="./img/view-password.png"
           alt="비밀번호 보기"
           onClick={togglePasswordVisibility}
         />
@@ -86,7 +86,7 @@ export default function EditComponent({
           placeholder="비밀번호를 재입력하세요"
         />
         <StylePasswordToggleIcon
-          src="../../../dist/img/view-password.png"
+          src="./img/view-password.png"
           alt="비밀번호 보기"
           onClick={togglePasswordVisibility}
         />
