@@ -10,7 +10,7 @@ const deleteSong = async (axiosInstance: AxiosInstance, songId: string): Promise
 
 
 export function useDeleteSong() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   const queryClient = useQueryClient();
   return useMutation((songId: string) => deleteSong(axiosInstance, songId), {
     onSuccess: () => {

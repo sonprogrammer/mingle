@@ -8,18 +8,30 @@ import {
   PlaylistCommentComponent,
 } from '../../components';
 import { PlaylistModifyComponent } from '../../components/PlaylistModifyComponent';
-import { useGetPlaylistById } from '../../hooks';
+import { useGetPlaylistById, useGetUserInfo } from '../../hooks';
 import { useDeletePlayList } from '../../hooks/useCUDPlayList';
 import { formatDuration, musicState } from '../../utils';
-import { Content, Divider, ModifyBtn, DeleteBtn } from './styles';
+import {
+  Content,
+  Divider,
+  ButtonBox,
+  ModifyBtn,
+  DeleteBtn,
+  Text,
+} from './styles';
 
 export default function PlaylistPage() {
   const location = useLocation();
-  const navigate = useNavigate();
   const id = new URLSearchParams(location.search).get('id') as string;
   const songId = location.state.id;
   const isFromMyPage = Boolean(location.state.isFromMyPage);
   const { data, isLoading } = useGetPlaylistById(id);
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useGetUserInfo();
+  const handleIsFollowing = (userId: string | undefined) => {
+    return currentUser?.user.userFollow.includes(userId as string);
+  };
+
   const items: {
     title: string;
     img: string;
@@ -40,16 +52,16 @@ export default function PlaylistPage() {
   const music = useRecoilValue(musicState);
 
   const [isModalAppear, setIsModalAppear] = useState<boolean>(false);
-  const modalRef = useRef();
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const handleOutsideClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       // 모달 외부를 클릭한 경우에만 모달을 닫음
       setIsModalAppear(false);
     }
   };
 
-  const { mutate: deleteMutate } = useDeletePlayList(data?._id);
+  const { mutate: deleteMutate } = useDeletePlayList(data?._id || '');
 
   const handlePlayListDelete = () => {
     const isUserAgreed = confirm('정말로 이 플레이리스트를 삭제하시겠습니까?');
@@ -75,7 +87,20 @@ export default function PlaylistPage() {
   return (
     <>
       <Content>
-        {isLoading ? (
+        {isModalAppear ? (
+          <div ref={modalRef}>
+            <PlaylistModifyComponent
+              playListId={data?._id || ''}
+              img={data?.playListImg || ''}
+              title={data?.playListTitle || ''}
+              playListSongs={items}
+              description={data?.playListExplain || ''}
+              genre={data?.genre || ''}
+              setIsModalAppear={setIsModalAppear}
+            />
+          </div>
+        ) : null}
+        {isLoading || isCurrentUserLoading ? (
           <div role="status" className="text-center mt-[36vh]">
             <svg
               aria-hidden="true"
@@ -103,20 +128,21 @@ export default function PlaylistPage() {
               songs={items}
               songId={songId}
             />
-            {isFromMyPage ? (
-              <>
-                <DeleteBtn onClick={handlePlayListDelete}>삭제하기</DeleteBtn>
-                <ModifyBtn onClick={() => setIsModalAppear(true)}>
-                  수정하기
-                </ModifyBtn>
-              </>
-            ) : null}
           </>
         )}
       </Content>
+      {isFromMyPage ? (
+        <ButtonBox>
+          <DeleteBtn onClick={handlePlayListDelete}>삭제하기</DeleteBtn>
+          <Text>/</Text>
+          <ModifyBtn onClick={() => setIsModalAppear(true)}>수정하기</ModifyBtn>
+        </ButtonBox>
+      ) : null}
       <Divider />
       <PlaylistDescriptionComponent
         playlistId={data?._id}
+        userId={data?.playListOwner._id}
+        isFollowing={handleIsFollowing(data?.playListOwner._id)}
         description={data?.playListExplain}
         userImg={`http://kdt-sw-6-team09.elicecoding.com/file/profile/${
           data?.playListOwner.userFile || '1701310949831.png'
@@ -124,6 +150,7 @@ export default function PlaylistPage() {
         userName={data?.playListOwner.userNickname}
         isUserLiked={data?.like}
         likeCount={data?.likeCount}
+        isFromMyPage={isFromMyPage}
       />
       <Divider />
       <PlaylistCommentComponent

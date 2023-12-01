@@ -10,7 +10,7 @@ const getPlaylistsByFollow = async (axiosInstance: AxiosInstance): Promise<Playl
 	return response.data.feedPlaylists;
 };
 export function useGetPlaylistsByFollow() {
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
 	return useQuery(["get-playlists-by-follow"], () => getPlaylistsByFollow(axiosInstance),
 	{
 		refetchOnWindowFocus: false,

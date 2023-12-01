@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ChartItemComponent } from '../ChartItemComponent';
 import { PlaylistUploadComponent } from '../PlaylistUploadComponent';
+import { PlaylistSelectComponent } from '../PlaylistSelectComponent';
 import {
   StyledChartAddButton,
   StyledChartTitle,
@@ -24,13 +25,21 @@ interface ChartComponentProps {
     _id: string;
     title: string;
     img: string;
-    artist?: string;
+    artist: string;
     length: string;
     isLiked: boolean;
   }[];
   setGenre?: Dispatch<SetStateAction<string>>;
   genres?: { _id: string; genre: string }[];
   setPageNum?: Dispatch<SetStateAction<number>>;
+}
+
+interface ChartSong {
+  artist: string;
+  img: string;
+  length: string;
+  title: string;
+  _id: string;
 }
 
 export default function ChartComponent({
@@ -40,14 +49,20 @@ export default function ChartComponent({
   genres,
   setPageNum,
 }: ChartComponentProps) {
-  const [ismodalAppear, setIsModalAppear] = useState(false);
-  const [songs, setSongs] = useState([]);
-  const modelRef = useRef(null);
+  const [ismodalAppear, setIsModalAppear] = useState<boolean>(false);
+  const [isSelectModal, setIsSelectModal] = useState<boolean | null>(true);
+  const [isExsistingPlayList, setIsExistingPlayList] = useState<boolean | null>(
+    null,
+  );
 
-  const handleOutsideClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (modelRef.current && !modelRef.current.contains(e.target)) {
+  const [songs, setSongs] = useState<ChartSong[]>([]);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       // 모달 외부를 클릭한 경우에만 모달을 닫음
       setIsModalAppear(false);
+      setIsExistingPlayList(null);
     }
   };
 
@@ -65,18 +80,37 @@ export default function ChartComponent({
     };
   }, [ismodalAppear]);
 
+  const handleSelectModal = () => {
+    setIsSelectModal(true);
+    setIsModalAppear(true);
+  };
+
   return (
     <>
       <StyledTitleWrapper>
-        {ismodalAppear ? (
-          <div ref={modelRef}>
+        {ismodalAppear && isSelectModal ? (
+          <div ref={modalRef}>
+            <PlaylistSelectComponent
+              setIsModalAppear={setIsModalAppear}
+              setIsSelectModal={setIsSelectModal}
+              setIsExistingPlayList={setIsExistingPlayList}
+              setSongs={setSongs}
+              songs={songs}
+            />
+          </div>
+        ) : null}
+        {ismodalAppear && isExsistingPlayList === false ? (
+          <div ref={modalRef}>
             <PlaylistUploadComponent
               setIsModalAppear={setIsModalAppear}
+              setIsSelectModal={setIsSelectModal}
+              setIsExistingPlayList={setIsExistingPlayList}
               songs={songs}
               setSongs={setSongs}
             />
           </div>
         ) : null}
+
         <StyledChartTitleWrapper>
           {setGenre ? (
             <>
@@ -106,7 +140,7 @@ export default function ChartComponent({
               alert('플레이리스트에 담을 곡을 선택해 주세요.');
               return;
             }
-            setIsModalAppear(true);
+            handleSelectModal();
           }}
         >
           <FontAwesomeIcon icon={faPlus} />
@@ -125,6 +159,7 @@ export default function ChartComponent({
                 artist={item.artist}
                 length={item.length}
                 isLiked={item.isLiked}
+                songId={item._id}
                 key={item._id}
                 songs={songs}
                 setSongs={setSongs}

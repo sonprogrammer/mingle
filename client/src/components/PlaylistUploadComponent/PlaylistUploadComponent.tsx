@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import {
   StyleButton,
   StyleContainer,
@@ -16,7 +16,7 @@ import {
 } from './styles';
 import { usePostUploadPlayList } from '../../hooks/useCUDPlayList';
 
-interface Song {
+interface PlayListSong {
   _id: string;
   img: string;
   title: string;
@@ -25,13 +25,17 @@ interface Song {
 }
 
 interface PlaylistUploadComponentProps {
-  setIsModalAppear: (value: boolean) => void;
-  songs: Song[];
-  setSongs: <T>(value: T[]) => void;
+  setIsModalAppear: Dispatch<SetStateAction<boolean>>;
+  setIsSelectModal: Dispatch<SetStateAction<boolean | null>>;
+  setIsExistingPlayList: Dispatch<SetStateAction<boolean | null>>;
+  songs: PlayListSong[];
+  setSongs: Dispatch<SetStateAction<PlayListSong[]>>;
 }
 
 const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
   setIsModalAppear,
+  setIsSelectModal,
+  setIsExistingPlayList,
   songs,
   setSongs,
 }) => {
@@ -44,6 +48,8 @@ const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
 
   const { mutate: uploadMutate } = usePostUploadPlayList(
     setIsModalAppear,
+    setIsSelectModal,
+    setIsExistingPlayList,
     setSongs,
   );
 
@@ -56,7 +62,7 @@ const PlaylistUploadComponent: React.FC<PlaylistUploadComponentProps> = ({
       const playListData = {
         playListTitle: playListName,
         playListExplain: playListDescription,
-        playListSongs: songs.map((song: Song) => song._id),
+        playListSongs: songs.map((song: PlayListSong) => song._id),
         playListImg: imageFile.split(';base64,')[1],
         genre: playListGenre,
       };

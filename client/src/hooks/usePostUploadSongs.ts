@@ -26,7 +26,7 @@ export const uploadedSongsState = atom<SongData[]>({
   default: [],
 });
 export function usePostUploadSongs(onClose: () => void) {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useMutation(
     (songData: SongData) => {
       const formData = new FormData();
@@ -47,9 +47,10 @@ export function usePostUploadSongs(onClose: () => void) {
       },
       onError: (error) => {
         if (axios.isAxiosError(error)) {
-          alert('업로드에 실패하였습니다.');
+          const message = error.response?.data?.message || error.message;
+          alert(`업로드에 실패하였습니다:.${message} `);
         } else {
-          alert('업로드에 실패하였습나다.');
+          alert(`업로드에 실패하였습니다:.${error} `);
         }
       },
     },

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { usePostUserFollow, useDeleteUnFollow } from '../../hooks';
-import { useParams } from 'react-router-dom';
 
 import {
   StyledUserInfo,
@@ -8,86 +7,91 @@ import {
   StyledUserDescript,
   StyledUserSubInfo,
   StyledUserStatus,
-  /* StyledPostCount, 게시물 갯수 스타일 */
   StyledFollower,
   StyledFollowing,
   StyledDivider,
   StyledFollow,
+  StyledPostCount,
 } from './styles';
+import { Playlists, User } from '../../types';
+import { useQueryClient } from 'react-query';
 
 interface UserInfoComponentProps {
-  songUploader: any;
+  userId: string;
+  playlist: Playlists[] | undefined;
+  profile: User | undefined;
+  isFollowing: boolean | undefined;
 }
 
 export default function UserInfoComponent({
-  songUploader,
+  userId,
+  playlist,
+  profile,
+  isFollowing,
 }: UserInfoComponentProps) {
-  const { userId } = useParams();
-  const followMutation = usePostUserFollow();
-  const unfollowMutation = useDeleteUnFollow();
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  if (!songUploader) return <div>데이터 에러</div>;
-
+  const { mutate: followMutation } = usePostUserFollow();
+  const { mutate: unfollowMutation } = useDeleteUnFollow();
+  const [isUserFollowing, setIsUserFollowing] = useState(isFollowing);
+  const queryClient = useQueryClient();
   const handleFollowClick = () => {
-    if (typeof userId === 'string') {
-      followMutation.mutate(userId, {
-        onSuccess: () => {
-          setIsFollowing(true);
-          setShowSuccessMessage(true);
-          setTimeout(() => setShowSuccessMessage(false), 3000);
-        },
-        onError: () => {
-          alert('팔로우 실패');
-        },
-      });
-    } else {
-      console.error('유효하지 않은 사용자 ID');
-    }
+    followMutation(userId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('get-other-user-info');
+        setIsUserFollowing(true);
+      },
+      onError: () => {
+        alert('팔로우 실패');
+      },
+    });
   };
 
   const handleUnfollowClick = () => {
-    if (typeof userId === 'string') {
-      unfollowMutation.mutate(userId, {
-        onSuccess: () => {
-          setIsFollowing(false);
-        },
-        onError: () => {
-          alert('언팔로우 실패:');
-        },
-      });
-    } else {
-      console.error('유효하지 않은 사용자 ID');
-    }
+    unfollowMutation(userId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('get-other-user-info');
+        setIsUserFollowing(false);
+      },
+      onError: () => {
+        alert('언팔로우 실패');
+      },
+    });
   };
-  console.log(songUploader);
   return (
     <>
       <StyledUserInfo>
         <StyledUserSubInfo>
           <StyledUserImage
-            src={songUploader.userImage || '/img/User-Icon.png'}
-            alt="User"
+            src={`http://kdt-sw-6-team09.elicecoding.com/file/profile/${
+              profile?.userFile || '1701310949831.png'
+            }`}
+            alt={'User'}
           />
           <StyledUserDescript>
-            <h2>{songUploader.userNickName || 'Unknown User'}</h2>
-            {isFollowing ? (
-              <StyledFollow onClick={handleUnfollowClick}>
-                언팔로우
-              </StyledFollow>
+            <h2>{profile?.userNickname}</h2>
+            <span>
+              {profile?.userDescription === ''
+                ? '자기소개가 없습니다.'
+                : profile?.userDescription}
+            </span>
+            {isUserFollowing ? (
+              <StyledFollow onClick={handleUnfollowClick}>팔로잉</StyledFollow>
             ) : (
               <StyledFollow onClick={handleFollowClick}>팔로우</StyledFollow>
             )}
           </StyledUserDescript>
         </StyledUserSubInfo>
         <StyledUserStatus>
+          <StyledPostCount>
+            <p>게시물 </p>
+            <span>{playlist?.length}</span>
+          </StyledPostCount>
           <StyledFollower>
-            <p>팔로워: </p>
-            <span>{songUploader.userFollow.length || 0}</span>
+            <p>팔로워 </p>
+            <span>{profile?.userFollower.length} </span>
           </StyledFollower>
           <StyledFollowing>
-            <p>팔로잉: </p>
-            <span>{songUploader.userFollower.length || 0}</span>
+            <p>팔로잉</p>
+            <span>{profile?.userFollow.length}</span>
           </StyledFollowing>
         </StyledUserStatus>
       </StyledUserInfo>

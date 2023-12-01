@@ -22,6 +22,7 @@ export const StyledUserImage = styled.img`
   ${tw`
     rounded-full
     w-40
+    h-40
     mt-1
  `}
 `;
@@ -62,8 +63,7 @@ export const StyledUserStatus = styled.div`
     p-4
     flex
     ml-auto
-    mt-10
-    
+    mt-[5rem]
     `}
 `;
 
@@ -104,8 +104,7 @@ export const StyledDivider = styled.div`
 
 export const StyledFollow = styled.button`
   ${tw`
-  flex items-center	justify-center rounded-full w-20 px-2 cursor-pointer
-  ml-4 h-8 mt-2 
+  flex items-center	justify-center rounded-full w-20 px-2 cursor-pointer h-8 mt-2 
   font-semibold
   `}
   background-color: #ffffff;

@@ -8,6 +8,7 @@ import { useGetSongDetails } from '../../hooks';
 import { formatDuration, songUploaderState } from '../../utils';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+
 import {
   PageContainer,
   Header,
@@ -27,13 +28,11 @@ export default function SongDetailsPage() {
   const { songId } = useParams();
   const { data, isLoading, error } = useGetSongDetails(songId ?? '');
   const [songUploader, setSongUploader] = useRecoilState(songUploaderState);
-
   useEffect(() => {
     if (data?.song?.songUploader) {
       setSongUploader(data.song.songUploader);
     }
   }, [data, setSongUploader]);
-
   const handleUserClick = () => {
     if (songUploader?._id) {
       navigate(`/user/${songUploader._id}`);
@@ -72,7 +71,6 @@ export default function SongDetailsPage() {
   const song = data?.song;
   const isLiked = data?.isCurrentUserLiked;
   const formattedDuration = formatDuration(song?.songDuration || 0);
-
   return (
     <PageContainer>
       <Header>곡 정보</Header>
@@ -82,7 +80,7 @@ export default function SongDetailsPage() {
             <img
               src={`http://kdt-sw-6-team09.elicecoding.com/file/songImg/${song.songImageLocation}`}
               alt="앨범 커버"
-            /> //앨범 사진 바꿔야함
+            />
           )}
         </ImageSection>
         <DetailsSection>
@@ -92,7 +90,9 @@ export default function SongDetailsPage() {
           <AdditionalInfo>시간 : {formattedDuration}</AdditionalInfo>
           <StyleUploaderInfo>
             <span style={{ cursor: 'pointer' }} onClick={handleUserClick}>
-              {song?.songUploader?.userNickName || 'Unknown Uploader'}
+              {song?.songUploader?.userNickname
+                ? song?.songUploader?.userNickname
+                : ''}
             </span>
           </StyleUploaderInfo>
           <LikeSection>
@@ -109,7 +109,6 @@ export default function SongDetailsPage() {
               style={{ marginLeft: '12px', color: '#9b59b6' }}
               icon={faPlus}
             />{' '}
-            {/* 더하기 버튼을 눌렀을 때 플레이리스트에 추가하기 기능 구현할 것  */}
           </LikeSection>
         </DetailsSection>
       </ContentContainer>

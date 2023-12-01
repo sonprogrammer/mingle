@@ -10,7 +10,7 @@ const getSongsByLike = async (axiosInstance: AxiosInstance, pageNum: number): Pr
 	return response.data;
 };
 export function useGetSongsByLike(pageNum: number) {
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
 	return useQuery(["get-songs-by-like", pageNum], ({ queryKey }) => getSongsByLike(axiosInstance, queryKey[1] as number),
 	{
 		refetchOnWindowFocus: false,

@@ -1,17 +1,14 @@
 import axios, { AxiosInstance } from 'axios';
 import { useMutation } from 'react-query';
 import { useAxios } from '../utils';
+import { Dispatch, SetStateAction } from 'react';
 
 interface PlayListData {
   playListTitle: string;
   playListExplain: string;
-  playListSongs: SongData[]; // SongData는 곡의 정보를 담는 타입으로 정의해야 함
-  playListImg: string;
+  playListSongs: string[]; // SongData는 곡의 정보를 담는 타입으로 정의해야 함
+  playListImg?: string;
   genre: string;
-}
-
-interface SongData {
-  _id: string;
 }
 
 const uploadPlayList = async (
@@ -40,6 +37,7 @@ const modifyPlayList = async (
       },
     },
   );
+  console.log(response.data);
   return response.data;
 };
 
@@ -51,16 +49,13 @@ const deletePlayList = async (
   return response.data;
 };
 
-// export const uploadedPlayListState = atom<PlayListData[]>({
-//   key: 'uploadedPlayListState',
-//   default: [],
-// });
-
 export function usePostUploadPlayList(
-  setIsModalAppear: (value: boolean) => void,
+  setIsModalAppear: Dispatch<SetStateAction<boolean>>,
+  setIsSelectModal: Dispatch<SetStateAction<boolean | null>>,
+  setIsExistingPlayList: Dispatch<SetStateAction<boolean | null>>,
   setSongs: (value: string[]) => void,
 ) {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useMutation(
     (playListData: PlayListData) => {
       return uploadPlayList(playListData, axiosInstance);
@@ -69,6 +64,8 @@ export function usePostUploadPlayList(
       onSuccess: () => {
         alert('플레이리스트 업로드에 성공하였습니다.');
         setIsModalAppear(false);
+        setIsSelectModal(true);
+        setIsExistingPlayList(null);
         setSongs([]);
       },
       onError: (error) => {
@@ -84,9 +81,11 @@ export function usePostUploadPlayList(
 
 export function usePutModifyPlayList(
   playListId: string,
-  setIsModalAppear: (value: boolean) => void,
+  setIsModalAppear: Dispatch<SetStateAction<boolean>>,
+  setIsSelectModal: Dispatch<SetStateAction<boolean | null>>,
+  setIsExistingPlayList: Dispatch<SetStateAction<boolean | null>>,
 ) {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useMutation(
     (playListData: PlayListData) => {
       return modifyPlayList(playListId, playListData, axiosInstance);
@@ -95,6 +94,8 @@ export function usePutModifyPlayList(
       onSuccess: () => {
         alert('플레이리스트 수정에 성공하였습니다.');
         setIsModalAppear(false);
+        setIsSelectModal(true);
+        setIsExistingPlayList(null);
       },
       onError: (error) => {
         if (axios.isAxiosError(error)) {
@@ -108,7 +109,7 @@ export function usePutModifyPlayList(
 }
 
 export function useDeletePlayList(playListId: string) {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   return useMutation(
     () => {
       return deletePlayList(playListId, axiosInstance);

@@ -10,7 +10,7 @@ const getPlaylistById = async (axiosInstance: AxiosInstance, id: string): Promis
 	return response.data;
 };
 export function useGetPlaylistById(id: string) {
-    const axiosInstance = useAxios();
+    const { axiosInstance } = useAxios();
 	return useQuery(["get-playlists-by-id", id], ({ queryKey }) =>
 		getPlaylistById(axiosInstance, queryKey[1] as string),
 		{

@@ -13,7 +13,7 @@ const putUserDescription = async (
 
 
 export function usePutUserDescription() {
-  const axiosInstance = useAxios();
+  const { axiosInstance } = useAxios();
   const queryClient = useQueryClient();
   
   

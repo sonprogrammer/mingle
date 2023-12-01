@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDeleteSong } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import {
+  UserUploadSongComponent,
   RecommendPlaylistComponent,
   UploadButtonComponent,
   UploadModalComponent,
@@ -26,6 +27,7 @@ interface Playlists {
 
 interface PlaylistsProps {
   myPlaylists: {
+    _id: string;
     playListImg: string;
     playListTitle: string;
     likeCount: number;
@@ -103,6 +105,7 @@ export default function MyPagePlaylists({
                   likeCount={playlist.likeCount}
                   selectTab={selectTab}
                   _id={playlist._id}
+                  isFromMyPage={true}
                 />
               ))
             ) : (
@@ -128,20 +131,20 @@ export default function MyPagePlaylists({
 
           {selectTab === 'myuploadsongslists' ? (
             myUploadSongslists && myUploadSongslists.length > 0 ? (
-              myUploadSongslists.map((playlist) => {
+              myUploadSongslists.map((songs) => {
                 return (
                   <>
-                    <RecommendPlaylistComponent
-                      _id={playlist._id || 'error'} // 오류 메시지는 임시로 사용
-                      key={playlist._id}
-                      playListImg={playlist.playListImg}
-                      playListTitle={playlist.playListTitle}
-                      likeCount={playlist.likeCount}
+                    <UserUploadSongComponent
+                      _id={songs._id || 'error'} // 오류 메시지는 임시로 사용
+                      key={songs._id}
+                      playListImg={songs.songImageLocation}
+                      playListTitle={songs.songName}
+                      likeCount={songs.likeCount}
                       onClick={handleCardClick}
                       selectTab={selectTab}
-                      songId={playlist.songId}
-                      onDelete={() => handleDeleteUploadedSong(playlist.songId)}
-                      songData={playlist.songData}
+                      songId={songs._id}
+                      onDelete={() => handleDeleteUploadedSong(songs._id)}
+                      // songData={songs.song.songData}
                     />
                   </>
                 );

@@ -1,20 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PlaylistRecommendComponent } from '../../components';
-import { useGetUserPreference } from '../../hooks';
+import { useGetWeatherPlaylist,useGetUserPreference } from '../../hooks';
 
+export default function RecommendPlaylistPage() {
+  const [userLocation, setUserLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  }>({
+    latitude: 0,
+    longitude: 0,
+  });
+  useEffect(() => {
+    const fetchUserLocation = async () => {
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+        if (position.coords) {
+          setUserLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        } else {
+          console.error('Error getting location: Coordinates not available.');
+        }
+      } catch (error) {
+        console.error('Error getting location:', error);
+      }
+    };
 
+    fetchUserLocation();
+  }, []);
+  const { data: userPreference } = useGetUserPreference()
 
-export default function FeedPage() {
-  const { data: userPreference, isLoading } = useGetUserPreference();
-
+  const { data: weatherData, isLoading } = useGetWeatherPlaylist(
+    userLocation?.latitude,
+    userLocation?.longitude,
+  );
   if (isLoading) {
-    return <h1>loading...</h1>;
+    return <p>Loading...</p>;
   }
 
   const [randomType, playlists] = userPreference;
 
+
+
   return (
     <>
+      <PlaylistRecommendComponent
+        weather={weatherData?.weather}
+        playlists={weatherData?.weatherPlaylists}
+      />
+
       {randomType === 'random' ? (
         <>
           <PlaylistRecommendComponent
