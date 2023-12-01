@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { Token } from '../types';
 import { useSetRecoilState } from 'recoil';
-import { loginState, useAxios, removeCookieToken } from '../utils';
+import { loginState, useAxios } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import { AxiosInstance } from 'axios';
 
@@ -23,7 +23,7 @@ export function useDeleteUser() {
                 accessToken: '',
                 accessExpiredDate: new Date(),
             });
-            removeCookieToken();
+            window.localStorage.removeItem('refresh_token');
             alert("회원 탈퇴가 완료되었습니다.");
             navigate('/login');
         },
