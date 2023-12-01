@@ -35,7 +35,7 @@ export default function SongDetailsPage() {
   }, [data, setSongUploader]);
   const handleUserClick = () => {
     if (songUploader?._id) {
-      navigate(`/user/${songUploader._id}`);
+      navigate(`/user?id=${songUploader._id}`);
     } else {
       alert('업로더 정보가 존재하지 않습니다.');
     }

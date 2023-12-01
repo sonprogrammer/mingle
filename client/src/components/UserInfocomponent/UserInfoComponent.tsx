@@ -7,6 +7,7 @@ import {
   StyledUserDescript,
   StyledUserSubInfo,
   StyledUserStatus,
+  /* StyledPostCount, 게시물 갯수 스타일 */
   StyledFollower,
   StyledFollowing,
   StyledDivider,
@@ -21,6 +22,7 @@ interface UserInfoComponentProps {
   playlist: Playlists[] | undefined;
   profile: User | undefined;
   isFollowing: boolean | undefined;
+  isLoggedUser: boolean | undefined;
 }
 
 export default function UserInfoComponent({
@@ -28,6 +30,7 @@ export default function UserInfoComponent({
   playlist,
   profile,
   isFollowing,
+  isLoggedUser,
 }: UserInfoComponentProps) {
   const { mutate: followMutation } = usePostUserFollow();
   const { mutate: unfollowMutation } = useDeleteUnFollow();
@@ -73,11 +76,15 @@ export default function UserInfoComponent({
                 ? '자기소개가 없습니다.'
                 : profile?.userDescription}
             </span>
-            {isUserFollowing ? (
-              <StyledFollow onClick={handleUnfollowClick}>팔로잉</StyledFollow>
-            ) : (
-              <StyledFollow onClick={handleFollowClick}>팔로우</StyledFollow>
-            )}
+            {!isLoggedUser ? (
+              isUserFollowing ? (
+                <StyledFollow onClick={handleUnfollowClick}>
+                  팔로잉
+                </StyledFollow>
+              ) : (
+                <StyledFollow onClick={handleFollowClick}>팔로우</StyledFollow>
+              )
+            ) : null}
           </StyledUserDescript>
         </StyledUserSubInfo>
         <StyledUserStatus>

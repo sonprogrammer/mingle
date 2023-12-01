@@ -28,9 +28,6 @@ export default function PlaylistPage() {
   const { data, isLoading } = useGetPlaylistById(id);
   const { data: currentUser, isLoading: isCurrentUserLoading } =
     useGetUserInfo();
-  const handleIsFollowing = (userId: string | undefined) => {
-    return currentUser?.user.userFollow.includes(userId as string);
-  };
 
   const items: {
     title: string;
@@ -52,16 +49,16 @@ export default function PlaylistPage() {
   const music = useRecoilValue(musicState);
 
   const [isModalAppear, setIsModalAppear] = useState<boolean>(false);
-  const modalRef = useRef<HTMLDivElement | null>(null);
+  const modalRef = useRef();
 
-  const handleOutsideClick = (e: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+  const handleOutsideClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
       // 모달 외부를 클릭한 경우에만 모달을 닫음
       setIsModalAppear(false);
     }
   };
 
-  const { mutate: deleteMutate } = useDeletePlayList(data?._id || '');
+  const { mutate: deleteMutate } = useDeletePlayList(data?._id);
 
   const handlePlayListDelete = () => {
     const isUserAgreed = confirm('정말로 이 플레이리스트를 삭제하시겠습니까?');
@@ -90,12 +87,12 @@ export default function PlaylistPage() {
         {isModalAppear ? (
           <div ref={modalRef}>
             <PlaylistModifyComponent
-              playListId={data?._id || ''}
-              img={data?.playListImg || ''}
-              title={data?.playListTitle || ''}
+              playListId={data?._id}
+              img={data?.playListImg}
+              title={data?.playListTitle}
               playListSongs={items}
-              description={data?.playListExplain || ''}
-              genre={data?.genre || ''}
+              description={data?.playListExplain}
+              genre={data?.genre}
               setIsModalAppear={setIsModalAppear}
             />
           </div>
@@ -142,7 +139,9 @@ export default function PlaylistPage() {
       <PlaylistDescriptionComponent
         playlistId={data?._id}
         userId={data?.playListOwner._id}
-        isFollowing={handleIsFollowing(data?.playListOwner._id)}
+        isFollowing={currentUser?.user.userFollow.includes(
+          data?.playListOwner._id as string,
+        )}
         description={data?.playListExplain}
         userImg={`http://kdt-sw-6-team09.elicecoding.com/file/profile/${
           data?.playListOwner.userFile || '1701310949831.png'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as like } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as noLike } from '@fortawesome/free-regular-svg-icons';
@@ -56,9 +56,14 @@ export default function PlaylistDescriptionComponent({
   const { mutate: unLikeToggle } = useDeletePlaylistLikeToggle(playlistId);
   const { mutate: followMutation } = usePostUserFollow();
   const { mutate: unfollowMutation } = useDeleteUnFollow();
-  const [isUserFollowing, setIsUserFollowing] = useState(isFollowing);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  const [isUserFollowing, setIsUserFollowing] = useState(false);
+  useEffect(() => {
+    return setIsUserFollowing(isFollowing as boolean);
+  }, [isFollowing]);
+
   const handleFollowClick = () => {
     followMutation(userId as string, {
       onSuccess: () => {
