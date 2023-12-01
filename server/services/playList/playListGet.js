@@ -108,50 +108,33 @@ async function recommendPlayList(userId) {
 async function userFollowPlayList(userId) {
   try {
     // 1. userId로 유저를 찾아서 유저가 팔로잉하고 있는 사람들 가져오기
-    const following = await userSchema
-      .findById(userId)
-      .select("userFollow")
-      .populate("userFollow");
+    const following = await userSchema.findById(userId).select("userFollow");
     const playlists = [];
 
+    // userFollow 배열에 있는 값들로 제한하기
+    const userPlaylists = await playListSchema
+      .find({ playListOwner: { $in: following.userFollow } })
+      .populate("playListOwner")
+      .sort({ createdAt: -1 });
+
     // 2. 그 유저들이 올린 플레이리스트들을 최근순으로 찾아 3개씩만 반환
-    await Promise.all(
-      following.userFollow.map(async (user) => {
-        const userPlaylists = await playListSchema
-          .find({ playListOwner: user._id })
-          .populate("playListOwner")
-          .sort({ createdAt: -1 });
+    const likeInfo = await Promise.all(
+      userPlaylists.map(async (playlist) => {
+        const like = await playListLikeSchema.findOne({
+          playListId: playlist._id,
+          userId: userId,
+        });
+        const likeCount = await playListLikeSchema.countDocuments({
+          playListId: playlist._id,
+        });
 
-        const likeInfo = await Promise.all(
-          userPlaylists.map(async (playlist) => {
-            const like = await playListLikeSchema.findOne({
-              playListId: playlist._id,
-              userId: userId,
-            });
-            const likeCount = await playListLikeSchema.countDocuments({
-              playListId: playlist._id,
-            });
-
-            return { ...playlist._doc, like: !!like, likeCount };
-          })
-        );
-
-        playlists.push(...likeInfo);
+        return { ...playlist._doc, like: !!like, likeCount };
       })
     );
 
-    // 배열 안의 원소들을 랜덤으로 섞는 알고리즘 (Fisher-Yates 알고리즘, O(n))
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
+    playlists.push(...likeInfo);
 
-    const shuffledPlaylists = [...playlists];
-    shuffleArray(shuffledPlaylists);
-
-    return { feedPlaylists: shuffledPlaylists };
+    return { feedPlaylists: playlists }; // 이 부분에서 반환값이 필요하면 추가하시기 바랍니다.
   } catch (error) {
     throw error;
   }
