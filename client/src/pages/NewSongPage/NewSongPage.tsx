@@ -7,7 +7,7 @@ import {formatDuration} from '../../utils';
 import {SongType} from "../../types";
 
 export default function NewSongPage() {
-    const {data: song, error} = useGetNewSongChart();
+    const {data: song, isLoading} = useGetNewSongChart();
 
     interface SongData {
         song: {
@@ -29,12 +29,12 @@ export default function NewSongPage() {
         isLiked: boolean;
     }
 
-    if (error) {
-        return <p>Error: {error.message} </p>;
+    if (isLoading) {
+        return <p>loading... </p>;
     }
 
     const songs: ChartItem[] =
-        song?.songs.map((item: SongType) => ({
+        song?.map((item: SongType) => ({
             _id: item.song._id,
             title: item.song.songName,
             img: `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${item.song.songImageLocation}`,
