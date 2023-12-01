@@ -1,4 +1,5 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   StyleButton,
   StyleContainer,
@@ -52,6 +53,7 @@ const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
   genre,
   setIsModalAppear,
 }) => {
+  const navigate = useNavigate();
   const [songs, setSongs] = useState<PlayListModifySong[]>(playListSongs);
   const [imageFile, setImageFile] = useState<string>(
     `http://kdt-sw-6-team09.elicecoding.com/file/playListCover/${img}`,
@@ -83,7 +85,7 @@ const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
         playListData.playListImg = imageFile.split(';base64,')[1];
       }
       modifyMutate(playListData);
-      window.location.reload();
+      navigate(`/mypage`);
     }
   };
 
