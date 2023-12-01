@@ -17,14 +17,8 @@ async function playListAddSong(playListid, songIds, userId) {
 		if (!playlist) {
 			throw createError(404, "플레이리스트를 찾을 수 없습니다.");
 		}
-		const alreadyAddedSongs = playlist.playListSongs.filter((song) =>
-			songIds.includes(song)
-		);
-		if (alreadyAddedSongs.length > 0) {
-			throw createError(409, "이미 추가된 곡들이 포함되어 있습니다.");
-		}
+		playlist.playListSongs = [...new Set([...playlist.playListSongs.map(objId => objId.toString()), ...songIds.map(objId => objId.toString())])];
 
-		playlist.playListSongs = [...playlist.playListSongs, ...songIds];
 		await playlist.save();
     return {
       message: "플레이리스트에 곡들이 추가되었습니다",
