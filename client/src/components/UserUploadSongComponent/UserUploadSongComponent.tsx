@@ -32,9 +32,8 @@ interface RecommendPlaylistComponentProps {
   likeCount: number;
   onClick?: (_id: string) => void;
   onDelete: () => void;
-  handleDeleteUploadedSong: (songId: string) => Promise<void>;
+  handleDeleteUploadedSong?: (songId: string) => Promise<void>;
   songId: string;
-  songData: any;
   selectTab: string;
 }
 
@@ -43,7 +42,6 @@ export default function RecommendPlaylistComponent({
   playListImg,
   playListTitle,
   likeCount,
-  onClick,
   selectTab,
   songId,
 }: RecommendPlaylistComponentProps) {
@@ -53,12 +51,12 @@ export default function RecommendPlaylistComponent({
 
   const { mutate: deleteSong } = useDeleteSong();
 
-  const handleDeleteClick = (e) => {
+  const handleDeleteClick = (e:React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.stopPropagation();
     setIsModal(true);
   };
 
-  const handleCloseModalClick = (e) => {
+  const handleCloseModalClick = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setIsModal(false);
   };
@@ -72,7 +70,7 @@ export default function RecommendPlaylistComponent({
     setIsHovered(false);
   };
 
-  const handleDeleteConfirmation = async (e) => {
+  const handleDeleteConfirmation = async (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     await deleteSong(songId);
     setIsModal(false);

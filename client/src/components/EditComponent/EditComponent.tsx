@@ -8,11 +8,11 @@ import {
   StylePasswordToggleIcon,
 } from '../SignUpComponent/styles';
 import { StyledPasswordWrapper } from './styles';
-import { UserInfo } from '../../types';
+import {User} from '../../types';
 
 interface EditComponentProps {
-  profile: UserInfo;
-  onUpdate: (updatedInfo: Partial<UserInfo>) => void;
+  profile?: User;
+  onUpdate?: (updatedInfo: {userPassword: string; userNickname: string; userPreference: string[]}) => Promise<void>;
 }
 
 export default function EditComponent({
@@ -23,10 +23,11 @@ export default function EditComponent({
   const openGenreModal = () => setIsGenreModalOpen(true);
   const closeGenreModal = () => setIsGenreModalOpen(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedGenre, setSelectedGenre] = useState<string[]>(profile.userPreference || []);
-  const [userPassword, setUserPassword] = useState(profile.userPassword || '');
-  const [userNickname, setUserNickname] = useState(profile.userNickname);
-  // const [userPreference, setUserPreference] = useState(profile.userPreference);
+  const [selectedGenre, setSelectedGenre] = useState<string[]>(
+    profile?.userPreference || [],
+  );
+  const [userPassword, setUserPassword] = useState(profile?.userPassword || '');
+  const [userNickname, setUserNickname] = useState(profile?.userNickname);
 
   if (!profile) {
     return <p>no profile</p>;
@@ -39,12 +40,12 @@ export default function EditComponent({
     setSelectedGenre(selectedGenre);
   };
   const handleClick = () => {
-    const updatedInfo: Partial<UserInfo> = {
-      userPassword: userPassword, 
-      userNickname: userNickname,
+    const updatedInfo = {
+      userPassword: userPassword,
+      userNickname: userNickname!,
       userPreference: selectedGenre,
     };
-    onUpdate(updatedInfo);
+    if(onUpdate) onUpdate(updatedInfo);
   };
   return (
     <>
@@ -54,6 +55,7 @@ export default function EditComponent({
       <div className="mb-6">{profile.userEmail}</div>
       <StyledPasswordWrapper>
         <InputComponent
+          id={profile._id}
           label="비밀번호"
           type={showPassword ? 'text' : 'password'}
           placeholder="비밀번호를 입력하세요"
@@ -68,6 +70,7 @@ export default function EditComponent({
       </StyledPasswordWrapper>
       <StyledPasswordWrapper>
         <InputComponent
+          id={profile._id}
           label="비밀번호 재확인"
           type={showPassword ? 'text' : 'password'}
           placeholder="비밀번호를 재입력하세요"
@@ -79,6 +82,7 @@ export default function EditComponent({
         />
       </StyledPasswordWrapper>
       <InputComponent
+        id={profile._id}
         label="닉네임"
         type="text"
         onChange={(e) => setUserNickname(e.target.value)}

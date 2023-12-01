@@ -4,12 +4,19 @@ import { useAxios } from '../utils';
 import { Dispatch, SetStateAction } from 'react';
 
 interface PlayListAddSongData {
-  _id: string[];
+  _id: string;
+  img: string;
+  title: string;
+  artist: string;
+  length: string;
+}
+interface PlayListUploadSongData{
+  songId: string[];
 }
 
 const addSongs = async (
   playListId: string,
-  songData: PlayListAddSongData,
+  songData: PlayListUploadSongData,
   axiosInstance: AxiosInstance,
 ) => {
   const response = await axiosInstance.post(
@@ -33,7 +40,7 @@ export function usePostPlaylistAddSongs(
 ) {
   const { axiosInstance } = useAxios();
   return useMutation(
-    (songData: PlayListAddSongData) => {
+    (songData: PlayListUploadSongData) => {
       return addSongs(playListId, songData, axiosInstance);
     },
     {

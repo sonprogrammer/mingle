@@ -3,7 +3,7 @@ import { useAxios } from '../utils';
 import { AxiosInstance } from 'axios';
 
 
-const deleteSong = async (axiosInstance: AxiosInstance, songId: string): Promise<void> => {
+const deleteSong = async (axiosInstance: AxiosInstance, songId: string | undefined): Promise<void> => {
     const response = await axiosInstance.delete(`/api/song/${songId}`);
     return response.data
 };
@@ -12,7 +12,7 @@ const deleteSong = async (axiosInstance: AxiosInstance, songId: string): Promise
 export function useDeleteSong() {
   const { axiosInstance } = useAxios();
   const queryClient = useQueryClient();
-  return useMutation((songId: string) => deleteSong(axiosInstance, songId), {
+  return useMutation((songId: string | undefined) => deleteSong(axiosInstance, songId), {
     onSuccess: () => {
       queryClient.invalidateQueries()
     },

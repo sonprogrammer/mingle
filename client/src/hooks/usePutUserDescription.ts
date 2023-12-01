@@ -22,7 +22,7 @@ export function usePutUserDescription() {
     (updatedInfo: Partial<UserInfo>) =>
       putUserDescription(axiosInstance, updatedInfo),
     {
-      onSuccess: (update) => {
+      onSuccess: () => {
         queryClient.invalidateQueries('userDescription')
       },
       onError: (error)=>{

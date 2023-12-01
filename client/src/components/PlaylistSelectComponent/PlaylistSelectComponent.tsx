@@ -159,7 +159,7 @@ const PlaylistSelectComponent: React.FC<PlaylistSelectComponentProps> = ({
           </StyleAddSongContainer>
         </StyleFormInputContainer>
 
-        <StyleButton type="submit" onClick={handleAddSongs} data={data}>
+        <StyleButton type="submit" onClick={handleAddSongs} >
           플레이리스트에 곡 추가
         </StyleButton>
       </StyleFormSection>

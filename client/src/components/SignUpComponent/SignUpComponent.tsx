@@ -53,7 +53,7 @@ export default function SignUpComponent({
     setIsButtonClicked(false);
     setUserEmail(email);
     if (!validateEmail(email) && email) {
-      setEmailError('올바른 이메일 형식이 아닙니다.');
+      {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
     } else {
       setEmailError('');
     }
@@ -71,12 +71,12 @@ export default function SignUpComponent({
     }
   };
 
-  const { mutate } = usePostRegister({
-    userEmail: userEmail,
-    userPassword: verifyPassword,
-    userNickname: userNickname,
-    userPreference: selectedGenre,
-  });
+  const { mutate } = usePostRegister(
+    userEmail,
+    userPassword,
+    userNickname,
+    selectedGenre
+  );
   const handleClick = (event: React.FormEvent) => {
     event.preventDefault();
     if (userEmail === '') alert('이메일을 입력해주세요.');

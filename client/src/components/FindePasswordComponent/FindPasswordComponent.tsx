@@ -16,7 +16,7 @@ export default function FindPasswordComponent({
   const [userNickname, setUserNickname] = useState(initialUserNickname);
   const [emailError, setEmailError] = useState('');
 
-  const { mutate: postPassword } = usePostPassword();
+  const { mutate: postPassword } = usePostPassword(userEmail, userNickname);
 
   const handleClick = (event: React.FormEvent) => {
     event.preventDefault();

@@ -25,13 +25,13 @@ import {
 } from './pages';
 import PrivateRoute from './PrivateRoute';
 
-function App() {
+export default function App() {
   return (
     <>
       <RecoilRoot>
         <BrowserRouter>
           <Routes>
-            <Route path="/signup" element={<SignUpPage />}></Route>
+            <Route path="/signup" element={<SignUpPage/>}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
             <Route
               path="/completesignup"
@@ -73,5 +73,3 @@ function App() {
     </>
   );
 }
-
-export default App;

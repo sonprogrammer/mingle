@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Styled from './styles';
 interface FeedFollowRecommendProps {
   userId: string;
   profileName: string;
   profilePicture: string;
-  pictures: string[];
+  pictures: {_id: string, playListImg: string}[];
   actionText: string;
   feedRecommendText: string;
 }

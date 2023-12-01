@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance,AxiosError } from 'axios';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useAxios } from '../utils';
@@ -9,8 +9,10 @@ const getCurrentWeather = async (_axiosInstance: AxiosInstance, latitude: number
   try {
       const response = await axios.get(url);
       return response.data;
-    } catch (error) {
-      throw new Error(`Error fetching weather: ${error.message}`);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError && error.response){
+        throw new Error(`Error fetching weather: ${error.message}`);
+      }
     }
 };
 const getWeatherPlaylist = async (axiosInstance: AxiosInstance, latitude: number, longitude: number): Promise<{weatherPlaylists: Playlists[], weather: string}>  => {
@@ -21,7 +23,11 @@ const getWeatherPlaylist = async (axiosInstance: AxiosInstance, latitude: number
     const playlistResponse = await axiosInstance.get(`/api/playlist/weather/${weatherId}`);
     return playlistResponse.data;
   } catch (error: unknown) {
-    throw new Error(`Error fetching data: ${error.message}`);
+    if (error instanceof AxiosError && error.response){
+      throw new Error(`Error fetching data: ${error.message}`);
+    } else {
+      throw new Error('서버 요청 중 오류가 발생했습니다.');
+    } 
   }
 };
 

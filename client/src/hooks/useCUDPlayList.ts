@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 import { useMutation } from 'react-query';
 import { useAxios } from '../utils';
 import { Dispatch, SetStateAction } from 'react';
+import {ChartSong} from "../components/ChartComponent/ChartComponent";
 
 interface PlayListData {
   playListTitle: string;
@@ -53,7 +54,7 @@ export function usePostUploadPlayList(
   setIsModalAppear: Dispatch<SetStateAction<boolean>>,
   setIsSelectModal: Dispatch<SetStateAction<boolean | null>>,
   setIsExistingPlayList: Dispatch<SetStateAction<boolean | null>>,
-  setSongs: (value: string[]) => void,
+  setSongs: Dispatch<SetStateAction<ChartSong[]>>,
 ) {
   const { axiosInstance } = useAxios();
   return useMutation(
@@ -104,10 +105,10 @@ export function usePutModifyPlayList(
   );
 }
 
-export function useDeletePlayList(playListId: string) {
+export function useDeletePlayList() {
   const { axiosInstance } = useAxios();
   return useMutation(
-    () => {
+    (playListId: string) => {
       return deletePlayList(playListId, axiosInstance);
     },
     {

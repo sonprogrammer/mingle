@@ -1,73 +1,52 @@
 import React from 'react';
-import { ChartComponent } from '../../components';
+import {ChartComponent} from '../../components';
 import {
-  useGetNewSongChart,
-  usePostlikeToggle,
-  useDeleteLikeToggle,
+    useGetNewSongChart,
 } from '../../hooks';
-import { formatDuration } from '../../utils';
-import { useNavigate } from 'react-router-dom';
+import {formatDuration} from '../../utils';
+import {SongType} from "../../types";
 
 export default function NewSongPage() {
-  const { data: song, error } = useGetNewSongChart();
-  const navigate = useNavigate();
+    const {data: song, error} = useGetNewSongChart();
 
-  const postLikeMutation = usePostlikeToggle();
-  const deleteLikeMutation = useDeleteLikeToggle();
-
-  const handleLikeToggle = async (songId: string, isLiked: boolean) => {
-    if (isLiked) {
-      await deleteLikeMutation.mutateAsync(songId);
-    } else {
-      await postLikeMutation.mutateAsync(songId);
+    interface SongData {
+        song: {
+            _id: string;
+            songName: string;
+            songImageName: string;
+            songArtist: string | null;
+            songDuration: number;
+        };
+        isCurrentUserLiked: boolean;
     }
-  };
 
-  interface SongData {
-    song: {
-      _id: string;
-      songName: string;
-      songImageName: string;
-      songArtist: string | null;
-      songDuration: number;
-    };
-    isCurrentUserLiked: boolean;
-  }
+    interface ChartItem {
+        _id: string;
+        title: string;
+        img: string;
+        artist: string;
+        length: string;
+        isLiked: boolean;
+    }
 
-  interface ChartItem {
-    _id: string;
-    title: string;
-    img: string;
-    artist: string;
-    length: string;
-    isLiked: boolean;
-  }
+    if (error) {
+        return <p>Error: {error.message} </p>;
+    }
 
-  if (error) {
-    return <p>Error: {error.message} </p>;
-  }
+    const songs: ChartItem[] =
+        song?.songs.map((item: SongType) => ({
+            _id: item.song._id,
+            title: item.song.songName,
+            img: `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${item.song.songImageLocation}`,
+            artist: item.song.songArtist || 'Unknown Artist',
+            length: formatDuration(item.song.songDuration),
+            isLiked: item.isCurrentUserLiked,
+        })) || [];
 
-  const songs: ChartItem[] =
-    song?.map((item: SongData) => ({
-      _id: item.song._id,
-      title: item.song.songName,
-      img: `http://kdt-sw-6-team09.elicecoding.com/file/songImg/${item.song.songImageLocation}`,
-      artist: item.song.songArtist || 'Unknown Artist',
-      length: formatDuration(item.song.songDuration),
-      isLiked: item.isCurrentUserLiked,
-    })) || [];
-
-  const handleItemClick = (id: string) => {
-    const path = `/song/${id}`;
-    navigate(path);
-  };
-
-  return (
-    <ChartComponent
-      items={songs}
-      title="최신 음악"
-      onItemClick={handleItemClick}
-      onLikeToggle={handleLikeToggle}
-    />
-  );
+    return (
+        <ChartComponent
+            items={songs}
+            title="최신 음악"
+        />
+    );
 }
