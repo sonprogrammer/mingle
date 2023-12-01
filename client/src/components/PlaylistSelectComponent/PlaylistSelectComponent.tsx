@@ -127,18 +127,16 @@ const PlaylistSelectComponent: React.FC<PlaylistSelectComponentProps> = ({
             새 플레이리스트 생성하기
           </StyleLabel>
         </StyleCoverUpload>
-
         <StyleFormInputContainer>
           <StyleFormLabel>기존 플레이리스트에 추가하기</StyleFormLabel>
           <StyleAddSongContainer>
             <StyledPlayListUl>
               {isLoading ? (
                 <span>로딩중</span>
-              ) : !data.length ? (
-                <StyledText>기존 플레이리스트가 존재하지 않습니다.</StyledText>
-              ) : (
+              ) : data && data.length > 0 ? (
                 data.map((playlist: GetPlayListForModal) => (
                   <StyledPlayListLi
+                    key={playlist._id} // Ensure a unique key for each mapped element
                     selectedPlaylist={selectedPlaylist}
                     playlistId={playlist._id}
                     onClick={() =>
@@ -154,6 +152,8 @@ const PlaylistSelectComponent: React.FC<PlaylistSelectComponentProps> = ({
                     </StyledPlayListTitle>
                   </StyledPlayListLi>
                 ))
+              ) : (
+                <StyledText>기존 플레이리스트가 존재하지 않습니다.</StyledText>
               )}
             </StyledPlayListUl>
           </StyleAddSongContainer>

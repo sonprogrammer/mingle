@@ -82,8 +82,6 @@ export function usePostUploadPlayList(
 export function usePutModifyPlayList(
   playListId: string,
   setIsModalAppear: Dispatch<SetStateAction<boolean>>,
-  setIsSelectModal: Dispatch<SetStateAction<boolean | null>>,
-  setIsExistingPlayList: Dispatch<SetStateAction<boolean | null>>,
 ) {
   const { axiosInstance } = useAxios();
   return useMutation(
@@ -94,8 +92,6 @@ export function usePutModifyPlayList(
       onSuccess: () => {
         alert('플레이리스트 수정에 성공하였습니다.');
         setIsModalAppear(false);
-        setIsSelectModal(true);
-        setIsExistingPlayList(null);
       },
       onError: (error) => {
         if (axios.isAxiosError(error)) {
