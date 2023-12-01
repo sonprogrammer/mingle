@@ -4,7 +4,7 @@ import { RecoilRoot } from 'recoil';
 import PrivateRoute from './PrivateRoute';
 
 // Lazy-loaded components
-const SignUpPage = lazy(() =>
+const SignUpPage =  lazy(  () =>
   import('./pages/SignUpPage').then((module) => ({
     default: module.SignUpPage,
   })),
@@ -103,27 +103,111 @@ export default function App() {
       <RecoilRoot>
         <BrowserRouter>
           <Routes>
-            <Route path="/signup" element={<SignUpPage />}></Route>
-            <Route path="/login" element={<LoginPage />}></Route>
+            <Route
+              path="/signup"
+              element={
+                <Suspense fallback={<div></div>}>
+                  <SignUpPage />
+                </Suspense>
+              }
+            ></Route>
+            <Route
+              path="/login"
+              element={
+                <Suspense fallback={<div></div>}>
+                  <LoginPage />
+                </Suspense>
+              }
+            ></Route>
             <Route
               path="/completesignup"
-              element={<CompleteSignUpPage />}
+              element={
+                <Suspense fallback={<div></div>}>
+                  <CompleteSignUpPage />
+                </Suspense>
+              }
             ></Route>
-            <Route path="/findpassword" element={<FindPasswordPage />}></Route>
+            <Route
+              path="/findpassword"
+              element={
+                <Suspense fallback={<div></div>}>
+                  <FindPasswordPage />
+                </Suspense>
+              }
+            ></Route>
             <Route element={<PrivateRoute />}>
               <Route
                 path="/completerecoverypw"
-                element={<CompletePasswordRecoveryPage />}
+                element={
+                  <Suspense fallback={<div></div>}>
+                    <CompletePasswordRecoveryPage />
+                  </Suspense>
+                }
               ></Route>
-              <Route path="*" element={<NotFoundPage />}></Route>
+              <Route
+                path="*"
+                element={
+                  <Suspense fallback={<div></div>}>
+                    <NotFoundPage />
+                  </Suspense>
+                }
+              ></Route>
 
-              <Route element={<LayoutPage />}>
-                <Route path="/" element={<FeedPage />}></Route>
-                <Route path="/chart" element={<ChartPage />}></Route>
-                <Route path="/genresong" element={<GenreSongPage />}></Route>
-                <Route path="/newsong" element={<NewSongPage />}></Route>
-                <Route path="/likedsong" element={<LikedSongPage />}></Route>
-                <Route path="/playlist" element={<PlaylistPage />}></Route>
+              <Route
+                element={
+                  <Suspense fallback={<div></div>}>
+                    <LayoutPage />
+                  </Suspense>
+                }
+              >
+                <Route
+                  path="/"
+                  element={
+                    <Suspense fallback={<div></div>}>
+                      <FeedPage />
+                    </Suspense>
+                  }
+                ></Route>
+                <Route
+                  path="/chart"
+                  element={
+                    <Suspense fallback={<div></div>}>
+                      <ChartPage />
+                    </Suspense>
+                  }
+                ></Route>
+                <Route
+                  path="/genresong"
+                  element={
+                    <Suspense fallback={<div></div>}>
+                      <GenreSongPage />
+                    </Suspense>
+                  }
+                ></Route>
+                <Route
+                  path="/newsong"
+                  element={
+                    <Suspense fallback={<div></div>}>
+                      <NewSongPage />
+                    </Suspense>
+                  }
+                ></Route>
+                <Route
+                  path="/likedsong"
+                  element={
+                    <Suspense fallback={<div></div>}>
+                      <LikedSongPage />
+                    </Suspense>
+                  }
+                ></Route>
+                <Route
+                  path="/playlist"
+                  element={
+                    <Suspense fallback={<div></div>}>
+                      <PlaylistPage />
+                    </Suspense>
+                  }
+                ></Route>
                 <Route
                   path="/recommendPlaylist"
                   element={<RecommendPlaylistPage />}
@@ -145,3 +229,4 @@ export default function App() {
     </>
   );
 }
+
