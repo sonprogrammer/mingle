@@ -29,11 +29,11 @@ conn.MongoConnect();
 require("dotenv").config();
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+  app.use(express.static("../client/dist"));
 
   app.get("*", (req, res) => {
     // path는 여기에서만 사용되었다.
-    res.sendFile(path.join(__dirname, "../client/index.html"));
+    res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
   });
 }
 
