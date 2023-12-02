@@ -35,7 +35,7 @@ interface ChartComponentProps {
 }
 
 export interface ChartSong {
-  artist: string ;
+  artist: string;
   img: string;
   length: string;
   title: string;

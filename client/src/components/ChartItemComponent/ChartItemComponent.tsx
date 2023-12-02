@@ -6,6 +6,7 @@ import { ChartItemImg, StyledTr } from './styles';
 import { usePostlikeToggle, useDeleteLikeToggle } from '../../hooks';
 
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
 
 interface SelectedSongToUpload {
   _id: string;
@@ -43,17 +44,22 @@ export default function ChartItemComponent({
   const [isClick, setIsClick] = useState(
     Boolean(songs.find((song) => song._id === _id)),
   );
+  const queryClient = useQueryClient();
+  const [isUserLiked, setIsUserLiked] = useState(false);
+  useEffect(() => {
+    setIsUserLiked(isLiked);
+  }, [isLiked]);
   const { mutate: Like } = usePostlikeToggle();
   const { mutate: deleteLike } = useDeleteLikeToggle();
 
-  const handleLikeClick = async () => {
-    if (!isClick) {
-      await Like(_id);
-    } else {
-      await deleteLike(_id);
-    }
+  const handleLikeClick = () => {
+    Like(_id);
+    queryClient.invalidateQueries();
   };
-
+  const handleDeleteLikeClick = () => {
+    deleteLike(_id);
+    queryClient.invalidateQueries();
+  };
   useEffect(() => {
     if (!songs.length) {
       setIsClick(false);
@@ -101,12 +107,12 @@ export default function ChartItemComponent({
         <td className="w-1/4 px-6 py-4">{artist}</td>
         <td className="w-1/4 px-6 py-4">{length}</td>
         <td className="w-1/4 px-6 py-4">
-          {isLiked ? (
+          {isUserLiked ? (
             <FontAwesomeIcon
               icon={like}
               color={'#9b59b6'}
               cursor="pointer"
-              onClick={handleLikeClick}
+              onClick={() => handleDeleteLikeClick()}
             />
           ) : (
             <FontAwesomeIcon
@@ -114,7 +120,7 @@ export default function ChartItemComponent({
               color={'#9b59b6'}
               cursor="pointer"
               key={songId}
-              onClick={handleLikeClick}
+              onClick={() => handleLikeClick()}
             />
           )}
         </td>
