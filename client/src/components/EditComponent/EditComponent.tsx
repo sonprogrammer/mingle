@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { InputComponent } from '../InputComponent';
 import { LongButtonComponent } from '../LongButtonComponent';
 import { RecommendGenreComponent } from '../RecommendGenreComponent';
@@ -30,11 +30,21 @@ export default function EditComponent({
   const openGenreModal = () => setIsGenreModalOpen(true);
   const closeGenreModal = () => setIsGenreModalOpen(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [verifyPassword, setVerifyPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState<string[]>(
     profile?.userPreference || [],
   );
   const [userPassword, setUserPassword] = useState(profile?.userPassword || '');
   const [userNickname, setUserNickname] = useState(profile?.userNickname);
+
+  useEffect(() => {
+    if (userPassword !== verifyPassword && verifyPassword) {
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }
+  }, [userPassword, verifyPassword]);
 
   if (!profile) {
     return <p>no profile</p>;
@@ -47,6 +57,11 @@ export default function EditComponent({
     setSelectedGenre(selectedGenre);
   };
   const handleClick = () => {
+    if (userPassword !== verifyPassword) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
     const updatedInfo = {
       userPassword: userPassword,
       userNickname: userNickname!,
@@ -84,12 +99,17 @@ export default function EditComponent({
           label="비밀번호 재확인"
           type={showPassword ? 'text' : 'password'}
           placeholder="비밀번호를 재입력하세요"
+          value={verifyPassword}
+          onChange={(e) => setVerifyPassword(e.target.value)}
         />
         <StylePasswordToggleIcon
           src="./img/view-password.png"
           alt="비밀번호 보기"
           onClick={togglePasswordVisibility}
         />
+        {passwordError && (
+          <p style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</p>
+        )}
       </StyledPasswordWrapper>
       <InputComponent
         id={profile._id}
