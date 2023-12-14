@@ -91,7 +91,7 @@ export default function RecommendPlaylistComponent({
       )}
       <ProfileSection>
         <AlbumImage
-          src={`http://kdt-sw-6-team09.elicecoding.com/file/songImg/${playListImg}`}
+          src={`http://localhost:3000/file/songImg/${playListImg}`}
           alt="Album Cover"
         />
       </ProfileSection>

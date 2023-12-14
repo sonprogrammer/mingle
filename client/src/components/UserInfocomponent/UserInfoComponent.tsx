@@ -67,7 +67,7 @@ export default function UserInfoComponent({
       <StyledUserInfo>
         <StyledUserSubInfo>
           <StyledUserImage
-            src={`http://kdt-sw-6-team09.elicecoding.com/file/profile/${
+            src={`http://localhost:3000/file/profile/${
               profile?.userFile || '1701310949831.png'
             }`}
             alt={'User'}

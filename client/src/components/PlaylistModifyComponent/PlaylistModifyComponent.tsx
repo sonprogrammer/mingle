@@ -56,7 +56,7 @@ const PlaylistModifyComponent: React.FC<PlaylistModifyComponentProps> = ({
   const navigate = useNavigate();
   const [songs, setSongs] = useState<PlayListModifySong[]>(playListSongs);
   const [imageFile, setImageFile] = useState<string>(
-    `http://kdt-sw-6-team09.elicecoding.com/file/playListCover/${img}`,
+    `http://localhost:3000/file/playListCover/${img}`,
   );
   const [playListName, setPlayListName] = useState<string>(title);
   const [playListDescription, setPlayListDescription] =

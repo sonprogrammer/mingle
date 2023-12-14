@@ -144,7 +144,7 @@ const PlaylistSelectComponent: React.FC<PlaylistSelectComponentProps> = ({
                     }
                   >
                     <StyledPlayListImg
-                      src={`http://kdt-sw-6-team09.elicecoding.com/file/playListCover/${playlist.playListImg}`}
+                      src={`http://localhost:3000/file/playListCover/${playlist.playListImg}`}
                       alt={playlist.playListTitle}
                     />
                     <StyledPlayListTitle>

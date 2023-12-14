@@ -10,10 +10,10 @@ export const useAxios = () => {
   const refreshToken = storage.getItem("refresh_token");
   
   const axiosBase = Axios.create({
-    baseURL: 'http://kdt-sw-6-team09.elicecoding.com/',
+    baseURL: `http://localhost:3000`
   });
   const axiosInstance = Axios.create({
-    baseURL: 'http://kdt-sw-6-team09.elicecoding.com/',
+    baseURL: `http://localhost:3000`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,

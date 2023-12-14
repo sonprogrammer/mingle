@@ -66,9 +66,9 @@ export default function FeedPage() {
               playlistId={item._id}
               userId={item.playListOwner._id}
               playlistDescription={item.playListExplain}
-              profileIcon={`http://kdt-sw-6-team09.elicecoding.com/file/profile/${item.playListOwner.userFile}`}
+              profileIcon={`http://localhost:3000/file/profile/${item.playListOwner.userFile}`}
               profileName={item.playListOwner.userNickname}
-              albumCover={`http://kdt-sw-6-team09.elicecoding.com/file/playListCover/${item.playListImg}`}
+              albumCover={`http://localhost:3000/file/playListCover/${item.playListImg}`}
               title={item.playListTitle}
               isUserLiked={item.like}
               likeCount={item.likeCount}

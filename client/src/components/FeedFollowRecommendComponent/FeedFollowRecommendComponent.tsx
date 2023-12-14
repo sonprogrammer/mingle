@@ -57,7 +57,7 @@ export default function FeedFollowRecommendComponent({
     <Styled.FeedFollowRecommendContainer>
       <Styled.ProfileImage
         src={
-          `http://kdt-sw-6-team09.elicecoding.com/file/profile/${profilePicture}` ||
+          `http://localhost:3000/file/profile/${profilePicture}` ||
           'name'
         }
         alt={profileName}
@@ -71,7 +71,7 @@ export default function FeedFollowRecommendComponent({
           <Styled.PreviewImage
             onClick={() => handlePlaylistNaivgate(picture._id)}
             key={index}
-            src={`http://kdt-sw-6-team09.elicecoding.com/file/playListCover/${picture.playListImg}`}
+            src={`http://localhost:3000/file/playListCover/${picture.playListImg}`}
             alt={`Preview ${index + 1}`}
           />
         ))}

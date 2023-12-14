@@ -40,7 +40,7 @@ export default function MyInfoComponent({
     onUpdate({ userDescription: updatedText });
   };
   //이미지 경로 생성
-  const imageUrl = `http://kdt-sw-6-team09.elicecoding.com/file/profile/${
+  const imageUrl = `http://localhost:3000/file/profile/${
     profile.userFile || '1701310949831.png'
   }`;
   const imageInput = useRef<HTMLInputElement>(null) ;

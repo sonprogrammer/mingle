@@ -147,7 +147,7 @@ export default function PlaylistPage() {
           data?.playListOwner._id as string,
         )}
         description={data?.playListExplain}
-        userImg={`http://kdt-sw-6-team09.elicecoding.com/file/profile/${
+        userImg={`http://localhost:3000/file/profile/${
           data?.playListOwner.userFile || '1701310949831.png'
         }`}
         userName={data?.playListOwner.userNickname}
