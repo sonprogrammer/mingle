@@ -61,8 +61,6 @@ async function playListGetAll(userId) {
         })
       );
       return playListsInfo;
-    } else {
-      throw createError(404, "플레이리스트를 찾을 수 없습니다.");
     }
   } catch (error) {
     throw error;
