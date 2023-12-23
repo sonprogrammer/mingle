@@ -11,7 +11,6 @@ export const Box = styled.div`
         // ml-[-30px]
         // overflow-visible
         relative
-        left-[-20px]
         mt-[50px]
     `}
 `

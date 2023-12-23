@@ -3,7 +3,7 @@ import AudioPlayer from 'react-h5-audio-player';
 
 export const Container = styled.div`
   ${tw`mt-8 mx-auto flex items-center gap-[10px]`}
-  padding: 0 650px;
+  padding: 0 36%;
 `;
 export const PlayComponent = styled.div`
   ${tw`mt-[-20px] text-white text-sm w-full`}
@@ -51,5 +51,8 @@ export const Playbar = styled(AudioPlayer)`
     height: 12px;
     margin-left: -5px;
     top: -4px;
+  }
+  .rhap_volume-controls {
+    justify-content: flex-start;
   }
 `;

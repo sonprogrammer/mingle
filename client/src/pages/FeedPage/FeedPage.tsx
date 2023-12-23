@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   PlaylistCardComponent,
-  ContentWrapper,
   FeedFollowRecommendComponent,
 } from '../../components';
 import {
@@ -36,7 +35,7 @@ export default function FeedPage() {
 
   const userFollower = userData?.user.userFollow;
   return (
-    <ContentWrapper>
+    <>
       {isRecommendLoading || isUserLoading || isFeedLoading ? (
         <div role="status" className="text-center mt-[36vh]">
           <svg
@@ -106,6 +105,6 @@ export default function FeedPage() {
               </>
             ))}
       </Box>
-    </ContentWrapper>
+    </>
   );
 }
