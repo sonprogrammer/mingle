@@ -63,17 +63,27 @@
 
 - 회원가입 페이지
 
+  <img src="./client/public/img/joinPageFlowChart.png"/>
+
   <br/>
 
 - 마이페이지
 
+  <img src="./client/public/img/myPageFlowChart.png"/>
+
 <br/>
 
 - 곡 페이지
-  <br/>
+
+  <img src="./client/public/img/songPageFlowChart.png"/>
+
+<br/>
 
 - 플레이리스트 페이지
-  <br/>
+
+  <img src="./client/public/img/playListPageFlowChart.png"/>
+
+<br/>
 
 ### 5. 폴더 구조
 
